@@ -1,18 +1,19 @@
 {
   "profiles": {
-    "EventLambda": {
+    "EventGeneral.API": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:53948;http://localhost:53949"
+      "applicationUrl": "https://localhost:5001;http://localhost:6001"
     },
     "Mock Lambda Test Tool": {
       "commandName": "Executable",
+      "executablePath": "%USERPROFILE%\\.dotnet\\tools\\dotnet-lambda-test-tool-6.0.exe",
       "commandLineArgs": "--port 5050",
-      "workingDirectory": ".\\bin\\$(Configuration)\\net6.0",
-      "executablePath": "%USERPROFILE%\\.dotnet\\tools\\dotnet-lambda-test-tool-6.0.exe"
+      "workingDirectory": ".\\bin\\$(Configuration)\\net6.0"
     }
   }
 }
