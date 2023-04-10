@@ -1,20 +1,33 @@
-import 'package:event_planr/home/home.dart';
+import 'package:beamer/beamer.dart';
 import 'package:event_planr/l10n/l10n.dart';
-import 'package:event_planr/main_navigation/view/main_navigation_page.dart';
 import 'package:event_planr/theme/theme.dart';
+import 'package:event_planr/ui/auth/auth.dart';
 import 'package:flutter/material.dart';
 
+final beamerLocationBuilder = BeamerLocationBuilder(
+  beamLocations: [
+    AuthLocation(),
+  ],
+);
+
 class App extends StatelessWidget {
-  const App({super.key});
+  App({super.key});
+
+  final routerDelegate = BeamerDelegate(
+    locationBuilder: beamerLocationBuilder.call,
+    initialPath: '/auth',
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
+      //darkTheme: AppTheme.dark,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const MainNavigationPage(),
+      debugShowCheckedModeBanner: false,
+      routerDelegate: routerDelegate,
+      routeInformationParser: BeamerParser(),
     );
   }
 }

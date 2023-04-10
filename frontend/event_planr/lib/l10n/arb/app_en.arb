@@ -1,7 +1,50 @@
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+  "@@locale": "en",
+  "authLogin": "Login",
+  "authSignUp": "Sign Up",
+  "authContinueAsGuest": "Continue as guest",
+  "authLetsGetStarted": "Let's get started",
+  "authLoginToYourAccount": "Login to your account",
+  "authEmail": "Email",
+  "authPassword": "Password",
+  "authForgotYourPassword": "Forgot your password?",
+  "authDontHaveAnAccount": "Don't have an account?",
+  "authCreateYourAccount": "Create your account",
+  "authFullName": "Full name",
+  "authConfirmPassword": "Confirm password",
+  "authAlreadyHaveAnAccount": "Already have an account?",
+  "authFieldRequired": "{fieldName} cannot be empty.",
+  "@authFieldRequired": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      }
     }
+  },
+  "authEmailNotValid": "Email format is not valid.",
+  "authFieldMaxLength": "{fieldName} must have a length less then {maxLength}.",
+  "@authFieldMaxLength": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      },
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "authFieldMinLength": "{fieldName} must have a length more then {maxLength}.",
+  "@authFieldMinLength": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      },
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "authPasswordMustContainCapital": "Password must contain a capital letter.",
+  "authPasswordMustContainNumber": "Password must contain a number.",
+  "authPasswordsDoNotMatch": "Passwords do not match."
 }

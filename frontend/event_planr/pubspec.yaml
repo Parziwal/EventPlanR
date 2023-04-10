@@ -7,13 +7,17 @@ environment:
   sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
+  amazon_cognito_identity_dart_2: ^3.3.0
+  beamer: ^1.5.3
   bloc: ^8.1.1
   equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
+  flutter_form_builder: ^7.8.0
   flutter_localizations:
     sdk: flutter
+  form_builder_validators: ^8.5.0
   http: ^0.13.5
   intl: ^0.17.0
 
@@ -27,3 +31,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/logo/
+    - assets/icon/
