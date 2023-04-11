@@ -3,6 +3,7 @@ import 'package:event_planr/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -170,7 +171,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       textAlign: TextAlign.center,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => context.pushReplacement('/auth/login'),
                       child: Text(l10.authLogin),
                     ),
                   ],

@@ -1,8 +1,8 @@
-import 'package:beamer/beamer.dart';
 import 'package:event_planr/l10n/l10n.dart';
 import 'package:event_planr/theme/theme_extension.dart';
 import 'package:event_planr/utils/media_query_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -42,7 +42,7 @@ class WelcomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
-                    onPressed: () => context.beamToNamed('/auth/login'),
+                    onPressed: () => context.push('/auth/login'),
                     style: ElevatedButton.styleFrom(
                       textStyle: context.theme.textTheme.titleLarge,
                       padding: const EdgeInsets.all(16),
@@ -56,7 +56,7 @@ class WelcomePage extends StatelessWidget {
                     height: 24,
                   ),
                   ElevatedButton(
-                    onPressed: () => context.beamToNamed('/auth/signup'),
+                    onPressed: () => context.push('/auth/signup'),
                     style: ElevatedButton.styleFrom(
                       textStyle: context.theme.textTheme.titleLarge,
                       padding: const EdgeInsets.all(16),

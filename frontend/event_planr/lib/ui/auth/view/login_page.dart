@@ -4,6 +4,7 @@ import 'package:event_planr/utils/media_query_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -110,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       textAlign: TextAlign.center,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => context.pushReplacement('/auth/signup'),
                       child: Text(l10.authSignUp),
                     ),
                   ],
