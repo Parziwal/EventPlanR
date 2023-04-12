@@ -1,9 +1,9 @@
-import 'package:event_planr/event/event.dart';
-import 'package:event_planr/explore/view/explore_page.dart';
 import 'package:event_planr/home/view/home_page.dart';
-import 'package:event_planr/main_navigation/cubit/main_navigation_cubit.dart';
-import 'package:event_planr/message/message.dart';
-import 'package:event_planr/profile/profile.dart';
+import 'package:event_planr/ui/event/event.dart';
+import 'package:event_planr/ui/explore/explore.dart';
+import 'package:event_planr/ui/main_navigation/main_navigation.dart';
+import 'package:event_planr/ui/message/message.dart';
+import 'package:event_planr/ui/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
