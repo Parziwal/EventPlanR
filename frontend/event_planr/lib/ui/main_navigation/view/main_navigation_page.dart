@@ -1,4 +1,4 @@
-import 'package:event_planr/home/view/home_page.dart';
+import 'package:event_planr/ui/home/view/home_page.dart';
 import 'package:event_planr/ui/event/event.dart';
 import 'package:event_planr/ui/explore/explore.dart';
 import 'package:event_planr/ui/main_navigation/main_navigation.dart';

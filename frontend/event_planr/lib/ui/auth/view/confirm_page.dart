@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class ConfirmPage extends StatelessWidget {
+  const ConfirmPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +29,11 @@ class SignUpPage extends StatelessWidget {
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
                       SnackBar(
-                        content: Text(
-                          state.message,
-                          style: TextStyle(color: theme.colorScheme.error),
-                        ),
-                        backgroundColor: theme.colorScheme.onError,
+                        content: Text(state.message),
                       ),
                     );
-                } else if (state is AuthConfirm) {
-                  context.go('/auth/confirm');
+                } else if (state is AuthSuccess) {
+                  context.go('/home');
                 }
               },
               builder: (context, state) {
@@ -47,11 +43,11 @@ class SignUpPage extends StatelessWidget {
                     left: 16,
                     right: 16,
                   ),
-                  child: SignUpForm(disable: state is AuthLoading),
+                  child: ConfirmForm(),
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );

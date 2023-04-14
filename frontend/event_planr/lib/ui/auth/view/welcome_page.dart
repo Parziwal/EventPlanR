@@ -1,5 +1,5 @@
 import 'package:event_planr/l10n/l10n.dart';
-import 'package:event_planr/theme/theme_extension.dart';
+import 'package:event_planr/utils/theme_extension.dart';
 import 'package:event_planr/utils/media_query_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

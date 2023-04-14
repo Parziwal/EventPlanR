@@ -46,5 +46,6 @@
   },
   "authPasswordMustContainCapital": "Password must contain a capital letter.",
   "authPasswordMustContainNumber": "Password must contain a number.",
-  "authPasswordsDoNotMatch": "Passwords do not match."
+  "authPasswordsDoNotMatch": "Passwords do not match.",
+  "authConfirmCode": "Confirm code"
 }
