@@ -1,4 +1,4 @@
-import 'package:event_planr/domain/auth/models/user_signup_credentials.dart';
+import 'package:event_planr/domain/auth/models/signup_credentials.dart';
 import 'package:event_planr/l10n/l10n.dart';
 import 'package:event_planr/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr/utils/utils.dart';
@@ -8,11 +8,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpForm extends StatelessWidget {
-  SignUpForm({required this.disable, super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({this.disabled = false, super.key});
 
-  final bool disable;
+  final bool disabled;
 
+  @override
+  State<SignUpForm> createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -25,27 +30,16 @@ class SignUpForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _fullNameField(l10),
+          _fullNameField(context),
           const SizedBox(height: 16),
-          _emailField(l10),
+          _emailField(context),
           const SizedBox(height: 16),
-          _passwordField(l10),
+          _passwordField(context),
           const SizedBox(height: 16),
-          _confirmPasswordField(l10),
+          _confirmPasswordField(context),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: disable
-                ? null
-                : () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      context.read<AuthCubit>().signUp(
-                            UserSignUpCredentials.fromJson(
-                              _formKey.currentState!.value,
-                            ),
-                          );
-                    }
-                  },
+            onPressed: widget.disabled ? null : _submit,
             style: ElevatedButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
@@ -64,7 +58,7 @@ class SignUpForm extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           TextButton(
-            onPressed: () => context.pushReplacement('/auth/login'),
+            onPressed: widget.disabled ? null : () => context.go('/auth/login'),
             child: Text(l10.authLogin),
           ),
         ],
@@ -72,9 +66,22 @@ class SignUpForm extends StatelessWidget {
     );
   }
 
-  Widget _fullNameField(AppLocalizations l10) {
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      context.read<AuthCubit>().signUp(
+            SignUpCredentials.fromJson(
+              _formKey.currentState!.value,
+            ),
+          );
+    }
+  }
+
+  Widget _fullNameField(BuildContext context) {
+    final l10 = context.l10n;
     return FormBuilderTextField(
       name: 'fullName',
+      enabled: !widget.disabled,
       decoration: InputDecoration(
         hintText: l10.authFullName,
         prefixIcon: const Icon(Icons.person_outline),
@@ -83,21 +90,18 @@ class SignUpForm extends StatelessWidget {
       keyboardType: TextInputType.name,
       validator: FormBuilderValidators.compose(
         [
-          FormBuilderValidators.required(
-            errorText: l10.authFieldRequired(l10.authFullName),
-          ),
-          FormBuilderValidators.maxLength(
-            128,
-            errorText: l10.authFieldMaxLength(l10.authFullName, 128),
-          ),
+          FormBuilderValidators.required(),
+          FormBuilderValidators.maxLength(128),
         ],
       ),
     );
   }
 
-  Widget _emailField(AppLocalizations l10) {
+  Widget _emailField(BuildContext context) {
+    final l10 = context.l10n;
     return FormBuilderTextField(
       name: 'email',
+      enabled: !widget.disabled,
       decoration: InputDecoration(
         hintText: l10.authEmail,
         prefixIcon: const Icon(Icons.email_outlined),
@@ -106,24 +110,19 @@ class SignUpForm extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       validator: FormBuilderValidators.compose(
         [
-          FormBuilderValidators.required(
-            errorText: l10.authFieldRequired(l10.authEmail),
-          ),
-          FormBuilderValidators.email(
-            errorText: l10.authEmailNotValid,
-          ),
-          FormBuilderValidators.maxLength(
-            128,
-            errorText: l10.authFieldMaxLength(l10.authEmail, 128),
-          ),
+          FormBuilderValidators.required(),
+          FormBuilderValidators.email(),
+          FormBuilderValidators.maxLength(128),
         ],
       ),
     );
   }
 
-  Widget _passwordField(AppLocalizations l10) {
+  Widget _passwordField(BuildContext context) {
+    final l10 = context.l10n;
     return FormBuilderTextField(
       name: 'password',
+      enabled: !widget.disabled,
       decoration: InputDecoration(
         hintText: l10.authPassword,
         prefixIcon: const Icon(Icons.lock_outline),
@@ -133,22 +132,16 @@ class SignUpForm extends StatelessWidget {
       keyboardType: TextInputType.visiblePassword,
       validator: FormBuilderValidators.compose(
         [
-          FormBuilderValidators.required(
-            errorText: l10.authFieldRequired(l10.authPassword),
-          ),
-          FormBuilderValidators.minLength(
-            8,
-            errorText: l10.authFieldMinLength(l10.authPassword, 8),
-          ),
-          FormBuilderValidators.maxLength(
-            128,
-            errorText: l10.authFieldMaxLength(l10.authPassword, 128),
-          ),
+          FormBuilderValidators.required(),
+          FormBuilderValidators.minLength(8),
+          FormBuilderValidators.maxLength(128),
           (password) {
             if (password == null) {
               return null;
             } else if (!password.contains(RegExp('[A-Z]'))) {
-              return l10.authPasswordMustContainCapital;
+              return l10.authPasswordMustContainUpperCase;
+            } else if (!password.contains(RegExp('[a-z]'))) {
+              return l10.authPasswordMustContainLowerCase;
             } else if (!password.contains(RegExp('[0-9]'))) {
               return l10.authPasswordMustContainNumber;
             }
@@ -159,9 +152,11 @@ class SignUpForm extends StatelessWidget {
     );
   }
 
-  Widget _confirmPasswordField(AppLocalizations l10) {
+  Widget _confirmPasswordField(BuildContext context) {
+    final l10 = context.l10n;
     return FormBuilderTextField(
       name: 'confirmPassword',
+      enabled: !widget.disabled,
       decoration: InputDecoration(
         hintText: l10.authConfirmPassword,
         prefixIcon: const Icon(Icons.lock_outline),

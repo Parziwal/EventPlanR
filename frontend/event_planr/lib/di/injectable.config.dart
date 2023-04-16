@@ -9,11 +9,12 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:event_planr/data/disk/auth/storage.dart' as _i4;
-import 'package:event_planr/di/di_module.dart' as _i8;
+import 'package:event_planr/data/disk/auth/auth_storage.dart' as _i4;
+import 'package:event_planr/di/di_module.dart' as _i9;
 import 'package:event_planr/domain/auth/auth.dart' as _i7;
 import 'package:event_planr/domain/auth/auth_repository.dart' as _i5;
-import 'package:event_planr/ui/auth/cubit/auth_cubit.dart' as _i6;
+import 'package:event_planr/ui/auth/cubit/auth_cubit.dart' as _i8;
+import 'package:event_planr/ui/main/profile/cubit/profile_cubit.dart' as _i6;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i3;
@@ -34,14 +35,16 @@ extension GetItInjectableX on _i1.GetIt {
       () => diModule.prefs,
       preResolve: true,
     );
-    gh.singleton<_i4.Storage>(
-        _i4.Storage(preferences: gh<_i3.SharedPreferences>()));
+    gh.singleton<_i4.AuthStorage>(
+        _i4.AuthStorage(preferences: gh<_i3.SharedPreferences>()));
     gh.singleton<_i5.AuthRepository>(
-        _i5.AuthRepository(storage: gh<_i4.Storage>()));
-    gh.factory<_i6.AuthCubit>(
-        () => _i6.AuthCubit(authRepository: gh<_i7.AuthRepository>()));
+        _i5.AuthRepository(storage: gh<_i4.AuthStorage>()));
+    gh.factory<_i6.ProfileCubit>(
+        () => _i6.ProfileCubit(authRepository: gh<_i7.AuthRepository>()));
+    gh.factory<_i8.AuthCubit>(
+        () => _i8.AuthCubit(authRepository: gh<_i7.AuthRepository>()));
     return this;
   }
 }
 
-class _$DiModule extends _i8.DiModule {}
+class _$DiModule extends _i9.DiModule {}

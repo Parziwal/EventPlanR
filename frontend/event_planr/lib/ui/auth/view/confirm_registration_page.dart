@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class ConfirmRegistrationPage extends StatelessWidget {
+  const ConfirmRegistrationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SignUpPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: Text(l10.authCreateYourAccount),
+            title: Text(l10.authConfirmCode),
             backgroundColor: theme.colorScheme.primaryContainer,
             expandedHeight: 120,
           ),
@@ -32,11 +32,12 @@ class SignUpPage extends StatelessWidget {
                     left: 16,
                     right: 16,
                   ),
-                  child: SignUpForm(disabled: state is AuthLoading),
+                  child:
+                      ConfirmRegistrationForm(disabled: state is AuthLoading),
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );
@@ -58,8 +59,20 @@ class SignUpPage extends StatelessWidget {
             backgroundColor: theme.colorScheme.errorContainer,
           ),
         );
-    } else if (state is AuthConfirmationNeeded) {
-      context.go('/auth/confirm-registration');
+    } else if (state is AuthCodeResended) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              l10.authConfirmCodeResended,
+              style: TextStyle(color: theme.colorScheme.onPrimary),
+            ),
+            backgroundColor: theme.colorScheme.onPrimaryContainer,
+          ),
+        );
+    } else if (state is AuthSuccess) {
+      context.go('/auth/login');
     }
   }
 }

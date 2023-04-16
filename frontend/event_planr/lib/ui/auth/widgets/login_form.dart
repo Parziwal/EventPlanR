@@ -1,13 +1,23 @@
+import 'package:event_planr/domain/auth/models/login_credentials.dart';
 import 'package:event_planr/l10n/l10n.dart';
+import 'package:event_planr/ui/auth/auth.dart';
 import 'package:event_planr/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({super.key});
+class LoginForm extends StatefulWidget {
+  const LoginForm({this.disabled = false, super.key});
 
+  final bool disabled;
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -25,12 +35,12 @@ class LoginForm extends StatelessWidget {
             height: bodyHeight / 5,
           ),
           const SizedBox(height: 16),
-          _emailField(l10),
+          _emailField(context),
           const SizedBox(height: 16),
-          _passwordField(l10),
+          _passwordField(context),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: widget.disabled ? null : _submit,
             style: ElevatedButton.styleFrom(
               textStyle: context.theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
@@ -41,7 +51,9 @@ class LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           TextButton(
-            onPressed: () {},
+            onPressed: widget.disabled
+                ? null
+                : () => context.push('/auth/forgot-password'),
             child: Text(l10.authForgotYourPassword),
           ),
           const SizedBox(height: 32),
@@ -54,7 +66,9 @@ class LoginForm extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           TextButton(
-            onPressed: () => context.pushReplacement('/auth/signup'),
+            onPressed: widget.disabled
+                ? null
+                : () => context.go('/auth/signup'),
             child: Text(l10.authSignUp),
           ),
         ],
@@ -62,9 +76,22 @@ class LoginForm extends StatelessWidget {
     );
   }
 
-  Widget _emailField(AppLocalizations l10) {
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      context.read<AuthCubit>().login(
+            LoginCredentials.fromJson(
+              _formKey.currentState!.value,
+            ),
+          );
+    }
+  }
+
+  Widget _emailField(BuildContext context) {
+    final l10 = context.l10n;
     return FormBuilderTextField(
       name: 'email',
+      enabled: !widget.disabled,
       decoration: InputDecoration(
         hintText: l10.authEmail,
         prefixIcon: const Icon(Icons.email_outlined),
@@ -73,20 +100,18 @@ class LoginForm extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       validator: FormBuilderValidators.compose(
         [
-          FormBuilderValidators.required(
-            errorText: l10.authFieldRequired(l10.authEmail),
-          ),
-          FormBuilderValidators.email(
-            errorText: l10.authEmailNotValid,
-          ),
+          FormBuilderValidators.required(),
+          FormBuilderValidators.email(),
         ],
       ),
     );
   }
 
-  Widget _passwordField(AppLocalizations l10) {
+  Widget _passwordField(BuildContext context) {
+    final l10 = context.l10n;
     return FormBuilderTextField(
       name: 'password',
+      enabled: !widget.disabled,
       decoration: InputDecoration(
         hintText: l10.authPassword,
         prefixIcon: const Icon(Icons.lock_outline),
@@ -96,9 +121,7 @@ class LoginForm extends StatelessWidget {
       keyboardType: TextInputType.visiblePassword,
       validator: FormBuilderValidators.compose(
         [
-          FormBuilderValidators.required(
-            errorText: l10.authFieldRequired(l10.authPassword),
-          ),
+          FormBuilderValidators.required(),
         ],
       ),
     );

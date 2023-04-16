@@ -18,17 +18,23 @@ class AuthSuccess extends AuthState {
   List<Object?> get props => [];
 }
 
-class AuthError extends AuthState {
-
-  AuthError(this.message);
-
-  final String message;
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class AuthConfirm extends AuthState {
+class AuthConfirmationNeeded extends AuthState {
   @override
   List<Object?> get props => [];
+}
+
+class AuthCodeResended extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+enum AuthException { emailExists, wrongCredentials, unknownError }
+
+class AuthError extends AuthState {
+  AuthError(this.exception);
+
+  final Exception exception;
+
+  @override
+  List<Object?> get props => [exception];
 }

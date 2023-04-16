@@ -1,3 +1,4 @@
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:equatable/equatable.dart';
 import 'package:event_planr/domain/auth/auth.dart';
 import 'package:flutter/foundation.dart';
@@ -14,37 +15,84 @@ class AuthCubit extends Cubit<AuthState> {
 
   final AuthRepository _authRepository;
 
-  Future<void> login(UserLoginCredentials user) async {
+  Future<void> login(LoginCredentials credentials) async {
     emit(AuthLoading());
     try {
-      await _authRepository.loginUser(user);
+      await _authRepository.loginUser(credentials);
       emit(AuthSuccess());
-    } catch (e) {
-      emit(AuthError('Error'));
+    } on CognitoUserConfirmationNecessaryException catch (_) {
+      emit(AuthConfirmationNeeded());
+    } on Exception catch (e) {
+      emit(AuthError(e));
     } finally {
       emit(AuthIdle());
     }
   }
 
-  Future<void> signUp(UserSignUpCredentials user) async {
+  Future<void> signUp(SignUpCredentials credentials) async {
     emit(AuthLoading());
     try {
-      await _authRepository.signUpUser(user);
-      emit(AuthConfirm());
-    } catch (e) {
-      emit(AuthError('Error'));
+      await _authRepository.signUpUser(credentials);
+      emit(AuthConfirmationNeeded());
+    } on Exception catch (e) {
+      emit(AuthError(e));
     } finally {
       emit(AuthIdle());
     }
   }
 
-  Future<void> confirmCode(String code) async {
+  Future<void> autoLogin() async {
+    emit(AuthLoading());
+    final isAuthenticated = await _authRepository.autoLogin();
+    if (isAuthenticated) {
+      emit(AuthSuccess());
+    }
+    emit(AuthIdle());
+  }
+
+  Future<void> confirmRegistration(String code) async {
     emit(AuthLoading());
     try {
-      await _authRepository.confirmUser(code);
+      await _authRepository.confirmRegistration(code);
       emit(AuthSuccess());
-    } catch (e) {
-      emit(AuthError('Error'));
+    } on Exception catch (e) {
+      emit(AuthError(e));
+    } finally {
+      emit(AuthIdle());
+    }
+  }
+
+  Future<void> resendConfirmationCode() async {
+    emit(AuthLoading());
+    try {
+      await _authRepository.resendConfirmationCode();
+      emit(AuthCodeResended());
+    } on Exception catch (e) {
+      emit(AuthError(e));
+    } finally {
+      emit(AuthIdle());
+    }
+  }
+
+  Future<void> forgotPassword(String email) async {
+    emit(AuthLoading());
+    try {
+      await _authRepository.forgotPassword(email);
+      emit(AuthSuccess());
+    } on Exception catch (e) {
+      emit(AuthError(e));
+    } finally {
+      emit(AuthIdle());
+    }
+  }
+
+  Future<void> confirmPassword(ForgotPasswordCredentials credentials) async {
+    emit(AuthLoading());
+    try {
+      await _authRepository.confirmPassword(credentials);
+      emit(AuthSuccess());
+    } on Exception catch (e) {
+      emit(AuthError(e));
     } finally {
       emit(AuthIdle());
     }

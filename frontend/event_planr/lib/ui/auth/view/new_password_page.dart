@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class NewPasswordPage extends StatelessWidget {
+  const NewPasswordPage({super.key});
 
-  @override
+@override
   Widget build(BuildContext context) {
     final l10 = context.l10n;
     final theme = context.theme;
@@ -18,7 +18,7 @@ class SignUpPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: Text(l10.authCreateYourAccount),
+            title: Text(l10.authNewPassword),
             backgroundColor: theme.colorScheme.primaryContainer,
             expandedHeight: 120,
           ),
@@ -32,11 +32,11 @@ class SignUpPage extends StatelessWidget {
                     left: 16,
                     right: 16,
                   ),
-                  child: SignUpForm(disabled: state is AuthLoading),
+                  child: NewPasswordForm(disabled: state is AuthLoading),
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );
@@ -58,8 +58,8 @@ class SignUpPage extends StatelessWidget {
             backgroundColor: theme.colorScheme.errorContainer,
           ),
         );
-    } else if (state is AuthConfirmationNeeded) {
-      context.go('/auth/confirm-registration');
+    } else if (state is AuthSuccess) {
+      context.go('/auth/login');
     }
   }
 }

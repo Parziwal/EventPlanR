@@ -1,10 +1,12 @@
+import 'package:event_planr/di/injectable.dart';
 import 'package:event_planr/ui/main/event/event.dart';
 import 'package:event_planr/ui/main/explore/explore.dart';
 import 'package:event_planr/ui/main/home/home.dart';
 import 'package:event_planr/ui/main/message/message.dart';
-import 'package:event_planr/ui/main/navbar/view/bottom_navigation_view.dart';
+import 'package:event_planr/ui/main/navbar/navbar.dart';
 import 'package:event_planr/ui/main/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 final mainRoute = ShellRoute(
@@ -15,7 +17,7 @@ final mainRoute = ShellRoute(
     GoRoute(
       path: '/main/home',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomePage();
+        return HomePage();
       },
     ),
     GoRoute(
@@ -39,7 +41,10 @@ final mainRoute = ShellRoute(
     GoRoute(
       path: '/main/profile',
       builder: (BuildContext context, GoRouterState state) {
-        return const ProfilePage();
+        return BlocProvider(
+          create: (context) => injector<ProfileCubit>(),
+          child: const ProfilePage(),
+        );
       },
     ),
   ],

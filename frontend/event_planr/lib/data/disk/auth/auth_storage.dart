@@ -5,15 +5,19 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @singleton
-class Storage extends CognitoStorage {
-  Storage({required SharedPreferences preferences})
+class AuthStorage extends CognitoStorage {
+  AuthStorage({required SharedPreferences preferences})
       : _preferences = preferences;
 
   final SharedPreferences _preferences;
 
   @override
   Future<dynamic> getItem(String key) async {
-    return _preferences.getString(key);
+    if (_preferences.containsKey(key)) {
+      return json.decode(_preferences.getString(key)!);
+    }
+
+    return null;
   }
 
   @override

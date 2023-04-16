@@ -1,45 +1,87 @@
+import 'dart:developer';
+
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
-import 'package:event_planr/data/disk/auth/storage.dart';
-import 'package:event_planr/domain/auth/models/user_login_credentials.dart';
-import 'package:event_planr/domain/auth/models/user_signup_credentials.dart';
+import 'package:event_planr/data/disk/auth/auth_storage.dart';
+import 'package:event_planr/domain/auth/auth.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class AuthRepository {
-  AuthRepository({required Storage storage})
+  AuthRepository({required AuthStorage storage})
       : _userPool = CognitoUserPool(
-          'us-east-1_nnnnnnnn',
-          'nnnnnnnnnnnnnnnnnn',
+          'us-east-1_Jad9quPYz',
+          '5rd92l63nk28k67snp6okejr9j',
           storage: storage,
         );
 
   final CognitoUserPool _userPool;
   CognitoUser? _cognitoUser;
-  CognitoUserSession? _session;
 
-  Future<void> loginUser(UserLoginCredentials user) async {
+  Future<bool> get isAuthenticated async {
+    try {
+      final session = await _cognitoUser?.getSession();
+      return session?.isValid() ?? false;
+    } catch (e) {
+      log(e.toString());
+    }
+    return false;
+  }
+
+  Future<String> get bearerToken async {
+    final session = await _cognitoUser?.getSession();
+    if (session?.isValid() ?? false) {
+      return 'Bearer ${session!.idToken.jwtToken!}';
+    }
+
+    return '';
+  }
+
+  Future<User> get user async {
+    final attributes = await _cognitoUser!.getUserAttributes();
+    return User.fromJson(
+      attributes!.fold(<String, String>{}, (a, b) => {b.name!: b.value, ...a}),
+    );
+  }
+
+  Future<void> loginUser(LoginCredentials credentials) async {
     _cognitoUser = CognitoUser(
-      user.email,
+      credentials.email,
       _userPool,
       storage: _userPool.storage,
     );
     final authDetails = AuthenticationDetails(
-      username: user.email,
-      password: user.password,
+      username: credentials.email,
+      password: credentials.password,
     );
 
-    _session = await _cognitoUser!.authenticateUser(authDetails);
+    try {
+      await _cognitoUser!.authenticateUser(authDetails);
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 
-  Future<void> signUpUser(UserSignUpCredentials user) async {
-    final userAttributes = [
-      AttributeArg(name: 'name', value: user.fullName),
-    ];
-    await _userPool.signUp(
-      user.email,
-      user.password,
-      userAttributes: userAttributes,
+  Future<void> signUpUser(SignUpCredentials credentials) async {
+    _cognitoUser = CognitoUser(
+      credentials.email,
+      _userPool,
+      storage: _userPool.storage,
     );
+    final userAttributes = [
+      AttributeArg(name: 'name', value: credentials.fullName),
+    ];
+
+    try {
+      await _userPool.signUp(
+        credentials.email,
+        credentials.password,
+        userAttributes: userAttributes,
+      );
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 
   Future<bool> autoLogin() async {
@@ -47,18 +89,54 @@ class AuthRepository {
     if (_cognitoUser == null) {
       return false;
     }
-    _session = await _cognitoUser!.getSession();
-    return _session?.isValid() ?? false;
+
+    try {
+      final session = await _cognitoUser!.getSession();
+      return session?.isValid() ?? false;
+    } catch (e) {
+      log(e.toString());
+    }
+
+    return false;
   }
 
-  Future<void> confirmUser(String confirmationCode) async {
-    _cognitoUser = CognitoUser('', _userPool, storage: _userPool.storage);
-    await _cognitoUser?.confirmRegistration('123456');
+  Future<void> confirmRegistration(String code) async {
+    try {
+      await _cognitoUser!.confirmRegistration(code);
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 
-  Future<void> resendConfirmationCode(String email) async {
-    _cognitoUser = CognitoUser(email, _userPool, storage: _userPool.storage);
-    await _cognitoUser?.resendConfirmationCode();
+  Future<void> resendConfirmationCode() async {
+    try {
+      await _cognitoUser!.resendConfirmationCode();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> forgotPassword(String email) async {
+    _cognitoUser = CognitoUser(email, _userPool);
+
+    try {
+      await _cognitoUser!.forgotPassword();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> confirmPassword(ForgotPasswordCredentials credentials) async {
+    try {
+      await _cognitoUser!.confirmPassword(
+        credentials.confirmCode,
+        credentials.newPassword,
+      );
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> signOut() async {

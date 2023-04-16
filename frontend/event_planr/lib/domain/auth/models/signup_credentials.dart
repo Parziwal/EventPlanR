@@ -1,17 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'user_signup_credentials.g.dart';
+part 'signup_credentials.g.dart';
 
 @JsonSerializable()
-class UserSignUpCredentials {
-  UserSignUpCredentials({
+class SignUpCredentials {
+  SignUpCredentials({
     required this.email,
     required this.fullName,
     required this.password,
   });
 
-  factory UserSignUpCredentials.fromJson(Map<String, dynamic> json) =>
-      _$UserSignUpCredentialsFromJson(json);
+  factory SignUpCredentials.fromJson(Map<String, dynamic> json) =>
+      _$SignUpCredentialsFromJson(json);
 
   final String email;
   final String fullName;

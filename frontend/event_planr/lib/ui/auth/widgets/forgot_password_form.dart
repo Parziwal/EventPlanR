@@ -6,9 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-class ConfirmForm extends StatelessWidget {
-  ConfirmForm({super.key});
+class ForgotPasswordForm extends StatefulWidget {
+  const ForgotPasswordForm({this.disabled = false, super.key});
 
+  final bool disabled;
+
+  @override
+  State<ForgotPasswordForm> createState() => _ForgotPasswordFormState();
+}
+
+class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -21,44 +28,46 @@ class ConfirmForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _confirmCodeField(l10),
+          _emailField(context),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                final formValue = _formKey.currentState!.value;
-                context
-                    .read<AuthCubit>()
-                    .confirmCode(formValue['confirmCode'] as String);
-              }
-            },
+            onPressed: widget.disabled ? null : _submit,
             style: ElevatedButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
               backgroundColor: theme.colorScheme.primary,
               foregroundColor: theme.colorScheme.primaryContainer,
             ),
-            child: Text(l10.authSignUp),
+            child: Text(l10.authSubmit),
           ),
         ],
       ),
     );
   }
 
-  Widget _confirmCodeField(AppLocalizations l10) {
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final email = _formKey.currentState!.value['email'] as String;
+      context.read<AuthCubit>().forgotPassword(email);
+    }
+  }
+
+  Widget _emailField(BuildContext context) {
+    final l10 = context.l10n;
     return FormBuilderTextField(
-      name: 'confirmCode',
+      name: 'email',
+      enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authConfirmCode,
-        prefixIcon: const Icon(Icons.person_outline),
+        hintText: l10.authEmail,
+        prefixIcon: const Icon(Icons.email_outlined),
         filled: true,
       ),
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.emailAddress,
       validator: FormBuilderValidators.compose(
         [
-          FormBuilderValidators.required(
-            errorText: l10.authFieldRequired(l10.authConfirmCode),
-          ),
+          FormBuilderValidators.required(),
+          FormBuilderValidators.email(),
         ],
       ),
     );
