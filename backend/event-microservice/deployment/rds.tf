@@ -54,7 +54,7 @@ resource "aws_security_group" "event_rds" {
 }
 
 resource "aws_subnet" "event_rds" {
-  count             = 1
+  count             = 2
   cidr_block        = cidrsubnet(aws_vpc.event_rds.cidr_block, 8, count.index)
   availability_zone = data.aws_availability_zones.available.names[count.index]
   vpc_id            = aws_vpc.event_rds.id
