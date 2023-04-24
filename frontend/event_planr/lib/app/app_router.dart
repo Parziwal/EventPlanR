@@ -5,10 +5,13 @@ import 'package:event_planr/ui/main/navbar/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+
 final GoRouter mainRouter = GoRouter(
+  navigatorKey: rootNavigatorKey,
   routes: <RouteBase>[
     ...authRoute,
-    mainRoute,
+    mainRoute
   ],
   initialLocation: '/auth',
   redirect: (BuildContext context, GoRouterState state) async {

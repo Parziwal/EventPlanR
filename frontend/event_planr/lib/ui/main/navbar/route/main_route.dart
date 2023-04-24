@@ -1,4 +1,6 @@
+import 'package:event_planr/app/app_router.dart';
 import 'package:event_planr/di/injectable.dart';
+import 'package:event_planr/ui/main/chat/chat.dart';
 import 'package:event_planr/ui/main/event/event.dart';
 import 'package:event_planr/ui/main/explore/explore.dart';
 import 'package:event_planr/ui/main/home/home.dart';
@@ -23,13 +25,19 @@ final mainRoute = ShellRoute(
     GoRoute(
       path: '/main/explore',
       builder: (BuildContext context, GoRouterState state) {
-        return const ExplorePage();
+        return BlocProvider(
+          create: (context) => injector<ExploreCubit>()..listEvents(),
+          child: const ExplorePage(),
+        );
       },
     ),
     GoRoute(
       path: '/main/event',
       builder: (BuildContext context, GoRouterState state) {
-        return const EventPage();
+        return BlocProvider(
+          create: (context) => injector<EventCubit>()..listMyEvents(),
+          child: const EventPage(),
+        );
       },
     ),
     GoRoute(
@@ -37,6 +45,7 @@ final mainRoute = ShellRoute(
       builder: (BuildContext context, GoRouterState state) {
         return const MessagePage();
       },
+      routes: [...chatRoute(rootNavigatorKey)],
     ),
     GoRoute(
       path: '/main/profile',

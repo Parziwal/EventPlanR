@@ -14,7 +14,7 @@ class App extends StatelessWidget {
       //darkTheme: AppTheme.dark,
       localizationsDelegates: const [
         ...AppLocalizations.localizationsDelegates,
-        FormBuilderLocalizations.delegate,
+        //FormBuilderLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizations.supportedLocales,

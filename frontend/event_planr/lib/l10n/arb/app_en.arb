@@ -34,5 +34,15 @@
   "profileLogout": "Logout",
   "profileAreYouSureYouWantToLogout": "Are you sure you want to logout?",
   "profileYes": "Yes",
-  "profileNo": "No"
+  "profileNo": "No",
+  "profileEditProfile": "Edit profile",
+  "profileNotifications": "Notifications",
+  "profileAppearance": "Appearance",
+  "profileSecurity": "Security",
+  "profileManageEvents": "Manage events",
+  "home": "Home",
+  "homeFollowing": "Following",
+  "homeYourNextEvents": "Your next events",
+  "homeNearbyYou": "Nearby you",
+  "homeSeeAll": "See all"
 }
