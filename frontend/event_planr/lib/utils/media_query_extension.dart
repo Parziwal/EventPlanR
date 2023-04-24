@@ -5,4 +5,8 @@ extension MediaQueryX on BuildContext {
     final media = MediaQuery.of(this);
     return media.size.height - media.padding.top - kToolbarHeight;
   }
+
+  MediaQueryData get mediaQuery {
+    return MediaQuery.of(this);
+  }
 }
