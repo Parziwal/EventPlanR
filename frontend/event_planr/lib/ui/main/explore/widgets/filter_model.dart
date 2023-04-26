@@ -1,10 +1,8 @@
-import 'package:event_planr/l10n/l10n.dart';
 import 'package:event_planr/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showFilterModal(BuildContext context) async {
   final theme = context.theme;
-  final l10 = context.l10n;
 
   return showModalBottomSheet(
     context: context,

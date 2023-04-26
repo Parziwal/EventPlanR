@@ -1,5 +1,4 @@
 import 'package:event_planr/ui/main/message/message.dart';
-import 'package:event_planr/utils/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class MessagePage extends StatefulWidget {

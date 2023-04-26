@@ -2,6 +2,7 @@ import 'package:event_planr/app/app_router.dart';
 import 'package:event_planr/di/injectable.dart';
 import 'package:event_planr/ui/main/chat/chat.dart';
 import 'package:event_planr/ui/main/event/event.dart';
+import 'package:event_planr/ui/main/event_details/route/event_details_route.dart';
 import 'package:event_planr/ui/main/explore/explore.dart';
 import 'package:event_planr/ui/main/home/home.dart';
 import 'package:event_planr/ui/main/message/message.dart';
@@ -30,6 +31,7 @@ final mainRoute = ShellRoute(
           child: const ExplorePage(),
         );
       },
+      routes: [...eventDetialsRoute(rootNavigatorKey)],
     ),
     GoRoute(
       path: '/main/event',

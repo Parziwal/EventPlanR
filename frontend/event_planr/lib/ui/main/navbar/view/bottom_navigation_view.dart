@@ -33,6 +33,7 @@ class BottomNavigationView extends StatelessWidget {
             label: 'Profile',
           )
         ],
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         selectedIndex: _calculateSelectedIndex(context),
         onDestinationSelected: (index) => _onItemTapped(index, context),
       ),
