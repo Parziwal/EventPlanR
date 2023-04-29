@@ -11,9 +11,10 @@ public static class InfrastructureServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<EventDbContext>(opts =>
-            opts.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")!),
-            ServiceLifetime.Transient);
+        services.AddDbContext<EventDbContext>(opts => 
+            opts.UseNpgsql(configuration.GetConnectionString("EventDb"),
+            npsql => npsql.UseNetTopologySuite())
+        );
 
         services.AddTransient<IEventRepository, EventRepository>();
 

@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  event-planr-event-postgres:
-    image: postgres
+  event-planr-event-db:
+    image: postgis/postgis
     environment:
       - POSTGRES_DATABASE=event_dev
       - POSTGRES_USER=event_dev
@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - event-planr-event-postgres-data
+      - event-planr-event-db-data:/var/lib/postgresql
 
 volumes:
-  event-planr-event-postgres-data:
+  event-planr-event-db-data:

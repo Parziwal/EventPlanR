@@ -13,11 +13,7 @@ public class EventDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        SnakeCaseIdentityTableNames(modelBuilder);
-    }
-
-    private static void SnakeCaseIdentityTableNames(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Entities.Event>(e => e.ToTable("events"));
+        modelBuilder.HasPostgresExtension("postgis");
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(EventDbContext).Assembly);
     }
 }

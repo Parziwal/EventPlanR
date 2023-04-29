@@ -17,5 +17,11 @@ public class EventController : ControllerBase
     }
 
     [HttpGet]
-    public Task<List<EventDto>> GetAllEvents() => _mediator.Send(new GetEventListQuery());
+    public Task<List<EventDto>> GetEventList([FromQuery] EventFilterDto filter)
+        => _mediator.Send(new GetEventListQuery(filter));
+
+
+    [HttpGet("{id}")]
+    public Task<EventDetailsDto> GetEventDetails(Guid id)
+        => _mediator.Send(new GetEventDetailsQuery(id));
 }
