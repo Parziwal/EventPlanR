@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 using Entites = Event.Domain.Entities;
 
 namespace Event.Infrastructure.Persistance.Configuration;
@@ -11,6 +10,8 @@ public class EventConfiguration : IEntityTypeConfiguration<Entites.Event>
     {
         builder.ToTable("events");
 
+        builder.Property(e => e.Id)
+            .HasDefaultValueSql("uuid_generate_v4()");
         builder.Property(e => e.Name)
             .IsRequired()
             .HasMaxLength(64);
@@ -35,6 +36,7 @@ public class EventConfiguration : IEntityTypeConfiguration<Entites.Event>
             .HasMaxLength(128)
             .IsRequired();
         address.Property(ea => ea.Location)
+            .HasColumnType("geography (point)")
             .IsRequired();
     }
 }

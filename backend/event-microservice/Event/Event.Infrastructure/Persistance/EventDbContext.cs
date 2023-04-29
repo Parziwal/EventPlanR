@@ -14,6 +14,7 @@ public class EventDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasPostgresExtension("postgis");
+        modelBuilder.HasPostgresExtension("uuid-ossp");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(EventDbContext).Assembly);
     }
 }

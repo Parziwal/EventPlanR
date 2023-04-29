@@ -11,13 +11,14 @@ namespace Event.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:PostgresExtension:postgis", ",,");
+                .Annotation("Npgsql:PostgresExtension:postgis", ",,")
+                .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
 
             migrationBuilder.CreateTable(
                 name: "events",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
                     Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Category = table.Column<int>(type: "integer", nullable: false),
                     FromDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -27,7 +28,7 @@ namespace Event.Infrastructure.Migrations
                     Address_ZipCode = table.Column<string>(type: "text", nullable: false),
                     Address_City = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Address_AddressLine = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Address_Location = table.Column<Point>(type: "geometry", nullable: false),
+                    Address_Location = table.Column<Point>(type: "geography (point)", nullable: false),
                     Description = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     CoverImageUrl = table.Column<string>(type: "text", nullable: true),
                     IsPrivate = table.Column<bool>(type: "boolean", nullable: false)

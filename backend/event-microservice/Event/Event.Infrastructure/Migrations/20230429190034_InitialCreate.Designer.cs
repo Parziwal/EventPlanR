@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Event.Infrastructure.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230429161031_InitialCreate")]
+    [Migration("20230429190034_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,13 +24,15 @@ namespace Event.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Event.Domain.Entities.Event", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<int>("Category")
                         .HasColumnType("integer");
@@ -66,6 +68,7 @@ namespace Event.Infrastructure.Migrations
                     b.OwnsOne("Event.Domain.Entities.EventAddress", "Address", b1 =>
                         {
                             b1.Property<Guid>("EventId")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("AddressLine")
@@ -85,7 +88,7 @@ namespace Event.Infrastructure.Migrations
 
                             b1.Property<Point>("Location")
                                 .IsRequired()
-                                .HasColumnType("geometry");
+                                .HasColumnType("geography (point)");
 
                             b1.Property<string>("Venue")
                                 .IsRequired()
