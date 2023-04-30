@@ -28,7 +28,7 @@ class _EventPageState extends State<EventPage>
     _tabController.addListener(() {
       context
           .read<EventCubit>()
-          .listMyEvents(type: MyEventType.values[_tabController.index]);
+          .listMyEvents(type: UserEventType.values[_tabController.index]);
     });
   }
 
@@ -71,7 +71,7 @@ class _EventPageState extends State<EventPage>
               itemBuilder: (context, index) => EventItem(
                 event: state.events[index],
                 child: EventItemAction(
-                  tab: MyEventType.values[_tabController.index],
+                  tab: UserEventType.values[_tabController.index],
                 ),
               ),
               itemCount: state.events.length,

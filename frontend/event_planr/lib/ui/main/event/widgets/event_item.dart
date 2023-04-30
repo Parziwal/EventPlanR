@@ -44,7 +44,7 @@ class EventItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child:
-                              Text(DateFormat.MMMd().format(event.startDate)),
+                              Text(DateFormat.MMMd().format(event.fromDate)),
                         ),
                       )
                     ],
@@ -65,7 +65,7 @@ class EventItem extends StatelessWidget {
                           ),
                           Chip(
                             label: Text(
-                              event.category,
+                              event.category.toString().split('.')[1],
                             ),
                             padding: EdgeInsets.zero,
                           ),

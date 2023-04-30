@@ -10,13 +10,19 @@ part 'explore_state.dart';
 class ExploreCubit extends Cubit<ExploreState> {
   ExploreCubit({required EventRepository eventRepository})
       : _eventRepository = eventRepository,
-        super(ExploreLoading());
+        super(const ExploreState());
 
   final EventRepository _eventRepository;
 
-  Future<void> listEvents() async {
-    emit(ExploreLoading());
-    final events = await _eventRepository.listEvents();
-    emit(ExploreEventList(events));
+  Future<void> listEvents({EventFilter filter = const EventFilter()}) async {
+    emit(state.copyWith(status: () => ExploreStatus.loading));
+    final events = await _eventRepository.getEventList(filter);
+    emit(
+      state.copyWith(
+        status: () => ExploreStatus.success,
+        events: () => events,
+        filter: () => filter,
+      ),
+    );
   }
 }

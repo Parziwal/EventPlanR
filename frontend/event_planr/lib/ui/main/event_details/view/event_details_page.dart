@@ -1,6 +1,9 @@
+import 'package:event_planr/ui/main/event_details/cubit/event_details_cubit.dart';
+import 'package:event_planr/ui/main/event_details/view/event_details_view.dart';
+import 'package:event_planr/ui/shared/shared.dart';
 import 'package:event_planr/utils/theme_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventDetailsPage extends StatelessWidget {
   const EventDetailsPage({super.key});
@@ -22,89 +25,15 @@ class EventDetailsPage extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              'https://picsum.photos/id/24/400/300.jpg',
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 250,
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Event name',
-                    style: context.theme.textTheme.headlineLarge,
-                  ),
-                  Text(
-                    'Type',
-                    style: context.theme.textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 10),
-                  ListTile(
-                    leading: const Icon(Icons.calendar_today),
-                    title: Text(DateFormat.MMMMEEEEd().format(DateTime.now())),
-                    subtitle: Text(
-                        '${DateFormat.Hm().format(DateTime.now())} - ${DateFormat.Hm().format(DateTime.now())}'),
-                  ),
-                  const ListTile(
-                    leading: Icon(Icons.location_on_outlined),
-                    title: Text('Budapest BME'),
-                    subtitle: Text('Irinyi József utca 3, Budapest, HU'),
-                  ),
-                  Text('About', style: context.theme.textTheme.titleLarge),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sapien augue, eleifend at urna non, volutpat consequat urna. Morbi risus ante, ullamcorper ut velit vitae, faucibus porttitor massa. Sed eget volutpat nunc. Maecenas consequat quis risus at hendrerit.',
-                    textAlign: TextAlign.justify,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        foregroundImage:
-                            NetworkImage('https://via.placeholder.com/150'),
-                        radius: 30,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Organization name as dad asdasdasd',
-                          style: context.theme.textTheme.titleMedium,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      OutlinedButton(
-                        onPressed: () {},
-                        child: const Text('Follow'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Text('News', style: context.theme.textTheme.titleLarge),
-                  const SizedBox(height: 10),
-                  const Divider(),
-                  const Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sapien augue, eleifend at urna non, volutpat consequat urna. Morbi risus ante, ullamcorper ut velit vitae, faucibus porttitor massa. Sed eget volutpat nunc. Maecenas consequat quis risus at hendrerit.',
-                    textAlign: TextAlign.justify,
-                  ),
-                  Text(
-                    DateFormat.MMMMEEEEd().format(DateTime.now()),
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                  const Divider(),
-                ],
-              ),
-            ),
-            const SizedBox(height: 50),
-          ],
-        ),
+      body: BlocBuilder<EventDetailsCubit, EventDetailsState>(
+        builder: (context, state) {
+          if (state.status == EventDetailsStatus.loading) {
+            return const Loading();
+          } else if (state.status == EventDetailsStatus.success) {
+            return EventDetailsView(event: state.event!);
+          }
+          return Container();
+        },
       ),
       bottomSheet: Container(
         width: double.infinity,

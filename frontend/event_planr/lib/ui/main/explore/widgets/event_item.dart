@@ -14,7 +14,7 @@ class EventItem extends StatelessWidget {
     final theme = context.theme;
 
     return InkWell(
-      onTap: () => context.go('/main/explore/event-details'),
+      onTap: () => context.go('/main/explore/event-details/${event.id}'),
       child: SizedBox(
         height: 120,
         child: Card(
@@ -26,9 +26,12 @@ class EventItem extends StatelessWidget {
                 children: [
                   AspectRatio(
                     aspectRatio: 1,
-                    child: Image(
-                      image: event.coverImageUrl,
-                      fit: BoxFit.cover,
+                    child: Hero(
+                      tag: event.id,
+                      child: Image(
+                        image: event.coverImageUrl,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -41,7 +44,7 @@ class EventItem extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4)),
                       ),
-                      child: Text(DateFormat.MMMd().format(event.startDate)),
+                      child: Text(DateFormat.MMMd().format(event.fromDate)),
                     ),
                   )
                 ],
@@ -61,7 +64,7 @@ class EventItem extends StatelessWidget {
                       ),
                       Chip(
                         label: Text(
-                          event.category,
+                          event.category.toString().split('.')[1],
                         ),
                         padding: EdgeInsets.zero,
                       ),
@@ -79,7 +82,7 @@ class EventItem extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

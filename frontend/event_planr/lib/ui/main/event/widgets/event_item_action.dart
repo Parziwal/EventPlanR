@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 class EventItemAction extends StatelessWidget {
   const EventItemAction({required this.tab, super.key});
 
-  final MyEventType tab;
+  final UserEventType tab;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
 
     switch (tab) {
-      case MyEventType.upcoming:
+      case UserEventType.upcoming:
         return ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
@@ -22,7 +22,7 @@ class EventItemAction extends StatelessWidget {
           ),
           child: const Text('View ticket'),
         );
-      case MyEventType.invite:
+      case UserEventType.invite:
         return Row(
           children: [
             Expanded(
@@ -50,7 +50,7 @@ class EventItemAction extends StatelessWidget {
             ),
           ],
         );
-      case MyEventType.past:
+      case UserEventType.past:
         return ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(

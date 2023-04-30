@@ -14,7 +14,9 @@ class EventCubit extends Cubit<EventState> {
 
   final EventRepository _eventRepository;
 
-  Future<void> listMyEvents({MyEventType type = MyEventType.upcoming}) async {
+  Future<void> listMyEvents({
+    UserEventType type = UserEventType.upcoming,
+  }) async {
     emit(EventLoading());
     final events = await _eventRepository.listMyEvents(type);
     emit(EventEventList(events));

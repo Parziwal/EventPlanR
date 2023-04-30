@@ -14,12 +14,15 @@ class ExplorePage extends StatelessWidget {
           const SearchBar(),
           BlocBuilder<ExploreCubit, ExploreState>(
             builder: (context, state) {
-              if (state is ExploreLoading) {
+              if (state.status == ExploreStatus.loading) {
                 return const SliverFillRemaining(child: Loading());
-              } else if (state is ExploreEventList) {
+              } else if (state.status == ExploreStatus.success) {
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => EventItem(event: state.events[index]),
+                    (context, index) => EventItem(
+                      key: ValueKey(state.events[index].id),
+                      event: state.events[index],
+                    ),
                     childCount: state.events.length,
                   ),
                 );
