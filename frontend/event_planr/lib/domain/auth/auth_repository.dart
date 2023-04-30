@@ -3,14 +3,15 @@ import 'dart:developer';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:event_planr/data/disk/auth/auth_storage.dart';
 import 'package:event_planr/domain/auth/auth.dart';
+import 'package:event_planr/env/env.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class AuthRepository {
   AuthRepository({required AuthStorage storage})
       : _userPool = CognitoUserPool(
-          'us-east-1_Jad9quPYz',
-          '5rd92l63nk28k67snp6okejr9j',
+          Env.COGNITO_USER_POOL_ID,
+          Env.COGNITO_CLIENT_ID,
           storage: storage,
         );
 

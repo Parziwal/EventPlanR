@@ -9,6 +9,7 @@ environment:
 dependencies:
   amazon_cognito_identity_dart_2: ^3.3.0
   bloc: ^8.1.1
+  envied: ^0.3.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -30,6 +31,7 @@ dependencies:
 dev_dependencies:
   bloc_test: ^9.1.1
   build_runner: ^2.3.3
+  envied_generator: ^0.3.0
   flutter_test:
     sdk: flutter
   injectable_generator: ^2.1.5
