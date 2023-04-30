@@ -9,6 +9,7 @@ environment:
 dependencies:
   amazon_cognito_identity_dart_2: ^3.3.0
   bloc: ^8.1.1
+  dio: ^5.1.1
   envied: ^0.3.0
   equatable: ^2.0.5
   flutter:
@@ -26,6 +27,7 @@ dependencies:
   injectable: ^2.1.1
   intl: ^0.17.0
   json_annotation: ^4.8.0
+  retrofit: ^4.0.1
   shared_preferences: ^2.1.0
 
 dev_dependencies:
@@ -37,6 +39,7 @@ dev_dependencies:
   injectable_generator: ^2.1.5
   json_serializable: ^6.6.1
   mocktail: ^0.3.0
+  retrofit_generator: ^6.0.0+3
   very_good_analysis: ^4.0.0   
 
 flutter:

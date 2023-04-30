@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+import 'package:event_planr/domain/auth/auth_repository.dart';
+import 'package:event_planr/env/env.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,4 +9,14 @@ abstract class DiModule {
   @preResolve
   @singleton
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+
+  @singleton
+  Dio getDio(AuthRepository authRepository) {
+    final dio = Dio();
+    dio.options.baseUrl = Env.EVENT_GENERAL_API_URL;
+    dio.options.headers['authorization'] =
+        authRepository.bearerToken;
+    dio.interceptors.add(LogInterceptor());
+    return dio;
+  }
 }

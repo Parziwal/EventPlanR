@@ -1,37 +1,20 @@
+import 'package:event_planr/data/network/event_general_api.dart';
 import 'package:event_planr/domain/event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class EventRepository {
-  final events = [
-    Event(
-      id: '1',
-      name: 'Test event',
-      category: 'Conference',
-      venue: 'Budapest BME',
-      startDate: DateTime.now(),
-      coverImageUrl:
-          const NetworkImage('https://picsum.photos/id/24/200/300.jpg'),
-    ),
-    Event(
-      id: '2',
-      name: 'Test event 2',
-      category: 'Festival',
-      venue: 'Budapest park',
-      startDate: DateTime.now(),
-      coverImageUrl:
-          const NetworkImage('https://picsum.photos/id/28/200/300.jpg'),
-    ),
-  ];
+  EventRepository(this.eventGeneralApi);
 
+  final EventGeneralApi eventGeneralApi;
   final upcoming = [
     Event(
       id: '1',
       name: 'Test event',
-      category: 'Conference',
+      category: EventCategory.conference,
       venue: 'Budapest BME',
-      startDate: DateTime.now(),
+      fromDate: DateTime.now(),
       coverImageUrl:
           const NetworkImage('https://picsum.photos/id/30/200/300.jpg'),
     ),
@@ -41,9 +24,9 @@ class EventRepository {
     Event(
       id: '2',
       name: 'Test event 2',
-      category: 'Festival',
+      category: EventCategory.entertainment,
       venue: 'Budapest park',
-      startDate: DateTime.now(),
+      fromDate: DateTime.now(),
       coverImageUrl:
           const NetworkImage('https://picsum.photos/id/40/200/300.jpg'),
     ),
@@ -53,25 +36,71 @@ class EventRepository {
     Event(
       id: '1',
       name: 'Test event 3',
-      category: 'Art',
+      category: EventCategory.cultural,
       venue: 'Budapest Nemzeti Múzeum',
-      startDate: DateTime.now(),
+      fromDate: DateTime.now(),
       coverImageUrl:
           const NetworkImage('https://picsum.photos/id/50/200/300.jpg'),
     ),
   ];
 
-  Future<List<Event>> listEvents() async {
-    return events;
+  Future<List<Event>> getEventList(EventFilter filter) async {
+    final events = await eventGeneralApi.getEventList(
+      searchTerm: filter.searchTerm,
+      category: filter.category,
+      fromDate: filter.fromDate,
+      toDate: filter.toDate,
+      longitude: filter.longitude,
+      latitude: filter.latitude,
+      radius: filter.radius,
+    );
+
+    return events
+        .map(
+          (e) => Event(
+            id: e.id,
+            name: e.name,
+            category: EventCategory.values[e.category + 1],
+            venue: e.venue,
+            fromDate: e.fromDate,
+            coverImageUrl:
+                NetworkImage(e.coverImageUrl ?? 'https://placehold.co/600x400'),
+          ),
+        )
+        .toList();
   }
 
-  Future<List<Event>> listMyEvents(MyEventType type) async {
+  Future<EventDetails> getEventDetails(String id) async {
+    final event = await eventGeneralApi.getEventDetails(id);
+    return EventDetails(
+      id: event.id,
+      name: event.name,
+      category: EventCategory.values[event.category],
+      fromDate: event.fromDate,
+      toDate: event.toDate,
+      address: EventAddress(
+        venue: event.address.venue,
+        country: event.address.country,
+        city: event.address.city,
+        zipCode: event.address.zipCode,
+        addressLine: event.address.addressLine,
+        longitude: event.address.longitude,
+        latitude: event.address.latitude,
+      ),
+      description: event.description,
+      coverImageUrl:
+          NetworkImage(event.coverImageUrl ?? 'https://placehold.co/600x400'),
+      isPrivate: event.isPrivate,
+    );
+  }
+
+  Future<List<Event>> listMyEvents(UserEventType type) async {
     switch (type) {
-      case MyEventType.upcoming:
+      case UserEventType.upcoming:
         return upcoming;
-      case MyEventType.invite:
+      case UserEventType.invite:
         return invite;
-      case MyEventType.past:
+      case UserEventType.past:
         return past;
     }
   }

@@ -1,4 +1,4 @@
-enum MyEventType {
+enum UserEventType {
   upcoming,
   invite,
   past,
