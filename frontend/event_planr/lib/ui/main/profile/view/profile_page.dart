@@ -30,31 +30,27 @@ class ProfilePage extends StatelessWidget {
               title: Text(l10.profileEditProfile),
               leading: const Icon(Icons.person_outline),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => showLogoutDialog(context),
             ),
             ListTile(
               title: Text(l10.profileNotifications),
               leading: const Icon(Icons.notifications_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => showLogoutDialog(context),
             ),
             ListTile(
               title: Text(l10.profileAppearance),
               leading: const Icon(Icons.style_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => showLogoutDialog(context),
             ),
             ListTile(
               title: Text(l10.profileSecurity),
               leading: const Icon(Icons.security_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => showLogoutDialog(context),
             ),
             ListTile(
               title: Text(l10.profileManageEvents),
               leading: const Icon(Icons.event_note_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => showLogoutDialog(context),
+              onTap: () => context.go('/organization/event'),
             ),
             ListTile(
               title: Text(l10.profileLogout),
