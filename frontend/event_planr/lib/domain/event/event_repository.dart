@@ -60,7 +60,7 @@ class EventRepository {
           (e) => Event(
             id: e.id,
             name: e.name,
-            category: EventCategory.values[e.category + 1],
+            category: EventCategory.values[e.category - 1],
             venue: e.venue,
             fromDate: e.fromDate,
             coverImageUrl:

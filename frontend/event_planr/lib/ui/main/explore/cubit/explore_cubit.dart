@@ -14,14 +14,19 @@ class ExploreCubit extends Cubit<ExploreState> {
 
   final EventRepository _eventRepository;
 
-  Future<void> listEvents({EventFilter filter = const EventFilter()}) async {
+  Future<void> listEvents({
+    EventFilter filter = const EventFilter(),
+    String? placeName,
+  }) async {
     emit(state.copyWith(status: () => ExploreStatus.loading));
     final events = await _eventRepository.getEventList(filter);
+    placeName = placeName ?? state.placeName;
     emit(
       state.copyWith(
         status: () => ExploreStatus.success,
         events: () => events,
         filter: () => filter,
+        placeName: () => placeName,
       ),
     );
   }

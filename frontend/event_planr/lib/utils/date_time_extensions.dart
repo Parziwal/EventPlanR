@@ -1,3 +1,3 @@
 extension DateTimeX on DateTime {
-  String toJson() => toIso8601String();
+  String toJson() => toUtc().toString();
 }
