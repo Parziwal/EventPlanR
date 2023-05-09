@@ -8,11 +8,10 @@ import 'package:retrofit/retrofit.dart';
 
 part 'event_general_service.g.dart';
 
-@Singleton(as: EventGeneralApi)
 @RestApi()
 abstract class EventGeneralService implements EventGeneralApi {
   @factoryMethod
-  factory EventGeneralService(Dio dio) = _EventGeneralService;
+  factory EventGeneralService(Dio dio, {String baseUrl}) = _EventGeneralService;
 
   @GET('/event')
   @override

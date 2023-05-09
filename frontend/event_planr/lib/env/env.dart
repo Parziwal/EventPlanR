@@ -9,6 +9,10 @@ abstract class Env {
   static const COGNITO_USER_POOL_ID = _Env.COGNITO_USER_POOL_ID;
   @EnviedField()
   static const COGNITO_CLIENT_ID = _Env.COGNITO_CLIENT_ID;
-    @EnviedField()
+  @EnviedField()
   static const EVENT_GENERAL_API_URL = _Env.EVENT_GENERAL_API_URL;
+  @EnviedField()
+  static const TICKET_API_URL = _Env.TICKET_API_URL;
+  @EnviedField()
+  static const NOMINATIM_API_URL = _Env.NOMINATIM_API_URL;
 }

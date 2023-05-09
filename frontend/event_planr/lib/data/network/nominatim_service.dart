@@ -6,11 +6,10 @@ import 'package:retrofit/retrofit.dart';
 
 part 'nominatim_service.g.dart';
 
-@Singleton(as: NominatimApi)
-@RestApi(baseUrl: 'https://nominatim.openstreetmap.org')
+@RestApi()
 abstract class NominatimService implements NominatimApi {
   @factoryMethod
-  factory NominatimService(Dio dio) = _NominatimService;
+  factory NominatimService(Dio dio, {String baseUrl}) = _NominatimService;
 
   @GET('/search')
   @override
