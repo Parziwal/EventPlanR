@@ -25,7 +25,7 @@ public class TicketController : ControllerBase
     public Task<List<UserTicketDto>> GetUserTickets(string eventId, string userId)
         => _mediator.Send(new GetUserTicketQuery(eventId, userId));
 
-    [HttpPost("event/{eventId}")]
-    public Task BuyTicket(string eventId, [FromBody] BuyTicketDto ticket)
-        => _mediator.Send(new BuyTicketCommand(eventId, ticket));
+    [HttpPost("event/{eventId}/user/{userId}")]
+    public Task BuyTicket(string eventId, string userId, [FromBody] List<BuyTicketDto> tickets)
+        => _mediator.Send(new BuyTicketCommand(eventId, userId, tickets));
 }

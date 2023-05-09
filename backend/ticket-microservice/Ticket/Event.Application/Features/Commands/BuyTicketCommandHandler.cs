@@ -15,14 +15,21 @@ public class BuyTicketCommandHandler : IRequestHandler<BuyTicketCommand>
 
     public async Task Handle(BuyTicketCommand request, CancellationToken cancellationToken)
     {
-        var soldTicket = new SoldTicket
+        var soldTickets = new List<SoldTicket>();
+        foreach (var ticket in request.tickets)
         {
-            EventId = request.eventId,
-            Id = Guid.NewGuid().ToString(),
-            Quantity = request.ticket.Quantity,
-            TicketName = request.ticket.TicketName,
-            UserId = request.ticket.UserId,
-        };
-        await _dbContext.SaveAsync(soldTicket, cancellationToken);
+            soldTickets.Add(new SoldTicket
+            {
+                EventId = request.eventId,
+                Id = Guid.NewGuid().ToString(),
+                Quantity = ticket.Quantity,
+                TicketName = ticket.TicketName,
+                UserId = request.userId,
+            });
+        }
+
+        var ticketBatch = _dbContext.CreateBatchWrite<SoldTicket>();
+        ticketBatch.AddPutItems(soldTickets);
+        await ticketBatch.ExecuteAsync(cancellationToken);
     }
 }
