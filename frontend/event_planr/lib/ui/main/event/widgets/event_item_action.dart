@@ -1,10 +1,12 @@
 import 'package:event_planr/domain/event/event.dart';
 import 'package:event_planr/utils/theme_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class EventItemAction extends StatelessWidget {
-  const EventItemAction({required this.tab, super.key});
+  const EventItemAction({required this.eventId, required this.tab, super.key});
 
+  final String eventId;
   final UserEventType tab;
 
   @override
@@ -14,7 +16,7 @@ class EventItemAction extends StatelessWidget {
     switch (tab) {
       case UserEventType.upcoming:
         return ElevatedButton(
-          onPressed: () {},
+          onPressed: () => context.go('/main/event/user-ticket/$eventId'),
           style: ElevatedButton.styleFrom(
             foregroundColor: theme.colorScheme.primary,
             backgroundColor: theme.colorScheme.primaryContainer,

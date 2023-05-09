@@ -4,6 +4,7 @@ import 'package:event_planr/ui/shared/shared.dart';
 import 'package:event_planr/utils/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class EventDetailsPage extends StatelessWidget {
   const EventDetailsPage({super.key});
@@ -39,7 +40,12 @@ class EventDetailsPage extends StatelessWidget {
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 8),
         child: FilledButton(
-          onPressed: () {},
+          onPressed: () {
+            final eventId = context.read<EventDetailsCubit>().state.event!.id;
+            context.go(
+              '/main/explore/event-details/$eventId/event-ticket',
+            );
+          },
           style: ElevatedButton.styleFrom(
             textStyle: context.theme.textTheme.titleMedium,
             padding: const EdgeInsets.all(16),

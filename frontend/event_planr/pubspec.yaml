@@ -27,6 +27,7 @@ dependencies:
   injectable: ^2.1.1
   intl: ^0.17.0
   json_annotation: ^4.8.0
+  pretty_qr_code: ^2.0.3
   retrofit: ^4.0.1
   shared_preferences: ^2.1.0
 

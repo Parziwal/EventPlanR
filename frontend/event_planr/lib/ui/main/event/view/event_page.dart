@@ -71,6 +71,7 @@ class _EventPageState extends State<EventPage>
               itemBuilder: (context, index) => EventItem(
                 event: state.events[index],
                 child: EventItemAction(
+                  eventId: state.events[index].id,
                   tab: UserEventType.values[_tabController.index],
                 ),
               ),

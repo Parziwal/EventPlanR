@@ -8,6 +8,7 @@ import 'package:event_planr/ui/main/home/home.dart';
 import 'package:event_planr/ui/main/message/message.dart';
 import 'package:event_planr/ui/main/navbar/navbar.dart';
 import 'package:event_planr/ui/main/profile/profile.dart';
+import 'package:event_planr/ui/main/user_ticket/route/user_ticket_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +42,7 @@ final mainRoute = ShellRoute(
           child: const EventPage(),
         );
       },
+      routes: [...userTicketRoute(rootNavigatorKey)],
     ),
     GoRoute(
       path: '/main/message',
