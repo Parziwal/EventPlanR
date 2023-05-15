@@ -4,7 +4,16 @@ part of 'message_cubit.dart';
 abstract class MessageState extends Equatable {
 }
 
-class MessageIdle extends MessageState {
+class MessageLoading extends MessageState {
   @override
   List<Object?> get props => [];
+}
+
+class MessageUserList extends MessageState {
+  MessageUserList({this.users = const[]});
+
+  final List<User> users;
+
+  @override
+  List<Object?> get props => [users];
 }

@@ -46,12 +46,14 @@ class TicketRepository {
     return ticketApi.buyTickets(
       eventId,
       user.sub,
-      tickets.map(
-        (t) => BuyTicketDto(
-          ticketName: t.ticketName,
-          quantity: t.quantity,
-        ),
-      ).toList(),
+      tickets
+          .map(
+            (t) => BuyTicketDto(
+              ticketName: t.ticketName,
+              quantity: t.quantity,
+            ),
+          )
+          .toList(),
     );
   }
 }

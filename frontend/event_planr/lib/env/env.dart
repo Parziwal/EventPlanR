@@ -14,5 +14,11 @@ abstract class Env {
   @EnviedField()
   static const TICKET_API_URL = _Env.TICKET_API_URL;
   @EnviedField()
+  static const MESSAGE_API_URL = _Env.MESSAGE_API_URL;
+  @EnviedField()
+  static const CHAT_GRAPHQL_URL = _Env.CHAT_GRAPHQL_URL;
+  @EnviedField()
+  static const CHAT_GRAPHQL_REALTIME_URL = _Env.CHAT_GRAPHQL_REALTIME_URL;
+  @EnviedField()
   static const NOMINATIM_API_URL = _Env.NOMINATIM_API_URL;
 }

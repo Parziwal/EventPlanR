@@ -47,7 +47,10 @@ final mainRoute = ShellRoute(
     GoRoute(
       path: '/main/message',
       builder: (BuildContext context, GoRouterState state) {
-        return const MessagePage();
+        return BlocProvider(
+          create: (context) => injector<MessageCubit>()..getUsers(),
+          child: const MessagePage(),
+        );
       },
       routes: [...chatRoute(rootNavigatorKey)],
     ),
