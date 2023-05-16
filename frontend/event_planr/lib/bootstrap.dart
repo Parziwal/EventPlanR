@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:event_planr/di/injectable.dart';
 import 'package:flutter/widgets.dart';
+
+import 'amplifyconfiguration.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -24,6 +28,8 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
+  await Amplify.addPlugin(AmplifyAPI());
+  await Amplify.configure(amplifyconfig);
   
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);

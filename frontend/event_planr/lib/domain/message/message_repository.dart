@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:event_planr/data/network/message_api.dart';
 import 'package:event_planr/domain/auth/auth_repository.dart';
 import 'package:event_planr/domain/message/models/message.dart';
@@ -83,7 +86,7 @@ class MessageRepository {
     await graphQLClient.mutate(options);
   }
 
-  Stream<QueryResult<Object?>> subscribeToNewMessage(String conversationId) {
+  Stream<Message> subscribeToNewMessage(String conversationId) {
     const messageSubscription = r'''
       subscription subscribeToNewMessage($conversationId: ID!) {
         subscribeToNewMessage(conversationId: $conversationId) {
@@ -94,15 +97,28 @@ class MessageRepository {
         }
       }
     ''';
-
-    return graphQLClient
+    return Amplify.API
         .subscribe(
-          SubscriptionOptions(
-            document: gql(messageSubscription),
-            variables: <String, dynamic>{
-              'conversationId': conversationId,
-            },
-          ),
-        );
+      GraphQLRequest<String>(
+        document: messageSubscription,
+        variables: <String, dynamic>{
+          'conversationId': conversationId,
+        },
+      ),
+      onEstablished: () => safePrint('Subscription established'),
+    )
+        .map((m) {
+      final data = jsonDecode(m.data!) as Map<String, dynamic>;
+      final message = data['subscribeToNewMessage'] as Map<String, dynamic>;
+
+      return Message(
+        conversationId: message['conversationId'] as String,
+        content: message['content'] as String,
+        createdAt: DateTime.parse(
+          message['createdAt'] as String,
+        ),
+        sender: message['sender'] as String,
+      );
+    });
   }
 }

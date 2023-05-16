@@ -64,6 +64,7 @@ abstract class DiModule {
               '2vfd4vxilndbbepk7wbbxsnvfm.appsync-api.us-east-1.amazonaws.com',
           'x-api-key': 'da2-ervxxik6jjfo5bulkqr3o6j26q',
         },
+        initialPayload: <String>{},
       ),
     );
 

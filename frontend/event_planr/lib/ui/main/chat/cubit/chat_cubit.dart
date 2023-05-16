@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:event_planr/domain/auth/auth_repository.dart';
 import 'package:event_planr/domain/message/message_repository.dart';
 import 'package:event_planr/domain/message/models/message.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:injectable/injectable.dart';
 
@@ -17,11 +18,13 @@ class ChatCubit extends Cubit<ChatState> {
   final AuthRepository authRepository;
   final MessageRepository messageRepository;
   late String conversationId;
+  StreamSubscription<Message>? subscription;
 
   Future<void> getMessages(String reciverUser) async {
     emit(const ChatState());
     final senderUser = (await authRepository.user).email;
     conversationId = ([reciverUser, senderUser]..sort()).join();
+    subscribeToNewMessages();
     final messages = await messageRepository.getMessages(conversationId);
     emit(
       ChatState(
@@ -39,12 +42,6 @@ class ChatCubit extends Cubit<ChatState> {
             .toList(),
       ),
     );
-
-    messageRepository.subscribeToNewMessage(conversationId).listen(
-      (event) {
-        debugPrint(event.toString());
-      }
-    );
   }
 
   Future<void> addMessage(types.PartialText message) async {
@@ -56,5 +53,34 @@ class ChatCubit extends Cubit<ChatState> {
         sender: state.user.id,
       ),
     );
+  }
+
+  void subscribeToNewMessages() {
+    subscription =
+        messageRepository.subscribeToNewMessage(conversationId).listen((m) {
+      emit(
+        state.copyWith(
+          status: () => ChatStatus.newMessage,
+          messages: () => state.messages
+            ..insert(
+              0,
+              types.TextMessage(
+                author: types.User(id: m.sender),
+                createdAt: m.createdAt.millisecondsSinceEpoch,
+                id: m.createdAt.toString(),
+                text: m.content,
+              ),
+            ),
+        ),
+      );
+      emit(state.copyWith(status: () => ChatStatus.success));
+    });
+  }
+
+  @override
+  Future<void> close() async {
+    await subscription?.cancel();
+    subscription = null;
+    await super.close();
   }
 }
