@@ -13,4 +13,9 @@ resource "aws_lambda_function" "get_users" {
   role             = aws_iam_role.lambda_cognito_access_role.arn
   timeout          = 15
   memory_size      = 1024
+  environment {
+    variables = {
+      USER_POOL_ID = data.aws_cognito_user_pools.this.ids[0]
+    }
+  }
 }

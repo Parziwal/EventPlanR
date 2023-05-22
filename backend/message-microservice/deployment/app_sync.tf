@@ -15,6 +15,11 @@ resource "aws_dynamodb_table" "message" {
     name = "createdAt"
     type = "S"
   }
+
+  tags = {
+    project = "event-planr"
+    service = "message"
+  }
 }
 
 data "aws_iam_policy_document" "appsync_assume_role" {
@@ -52,7 +57,12 @@ resource "aws_appsync_graphql_api" "this" {
   authentication_type = "API_KEY"
   name                = "event_planr_chat"
 
-  schema = file("${path.module}/schema/schema.graphql")
+  schema = file("${path.module}/../schema/schema.graphql")
+
+  tags = {
+    project = "event-planr"
+    service = "message"
+  }
 }
 
 resource "aws_appsync_api_key" "this" {
@@ -76,8 +86,8 @@ resource "aws_appsync_resolver" "chat_app_messages_resolver" {
   type              = "Query"
   field             = "allMessages"
   data_source       = aws_appsync_datasource.this.name
-  request_template  = file("${path.module}/schema/Query.allMessages.request.vtl")
-  response_template = file("${path.module}/schema/Query.allMessages.response.vtl")
+  request_template  = file("${path.module}/../schema/Query.allMessages.request.vtl")
+  response_template = file("${path.module}/../schema/Query.allMessages.response.vtl")
 }
 
 resource "aws_appsync_resolver" "chat_app_create_message_resolver" {
@@ -85,6 +95,6 @@ resource "aws_appsync_resolver" "chat_app_create_message_resolver" {
   type              = "Mutation"
   field             = "createMessage"
   data_source       = aws_appsync_datasource.this.name
-  request_template  = file("${path.module}/schema/Mutation.createMessage.request.vtl")
-  response_template = file("${path.module}/schema/Mutation.createMessage.response.vtl")
+  request_template  = file("${path.module}/../schema/Mutation.createMessage.request.vtl")
+  response_template = file("${path.module}/../schema/Mutation.createMessage.response.vtl")
 }

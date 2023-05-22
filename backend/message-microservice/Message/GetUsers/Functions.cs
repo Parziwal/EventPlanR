@@ -22,7 +22,7 @@ public class Functions
     {
         var listUsersRequest = new ListUsersRequest
         {
-            UserPoolId = "us-east-1_zFwlBkpwZ",
+            UserPoolId = Environment.GetEnvironmentVariable("USER_POOL_ID"),
             AttributesToGet = new List<string> { "email", "name" },
         };
         var usersResponse = await _cognito.ListUsersAsync(listUsersRequest);

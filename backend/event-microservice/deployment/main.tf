@@ -13,4 +13,9 @@ resource "aws_lambda_function" "event_general_api" {
   role             = aws_iam_role.lambda_rds_access_role.arn
   timeout          = 15
   memory_size      = 1024
+  environment {
+    variables = {
+      ConnectionStrings__EventDb = "Host=${aws_rds_cluster.event.endpoint};Port=5432;Username=event_dev;Password=event_dev;Database=event_dev"
+    }
+  }
 }
