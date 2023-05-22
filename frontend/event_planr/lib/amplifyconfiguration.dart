@@ -1,3 +1,5 @@
+import 'package:event_planr/env/env.dart';
+
 const amplifyconfig = '''
   {
     "UserAgent": "aws-amplify-cli/2.0",
@@ -7,10 +9,10 @@ const amplifyconfig = '''
         "awsAPIPlugin": {
           "event_planr_chat": {
             "endpointType": "GraphQL",
-            "endpoint": "https://2vfd4vxilndbbepk7wbbxsnvfm.appsync-api.us-east-1.amazonaws.com/graphql",
+            "endpoint": "${Env.CHAT_GRAPHQL_URL}",
             "region": "us-east-1",
             "authorizationType": "API_KEY",
-            "apiKey": "da2-ervxxik6jjfo5bulkqr3o6j26q"
+            "apiKey": "${Env.CHAT_GRAPHQL_API_KEY}"
           }
         }
       }

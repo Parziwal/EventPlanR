@@ -1,13 +1,14 @@
-import 'package:event_planr/data/network/event_general_api.dart';
+import 'package:event_planr/data/network/event_planr_api.dart';
 import 'package:event_planr/domain/event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class EventRepository {
-  EventRepository(this.eventGeneralApi);
+  EventRepository(this.eventPlanrApi);
 
-  final EventGeneralApi eventGeneralApi;
+  final EventPlanrApi eventPlanrApi;
+
   final upcoming = [
     Event(
       id: '1',
@@ -45,7 +46,7 @@ class EventRepository {
   ];
 
   Future<List<Event>> getEventList(EventFilter filter) async {
-    final events = await eventGeneralApi.getEventList(
+    final events = await eventPlanrApi.getEventList(
       searchTerm: filter.searchTerm,
       category: filter.category,
       fromDate: filter.fromDate,
@@ -54,7 +55,6 @@ class EventRepository {
       latitude: filter.latitude,
       radius: filter.radius,
     );
-
     return events
         .map(
           (e) => Event(
@@ -71,7 +71,7 @@ class EventRepository {
   }
 
   Future<EventDetails> getEventDetails(String id) async {
-    final event = await eventGeneralApi.getEventDetails(id);
+    final event = await eventPlanrApi.getEventDetails(id);
     return EventDetails(
       id: event.id,
       name: event.name,

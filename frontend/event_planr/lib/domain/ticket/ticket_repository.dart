@@ -1,5 +1,5 @@
+import 'package:event_planr/data/network/event_planr_api.dart';
 import 'package:event_planr/data/network/models/buy_ticket_dto.dart';
-import 'package:event_planr/data/network/ticket_api.dart';
 import 'package:event_planr/domain/auth/auth_repository.dart';
 import 'package:event_planr/domain/ticket/models/buy_ticket.dart';
 import 'package:event_planr/domain/ticket/models/event_ticket.dart';
@@ -8,13 +8,13 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class TicketRepository {
-  TicketRepository(this.ticketApi, this.authRepository);
+  TicketRepository(this.eventPlanrApi, this.authRepository);
 
-  final TicketApi ticketApi;
+  final EventPlanrApi eventPlanrApi;
   final AuthRepository authRepository;
 
   Future<List<EventTicket>> getEventTickets(String eventId) {
-    return ticketApi.getEventTickets(eventId).then(
+    return eventPlanrApi.getEventTickets(eventId).then(
           (tickets) => tickets
               .map(
                 (ticket) => EventTicket(
@@ -28,7 +28,7 @@ class TicketRepository {
   }
 
   Future<List<UserTicket>> getUserEvents(String eventId, String userId) {
-    return ticketApi.getUserTickets(eventId, userId).then(
+    return eventPlanrApi.getUserTickets(eventId, userId).then(
           (tickets) => tickets
               .map(
                 (ticket) => UserTicket(
@@ -43,7 +43,7 @@ class TicketRepository {
 
   Future<void> buyTicket(String eventId, List<BuyTicket> tickets) async {
     final user = await authRepository.user;
-    return ticketApi.buyTickets(
+    return eventPlanrApi.buyTickets(
       eventId,
       user.sub,
       tickets

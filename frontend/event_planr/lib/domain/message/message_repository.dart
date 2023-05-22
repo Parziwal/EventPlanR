@@ -1,32 +1,23 @@
 import 'dart:convert';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:event_planr/data/network/message_api.dart';
+import 'package:event_planr/data/network/event_planr_api.dart';
 import 'package:event_planr/domain/auth/auth_repository.dart';
 import 'package:event_planr/domain/message/models/message.dart';
 import 'package:event_planr/domain/message/models/user.dart';
-import 'package:graphql/client.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class MessageRepository {
-  MessageRepository(this.messageApi, this.authRepository, this.graphQLClient);
+  MessageRepository(
+    this.eventPlanrApi,
+    this.authRepository,
+  );
 
-  final MessageApi messageApi;
+  final EventPlanrApi eventPlanrApi;
   final AuthRepository authRepository;
-  final GraphQLClient graphQLClient;
 
-  Future<List<User>> getUsers() async {
-    final users = await messageApi.getUsers();
-    final currentUser = await authRepository.user;
-    return users
-        .where((u) => u.email != currentUser.email)
-        .map((u) => User(email: u.email, name: u.name))
-        .toList();
-  }
-
-  Future<List<Message>> getMessages(String conversationId) async {
-    const allMessages = r'''
+  static const allMessagesQuery = r'''
       query allMessages($conversationId: ID!) {
         allMessages(conversationId: $conversationId) {
           content
@@ -36,33 +27,7 @@ class MessageRepository {
         }
       }
     ''';
-
-    final options = QueryOptions(
-      document: gql(allMessages),
-      variables: <String, dynamic>{
-        'conversationId': conversationId,
-      },
-      fetchPolicy: FetchPolicy.noCache,
-    );
-
-    final result = await graphQLClient.query(options);
-
-    return (result.data!['allMessages'] as List<dynamic>)
-        .cast<Map<String, dynamic>>()
-        .reversed
-        .map(
-          (m) => Message(
-            conversationId: m['conversationId'] as String,
-            content: m['content'] as String,
-            createdAt: DateTime.parse(m['createdAt'] as String),
-            sender: m['sender'] as String,
-          ),
-        )
-        .toList();
-  }
-
-  Future<void> addMessage(Message message) async {
-    const createMessage = r'''
+  static const createMessageMutation = r'''
       mutation createMessage($conversationId: ID!, $content: String!, $createdAt: String!, $sender: String!) {
         createMessage(content: $content, conversationId: $conversationId, createdAt: $createdAt, sender: $sender) {
           content
@@ -72,22 +37,7 @@ class MessageRepository {
         }
       }
     ''';
-
-    final options = MutationOptions(
-      document: gql(createMessage),
-      variables: <String, dynamic>{
-        'conversationId': message.conversationId,
-        'content': message.content,
-        'createdAt': message.createdAt.toUtc().toString(),
-        'sender': message.sender,
-      },
-    );
-
-    await graphQLClient.mutate(options);
-  }
-
-  Stream<Message> subscribeToNewMessage(String conversationId) {
-    const messageSubscription = r'''
+  static const messageSubscription = r'''
       subscription subscribeToNewMessage($conversationId: ID!) {
         subscribeToNewMessage(conversationId: $conversationId) {
           content
@@ -97,6 +47,61 @@ class MessageRepository {
         }
       }
     ''';
+
+  Future<List<User>> getUsers() async {
+    final users = await eventPlanrApi.getUsers();
+    final currentUser = await authRepository.user;
+    return users
+        .where((u) => u.email != currentUser.email)
+        .map((u) => User(email: u.email, name: u.name))
+        .toList();
+  }
+
+  Future<List<Message>> getMessages(String conversationId) async {
+    final result = await Amplify.API
+        .query(
+          request: GraphQLRequest<String>(
+            document: allMessagesQuery,
+            variables: <String, dynamic>{
+              'conversationId': conversationId,
+            },
+          ),
+        )
+        .response;
+
+    final data = jsonDecode(result.data!) as Map<String, dynamic>;
+    final messages = data['allMessages'] as List<dynamic>;
+
+    return messages.map((m) {
+      m = m as Map<String, dynamic>;
+      return Message(
+        conversationId: m['conversationId'] as String,
+        content: m['content'] as String,
+        createdAt: DateTime.parse(
+          m['createdAt'] as String,
+        ),
+        sender: m['sender'] as String,
+      );
+    }).toList();
+  }
+
+  Future<void> addMessage(Message message) async {
+    await Amplify.API
+        .mutate(
+          request: GraphQLRequest<String>(
+            document: createMessageMutation,
+            variables: <String, dynamic>{
+              'conversationId': message.conversationId,
+              'content': message.content,
+              'createdAt': message.createdAt.toUtc().toString(),
+              'sender': message.sender,
+            },
+          ),
+        )
+        .response;
+  }
+
+  Stream<Message> subscribeToNewMessage(String conversationId) {
     return Amplify.API
         .subscribe(
       GraphQLRequest<String>(
