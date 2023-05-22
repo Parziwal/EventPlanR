@@ -19,7 +19,7 @@ class EventCard extends StatelessWidget {
             width: 200,
             height: 100,
             child: Image.network(
-              'https://placehold.co/600x500.png',
+              'https://picsum.photos/id/234/600/500.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -52,6 +52,7 @@ class EventCard extends StatelessWidget {
                       IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.bookmark_add_outlined),
+                        visualDensity: VisualDensity.compact,
                       )
                     ],
                   ),

@@ -13,19 +13,20 @@ class EventItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
 
-    return SizedBox(
-      height: 150,
-      child: Card(
-        clipBehavior: Clip.hardEdge,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 100,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Stack(
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 120,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: Stack(
                     children: [
                       AspectRatio(
                         aspectRatio: 1,
@@ -34,63 +35,55 @@ class EventItem extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Positioned(
-                        right: 2,
-                        top: 2,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child:
-                              Text(DateFormat.MMMd().format(event.fromDate)),
-                        ),
-                      )
                     ],
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            event.name,
-                            style: theme.textTheme.titleMedium
-                                ?.copyWith(height: 1),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                ),
+                Flexible(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          event.name,
+                          style:
+                              theme.textTheme.titleMedium?.copyWith(height: 1),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Chip(
+                          label: Text(
+                            event.category.toString().split('.')[1],
                           ),
-                          Chip(
-                            label: Text(
-                              event.category.toString().split('.')[1],
+                          padding: EdgeInsets.zero,
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.location_on_outlined),
+                            Text(
+                              event.venue,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            padding: EdgeInsets.zero,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(Icons.location_on_outlined),
-                              Text(event.venue),
-                              const Spacer(),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.bookmark_add_outlined),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.bookmark_add_outlined),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(height: 5),
-            child
-          ],
-        ),
+          ),
+          const SizedBox(height: 5),
+          child
+        ],
       ),
     );
   }

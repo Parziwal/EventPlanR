@@ -9,9 +9,14 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const SearchBar(),
+        elevation: 2,
+        toolbarHeight: 100,
+      ),
       body: CustomScrollView(
         slivers: [
-          const SearchBar(),
           BlocBuilder<ExploreCubit, ExploreState>(
             builder: (context, state) {
               if (state.status == ExploreStatus.loading) {

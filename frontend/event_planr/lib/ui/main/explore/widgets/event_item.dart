@@ -15,46 +15,51 @@ class EventItem extends StatelessWidget {
 
     return InkWell(
       onTap: () => context.go('/main/explore/event-details/${event.id}'),
-      child: SizedBox(
-        height: 120,
-        child: Card(
-          clipBehavior: Clip.hardEdge,
+      child: Card(
+        clipBehavior: Clip.hardEdge,
+        child: SizedBox(
+          height: 120,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Stack(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 1,
-                    child: Hero(
+              Flexible(
+                flex: 2,
+                child: Stack(
+                  children: [
+                    Hero(
                       tag: event.id,
-                      child: Image(
-                        image: event.coverImageUrl,
-                        fit: BoxFit.cover,
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Image(
+                          image: event.coverImageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 2,
-                    top: 2,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4)),
+                    Positioned(
+                      right: 2,
+                      top: 2,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4)),
+                        ),
+                        child: Text(DateFormat.MMMd().format(event.fromDate)),
                       ),
-                      child: Text(DateFormat.MMMd().format(event.fromDate)),
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
-              Expanded(
+              Flexible(
+                flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8, top: 4),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         event.name,
@@ -76,6 +81,7 @@ class EventItem extends StatelessWidget {
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.bookmark_add_outlined),
+                            visualDensity: VisualDensity.compact,
                           )
                         ],
                       ),

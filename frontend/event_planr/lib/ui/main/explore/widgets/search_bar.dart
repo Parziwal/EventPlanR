@@ -17,31 +17,29 @@ class SearchBar extends StatelessWidget {
     final theme = context.theme;
     final state = context.watch<ExploreCubit>().state;
 
-    return SliverAppBar(
-      snap: true,
-      forceElevated: true,
-      floating: true,
-      title: TextFormField(
-        decoration: InputDecoration(
-          isDense: true,
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: theme.colorScheme.primary,
-              width: 5,
+    return Column(
+      children: [
+        TextFormField(
+          decoration: InputDecoration(
+            isDense: true,
+            border: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: theme.colorScheme.primary,
+                width: 5,
+              ),
             ),
+            prefixIcon: const Icon(Icons.search_outlined),
+            hintText: 'Explore events',
+            contentPadding: EdgeInsets.zero,
           ),
-          prefixIcon: const Icon(Icons.search_outlined),
-          hintText: 'Explore events',
+          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          initialValue: state.filter.searchTerm,
+          onChanged: (value) => context.read<ExploreCubit>().listEvents(
+                filter: state.filter.copyWith(searchTerm: () => value),
+              ),
         ),
-        initialValue: state.filter.searchTerm,
-        onChanged: (value) => context
-            .read<ExploreCubit>()
-            .listEvents(filter: state.filter.copyWith(searchTerm: () => value)),
-      ),
-      expandedHeight: kToolbarHeight * 1.7,
-      flexibleSpace: Padding(
-        padding: const EdgeInsets.only(top: kToolbarHeight, left: 16),
-        child: SingleChildScrollView(
+        const SizedBox(height: 5),
+        SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
           child: Wrap(
@@ -93,7 +91,7 @@ class SearchBar extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -18,7 +18,7 @@ class OrganizationCard extends StatelessWidget {
               width: 150,
               height: 100,
               child: Image.network(
-                'https://placehold.co/600x500.png',
+                'https://picsum.photos/id/399/600/500.jpg',
                 fit: BoxFit.cover,
               ),
             ),
