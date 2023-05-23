@@ -24,4 +24,8 @@ public class EventController : ControllerBase
     [HttpGet("{id}")]
     public Task<EventDetailsDto> GetEventDetails(Guid id)
         => _mediator.Send(new GetEventDetailsQuery(id));
+
+    [HttpGet("user/{userId}")]
+    public Task<List<EventDto>> GetUserEvents(string userId)
+        => _mediator.Send(new GetUserEventsQuery(userId));
 }

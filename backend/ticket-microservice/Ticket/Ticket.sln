@@ -5,9 +5,11 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventTicket.API", "EventTicket\EventTicket.API.csproj", "{5BA0B349-AF3E-45AC-AE64-555F9E25DDF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticket.Domain", "Ticket.Domain\Ticket.Domain.csproj", "{0693FFAC-7EB1-43DE-AB52-3922D20DFC9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticket.Domain", "Ticket.Domain\Ticket.Domain.csproj", "{0693FFAC-7EB1-43DE-AB52-3922D20DFC9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticket.Application", "Event.Application\Ticket.Application.csproj", "{C8E6208F-FF88-4CCE-BD37-D5339CCA3E19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ticket.Application", "Event.Application\Ticket.Application.csproj", "{C8E6208F-FF88-4CCE-BD37-D5339CCA3E19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetUserEvents", "GetUserEvents\GetUserEvents.csproj", "{52EDF633-C536-4232-B2D5-944100B40363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C8E6208F-FF88-4CCE-BD37-D5339CCA3E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8E6208F-FF88-4CCE-BD37-D5339CCA3E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8E6208F-FF88-4CCE-BD37-D5339CCA3E19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52EDF633-C536-4232-B2D5-944100B40363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52EDF633-C536-4232-B2D5-944100B40363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52EDF633-C536-4232-B2D5-944100B40363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52EDF633-C536-4232-B2D5-944100B40363}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

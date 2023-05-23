@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Amazon.Lambda;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Event.Application;
@@ -9,6 +10,7 @@ public static class ApplicationServiceRegistration
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddSingleton<IAmazonLambda, AmazonLambdaClient>();
 
         return services;
     }

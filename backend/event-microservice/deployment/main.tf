@@ -10,7 +10,7 @@ resource "aws_lambda_function" "event_general_api" {
   runtime          = "dotnet6"
   handler          = "EventGeneral.API"
   source_code_hash = filebase64sha256(data.archive_file.lambda_archive.output_path)
-  role             = aws_iam_role.lambda_rds_access_role.arn
+  role             = aws_iam_role.get_user_events_lambda_access_role.arn
   timeout          = 15
   memory_size      = 1024
   environment {

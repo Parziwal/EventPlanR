@@ -18,7 +18,7 @@ public class GetEventDetailsQueryHandler : IRequestHandler<GetEventDetailsQuery,
 
     public async Task<EventDetailsDto> Handle(GetEventDetailsQuery request, CancellationToken cancellationToken)
     {
-        var eventDetails = await _eventRepository.GetEventById(request.eventId);
+        var eventDetails = await _eventRepository.GetEventByIdAsync(request.eventId);
         return _mapper.Map<EventDetailsDto>(eventDetails);
     }
 }

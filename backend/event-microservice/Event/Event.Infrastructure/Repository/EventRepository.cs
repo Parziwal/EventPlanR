@@ -33,8 +33,15 @@ public class EventRepository : IEventRepository
             .ToListAsync();
     }
 
-    public async Task<Entities.Event> GetEventById(Guid id)
+    public async Task<Entities.Event> GetEventByIdAsync(Guid id)
     {
         return await _dbContext.Events.SingleAsync(e => e.Id == id);
+    }
+
+    public async Task<List<Entities.Event>> GetEventsByIdsAsync(List<string> eventIds)
+    {
+        return await _dbContext.Events
+            .Where(e => eventIds.Contains(e.Id.ToString()))
+            .ToListAsync();
     }
 }
