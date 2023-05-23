@@ -11,7 +11,7 @@ class ExplorePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const SearchBar(),
+        title: const FilterBar(),
         elevation: 2,
         toolbarHeight: 100,
       ),

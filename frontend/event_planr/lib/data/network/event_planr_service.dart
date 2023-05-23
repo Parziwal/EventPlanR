@@ -33,6 +33,12 @@ abstract class EventPlanrService implements EventPlanrApi {
   @override
   Future<EventDetailsDto> getEventDetails(@Path('id') String id);
 
+  @GET('/event/user/{userId}')
+  @override
+  Future<List<EventDto>> getUserEvents(
+    @Path('userId') String userId,
+  );
+
   @GET('/message/users')
   @override
   Future<List<UserDto>> getUsers();

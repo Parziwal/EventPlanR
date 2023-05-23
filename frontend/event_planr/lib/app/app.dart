@@ -11,7 +11,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: AppTheme.light,
-      //darkTheme: AppTheme.dark,
+      darkTheme: AppTheme.dark,
       localizationsDelegates: const [
         ...AppLocalizations.localizationsDelegates,
         FormBuilderLocalizations.delegate,

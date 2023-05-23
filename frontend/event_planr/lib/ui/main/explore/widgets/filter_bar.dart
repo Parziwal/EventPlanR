@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
+class FilterBar extends StatelessWidget {
+  const FilterBar({super.key});
 
   @override
   Widget build(BuildContext context) {

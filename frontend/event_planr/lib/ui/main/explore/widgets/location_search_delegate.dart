@@ -38,9 +38,9 @@ class LocationSearchDelegate extends SearchDelegate<Place?> {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.length < 3) {
-      return Column(
+      return const Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Center(
             child: Text(
               'Search term must be longer than two letters.',

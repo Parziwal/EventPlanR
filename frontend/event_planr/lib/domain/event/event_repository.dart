@@ -1,13 +1,15 @@
 import 'package:event_planr/data/network/event_planr_api.dart';
+import 'package:event_planr/domain/auth/auth_repository.dart';
 import 'package:event_planr/domain/event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class EventRepository {
-  EventRepository(this.eventPlanrApi);
+  EventRepository(this.eventPlanrApi, this.authRepository);
 
   final EventPlanrApi eventPlanrApi;
+  final AuthRepository authRepository;
 
   final upcoming = [
     Event(
@@ -97,11 +99,29 @@ class EventRepository {
   Future<List<Event>> listMyEvents(UserEventType type) async {
     switch (type) {
       case UserEventType.upcoming:
-        return upcoming;
+        return _getUserEvents();
       case UserEventType.invite:
         return invite;
       case UserEventType.past:
         return past;
     }
+  }
+
+  Future<List<Event>> _getUserEvents() async {
+    final user = await authRepository.user;
+    final events = await eventPlanrApi.getUserEvents(user.sub);
+    return events
+        .map(
+          (e) => Event(
+            id: e.id,
+            name: e.name,
+            category: EventCategory.values[e.category - 1],
+            venue: e.venue,
+            fromDate: e.fromDate,
+            coverImageUrl:
+                NetworkImage(e.coverImageUrl ?? 'https://placehold.co/600x400'),
+          ),
+        )
+        .toList();
   }
 }

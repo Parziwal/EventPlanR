@@ -18,6 +18,8 @@ abstract class EventPlanrApi {
 
   Future<EventDetailsDto> getEventDetails(String id);
 
+  Future<List<EventDto>> getUserEvents(String userId);
+
   Future<List<UserDto>> getUsers();
 
   Future<List<EventTicketDto>> getEventTickets(String eventId);
