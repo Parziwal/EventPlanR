@@ -21,9 +21,9 @@ public class EventRepository : IEventRepository
     {
         return await _dbContext.Events
             .Where(filter.SearchTerm != null, e => 
-                e.Name.Contains(filter.SearchTerm!)
-                || (e.Description != null && e.Description.Contains(filter.SearchTerm!))
-                || e.Address.Venue.Contains(filter.SearchTerm!))
+                e.Name.Contains(filter.SearchTerm!, StringComparison.OrdinalIgnoreCase)
+                || (e.Description != null && e.Description.Contains(filter.SearchTerm!, StringComparison.OrdinalIgnoreCase))
+                || e.Address.Venue.Contains(filter.SearchTerm!, StringComparison.OrdinalIgnoreCase))
             .Where(filter.Category != null, e => e.Category == filter.Category)
             .Where(filter.FromDate != null, e => e.FromDate >= filter.FromDate)
             .Where(filter.ToDate != null, e => e.ToDate <= filter.ToDate)
