@@ -12,7 +12,7 @@ List<GoRoute> eventDetialsRoute(GlobalKey<NavigatorState>? navigationKey) => [
         builder: (BuildContext context, GoRouterState state) {
           return BlocProvider(
             create: (context) => injector<EventDetailsCubit>()
-              ..getEventDetail(state.params['eventId']!),
+              ..getEventDetail(state.pathParameters['eventId']!),
             child: const EventDetailsPage(),
           );
         },

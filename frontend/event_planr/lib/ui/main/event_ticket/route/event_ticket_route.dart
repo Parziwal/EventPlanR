@@ -11,7 +11,7 @@ List<GoRoute> eventTicketRoute(GlobalKey<NavigatorState>? navigationKey) => [
         builder: (BuildContext context, GoRouterState state) {
           return BlocProvider<EventTicketCubit>(
             create: (context) => injector<EventTicketCubit>()
-              ..getEventTickets(state.params['eventId']!),
+              ..getEventTickets(state.pathParameters['eventId']!),
             child: const EventTicketPage(),
           );
         },

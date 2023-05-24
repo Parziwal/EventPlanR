@@ -10,8 +10,8 @@ List<GoRoute> chatRoute(GlobalKey<NavigatorState>? navigationKey) => [
         path: 'chat/:userId',
         builder: (BuildContext context, GoRouterState state) {
           return BlocProvider(
-            create: (context) =>
-                injector<ChatCubit>()..getMessages(state.params['userId']!),
+            create: (context) => injector<ChatCubit>()
+              ..getMessages(state.pathParameters['userId']!),
             child: const ChatPage(),
           );
         },
