@@ -436,3 +436,6 @@ override.tf.json
 terraform.rc
 
 *.terraform.lock.hcl
+
+# Lambda archive files
+.lambda-archive
