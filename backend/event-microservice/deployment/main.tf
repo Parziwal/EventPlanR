@@ -6,7 +6,7 @@ module "event_general_api" {
   source_dir    = var.event_general_api_source_dir
   environment_varibles = {
     ConnectionStrings__EventDb = "Host=${module.event_db.rds_cluster_url};Port=5432;Username=master;Password=${module.event_db.rds_cluster_password};Database=EventDb"
-    GetUserEventsFunctionName  = var.get_user_events_function_name
+    LambdaFunctionOptions__GetUserEventsFunctionName  = var.get_user_events_function_name
   }
 
   tags = var.tags

@@ -4,9 +4,9 @@ services:
   event-planr-event-db:
     image: postgis/postgis
     environment:
-      - POSTGRES_DATABASE=event_dev
-      - POSTGRES_USER=event_dev
-      - POSTGRES_PASSWORD=event_dev
+      - POSTGRES_DATABASE=EventDb
+      - POSTGRES_USER=master
+      - POSTGRES_PASSWORD=eventdb
     ports:
       - 5432:5432
     volumes:

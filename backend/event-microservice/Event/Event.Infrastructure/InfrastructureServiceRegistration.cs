@@ -1,4 +1,5 @@
 ﻿using Event.Application.Contracts;
+using Event.Domain.Options;
 using Event.Infrastructure.Persistance;
 using Event.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ public static class InfrastructureServiceRegistration
         );
 
         services.AddTransient<IEventRepository, EventRepository>();
+
+        services.Configure<LambdaFunctionOptions>(options => configuration.GetSection(nameof(LambdaFunctionOptions)).Bind(options));
 
         return services;
     }
