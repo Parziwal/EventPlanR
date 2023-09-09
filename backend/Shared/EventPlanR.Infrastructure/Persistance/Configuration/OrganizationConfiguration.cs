@@ -1,0 +1,23 @@
+﻿using EventPlanR.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
+
+namespace EventPlanR.Infrastructure.Persistance.Configuration
+{
+    public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
+    {
+        public void Configure(EntityTypeBuilder<Organization> builder)
+        {
+            builder.ToTable("organizations");
+
+            builder.Property(o => o.Id)
+                .HasValueGenerator<GuidValueGenerator>();
+            builder.Property(o => o.Name)
+                .HasMaxLength(128)
+                .IsRequired();
+            builder.Property(o => o.Description)
+                .HasMaxLength(128);
+        }
+    }
+}
