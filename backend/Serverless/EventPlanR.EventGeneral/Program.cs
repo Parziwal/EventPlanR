@@ -1,5 +1,6 @@
 using EventPlanR.Application;
 using EventPlanR.Application.Features.Event.Queries;
+using EventPlanR.Configuration;
 using EventPlanR.Domain.Enums;
 using EventPlanR.Infrastructure;
 using MediatR;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 
+builder.Configuration.AddConfigurationSettings();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 

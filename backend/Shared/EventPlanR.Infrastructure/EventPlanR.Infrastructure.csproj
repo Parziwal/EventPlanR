@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EventPlanR.Application\EventPlanR.Application.csproj" />
+    <ProjectReference Include="..\EventPlanR.Configuration\EventPlanR.Configuration.csproj" />
     <ProjectReference Include="..\EventPlanR.Domain\EventPlanR.Domain.csproj" />
   </ItemGroup>
 
