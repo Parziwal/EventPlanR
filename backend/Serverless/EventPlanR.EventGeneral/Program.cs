@@ -1,8 +1,8 @@
-using EventPlanR.Application;
-using EventPlanR.Application.Features.Event.Queries;
-using EventPlanR.Configuration;
-using EventPlanR.Domain.Enums;
-using EventPlanR.Infrastructure;
+using EventPlanr.Application;
+using EventPlanr.Application.Features.Event.Queries;
+using EventPlanr.Configuration;
+using EventPlanr.Domain.Enums;
+using EventPlanr.Infrastructure;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);

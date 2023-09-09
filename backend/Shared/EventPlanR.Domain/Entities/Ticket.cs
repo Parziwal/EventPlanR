@@ -1,6 +1,6 @@
-﻿using EventPlanR.Domain.Common;
+﻿using EventPlanr.Domain.Common;
 
-namespace EventPlanR.Domain.Entities;
+namespace EventPlanr.Domain.Entities;
 
 public class Ticket : BaseAuditableEntity
 {

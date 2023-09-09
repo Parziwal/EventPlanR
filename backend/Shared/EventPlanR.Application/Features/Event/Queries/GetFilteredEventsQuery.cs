@@ -1,12 +1,12 @@
-﻿using EventPlanR.Application.Dto.Event;
-using EventPlanR.Application.Mappings;
-using EventPlanR.Domain.Common;
-using EventPlanR.Domain.Enums;
-using EventPlanR.Domain.Repositories;
-using EventPlanR.Domain.Repositories.Models;
+﻿using EventPlanr.Application.Dto.Event;
+using EventPlanr.Application.Mappings;
+using EventPlanr.Domain.Common;
+using EventPlanr.Domain.Enums;
+using EventPlanr.Domain.Repositories;
+using EventPlanr.Domain.Repositories.Models;
 using MediatR;
 
-namespace EventPlanR.Application.Features.Event.Queries;
+namespace EventPlanr.Application.Features.Event.Queries;
 
 public class GetFilteredEventsQuery : IRequest<List<EventDto>>
 {

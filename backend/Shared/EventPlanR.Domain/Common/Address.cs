@@ -1,4 +1,4 @@
-﻿namespace EventPlanR.Domain.Common;
+﻿namespace EventPlanr.Domain.Common;
 
 public class Address
 {

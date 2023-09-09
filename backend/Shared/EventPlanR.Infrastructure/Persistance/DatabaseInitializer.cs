@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EventPlanR.Infrastructure.Persistance;
+namespace EventPlanr.Infrastructure.Persistance;
 
 public static class InitialiserExtensions
 {

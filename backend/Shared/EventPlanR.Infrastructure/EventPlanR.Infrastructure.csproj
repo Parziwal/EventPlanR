@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EventPlanR.Application\EventPlanR.Application.csproj" />
-    <ProjectReference Include="..\EventPlanR.Configuration\EventPlanR.Configuration.csproj" />
-    <ProjectReference Include="..\EventPlanR.Domain\EventPlanR.Domain.csproj" />
+    <ProjectReference Include="..\EventPlanr.Application\EventPlanr.Application.csproj" />
+    <ProjectReference Include="..\EventPlanr.Configuration\EventPlanr.Configuration.csproj" />
+    <ProjectReference Include="..\EventPlanr.Domain\EventPlanr.Domain.csproj" />
   </ItemGroup>
 
 </Project>

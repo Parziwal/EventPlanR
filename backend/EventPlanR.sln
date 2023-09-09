@@ -7,15 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serverless", "Serverless", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{51236BBC-FCA1-40B9-8D4C-62F80CD23DAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanR.Domain", "Shared\EventPlanR.Domain\EventPlanR.Domain.csproj", "{19611BA7-755D-4B91-B412-D433DF36750C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanr.Domain", "Shared\EventPlanr.Domain\EventPlanr.Domain.csproj", "{19611BA7-755D-4B91-B412-D433DF36750C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanR.Application", "Shared\EventPlanR.Application\EventPlanR.Application.csproj", "{C480865C-55A2-464B-B6B7-E9B52952B9B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanr.Application", "Shared\EventPlanr.Application\EventPlanr.Application.csproj", "{C480865C-55A2-464B-B6B7-E9B52952B9B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanR.Infrastructure", "Shared\EventPlanR.Infrastructure\EventPlanR.Infrastructure.csproj", "{A27EE950-6386-48A5-BFBC-F23A7301F9D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanr.Infrastructure", "Shared\EventPlanr.Infrastructure\EventPlanr.Infrastructure.csproj", "{A27EE950-6386-48A5-BFBC-F23A7301F9D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanR.EventGeneral", "Serverless\EventPlanR.EventGeneral\EventPlanR.EventGeneral.csproj", "{6876FB54-4228-4245-8EB8-1B32623F04A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventPlanr.EventGeneral", "Serverless\EventPlanr.EventGeneral\EventPlanr.EventGeneral.csproj", "{6876FB54-4228-4245-8EB8-1B32623F04A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanR.Configuration", "Shared\EventPlanR.Configuration\EventPlanR.Configuration.csproj", "{A02F040A-A3BC-4280-A20D-3917FF56DC3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventPlanr.Configuration", "Shared\EventPlanr.Configuration\EventPlanr.Configuration.csproj", "{A02F040A-A3BC-4280-A20D-3917FF56DC3C}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{50A1724C-C4AE-4D7B-A183-29D5D7A1AFE0}"
 EndProject

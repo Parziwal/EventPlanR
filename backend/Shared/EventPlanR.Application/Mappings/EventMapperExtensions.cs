@@ -1,8 +1,8 @@
-﻿using EventPlanR.Application.Dto.Common;
-using EventPlanR.Application.Dto.Event;
-using EventPlanR.Domain.Entities;
+﻿using EventPlanr.Application.Dto.Common;
+using EventPlanr.Application.Dto.Event;
+using EventPlanr.Domain.Entities;
 
-namespace EventPlanR.Application.Mappings;
+namespace EventPlanr.Application.Mappings;
 
 public static class EventMapperExtensions
 {

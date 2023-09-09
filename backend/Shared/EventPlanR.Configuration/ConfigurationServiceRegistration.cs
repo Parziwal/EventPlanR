@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace EventPlanR.Configuration;
+namespace EventPlanr.Configuration;
 
 public static class ConfigurationServiceRegistration
 {

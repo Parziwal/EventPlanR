@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using EventPlanR.Configuration;
+using EventPlanr.Configuration;
 
-namespace EventPlanR.Infrastructure.Persistance;
+namespace EventPlanr.Infrastructure.Persistance;
 public class EventPlanrContextFactory : IDesignTimeDbContextFactory<EventPlanrDbContext>
 {
     public EventPlanrDbContext CreateDbContext(string[] args)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace EventPlanR.Application;
+namespace EventPlanr.Application;
 
 public static class ApplicationServiceRegistration
 {

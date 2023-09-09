@@ -1,10 +1,10 @@
-﻿using EventPlanR.Domain.Common;
+﻿using EventPlanr.Domain.Common;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace EventPlanR.Infrastructure.Persistance.Interceptors;
+namespace EventPlanr.Infrastructure.Persistance.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {

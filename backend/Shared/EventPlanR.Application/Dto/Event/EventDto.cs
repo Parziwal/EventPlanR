@@ -1,6 +1,6 @@
-﻿using EventPlanR.Domain.Enums;
+﻿using EventPlanr.Domain.Enums;
 
-namespace EventPlanR.Application.Dto.Event;
+namespace EventPlanr.Application.Dto.Event;
 
 public class EventDto
 {

@@ -1,7 +1,7 @@
-﻿using EventPlanR.Domain.Entities;
+﻿using EventPlanr.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventPlanR.Infrastructure.Persistance;
+namespace EventPlanr.Infrastructure.Persistance;
 
 public class EventPlanrDbContext : DbContext
 {

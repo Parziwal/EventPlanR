@@ -1,7 +1,7 @@
-﻿using EventPlanR.Domain.Entities;
-using EventPlanR.Domain.Repositories.Models;
+﻿using EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Repositories.Models;
 
-namespace EventPlanR.Domain.Repositories;
+namespace EventPlanr.Domain.Repositories;
 
 public interface IEventRepository
 {

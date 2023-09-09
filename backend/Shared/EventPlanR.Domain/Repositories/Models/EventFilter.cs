@@ -1,7 +1,7 @@
-﻿using EventPlanR.Domain.Common;
-using EventPlanR.Domain.Enums;
+﻿using EventPlanr.Domain.Common;
+using EventPlanr.Domain.Enums;
 
-namespace EventPlanR.Domain.Repositories.Models;
+namespace EventPlanr.Domain.Repositories.Models;
 
 public class EventFilter
 {

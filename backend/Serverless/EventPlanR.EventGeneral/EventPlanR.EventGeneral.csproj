@@ -15,6 +15,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\EventPlanR.Infrastructure\EventPlanR.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\EventPlanr.Infrastructure\EventPlanr.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

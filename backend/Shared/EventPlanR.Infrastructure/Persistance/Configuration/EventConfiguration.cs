@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using EventPlanR.Domain.Entities;
+using EventPlanr.Domain.Entities;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace EventPlanR.Infrastructure.Persistance.Configuration;
+namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
 public class EventConfiguration : IEntityTypeConfiguration<Event>
 {

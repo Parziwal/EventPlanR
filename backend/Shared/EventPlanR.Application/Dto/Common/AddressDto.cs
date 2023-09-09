@@ -1,4 +1,4 @@
-﻿namespace EventPlanR.Application.Dto.Common;
+﻿namespace EventPlanr.Application.Dto.Common;
 
 public class AddressDto
 {

@@ -1,9 +1,9 @@
-﻿using EventPlanR.Application.Dto.Event;
-using EventPlanR.Application.Mappings;
-using EventPlanR.Domain.Repositories;
+﻿using EventPlanr.Application.Dto.Event;
+using EventPlanr.Application.Mappings;
+using EventPlanr.Domain.Repositories;
 using MediatR;
 
-namespace EventPlanR.Application.Features.Event.Queries;
+namespace EventPlanr.Application.Features.Event.Queries;
 
 public class GetEventDetailsQuery : IRequest<EventDetailsDto>
 {

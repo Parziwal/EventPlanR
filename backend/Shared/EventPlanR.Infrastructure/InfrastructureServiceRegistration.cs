@@ -1,13 +1,13 @@
-﻿using EventPlanR.Domain.Repositories;
-using EventPlanR.Infrastructure.Persistance;
-using EventPlanR.Infrastructure.Persistance.Interceptors;
-using EventPlanR.Infrastructure.Repositories;
+﻿using EventPlanr.Domain.Repositories;
+using EventPlanr.Infrastructure.Persistance;
+using EventPlanr.Infrastructure.Persistance.Interceptors;
+using EventPlanr.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EventPlanR.Infrastructure;
+namespace EventPlanr.Infrastructure;
 
 public static class InfrastructureServiceRegistration
 {

@@ -1,9 +1,9 @@
-﻿using EventPlanR.Domain.Entities;
+﻿using EventPlanr.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace EventPlanR.Infrastructure.Persistance.Configuration;
+namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
 public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
 {

@@ -1,4 +1,4 @@
-﻿namespace EventPlanR.Domain.Enums
+﻿namespace EventPlanr.Domain.Enums
 {
     public enum Language
     {
