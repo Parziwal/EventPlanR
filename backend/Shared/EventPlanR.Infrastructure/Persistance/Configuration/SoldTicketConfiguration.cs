@@ -19,5 +19,7 @@ public class SoldTicketConfiguration : IEntityTypeConfiguration<SoldTicket>
         builder.Property(st => st.UserLastName)
             .HasMaxLength(64)
             .IsRequired();
+        builder.Property(st => st.Price)
+            .IsRequired();
     }
 }

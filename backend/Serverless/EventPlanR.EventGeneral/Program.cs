@@ -27,28 +27,36 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/event/general", (
     string? searchTerm,
     EventCategory? category,
+    Language? language,
+    Currency? currency,
     DateTimeOffset? fromDate,
     DateTimeOffset? toDate,
     double? latitude,
     double? longitude,
-    IMediator mediator) => {
-    return mediator.Send(new GetFilteredEventsQuery()
-    {
-        SearchTerm = searchTerm,
-        Category = category,
-        FromDate = fromDate,
-        ToDate = toDate,
-        Latitude = latitude,
-        Longitude = longitude,
-    });
-});
+    double? radius,
+    int? pageNumber,
+    int? pageSize,
+    IMediator mediator)
+    => mediator.Send(new GetFilteredEventsQuery()
+        {
+            SearchTerm = searchTerm,
+            Category = category,
+            Language = language,
+            Currency = currency,
+            FromDate = fromDate,
+            ToDate = toDate,
+            Latitude = latitude,
+            Longitude = longitude,
+            Radius = radius,
+            PageNumber = pageNumber ?? 1,
+            PageSize = pageSize ?? 10,
+        }));
 
-app.MapGet("/event/general/{eventId}", (Guid eventId, IMediator mediator) => {
-    return mediator.Send(new GetEventDetailsQuery()
-    {
-        EventId = eventId,
-    });
-});
+app.MapGet("/event/general/{eventId}", (Guid eventId, IMediator mediator)
+    => mediator.Send(new GetEventDetailsQuery()
+        {
+            EventId = eventId,
+        }));
 
 
 app.Run();

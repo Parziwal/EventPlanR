@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.7.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EventPlanr.Domain\EventPlanr.Domain.csproj" />
   </ItemGroup>
 

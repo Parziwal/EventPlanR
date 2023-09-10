@@ -9,6 +9,11 @@ public class EventPlanrDbContext : DbContext
     public EventPlanrDbContext(DbContextOptions options) : base(options) { }
 
     public DbSet<Event> Events => Set<Event>();
+    public DbSet<Organization> Organizations => Set<Organization>();
+    public DbSet<NewsPost> NewsPosts => Set<NewsPost>();
+    public DbSet<Ticket> Tickets => Set<Ticket>();
+    public DbSet<SoldTicket> SoldTickets => Set<SoldTicket>();
+    public DbSet<Order> Orders => Set<Order>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

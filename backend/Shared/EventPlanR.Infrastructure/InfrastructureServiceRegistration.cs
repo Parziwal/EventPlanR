@@ -17,13 +17,11 @@ public static class InfrastructureServiceRegistration
         services.AddDbContext<EventPlanrDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-            options.UseNpgsql(configuration.GetConnectionString("EventDb"));
+            options.UseNpgsql(configuration.GetConnectionString("EventPlanrDb"));
         });
         services.AddScoped<DatabaseInitializer>();
 
         services.AddScoped<IEventRepository, EventRepository>();
-
-        //services.Configure<LambdaFunctionOptions>(options => configuration.GetSection(nameof(LambdaFunctionOptions)).Bind(options));
 
         return services;
     }

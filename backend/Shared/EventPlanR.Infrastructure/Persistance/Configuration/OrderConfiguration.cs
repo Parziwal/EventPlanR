@@ -22,6 +22,8 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.CustomerLastName)
             .HasMaxLength(64)
             .IsRequired();
+        builder.Property(o => o.Currency)
+            .IsRequired();
 
         builder.OwnsOne(e => e.BillingAddress, address =>
         {
