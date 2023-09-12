@@ -5,7 +5,7 @@ resource "random_password" "this" {
 }
 
 resource "aws_secretsmanager_secret" "this" {
-  name = "${var.cluster_identifier}RdsPassword"
+  name = "${var.cluster_identifier}_rds_password"
 }
 
 resource "aws_secretsmanager_secret_version" "this" {

@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_iam_role" "this" {
-  name               = "${var.function_name}LambdaRole"
+  name               = "${var.function_name}_lambda_role"
   assume_role_policy = data.aws_iam_policy_document.this.json
 
   tags = var.tags

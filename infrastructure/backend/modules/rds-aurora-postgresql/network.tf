@@ -17,7 +17,7 @@ resource "aws_route" "this" {
 }
 
 resource "aws_security_group" "this" {
-  name        = "AllowPostgresql"
+  name        = "allow_postgresql"
   description = "Allow inbound access to the postgresql RDS"
   vpc_id      = aws_vpc.this.id
 
