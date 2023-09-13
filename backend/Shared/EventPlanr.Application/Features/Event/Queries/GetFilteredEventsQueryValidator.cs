@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using EventPlanr.Application.Dto.Common;
+using FluentValidation;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
@@ -6,6 +7,7 @@ public class GetFilteredEventsQueryValidator : AbstractValidator<GetFilteredEven
 {
     public GetFilteredEventsQueryValidator()
     {
+        Include(new PageDataDtoValidator());
         RuleFor(x => x.Category)
             .IsInEnum();
         RuleFor(x => x.Language)
@@ -20,18 +22,7 @@ public class GetFilteredEventsQueryValidator : AbstractValidator<GetFilteredEven
             .Must((fields, toDate) => toDate >= fields.FromDate)
             .When(x => x.FromDate != null && x.ToDate != null)
             .WithMessage("FromDate must be before ToDate.");
-        RuleFor(x => x.Latitude)
-            .NotNull()
-            .When(x => x.Longitude != null || x.Radius != null);
-        RuleFor(x => x.Longitude)
-            .NotNull()
-            .When(x => x.Latitude != null || x.Radius != null);
-        RuleFor(x => x.Radius)
-            .NotNull()
-            .When(x => x.Latitude != null || x.Longitude != null);
-        RuleFor(x => x.PageNumber)
-            .NotNull();
-        RuleFor(x => x.PageSize)
-            .NotNull();
+        RuleFor(x => x.Location)
+            .SetValidator(new LocationDtoValidator()!);
     }
 }

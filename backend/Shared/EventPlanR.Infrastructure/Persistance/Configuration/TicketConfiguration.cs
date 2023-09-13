@@ -18,14 +18,16 @@ public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
             .IsRequired();
         builder.Property(t => t.Price)
             .IsRequired();
+        builder.Property(t => t.Count)
+            .IsRequired();
+        builder.Property(t => t.SaleStarts)
+            .IsRequired();
+        builder.Property(t => t.SalesEnds)
+            .IsRequired();
 
         builder.HasOne(t => t.Event)
             .WithMany(e => e.Tickets)
             .HasForeignKey(t => t.EventId)
-            .IsRequired();
-        builder.HasOne(t => t.SoldTicket)
-            .WithOne(st => st.Ticket)
-            .HasForeignKey<SoldTicket>(st => st.TickerId)
             .IsRequired();
     }
 }

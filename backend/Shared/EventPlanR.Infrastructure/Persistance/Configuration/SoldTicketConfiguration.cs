@@ -21,5 +21,10 @@ public class SoldTicketConfiguration : IEntityTypeConfiguration<SoldTicket>
             .IsRequired();
         builder.Property(st => st.Price)
             .IsRequired();
+
+        builder.HasOne(st => st.Ticket)
+            .WithMany(st => st.SoldTickets)
+            .HasForeignKey(st => st.TicketId)
+            .IsRequired();
     }
 }

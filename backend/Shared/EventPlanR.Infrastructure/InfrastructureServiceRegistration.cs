@@ -1,7 +1,6 @@
-﻿using EventPlanr.Domain.Repositories;
+﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Infrastructure.Persistance;
 using EventPlanr.Infrastructure.Persistance.Interceptors;
-using EventPlanr.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -19,9 +18,8 @@ public static class InfrastructureServiceRegistration
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
             options.UseNpgsql(configuration.GetConnectionString("EventPlanrDb"));
         });
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<EventPlanrDbContext>());
         services.AddScoped<DatabaseInitializer>();
-
-        services.AddScoped<IEventRepository, EventRepository>();
 
         return services;
     }

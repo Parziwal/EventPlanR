@@ -1,13 +1,15 @@
-﻿using EventPlanr.Application.Dto.Event;
+﻿using EventPlanr.Application.Contracts;
+using EventPlanr.Application.Dto.Common;
+using EventPlanr.Application.Dto.Event;
+using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Mappings;
 using EventPlanr.Domain.Enums;
-using EventPlanr.Domain.Repositories;
-using EventPlanr.Domain.Repositories.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
-public class GetFilteredEventsQuery : IRequest<PaginatedList<EventDto>>
+public class GetFilteredEventsQuery : PageDataDto, IRequest<PaginatedListDto<EventDto>>
 {
     public string? SearchTerm { get; set; }
     public EventCategory? Category { get; set; }
@@ -15,43 +17,34 @@ public class GetFilteredEventsQuery : IRequest<PaginatedList<EventDto>>
     public Currency? Currency { get; set; }
     public DateTimeOffset? FromDate { get; set; }
     public DateTimeOffset? ToDate { get; set; }
-    public double? Latitude { get; set; }
-    public double? Longitude { get; set; }
-    public double? Radius { get; set; }
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
+    public LocationDto? Location { get; set; }
 }
 
-public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQuery, PaginatedList<EventDto>>
+public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQuery, PaginatedListDto<EventDto>>
 {
-    private readonly IEventRepository _eventRepository;
+    private readonly IApplicationDbContext _context;
 
-    public GetFilteredEventsQueryHandler(IEventRepository eventRepository)
+    public GetFilteredEventsQueryHandler(IApplicationDbContext context)
     {
-        _eventRepository = eventRepository;
+        _context = context;
     }
 
-    public async Task<PaginatedList<EventDto>> Handle(GetFilteredEventsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedListDto<EventDto>> Handle(GetFilteredEventsQuery request, CancellationToken cancellationToken)
     {
-        var events = await _eventRepository.GetEventsAsync(new EventFilter()
-        {
-            SearchTerm = request.SearchTerm,
-            Category = request.Category,
-            Language = request.Language,
-            Currency = request.Currency,
-            FromDate = request.FromDate,
-            ToDate = request.ToDate,
-            Location = request.Latitude is not null && request.Longitude is not null && request.Radius != null ? new LocationFilter()
-            {
-                Latitude = (double)request.Latitude,
-                Longitude = (double)request.Longitude,
-                Radius = (double)request.Radius,
-            } : null,
-        }, new PageData()
-        {
-            PageNumber = request.PageNumber,
-            PageSize = request.PageSize,
-        });
-        return events.PaginatedListMapper((e) => e.ToEventDto());
+        return await _context.Events
+            .AsNoTracking()
+            .Where(request.SearchTerm != null, e =>
+                e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
+                || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower()))
+                || e.Venue.ToLower().Contains(request.SearchTerm!.ToLower()))
+            .Where(request.Category != null, e => e.Category == request.Category)
+            .Where(request.Language != null, e => e.Language == request.Language)
+            .Where(request.Currency != null, e => e.Currency == request.Currency)
+            .Where(request.FromDate != null, e => e.FromDate >= request.FromDate)
+            .Where(request.ToDate != null, e => e.ToDate <= request.ToDate)
+            .Where(request.Location != null, e => e.Coordinates.GetDistance(request.Location!.ToCoordinates()) < request.Location!.Radius)
+            .OrderBy(request, e => e.FromDate, OrderDirection.Descending)
+            .Select(e => e.ToEventDto())
+            .ToPaginatedListAsync(request);
     }
 }

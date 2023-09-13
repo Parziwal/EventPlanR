@@ -1,6 +1,7 @@
-﻿using EventPlanr.Application.Dto.Event;
+﻿using EventPlanr.Application.Contracts;
+using EventPlanr.Application.Dto.Event;
+using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Mappings;
-using EventPlanr.Domain.Repositories;
 using MediatR;
 
 namespace EventPlanr.Application.Features.Event.Queries;
@@ -12,16 +13,17 @@ public class GetEventDetailsQuery : IRequest<EventDetailsDto>
 
 public class GetEventDetailsQueryHandler : IRequestHandler<GetEventDetailsQuery, EventDetailsDto>
 {
-    private readonly IEventRepository _eventRepository;
+    private readonly IApplicationDbContext _context;
 
-    public GetEventDetailsQueryHandler(IEventRepository eventRepository)
+    public GetEventDetailsQueryHandler(IApplicationDbContext context)
     {
-        _eventRepository = eventRepository;
+        _context = context;
     }
 
     public async Task<EventDetailsDto> Handle(GetEventDetailsQuery request, CancellationToken cancellationToken)
     {
-        var eventDetails = await _eventRepository.GetEventByIdAsync(request.EventId);
-        return eventDetails.ToEventDetailsDto();
+        var eventEntity = await _context.Events
+            .SingleEntityAsync(e => e.Id == request.EventId, request.EventId, cancellationToken);
+        return eventEntity.ToEventDetailsDto();
     }
 }

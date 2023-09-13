@@ -1,18 +1,18 @@
-﻿namespace EventPlanr.Domain.Repositories.Models;
+﻿namespace EventPlanr.Application.Dto.Common;
 
-public class PaginatedList<T>
+public class PaginatedListDto<T>
 {
     public List<T> Items { get; set; }
     public int PageNumber { get; set; }
     public int TotalPages { get; set; }
     public int TotalCount { get; set; }
 
-    public PaginatedList()
+    public PaginatedListDto()
     {
         Items = new List<T>();
     }
 
-    public PaginatedList(List<T> items, int count, int pageNumber, int pageSize)
+    public PaginatedListDto(List<T> items, int count, int pageNumber, int pageSize)
     {
         PageNumber = pageNumber;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
