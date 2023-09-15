@@ -1,7 +1,7 @@
-﻿using EventPlanr.Application.Dto.Common;
+﻿using EventPlanr.Application.Models.Common;
 using EventPlanr.Domain.Enums;
 
-namespace EventPlanr.Application.Dto.Event;
+namespace EventPlanr.Application.Models.Event;
 
 public class EventDetailsDto
 {

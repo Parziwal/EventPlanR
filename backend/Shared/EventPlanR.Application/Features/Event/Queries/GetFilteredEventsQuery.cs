@@ -1,15 +1,16 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Dto.Common;
-using EventPlanr.Application.Dto.Event;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Mappings;
+using EventPlanr.Application.Models.Common;
+using EventPlanr.Application.Models.Event;
+using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
-public class GetFilteredEventsQuery : PageDataDto, IRequest<PaginatedListDto<EventDto>>
+public class GetFilteredEventsQuery : PageWithOrderDto, IRequest<PaginatedListDto<EventDto>>
 {
     public string? SearchTerm { get; set; }
     public EventCategory? Category { get; set; }

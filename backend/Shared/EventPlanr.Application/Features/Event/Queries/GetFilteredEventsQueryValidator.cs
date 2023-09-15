@@ -1,4 +1,5 @@
-﻿using EventPlanr.Application.Dto.Common;
+﻿using EventPlanr.Application.Models.Common;
+using EventPlanr.Application.Models.Pagination;
 using FluentValidation;
 
 namespace EventPlanr.Application.Features.Event.Queries;
@@ -7,7 +8,7 @@ public class GetFilteredEventsQueryValidator : AbstractValidator<GetFilteredEven
 {
     public GetFilteredEventsQueryValidator()
     {
-        Include(new PageDataDtoValidator());
+        Include(new PageWithOrderDtoValidator());
         RuleFor(x => x.Category)
             .IsInEnum();
         RuleFor(x => x.Language)

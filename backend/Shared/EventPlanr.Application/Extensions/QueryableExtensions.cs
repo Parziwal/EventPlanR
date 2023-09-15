@@ -1,10 +1,7 @@
-﻿using EventPlanr.Application.Dto.Common;
-using EventPlanr.Application.Extensions;
+﻿using EventPlanr.Application.Extensions;
+using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace EventPlanr.Application.Extensions;
@@ -34,26 +31,15 @@ public static class QueryableExtensions
     public static async Task<TSource> SingleEntityAsync<TSource>(
         this IQueryable<TSource> source,
         Expression<Func<TSource, bool>> predicate,
-        Guid? entityId = null,
-        CancellationToken cancellationToken = default)
+        Guid? entityId = null)
     {
-        return await source.SingleOrDefaultAsync(predicate, cancellationToken)
+        return await source.SingleOrDefaultAsync(predicate)
             ?? throw EntityNotFoundException.CreateForType<TSource>(entityId);
-    }
-
-    public static async Task<PaginatedListDto<TSource>> ToPaginatedListAsync<TSource>(
-        this IQueryable<TSource> source,
-        PageDataDto page)
-    {
-        var count = await source.CountAsync();
-        var items = await source.Skip((page.PageNumber - 1) * page.PageSize).Take(page.PageSize).ToListAsync();
-
-        return new PaginatedListDto<TSource>(items, count, page.PageNumber, page.PageSize);
     }
 
     public static IQueryable<TSource> OrderBy<TSource, TKey>(
         this IQueryable<TSource> source,
-        PageDataDto page,
+        PageWithOrderDto page,
         Expression<Func<TSource, TKey>> defaultOrder,
         OrderDirection defaultOrderDirection = OrderDirection.Ascending)
     {
@@ -79,5 +65,18 @@ public static class QueryableExtensions
         {
             return source.OrderByDescending(orderExpression);
         }
+    }
+
+    public static async Task<PaginatedListDto<TSource>> ToPaginatedListAsync<TSource>(
+        this IQueryable<TSource> source,
+        PageDto page)
+    {
+        var count = await source.CountAsync();
+        var items = await source
+            .Skip((page.PageNumber - 1) * page.PageSize)
+            .Take(page.PageSize)
+            .ToListAsync();
+
+        return new PaginatedListDto<TSource>(items, count, page.PageNumber, page.PageSize);
     }
 }

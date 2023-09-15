@@ -1,6 +1,7 @@
-﻿using EventPlanr.Application.Dto.Common;
-using EventPlanr.Application.Dto.Event;
+﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Features.Event.Queries;
+using EventPlanr.Application.Models.Event;
+using EventPlanr.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,18 @@ namespace EventPlanr.EventGeneral.Api;
 public class EventGeneralController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly IUserContext u;
 
-    public EventGeneralController(ISender sender)
+    public EventGeneralController(ISender sender, IUserContext user)
     {
         _sender = sender;
+        u = user;
+    }
+
+    [HttpGet("Test")]
+    public void GetFiltereEvents()
+    {
+        var a = u;
     }
 
     [HttpGet]

@@ -1,4 +1,4 @@
-﻿using EventPlanr.Application.Dto.Common;
+﻿using EventPlanr.Application.Models.Common;
 using EventPlanr.Domain.Common;
 using System.Runtime.CompilerServices;
 

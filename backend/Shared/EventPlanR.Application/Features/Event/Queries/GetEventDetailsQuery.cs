@@ -1,7 +1,7 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Dto.Event;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Mappings;
+using EventPlanr.Application.Models.Event;
 using MediatR;
 
 namespace EventPlanr.Application.Features.Event.Queries;
@@ -23,7 +23,7 @@ public class GetEventDetailsQueryHandler : IRequestHandler<GetEventDetailsQuery,
     public async Task<EventDetailsDto> Handle(GetEventDetailsQuery request, CancellationToken cancellationToken)
     {
         var eventEntity = await _context.Events
-            .SingleEntityAsync(e => e.Id == request.EventId, request.EventId, cancellationToken);
+            .SingleEntityAsync(e => e.Id == request.EventId, request.EventId);
         return eventEntity.ToEventDetailsDto();
     }
 }

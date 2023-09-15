@@ -1,6 +1,7 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Infrastructure.Persistance;
 using EventPlanr.Infrastructure.Persistance.Interceptors;
+using EventPlanr.Infrastructure.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,10 @@ public static class InfrastructureServiceRegistration
         });
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<EventPlanrDbContext>());
         services.AddScoped<DatabaseInitializer>();
+
+        services.AddHttpContextAccessor();
+
+        services.AddTransient<IUserContext, UserContext>();
 
         return services;
     }

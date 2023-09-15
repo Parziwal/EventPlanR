@@ -1,4 +1,4 @@
-﻿namespace EventPlanr.Application.Dto.Common;
+﻿namespace EventPlanr.Application.Models.Common;
 
 public class CoordinatesDto
 {

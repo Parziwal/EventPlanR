@@ -1,5 +1,5 @@
-﻿using EventPlanr.Application.Dto.Common;
-using EventPlanr.Application.Dto.Event;
+﻿using EventPlanr.Application.Models.Common;
+using EventPlanr.Application.Models.Event;
 using EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Mappings;
@@ -24,7 +24,7 @@ public static class EventMapperExtensions
         ToDate = entity.ToDate,
         Category = entity.Category,
         Description = entity.Description,
-        Venue =entity.Venue,
+        Venue = entity.Venue,
         Address = new AddressDto()
         {
             City = entity.Address.City,

@@ -1,4 +1,4 @@
-﻿namespace EventPlanr.Application.Dto.Common;
+﻿namespace EventPlanr.Application.Models.Pagination;
 
 public class PaginatedListDto<T>
 {
@@ -6,11 +6,6 @@ public class PaginatedListDto<T>
     public int PageNumber { get; set; }
     public int TotalPages { get; set; }
     public int TotalCount { get; set; }
-
-    public PaginatedListDto()
-    {
-        Items = new List<T>();
-    }
 
     public PaginatedListDto(List<T> items, int count, int pageNumber, int pageSize)
     {
