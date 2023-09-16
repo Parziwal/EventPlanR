@@ -4,6 +4,7 @@ using EventPlanr.Application.Mappings;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
@@ -25,9 +26,9 @@ public class GetUserUpcomingEventsQueryHandler : IRequestHandler<GetUserUpcoming
 
     public async Task<PaginatedListDto<EventDto>> Handle(GetUserUpcomingEventsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Orders
-            .Where(o => o.CustomerUserId == _user.UserId)
-            .Select(o => o.SoldTickets.First().Ticket.Event)
+        return await _context.Events
+            .AsNoTracking()
+            .Where(e => e.Tickets.Any(t => t.SoldTickets.Any(st => st.Order.CustomerUserId == _user.UserId)))
             .Where(e => e.FromDate >= DateTimeOffset.Now)
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())

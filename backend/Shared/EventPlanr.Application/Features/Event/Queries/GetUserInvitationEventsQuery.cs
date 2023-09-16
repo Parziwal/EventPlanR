@@ -8,33 +8,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
-public class GetUserPastEventsQuery : PageDto, IRequest<PaginatedListDto<EventDto>>
+public class GetUserInvitationEventsQuery : PageDto, IRequest<PaginatedListDto<EventDto>>
 {
     public string? SearchTerm { get; set; }
 }
 
-public class GetUserPastEventsQueryHandler : IRequestHandler<GetUserPastEventsQuery, PaginatedListDto<EventDto>>
+public class GetUserInvitationEventsQueryHandler : IRequestHandler<GetUserInvitationEventsQuery, PaginatedListDto<EventDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IUserContext _user;
 
-    public GetUserPastEventsQueryHandler(IApplicationDbContext context, IUserContext user)
+    public GetUserInvitationEventsQueryHandler(IApplicationDbContext context, IUserContext user)
     {
         _context = context;
         _user = user;
     }
 
-    public async Task<PaginatedListDto<EventDto>> Handle(GetUserPastEventsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedListDto<EventDto>> Handle(GetUserInvitationEventsQuery request, CancellationToken cancellationToken)
     {
         return await _context.Events
             .AsNoTracking()
-            .Where(e => e.Tickets.Any(t => t.SoldTickets.Any(st => st.Order.CustomerUserId == _user.UserId)))
-            .Where(e => e.FromDate < DateTimeOffset.Now)
+            .Where(e => e.Invitations.Any(i => i.UserEmail == _user.Email))
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower()))
                 || e.Venue.ToLower().Contains(request.SearchTerm!.ToLower()))
-            .OrderByDescending(e => e.FromDate)
+            .OrderByDescending(i => i.FromDate)
             .Select(e => e.ToEventDto())
             .ToPaginatedListAsync(request);
     }

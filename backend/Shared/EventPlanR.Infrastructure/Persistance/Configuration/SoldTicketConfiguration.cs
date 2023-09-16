@@ -26,5 +26,9 @@ public class SoldTicketConfiguration : IEntityTypeConfiguration<SoldTicket>
             .WithMany(st => st.SoldTickets)
             .HasForeignKey(st => st.TicketId)
             .IsRequired();
+        builder.HasOne(st => st.Order)
+            .WithMany(o => o.SoldTickets)
+            .HasForeignKey(st => st.OrderId)
+            .IsRequired();
     }
 }

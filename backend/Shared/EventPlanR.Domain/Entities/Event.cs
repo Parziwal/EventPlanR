@@ -21,4 +21,5 @@ public class Event : BaseAuditableEntity
     public Organization Organization { get; set; } = null!;
     public List<NewsPost> NewsPosts { get; set; } = new List<NewsPost>();
     public List<Ticket> Tickets { get; set; } = new List<Ticket>();
+    public List<Invitation> Invitations { get; set; } = new List<Invitation>();
 }

@@ -11,6 +11,7 @@ public interface IApplicationDbContext
     DbSet<Ticket> Tickets { get; }
     DbSet<SoldTicket> SoldTickets { get; }
     DbSet<Order> Orders { get; }
+    DbSet<Invitation> Inviations { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
