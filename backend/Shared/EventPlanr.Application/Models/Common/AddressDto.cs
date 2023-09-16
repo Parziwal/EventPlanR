@@ -1,4 +1,8 @@
-﻿namespace EventPlanr.Application.Models.Common;
+﻿using AutoMapper;
+using EventPlanr.Application.Models.Event;
+using EventPlanr.Domain.Common;
+
+namespace EventPlanr.Application.Models.Common;
 
 public class AddressDto
 {
@@ -6,4 +10,12 @@ public class AddressDto
     public string ZipCode { get; set; } = null!;
     public string City { get; set; } = null!;
     public string AddressLine { get; set; } = null!;
+
+    private class Mapping : Profile
+    {
+        public Mapping()
+        {
+            CreateMap<Address, AddressDto>();
+        }
+    }
 }

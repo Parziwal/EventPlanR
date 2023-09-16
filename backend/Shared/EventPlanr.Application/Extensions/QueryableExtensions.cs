@@ -1,4 +1,6 @@
-﻿using EventPlanr.Application.Extensions;
+﻿using AutoMapper;
+using AutoMapper.Internal;
+using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -37,34 +39,17 @@ public static class QueryableExtensions
             ?? throw EntityNotFoundException.CreateForType<TSource>(entityId);
     }
 
-    public static IQueryable<TSource> OrderBy<TSource, TKey>(
+    public static IQueryable<TSource> OrderBy<TSource, TDto>(
         this IQueryable<TSource> source,
         PageWithOrderDto page,
-        Expression<Func<TSource, TKey>> defaultOrder,
+        IConfigurationProvider mappings,
+        Expression<Func<TSource, object?>> defaultOrder,
         OrderDirection defaultOrderDirection = OrderDirection.Ascending)
     {
-        var orderExpression = defaultOrder;
-        if (page.OrderBy != null)
-        {
-            var parameter = Expression.Parameter(typeof(TSource));
-            var property = Expression.Property(parameter, page.OrderBy);
-            var propAsObject = Expression.Convert(property, typeof(TKey));
-
-            if (propAsObject != null)
-            {
-                orderExpression = Expression.Lambda<Func<TSource, TKey>>(propAsObject, parameter);
-            }
-        }
-
+        var orderExpression = GetOrderKeySelector<TSource, TDto>(page, mappings) ?? defaultOrder;
         var orderDirection = page.OrderDirection ?? defaultOrderDirection;
-        if (orderDirection == OrderDirection.Ascending)
-        {
-            return source.OrderBy(orderExpression);
-        }
-        else
-        {
-            return source.OrderByDescending(orderExpression);
-        }
+        return orderDirection == OrderDirection.Ascending 
+            ? source.OrderBy(orderExpression) : source.OrderByDescending(orderExpression);
     }
 
     public static async Task<PaginatedListDto<TSource>> ToPaginatedListAsync<TSource>(
@@ -78,5 +63,28 @@ public static class QueryableExtensions
             .ToListAsync();
 
         return new PaginatedListDto<TSource>(items, count, page.PageNumber, page.PageSize);
+    }
+
+    private static Expression<Func<TSource, object?>>? GetOrderKeySelector<TSource, TDto>(
+        PageWithOrderDto page,
+        IConfigurationProvider mappings)
+    {
+        var propertyMap = mappings.Internal().FindTypeMapFor<TSource, TDto>()
+            ?.PropertyMaps
+            ?.FirstOrDefault(m => m.CustomMapExpression != null && m.DestinationName == page.OrderBy);
+
+        if (page.OrderBy != null && propertyMap != null)
+        {
+            var parameter = Expression.Parameter(typeof(TSource));
+            var property = Expression.Property(parameter, propertyMap.SourceMember.Name);
+            var propAsObject = Expression.Convert(property, typeof(object));
+
+            if (propAsObject != null)
+            {
+                return Expression.Lambda<Func<TSource, object?>>(propAsObject, parameter);
+            }
+        }
+
+        return null;
     }
 }

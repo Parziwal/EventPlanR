@@ -1,6 +1,7 @@
-﻿using EventPlanr.Application.Contracts;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Extensions;
-using EventPlanr.Application.Mappings;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
 using MediatR;
@@ -16,11 +17,13 @@ public class GetUserPastEventsQuery : PageDto, IRequest<PaginatedListDto<EventDt
 public class GetUserPastEventsQueryHandler : IRequestHandler<GetUserPastEventsQuery, PaginatedListDto<EventDto>>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
     private readonly IUserContext _user;
 
-    public GetUserPastEventsQueryHandler(IApplicationDbContext context, IUserContext user)
+    public GetUserPastEventsQueryHandler(IApplicationDbContext context, IMapper mapper, IUserContext user)
     {
         _context = context;
+        _mapper = mapper;
         _user = user;
     }
 
@@ -35,7 +38,7 @@ public class GetUserPastEventsQueryHandler : IRequestHandler<GetUserPastEventsQu
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower()))
                 || e.Venue.ToLower().Contains(request.SearchTerm!.ToLower()))
             .OrderByDescending(e => e.FromDate)
-            .Select(e => e.ToEventDto())
+            .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(request);
     }
 }

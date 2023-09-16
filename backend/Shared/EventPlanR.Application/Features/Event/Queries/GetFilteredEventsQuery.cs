@@ -1,9 +1,11 @@
-﻿using EventPlanr.Application.Contracts;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Extensions;
-using EventPlanr.Application.Mappings;
 using EventPlanr.Application.Models.Common;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
+using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,14 +26,22 @@ public class GetFilteredEventsQuery : PageWithOrderDto, IRequest<PaginatedListDt
 public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQuery, PaginatedListDto<EventDto>>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public GetFilteredEventsQueryHandler(IApplicationDbContext context)
+    public GetFilteredEventsQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<PaginatedListDto<EventDto>> Handle(GetFilteredEventsQuery request, CancellationToken cancellationToken)
     {
+        var filteredCoordinates = request.Location != null ? new Coordinates()
+        {
+            Latitude = request.Location.Latitude,
+            Longitude = request.Location.Longitude,
+        } : null;
+
         return await _context.Events
             .AsNoTracking()
             .Where(request.SearchTerm != null, e =>
@@ -43,9 +53,9 @@ public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQu
             .Where(request.Currency != null, e => e.Currency == request.Currency)
             .Where(request.FromDate != null, e => e.FromDate >= request.FromDate)
             .Where(request.ToDate != null, e => e.ToDate <= request.ToDate)
-            .Where(request.Location != null, e => e.Coordinates.GetDistance(request.Location!.ToCoordinates()) < request.Location!.Radius)
-            .OrderBy(request, e => e.FromDate, OrderDirection.Descending)
-            .Select(e => e.ToEventDto())
+            .Where(request.Location != null, e => e.Coordinates.GetDistance(filteredCoordinates!) < request.Location!.Radius)
+            .OrderBy<Domain.Entities.Event, EventDto>(request, _mapper.ConfigurationProvider, e => e.FromDate, OrderDirection.Descending)
+            .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(request);
     }
 }
