@@ -14,8 +14,10 @@ public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
         builder.Property(t => t.Id)
             .HasValueGenerator<GuidValueGenerator>();
         builder.Property(t => t.Name)
-            .HasMaxLength(128)
+            .HasMaxLength(64)
             .IsRequired();
+        builder.Property(t => t.Description)
+            .HasMaxLength(256);
         builder.Property(t => t.Price)
             .IsRequired();
         builder.Property(t => t.Count)

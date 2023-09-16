@@ -1,14 +1,14 @@
 ﻿using EventPlanr.Application.Models.Common;
-using EventPlanr.Application.Models.Pagination;
 using FluentValidation;
 
-namespace EventPlanr.Application.Features.Event.Queries;
+namespace EventPlanr.Application.Features.Event.Commands;
 
-public class GetFilteredEventsQueryValidator : AbstractValidator<GetFilteredEventsQuery>
+public class UpdateEventCommandValidator : AbstractValidator<UpdateEventCommand>
 {
-    public GetFilteredEventsQueryValidator()
+    public UpdateEventCommandValidator()
     {
-        Include(new PageWithOrderDtoValidator());
+        RuleFor(x => x.EventId)
+            .NotNull();
         RuleFor(x => x.Category)
             .IsInEnum();
         RuleFor(x => x.Language)
@@ -17,13 +17,18 @@ public class GetFilteredEventsQueryValidator : AbstractValidator<GetFilteredEven
             .IsInEnum();
         RuleFor(x => x.FromDate)
             .Must((fields, fromDate) => fromDate <= fields.ToDate)
-            .When(x => x.FromDate != null && x.ToDate != null)
             .WithMessage("FromDate must be before ToDate.");
         RuleFor(x => x.ToDate)
             .Must((fields, toDate) => toDate >= fields.FromDate)
-            .When(x => x.FromDate != null && x.ToDate != null)
             .WithMessage("ToDate must be after FromDate.");
-        RuleFor(x => x.Location)
-            .SetValidator(new LocationDtoValidator()!);
+        RuleFor(x => x.Venue)
+            .MaximumLength(64)
+            .NotNull();
+        RuleFor(x => x.Address)
+            .SetValidator(new AddressDtoValidator());
+        RuleFor(x => x.Coordinates)
+            .SetValidator(new CoordinatesDtoValidator());
+        RuleFor(x => x.IsPrivate)
+            .NotNull();
     }
 }

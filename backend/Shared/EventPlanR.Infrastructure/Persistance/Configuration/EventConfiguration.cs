@@ -15,9 +15,7 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
             .HasValueGenerator<GuidValueGenerator>();
         builder.Property(e => e.Name)
             .IsRequired()
-            .HasMaxLength(128);
-        builder.Property(e => e.Description)
-            .HasMaxLength(1024);
+            .HasMaxLength(64);
         builder.Property(e => e.Category)
             .IsRequired();
         builder.Property(e => e.FromDate)
@@ -25,20 +23,24 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
         builder.Property(e => e.ToDate)
             .IsRequired();
         builder.Property(e => e.Venue)
-            .HasMaxLength(128)
+            .HasMaxLength(64)
             .IsRequired();
         builder.Property(e => e.Language)
             .IsRequired();
         builder.Property(e => e.Currency)
             .IsRequired();
+        builder.Property(e => e.IsPrivate)
+            .IsRequired();
+        builder.Property(e => e.IsPublished)
+            .IsRequired();
 
         builder.OwnsOne(e => e.Address, address =>
         {
             address.Property(a => a.Country)
-                .HasMaxLength(128)
+                .HasMaxLength(64)
                 .IsRequired();
             address.Property(a => a.City)
-                .HasMaxLength(128)
+                .HasMaxLength(64)
                 .IsRequired();
             address.Property(a => a.ZipCode)
                 .HasMaxLength(10)

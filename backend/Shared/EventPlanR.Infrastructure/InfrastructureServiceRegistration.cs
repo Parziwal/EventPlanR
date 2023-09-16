@@ -23,8 +23,9 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<DatabaseInitializer>();
 
         services.AddHttpContextAccessor();
-
-        services.AddTransient<IUserContext, UserContext>();
+        services.AddScoped<IUserContext, UserContext>();
+        
+        services.AddTransient<IUserService, UserService>();
 
         return services;
     }

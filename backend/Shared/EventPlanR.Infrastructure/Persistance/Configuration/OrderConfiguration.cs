@@ -28,10 +28,10 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.OwnsOne(e => e.BillingAddress, address =>
         {
             address.Property(a => a.Country)
-                .HasMaxLength(128)
+                .HasMaxLength(64)
                 .IsRequired();
             address.Property(a => a.City)
-                .HasMaxLength(128)
+                .HasMaxLength(64)
                 .IsRequired();
             address.Property(a => a.ZipCode)
                 .HasMaxLength(10)

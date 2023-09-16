@@ -14,10 +14,10 @@ namespace EventPlanr.Infrastructure.Persistance.Configuration
             builder.Property(o => o.Id)
                 .HasValueGenerator<GuidValueGenerator>();
             builder.Property(o => o.Name)
-                .HasMaxLength(128)
+                .HasMaxLength(64)
                 .IsRequired();
             builder.Property(o => o.Description)
-                .HasMaxLength(128);
+                .HasMaxLength(256);
         }
     }
 }
