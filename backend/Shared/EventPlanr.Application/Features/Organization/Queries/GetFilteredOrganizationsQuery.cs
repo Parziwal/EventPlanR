@@ -4,8 +4,8 @@ using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Organization;
 using EventPlanr.Application.Models.Pagination;
+using EventPlanr.Domain.Entities;
 using MediatR;
-using Entities = EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Features.Organization.Queries;
 
@@ -30,7 +30,7 @@ public class GetFilteredOrganizationsQueryHandler : IRequestHandler<GetFilteredO
         return await _context.Organizations
             .Where(request.SearchTerm != null, o => o.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (o.Description != null && o.Description.ToLower().Contains(request.SearchTerm.ToLower())))
-            .OrderBy<Entities.Organization, OrganizationDto>(request, _mapper.ConfigurationProvider, o => o.Name)
+            .OrderBy<OrganizationEntity, OrganizationDto>(request, _mapper.ConfigurationProvider, o => o.Name)
             .ProjectTo<OrganizationDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(request);
     }

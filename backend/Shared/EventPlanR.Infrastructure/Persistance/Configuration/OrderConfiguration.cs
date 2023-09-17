@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
-public class OrderConfiguration : IEntityTypeConfiguration<Order>
+public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
 {
-    public void Configure(EntityTypeBuilder<Order> builder)
+    public void Configure(EntityTypeBuilder<OrderEntity> builder)
     {
         builder.ToTable("orders");
 

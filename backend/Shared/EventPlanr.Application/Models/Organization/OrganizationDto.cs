@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Entities = EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Models.Organization;
 
@@ -13,7 +13,7 @@ public class OrganizationDto
     {
         public Mapping()
         {
-            CreateMap<Entities.Organization, OrganizationDto>();
+            CreateMap<OrganizationEntity, OrganizationDto>();
         }
     }
 }

@@ -3,7 +3,7 @@ using EventPlanr.Application.Models.Common;
 using EventPlanr.Domain.Enums;
 using EventPlanr.Application.Models.Organization;
 using EventPlanr.Application.Models.NewsPost;
-using Entities = EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Models.Event;
 
@@ -26,7 +26,7 @@ public class EventDetailsDto
     {
         public Mapping()
         {
-            CreateMap<Entities.Event, EventDetailsDto>()
+            CreateMap<EventEntity, EventDetailsDto>()
                 .ForMember(dest => dest.LatestNews, opt => opt.MapFrom(src => src.NewsPosts.FirstOrDefault()));
         }
     }

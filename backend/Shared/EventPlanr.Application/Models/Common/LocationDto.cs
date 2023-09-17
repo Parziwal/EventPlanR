@@ -1,6 +1,6 @@
 ﻿namespace EventPlanr.Application.Models.Common;
 
-public class LocationDto : CoordinatesDto
+public class LocationDto
 {
     public double Latitude { get; set; }
     public double Longitude { get; set; }

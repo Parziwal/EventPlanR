@@ -1,6 +1,7 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Infrastructure.Persistance;
 using EventPlanr.Infrastructure.Persistance.Interceptors;
+using EventPlanr.Infrastructure.Ticket;
 using EventPlanr.Infrastructure.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -26,6 +27,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IUserContext, UserContext>();
         
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<ITicketService, TicketService>();
 
         return services;
     }

@@ -8,7 +8,7 @@ public class CreateOrganizationCommandValidator : AbstractValidator<CreateOrgani
     {
         RuleFor(x => x.Name)
             .MaximumLength(64)
-            .NotNull();
+            .NotEmpty();
         RuleFor(x => x.Description)
             .MaximumLength(254);
     }

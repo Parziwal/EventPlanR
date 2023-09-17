@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Entities = EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Models.NewsPost;
 
@@ -12,7 +12,7 @@ public class NewsPostDto
     {
         public Mapping()
         {
-            CreateMap<Entities.NewsPost, NewsPostDto>();
+            CreateMap<NewsPostEntity, NewsPostDto>();
         }
     }
 }

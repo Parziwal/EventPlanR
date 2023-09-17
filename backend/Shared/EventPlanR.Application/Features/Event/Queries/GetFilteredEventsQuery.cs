@@ -54,7 +54,7 @@ public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQu
             .Where(request.FromDate != null, e => e.FromDate >= request.FromDate)
             .Where(request.ToDate != null, e => e.ToDate <= request.ToDate)
             .Where(request.Location != null, e => e.Coordinates.GetDistance(filteredCoordinates!) < request.Location!.Radius)
-            .OrderBy<Domain.Entities.Event, EventDto>(request, _mapper.ConfigurationProvider, e => e.FromDate, OrderDirection.Descending)
+            .OrderBy<Domain.Entities.EventEntity, EventDto>(request, _mapper.ConfigurationProvider, e => e.FromDate, OrderDirection.Descending)
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(request);
     }

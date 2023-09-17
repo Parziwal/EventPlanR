@@ -7,6 +7,6 @@ public class GetEventDetailsQueryValidator : AbstractValidator<GetEventDetailsQu
     public GetEventDetailsQueryValidator()
     {
         RuleFor(x => x.EventId)
-            .NotNull();
+            .NotEmpty();
     }
 }

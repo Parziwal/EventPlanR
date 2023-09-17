@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using EventPlanr.Domain.Entities;
 using EventPlanr.Domain.Enums;
-using Entities = EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Models.Event;
 
@@ -17,7 +17,7 @@ public class EventDto
     {
         public Mapping()
         {
-            CreateMap<Entities.Event, EventDto>();
+            CreateMap<EventEntity, EventDto>();
         }
     }
 }

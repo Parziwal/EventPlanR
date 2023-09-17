@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
-public class NewsPostConfiguration : IEntityTypeConfiguration<NewsPost>
+public class NewsPostConfiguration : IEntityTypeConfiguration<NewsPostEntity>
 {
-    public void Configure(EntityTypeBuilder<NewsPost> builder)
+    public void Configure(EntityTypeBuilder<NewsPostEntity> builder)
     {
         builder.ToTable("news_posts");
 

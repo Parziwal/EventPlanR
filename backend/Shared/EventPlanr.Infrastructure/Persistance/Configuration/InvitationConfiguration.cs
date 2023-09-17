@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
-public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
+public class InvitationConfiguration : IEntityTypeConfiguration<InvitationEntity>
 {
-    public void Configure(EntityTypeBuilder<Invitation> builder)
+    public void Configure(EntityTypeBuilder<InvitationEntity> builder)
     {
         builder.ToTable("invitations");
 

@@ -3,11 +3,11 @@ using EventPlanr.Domain.Enums;
 
 namespace EventPlanr.Domain.Entities;
 
-public class Invitation : BaseAuditableEntity
+public class InvitationEntity : BaseAuditableEntity
 {
     public string UserEmail { get; set; } = null!;
     public string? UserId { get; set; }
     public InvitationStatus Status { get; set; }
     public Guid EventId { get; set; }
-    public Event Event { get; set; } = null!;
+    public EventEntity Event { get; set; } = null!;
 }

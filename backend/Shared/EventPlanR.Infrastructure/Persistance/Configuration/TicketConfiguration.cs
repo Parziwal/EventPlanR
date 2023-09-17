@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
-public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
+public class TicketConfiguration : IEntityTypeConfiguration<TicketEntity>
 {
-    public void Configure(EntityTypeBuilder<Ticket> builder)
+    public void Configure(EntityTypeBuilder<TicketEntity> builder)
     {
         builder.ToTable("tickets");
 
@@ -22,9 +22,11 @@ public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
             .IsRequired();
         builder.Property(t => t.Count)
             .IsRequired();
+        builder.Property(t => t.RemainingCount)
+            .IsRequired();
         builder.Property(t => t.SaleStarts)
             .IsRequired();
-        builder.Property(t => t.SalesEnds)
+        builder.Property(t => t.SaleEnds)
             .IsRequired();
 
         builder.HasOne(t => t.Event)

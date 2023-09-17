@@ -1,6 +1,6 @@
 ﻿using EventPlanr.Application.Contracts;
+using EventPlanr.Domain.Entities;
 using MediatR;
-using Entities = EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Features.Organization.Commands;
 
@@ -25,7 +25,7 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
 
     public async Task<Guid> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
     {
-        var organization = new Entities.Organization()
+        var organization = new OrganizationEntity()
         {
             Name = request.Name,
             Description = request.Description,
@@ -35,7 +35,7 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         _context.Organizations.Add(organization);
         await _context.SaveChangesAsync();
 
-        await _userService.AddOrganizationToUserClaims(organization.Id);
+        await _userService.AddOrganizationToUserClaimsAsync(organization.Id);
 
         return organization.Id;
     }

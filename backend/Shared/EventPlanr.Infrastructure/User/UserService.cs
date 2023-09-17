@@ -4,12 +4,12 @@ namespace EventPlanr.Infrastructure.User;
 
 public class UserService : IUserService
 {
-    public Task AddOrganizationToUserClaims(Guid organizationId)
+    public Task AddOrganizationToUserClaimsAsync(Guid organizationId)
     {
         throw new NotImplementedException();
     }
 
-    public Task RemoveOrganizationToUserClaims(Guid organizationId)
+    public Task RemoveOrganizationFromUserClaimsAsync(Guid organizationId)
     {
         throw new NotImplementedException();
     }

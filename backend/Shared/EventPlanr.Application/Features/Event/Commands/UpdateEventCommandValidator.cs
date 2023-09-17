@@ -8,7 +8,7 @@ public class UpdateEventCommandValidator : AbstractValidator<UpdateEventCommand>
     public UpdateEventCommandValidator()
     {
         RuleFor(x => x.EventId)
-            .NotNull();
+            .NotEmpty();
         RuleFor(x => x.Category)
             .IsInEnum();
         RuleFor(x => x.Language)
@@ -23,7 +23,7 @@ public class UpdateEventCommandValidator : AbstractValidator<UpdateEventCommand>
             .WithMessage("ToDate must be after FromDate.");
         RuleFor(x => x.Venue)
             .MaximumLength(64)
-            .NotNull();
+            .NotEmpty();
         RuleFor(x => x.Address)
             .SetValidator(new AddressDtoValidator());
         RuleFor(x => x.Coordinates)

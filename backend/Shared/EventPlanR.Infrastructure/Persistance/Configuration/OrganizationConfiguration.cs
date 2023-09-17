@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration
 {
-    public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
+    public class OrganizationConfiguration : IEntityTypeConfiguration<OrganizationEntity>
     {
-        public void Configure(EntityTypeBuilder<Organization> builder)
+        public void Configure(EntityTypeBuilder<OrganizationEntity> builder)
         {
             builder.ToTable("organizations");
 

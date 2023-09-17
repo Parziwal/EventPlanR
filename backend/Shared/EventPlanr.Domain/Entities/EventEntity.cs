@@ -3,7 +3,7 @@ using EventPlanr.Domain.Enums;
 
 namespace EventPlanr.Domain.Entities;
 
-public class Event : BaseAuditableEntity
+public class EventEntity : BaseAuditableEntity
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }
@@ -19,8 +19,8 @@ public class Event : BaseAuditableEntity
     public bool IsPrivate { get; set; }
     public bool IsPublished { get; set; }
     public Guid OrganizationId { get; set; }
-    public Organization Organization { get; set; } = null!;
-    public List<NewsPost> NewsPosts { get; set; } = new List<NewsPost>();
-    public List<Ticket> Tickets { get; set; } = new List<Ticket>();
-    public List<Invitation> Invitations { get; set; } = new List<Invitation>();
+    public OrganizationEntity Organization { get; set; } = null!;
+    public List<NewsPostEntity> NewsPosts { get; set; } = new List<NewsPostEntity>();
+    public List<TicketEntity> Tickets { get; set; } = new List<TicketEntity>();
+    public List<InvitationEntity> Invitations { get; set; } = new List<InvitationEntity>();
 }

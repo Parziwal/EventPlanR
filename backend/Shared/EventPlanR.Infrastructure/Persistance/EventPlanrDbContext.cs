@@ -9,13 +9,13 @@ public class EventPlanrDbContext : DbContext, IApplicationDbContext
     public EventPlanrDbContext() { }
     public EventPlanrDbContext(DbContextOptions options) : base(options) { }
 
-    public DbSet<Event> Events => Set<Event>();
-    public DbSet<Organization> Organizations => Set<Organization>();
-    public DbSet<NewsPost> NewsPosts => Set<NewsPost>();
-    public DbSet<Ticket> Tickets => Set<Ticket>();
-    public DbSet<SoldTicket> SoldTickets => Set<SoldTicket>();
-    public DbSet<Order> Orders => Set<Order>();
-    public DbSet<Invitation> Inviations => Set<Invitation>();
+    public DbSet<EventEntity> Events => Set<EventEntity>();
+    public DbSet<OrganizationEntity> Organizations => Set<OrganizationEntity>();
+    public DbSet<NewsPostEntity> NewsPosts => Set<NewsPostEntity>();
+    public DbSet<TicketEntity> Tickets => Set<TicketEntity>();
+    public DbSet<SoldTicketEntity> SoldTickets => Set<SoldTicketEntity>();
+    public DbSet<OrderEntity> Orders => Set<OrderEntity>();
+    public DbSet<InvitationEntity> Inviations => Set<InvitationEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

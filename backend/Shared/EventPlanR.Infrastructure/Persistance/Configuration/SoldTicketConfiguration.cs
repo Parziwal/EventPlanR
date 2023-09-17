@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
-public class SoldTicketConfiguration : IEntityTypeConfiguration<SoldTicket>
+public class SoldTicketConfiguration : IEntityTypeConfiguration<SoldTicketEntity>
 {
-    public void Configure(EntityTypeBuilder<SoldTicket> builder)
+    public void Configure(EntityTypeBuilder<SoldTicketEntity> builder)
     {
         builder.ToTable("sold_tickets");
 

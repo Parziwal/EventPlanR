@@ -2,9 +2,9 @@
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Models.Common;
 using EventPlanr.Domain.Common;
+using EventPlanr.Domain.Entities;
 using EventPlanr.Domain.Enums;
 using MediatR;
-using Entities = EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Features.Event.Commands;
 
@@ -42,7 +42,7 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Gui
             throw new UserNotBelongToOrganizationException(_user.UserId, request.OrganizationId.ToString());
         }
 
-        var createdEvent = new Entities.Event()
+        var createdEvent = new EventEntity()
         {
             Name = request.Name,
             Description = request.Description,
