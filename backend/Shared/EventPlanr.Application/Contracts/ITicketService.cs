@@ -1,4 +1,4 @@
-﻿using EventPlanr.Application.Models.Ticket;
+﻿using EventPlanr.Application.Models.Order;
 
 namespace EventPlanr.Application.Contracts;
 

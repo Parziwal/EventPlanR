@@ -2,12 +2,12 @@
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Common;
-using EventPlanr.Application.Models.Ticket;
+using EventPlanr.Application.Models.Order;
 using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Entities;
 using MediatR;
 
-namespace EventPlanr.Application.Features.Ticket.Commands;
+namespace EventPlanr.Application.Features.Order.Commands;
 
 public class OrderReservedTicketsCommand : IRequest<Guid>
 {

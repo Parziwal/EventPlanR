@@ -5,11 +5,13 @@ using EventPlanr.Application.Models.Common;
 using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Enums;
 using MediatR;
+using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Event.Commands;
 
 public class UpdateEventCommand : IRequest
 {
+    [JsonIgnore]
     public Guid EventId { get; set; }
     public string? Description { get; set; }
     public EventCategory Category { get; set; }

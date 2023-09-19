@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using EventPlanr.Application.Models.Common;
+using EventPlanr.Application.Models.Ticket;
 using EventPlanr.Domain.Entities;
 using EventPlanr.Domain.Enums;
 
-namespace EventPlanr.Application.Models.Ticket;
+namespace EventPlanr.Application.Models.Order;
 
-public class TicketOrderDto
+public class OrderDto
 {
     public string CustomerFirstName { get; set; } = null!;
     public string CustomerLastName { get; set; } = null!;
@@ -18,7 +19,7 @@ public class TicketOrderDto
     {
         public Mapping()
         {
-            CreateMap<OrderEntity, TicketOrderDto>();
+            CreateMap<OrderEntity, OrderDto>();
         }
     }
 }

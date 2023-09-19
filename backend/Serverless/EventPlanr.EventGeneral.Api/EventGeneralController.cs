@@ -1,29 +1,24 @@
-﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Features.Event.Queries;
+﻿using EventPlanr.Application.Features.Event.Queries;
+using EventPlanr.Application.Features.Organization.Queries;
+using EventPlanr.Application.Features.Ticket.Queries;
 using EventPlanr.Application.Models.Event;
+using EventPlanr.Application.Models.Organization;
 using EventPlanr.Application.Models.Pagination;
+using EventPlanr.Application.Models.Ticket;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlanr.EventGeneral.Api;
 
-[Route("event/general")]
+[Route("[controller]")]
 [ApiController]
 public class EventGeneralController : ControllerBase
 {
     private readonly ISender _sender;
-    private readonly IUserContext u;
 
-    public EventGeneralController(ISender sender, IUserContext user)
+    public EventGeneralController(ISender sender)
     {
         _sender = sender;
-        u = user;
-    }
-
-    [HttpGet("Test")]
-    public void GetFiltereEvents()
-    {
-        var a = u;
     }
 
     [HttpGet]
@@ -35,5 +30,23 @@ public class EventGeneralController : ControllerBase
         => _sender.Send(new GetEventDetailsQuery()
         {
             EventId = eventId,
+        });
+
+    [HttpGet("/ticket/{eventId}")]
+    public Task<List<TicketDto>> GetEventTickets(Guid eventId)
+    => _sender.Send(new GetEventTicketsQuery()
+    {
+        EventId = eventId,
+    });
+
+    [HttpGet("/organization")]
+    public Task<PaginatedListDto<OrganizationDto>> GetOrganizations([FromQuery] GetFilteredOrganizationsQuery query)
+        => _sender.Send(query);
+
+    [HttpGet("/organization/{organizationId}")]
+    public Task<OrganizationDetailsDto> GetOrganizationDetails(Guid organizationId)
+        => _sender.Send(new GetOrganizationDetailsQuery()
+        {
+            OrganizationId = organizationId,
         });
 }

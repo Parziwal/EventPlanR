@@ -3,11 +3,13 @@ using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Ticket.Commands;
 
 public class UpdateTicketCommand : IRequest
 {
+    [JsonIgnore]
     public Guid TicketId { get; set; }
     public double Price { get; set; }
     public int Count { get; set; }

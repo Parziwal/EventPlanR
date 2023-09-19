@@ -1,5 +1,5 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Models.Ticket;
+using EventPlanr.Application.Models.Order;
 
 namespace EventPlanr.Infrastructure.Ticket;
 

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace EventPlanr.Application.Models.Ticket;
+namespace EventPlanr.Application.Models.Order;
 
 public class AddTicketUserInfoDtoValidator : AbstractValidator<AddTicketUserInfoDto>
 {

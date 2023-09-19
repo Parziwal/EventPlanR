@@ -1,4 +1,4 @@
-﻿namespace EventPlanr.Application.Models.Ticket;
+﻿namespace EventPlanr.Application.Models.Order;
 
 public class AddTicketUserInfoDto
 {

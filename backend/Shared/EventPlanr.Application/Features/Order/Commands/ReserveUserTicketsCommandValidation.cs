@@ -1,7 +1,8 @@
-﻿using EventPlanr.Application.Models.Ticket;
+﻿using EventPlanr.Application.Models.Order;
+using EventPlanr.Application.Models.Ticket;
 using FluentValidation;
 
-namespace EventPlanr.Application.Features.Ticket.Commands;
+namespace EventPlanr.Application.Features.Order.Commands;
 
 public class ReserveUserTicketsCommandValidation : AbstractValidator<ReserveUserTicketsCommand>
 {

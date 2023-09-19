@@ -1,6 +1,4 @@
-﻿using EventPlanr.Domain.Enums;
-
-namespace EventPlanr.Application.Models.Ticket;
+﻿namespace EventPlanr.Application.Models.Order;
 
 public class AddReserveTicketDto
 {

@@ -1,11 +1,11 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
-using EventPlanr.Application.Models.Ticket;
+using EventPlanr.Application.Models.Order;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventPlanr.Application.Features.Ticket.Commands;
+namespace EventPlanr.Application.Features.Order.Commands;
 
 public class ReserveUserTicketsCommand : IRequest
 {
@@ -52,7 +52,7 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
                 Currency = ticket.Event.Currency,
             });
         }
-        
+
         await _context.SaveChangesAsync();
         await _ticketService.StoreReservedTicketsAsync(_user.UserId, storeTicket);
     }

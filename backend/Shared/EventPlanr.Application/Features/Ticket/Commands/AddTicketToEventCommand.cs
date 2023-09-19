@@ -3,11 +3,13 @@ using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Domain.Entities;
 using MediatR;
+using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Ticket.Commands;
 
 public class AddTicketToEventCommand : IRequest<Guid>
 {
+    [JsonIgnore]
     public Guid EventId { get; set; }
     public string Name { get; set; } = null!;
     public double Price { get; set; }
