@@ -7,24 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace EventPlanr.TicketOrder.Api;
 
 [ApiController]
-[Route("[controller]")]
-public class TicketOrderController : ControllerBase
+[Route("ticketorder")]
+public class MainController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public TicketOrderController(ISender sender)
+    public MainController(ISender sender)
     {
         _sender = sender;
     }
 
-    [HttpGet("/{eventId}")]
+    [HttpGet("{eventId}")]
     public Task<List<OrderDto>> GetUserEventTicketsOrderData(Guid eventId)
         => _sender.Send(new GetUserEventOrderQuery
         {
             EventId = eventId,
         });
 
-    [HttpPost("/reserve")]
+    [HttpPost("reserve")]
     public Task GetUserEventTicketsOrderData([FromBody] ReserveUserTicketsCommand command)
         => _sender.Send(command);
 

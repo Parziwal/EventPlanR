@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlanr.EventGeneral.Api;
 
-[Route("[controller]")]
 [ApiController]
-public class EventGeneralController : ControllerBase
+[Route("eventgeneral")]
+public class MainController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public EventGeneralController(ISender sender)
+    public MainController(ISender sender)
     {
         _sender = sender;
     }
@@ -25,25 +25,25 @@ public class EventGeneralController : ControllerBase
     public Task<PaginatedListDto<EventDto>> GetFilteredEvents([FromQuery] GetFilteredEventsQuery query)
         => _sender.Send(query);
 
-    [HttpGet("/{eventId}")]
+    [HttpGet("{eventId}")]
     public Task<EventDetailsDto> GetEventDetails(Guid eventId)
         => _sender.Send(new GetEventDetailsQuery()
         {
             EventId = eventId,
         });
 
-    [HttpGet("/ticket/{eventId}")]
+    [HttpGet("ticket/{eventId}")]
     public Task<List<TicketDto>> GetEventTickets(Guid eventId)
-    => _sender.Send(new GetEventTicketsQuery()
-    {
-        EventId = eventId,
-    });
+        => _sender.Send(new GetEventTicketsQuery()
+        {
+            EventId = eventId,
+        });
 
-    [HttpGet("/organization")]
+    [HttpGet("organization")]
     public Task<PaginatedListDto<OrganizationDto>> GetOrganizations([FromQuery] GetFilteredOrganizationsQuery query)
         => _sender.Send(query);
 
-    [HttpGet("/organization/{organizationId}")]
+    [HttpGet("organization/{organizationId}")]
     public Task<OrganizationDetailsDto> GetOrganizationDetails(Guid organizationId)
         => _sender.Send(new GetOrganizationDetailsQuery()
         {

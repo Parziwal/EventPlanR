@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace EventPlanr.OrganizationManager.Api;
 
 [ApiController]
-[Route("[controller]")]
-public class OrganizationManagerController : ControllerBase
+[Route("organizationmanager")]
+public class MainController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public OrganizationManagerController(ISender sender)
+    public MainController(ISender sender)
     {
         _sender = sender;
     }
@@ -25,28 +25,28 @@ public class OrganizationManagerController : ControllerBase
     public Task CreateOrganization([FromBody] CreateOrganizationCommand command)
         => _sender.Send(command);
 
-    [HttpPut("/{organizationId}")]
+    [HttpPut("{organizationId}")]
     public Task UpdateOrganization(Guid organizationId, [FromBody] UpdateOrganizationCommand command)
     {
         command.OrganizationId = organizationId;
         return _sender.Send(command);
     }
 
-    [HttpDelete("/{organizationId}")]
+    [HttpDelete("{organizationId}")]
     public Task DeleteOrganization(Guid organizationId)
         => _sender.Send(new DeleteOrganizationCommand()
         {
             OrganizationId = organizationId,
         });
 
-    [HttpPost("/member/{organizationId}")]
+    [HttpPost("member/{organizationId}")]
     public Task AddMemberToOrganization(Guid organizationId, [FromBody] AddMemberToOrganizationCommand command)
     {
         command.OrganizationId = organizationId;
         return _sender.Send(command);
     }
 
-    [HttpDelete("/member/{organizationId}")]
+    [HttpDelete("member/{organizationId}")]
     public Task RemoveMemberToOrganization(Guid organizationId, [FromBody] RemoveMemberFromOrganizationCommand command)
     {
         command.OrganizationId = organizationId;

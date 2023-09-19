@@ -4,8 +4,8 @@ using EventPlanr.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 builder.Services.AddControllers();
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 builder.Configuration.AddConfigurationSettings();
 
 builder.Services.AddApplicationServices();
@@ -25,4 +25,3 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 app.Run();
-

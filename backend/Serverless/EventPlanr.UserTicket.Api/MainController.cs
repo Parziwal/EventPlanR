@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace EventPlanr.UserTicket.Api;
 
 [ApiController]
-[Route("[controller]")]
-public class UserTicketController : ControllerBase
+[Route("userticket")]
+public class MainController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public UserTicketController(ISender sender)
+    public MainController(ISender sender)
     {
         _sender = sender;
     }
@@ -31,7 +31,7 @@ public class UserTicketController : ControllerBase
     public Task<PaginatedListDto<EventDto>> GetUserEventInvitations([FromQuery] GetUserPastEventsQuery query)
         => _sender.Send(query);
 
-    [HttpGet("/{eventId}")]
+    [HttpGet("{eventId}")]
     public Task<List<SoldTicketDto>> GetUserEventTickets(Guid eventId)
         => _sender.Send(new GetUserEventTicketsQuery()
         {

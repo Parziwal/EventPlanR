@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace EventPlanr.EventManager.Api;
 
 [ApiController]
-[Route("[controller]")]
-public class EventManagerController : ControllerBase
+[Route("eventmanager")]
+public class MainController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public EventManagerController(ISender sender)
+    public MainController(ISender sender)
     {
         _sender = sender;
     }
@@ -25,14 +25,14 @@ public class EventManagerController : ControllerBase
         => _sender.Send(command);
 
 
-    [HttpPut("/{eventId}")]
+    [HttpPut("{eventId}")]
     public Task UpdateEvent(Guid eventId, [FromBody] UpdateEventCommand command)
     {
         command.EventId = eventId;
         return _sender.Send(command);
     }
 
-    [HttpDelete("/{eventId}")]
+    [HttpDelete("{eventId}")]
     public Task DeleteEvent(Guid eventId)
         => _sender.Send(new DeleteEventCommand()
         {
