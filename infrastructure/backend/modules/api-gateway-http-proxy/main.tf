@@ -58,3 +58,14 @@ resource "aws_apigatewayv2_route" "this" {
   authorization_type = each.value.use_authorization ? "JWT" : null
   authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
 }
+
+resource "aws_lambda_permission" "this" {
+  for_each = var.route_settings
+
+  statement_id  = "allow_execution_from_api_gateway"
+  action        = "lambda:InvokeFunction"
+  function_name = regex(":(\\w+)/invocations", each.value.lambda_invoke_arn)[0]
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.this.execution_arn}/*/*"
+}

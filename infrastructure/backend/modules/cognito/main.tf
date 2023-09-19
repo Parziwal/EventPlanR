@@ -5,11 +5,12 @@ resource "aws_cognito_user_pool" "this" {
   auto_verified_attributes = ["email"]
 
   password_policy {
-    minimum_length    = 8
-    require_numbers   = true
-    require_symbols   = false
-    require_lowercase = true
-    require_uppercase = true
+    minimum_length                   = 8
+    require_numbers                  = true
+    require_symbols                  = false
+    require_lowercase                = true
+    require_uppercase                = true
+    temporary_password_validity_days = 7
   }
 
   account_recovery_setting {
@@ -20,7 +21,7 @@ resource "aws_cognito_user_pool" "this" {
   }
 
   schema {
-    name                     = "FirstName"
+    name                     = "given_name"
     attribute_data_type      = "String"
     developer_only_attribute = false
     mutable                  = true
@@ -32,7 +33,7 @@ resource "aws_cognito_user_pool" "this" {
   }
 
   schema {
-    name                     = "LastName"
+    name                     = "family_name"
     attribute_data_type      = "String"
     developer_only_attribute = false
     mutable                  = true
