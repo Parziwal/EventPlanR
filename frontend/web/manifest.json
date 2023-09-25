@@ -1,6 +1,6 @@
 {
-    "name": "Event Planr App",
-    "short_name": "Event Planr App",
+    "name": "Event Planr",
+    "short_name": "Event Planr",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

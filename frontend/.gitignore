@@ -110,3 +110,12 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+
+# Generated files
+lib/**/*.g.dart
+lib/**/*.freezed.dart
+lib/**/*.config.dart
+
+# Environment files
+*.env*
+!.env.template

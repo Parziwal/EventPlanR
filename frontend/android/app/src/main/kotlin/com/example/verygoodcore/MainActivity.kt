@@ -1,4 +1,4 @@
-package com.example.verygoodcore.event_planr_app
+package com.eventplanr.eventplanrapp
 
 import io.flutter.embedding.android.FlutterActivity
 
