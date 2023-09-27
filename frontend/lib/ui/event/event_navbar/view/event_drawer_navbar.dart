@@ -1,10 +1,11 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/env/env.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/ui/event/event_navbar/widgets/drawer_tile.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class EventDrawerNavbar extends StatefulWidget {
@@ -46,20 +47,34 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
 
   AppBar _appBar(BuildContext context) {
     final breakpoints = context.breakpoints;
+    final eventNavbarState = context.watch<EventNavbarCubit>().state;
+    final defaultTitle = Text(Env.appName);
+    final leadingIcon = breakpoints.isDesktop
+        ? IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              setState(() {
+                _desktopDrawerIsOpen = !_desktopDrawerIsOpen;
+              });
+            },
+          )
+        : null;
 
-    return AppBar(
-      title: Text(Env.appName),
-      elevation: 5,
-      leading: breakpoints.isDesktop
-          ? IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                setState(() {
-                  _desktopDrawerIsOpen = !_desktopDrawerIsOpen;
-                });
-              },
-            )
-          : null,
+    return eventNavbarState.maybeWhen(
+      appBarChanged: (appBar) => AppBar(
+        title: appBar.title ?? defaultTitle,
+        elevation: appBar.elevation,
+        leading: leadingIcon,
+        actions: appBar.actions,
+        toolbarHeight: appBar.toolbarHeight,
+        bottom: appBar.bottom,
+        centerTitle: appBar.centerTitle,
+      ),
+      orElse: () => AppBar(
+        title: defaultTitle,
+        elevation: 5,
+        leading: leadingIcon,
+      ),
     );
   }
 

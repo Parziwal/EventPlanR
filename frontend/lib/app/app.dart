@@ -5,7 +5,6 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/breakpoint.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
-import 'package:responsive_framework/utils/responsive_utils.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

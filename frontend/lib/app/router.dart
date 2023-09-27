@@ -3,6 +3,7 @@ import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
+import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
 import 'package:event_planr_app/ui/event/explore_events/view/explore_events_page.dart';
 import 'package:event_planr_app/ui/event/user_dashboard/view/user_dashboard_page.dart';
@@ -11,6 +12,7 @@ import 'package:event_planr_app/ui/event/user_messages/view/UserMessagesPage.dar
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
 import 'package:event_planr_app/utils/bloc_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class PagePaths {
@@ -41,7 +43,10 @@ final appRouter = GoRouter(
     ),
     ShellRoute(
       builder: (BuildContext context, GoRouterState state, Widget child) {
-        return EventNavbar(child: child);
+        return BlocProvider(
+          create: (_) => injector<EventNavbarCubit>(),
+          child: EventNavbar(child: child),
+        );
       },
       routes: [
         BlocRoute<AuthCubit>(

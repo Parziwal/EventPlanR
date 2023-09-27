@@ -1,7 +1,9 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class EventBottomNavbar extends StatelessWidget {
@@ -16,6 +18,7 @@ class EventBottomNavbar extends StatelessWidget {
 
     return Scaffold(
       body: child,
+      appBar: _appBar(context),
       bottomNavigationBar: NavigationBar(
         destinations: [
           NavigationDestination(
@@ -48,7 +51,16 @@ class EventBottomNavbar extends StatelessWidget {
     );
   }
 
-  static int _calculateSelectedIndex(BuildContext context) {
+  AppBar? _appBar(BuildContext context) {
+    final eventNavbarState = context.watch<EventNavbarCubit>().state;
+
+    return eventNavbarState.when(
+      none: () => null,
+      appBarChanged: (appBar) => appBar,
+    );
+  }
+
+  int _calculateSelectedIndex(BuildContext context) {
     final location = context.goRouterState.matchedLocation;
 
     if (location.startsWith(PagePaths.userDashboard)) {
@@ -68,15 +80,15 @@ class EventBottomNavbar extends StatelessWidget {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        context.goRouter.go(PagePaths.userDashboard);
+        context.go(PagePaths.userDashboard);
       case 1:
-        context.goRouter.go(PagePaths.exploreEvents);
+        context.go(PagePaths.exploreEvents);
       case 2:
-        context.goRouter.go(PagePaths.userEvents);
+        context.go(PagePaths.userEvents);
       case 3:
-        context.goRouter.go(PagePaths.userMessages);
+        context.go(PagePaths.userMessages);
       case 4:
-        context.goRouter.go(PagePaths.userProfile);
+        context.go(PagePaths.userProfile);
     }
   }
 }

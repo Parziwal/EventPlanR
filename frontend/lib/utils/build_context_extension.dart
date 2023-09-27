@@ -15,10 +15,6 @@ extension BuildContextX on BuildContext {
     return ResponsiveBreakpoints.of(this);
   }
 
-  GoRouter get goRouter {
-    return GoRouter.of(this);
-  }
-
   GoRouterState get goRouterState {
     return GoRouterState.of(this);
   }

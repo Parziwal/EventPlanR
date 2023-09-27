@@ -1,3 +1,4 @@
+import 'package:event_planr_app/utils/app_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class ExploreEventsPage extends StatelessWidget {
@@ -5,6 +6,6 @@ class ExploreEventsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Explore');
+    return AppScaffold(appBar: AppBar(title: Text("Helloo")), body: Text('asdas'),);
   }
 }
