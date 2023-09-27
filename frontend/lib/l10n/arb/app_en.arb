@@ -25,5 +25,10 @@
     "authEmailAlreadyTakenException": "An account with the given email already exists.",
     "authCodeMismatchException": "Invalid verification code provided, please try again.",
     "authSignUpNotConfirmedException": "Sign up not confirmed.",
-    "unknownException": "An error occurred, please try again."
+    "unknownException": "An error occurred, please try again.",
+    "navbarUserDashboard": "Home",
+    "navbarExploreEvents": "Explore",
+    "navbarUserEvents": "Event",
+    "navbarUserMessages": "Message",
+    "navbarUserProfile": "Profile"
 }

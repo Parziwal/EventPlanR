@@ -4,9 +4,9 @@ import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/sign_in_tab.dart';
 import 'package:event_planr_app/ui/auth/view/sign_up_tab.dart';
 import 'package:event_planr_app/ui/auth/widgets/auth_responsive_frame.dart';
+import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class AuthTabPage extends StatefulWidget {
   const AuthTabPage({super.key});
@@ -18,27 +18,43 @@ class AuthTabPage extends StatefulWidget {
 class _AuthTabPageState extends State<AuthTabPage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
+    if (_initialized) {
+      return;
+    }
+    _initialized = true;
+
+    context.read<AuthCubit>().autoLogin();
+
+    final currentPath = context.goRouterState.path;
     _tabController = TabController(
-      length: 2,
-      vsync: this,
+        length: 2,
+        vsync: this,
+        initialIndex: currentPath == PagePaths.signIn ? 0 : 1,
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    context.read<AuthCubit>().autoLogin();
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final currentPath = GoRouterState.of(context).path;
-    _tabController.animateTo(currentPath == PagePaths.signIn ? 0 : 1);
 
     return AuthResponsiveFrame(
-      desktopHeight: 500,
+      desktopHeight: 600,
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 0,

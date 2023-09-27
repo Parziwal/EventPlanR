@@ -1,6 +1,6 @@
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
-import 'package:event_planr_app/utils/theme_extension.dart';
+import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -29,14 +29,14 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _emailField(context),
-          const SizedBox(height: 16),
+          const SizedBox(height: 32),
           ElevatedButton(
             onPressed: widget.disabled ? null : _submit,
             style: ElevatedButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
               backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.primaryContainer,
+              foregroundColor: theme.colorScheme.onPrimary,
             ),
             child: Text(l10.authSubmit),
           ),

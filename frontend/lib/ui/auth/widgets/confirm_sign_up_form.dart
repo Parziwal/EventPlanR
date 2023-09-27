@@ -1,6 +1,6 @@
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
-import 'package:event_planr_app/utils/theme_extension.dart';
+import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -30,7 +30,7 @@ class _ConfirmSignUpFormState extends State<ConfirmSignUpForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _confirmCodeField(context),
-          const SizedBox(height: 16),
+          const SizedBox(height: 32),
           ElevatedButton(
             onPressed: widget.disabled
                 ? null

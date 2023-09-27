@@ -2,7 +2,7 @@ import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/auth/user_sign_in_credential.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
-import 'package:event_planr_app/utils/theme_extension.dart';
+import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -34,7 +34,7 @@ class _SignInFormState extends State<SignInForm> {
           _emailField(context),
           const SizedBox(height: 16),
           _passwordField(context),
-          const SizedBox(height: 16),
+          const SizedBox(height: 32),
           ElevatedButton(
             onPressed: widget.disabled ? null : _submit,
             style: ElevatedButton.styleFrom(

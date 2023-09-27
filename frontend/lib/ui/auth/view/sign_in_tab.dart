@@ -9,21 +9,24 @@ class SignInTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        children: [
-          Image.asset(
-            'assets/icon/icon.png',
-            height: 150,
-          ),
-          BlocConsumer<AuthCubit, AuthState>(
-            listener: authStateHandler,
-            builder: (_, state) => SignInForm(
-              disabled: state == const AuthState.loading(),
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/icon/icon.png',
+              height: 150,
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: authStateHandler,
+              builder: (_, state) => SignInForm(
+                disabled: state == const AuthState.loading(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

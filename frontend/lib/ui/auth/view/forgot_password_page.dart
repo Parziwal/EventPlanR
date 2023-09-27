@@ -19,12 +19,14 @@ class ForgotPasswordPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(l10n.authForgotPassword),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(32),
-          child: BlocConsumer<AuthCubit, AuthState>(
-            listener: authStateHandler,
-            builder: (_, state) => ForgotPasswordForm(
-              disabled: state == const AuthState.loading(),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(32),
+            child: BlocConsumer<AuthCubit, AuthState>(
+              listener: authStateHandler,
+              builder: (_, state) => ForgotPasswordForm(
+                disabled: state == const AuthState.loading(),
+              ),
             ),
           ),
         ),

@@ -9,12 +9,14 @@ class SignUpTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
-      child: BlocConsumer<AuthCubit, AuthState>(
-        listener: authStateHandler,
-        builder: (_, state) => SignUpForm(
-          disabled: state == const AuthState.loading(),
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(32),
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: authStateHandler,
+          builder: (_, state) => SignUpForm(
+            disabled: state == const AuthState.loading(),
+          ),
         ),
       ),
     );
