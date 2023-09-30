@@ -8,7 +8,7 @@ import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
 import 'package:event_planr_app/ui/event/explore_events/view/explore_events_page.dart';
 import 'package:event_planr_app/ui/event/user_dashboard/view/user_dashboard_page.dart';
 import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart';
-import 'package:event_planr_app/ui/event/user_messages/view/UserMessagesPage.dart';
+import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
 import 'package:event_planr_app/utils/bloc_route.dart';
 import 'package:flutter/material.dart';

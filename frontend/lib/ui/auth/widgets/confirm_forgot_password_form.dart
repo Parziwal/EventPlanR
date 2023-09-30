@@ -36,13 +36,11 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
           const SizedBox(height: 16),
           _confirmPasswordField(context),
           const SizedBox(height: 32),
-          ElevatedButton(
+          FilledButton(
             onPressed: widget.disabled ? null : _submit,
-            style: ElevatedButton.styleFrom(
+            style: FilledButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
             ),
             child: Text(l10.authSubmit),
           ),
@@ -137,6 +135,7 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
           }
         ],
       ),
+      onSubmitted: (_) => _submit(),
     );
   }
 }

@@ -1,5 +1,11 @@
 {
     "@@locale": "en",
+
+    "unknownException": "An error occurred, please try again.",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "filter": "Filter",
+
     "authSignIn": "Sign In",
     "authSignUp": "Sign Up",
     "authEmail": "Email",
@@ -25,10 +31,23 @@
     "authEmailAlreadyTakenException": "An account with the given email already exists.",
     "authCodeMismatchException": "Invalid verification code provided, please try again.",
     "authSignUpNotConfirmedException": "Sign up not confirmed.",
-    "unknownException": "An error occurred, please try again.",
+
     "navbarUserDashboard": "Home",
     "navbarExploreEvents": "Explore",
     "navbarUserEvents": "Event",
     "navbarUserMessages": "Message",
-    "navbarUserProfile": "Profile"
+    "navbarUserProfile": "Profile",
+
+    "exploreEvents": "Explore events",
+    "exploreEventsAnyCategory": "Any Category",
+    "exploreEventsAnytime": "Anytime",
+    "exploreEventsAnyLocation": "Any location",
+    "exploreEventsAnyLanguage": "Any language",
+    "exploreEventsAnyCurrency": "Any currency",
+    "exploreEventsSortDirection": "Sort direction",
+    "exploreEventsCategory": "Category",
+    "exploreEventsDate": "Date",
+    "exploreEventsLocation": "Location",
+    "exploreEventsLanguage": "Language",
+    "exploreEventsCurrency": "Currency"
 }

@@ -30,13 +30,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         children: [
           _emailField(context),
           const SizedBox(height: 32),
-          ElevatedButton(
+          FilledButton(
             onPressed: widget.disabled ? null : _submit,
-            style: ElevatedButton.styleFrom(
+            style: FilledButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
             ),
             child: Text(l10.authSubmit),
           ),
@@ -70,6 +68,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           FormBuilderValidators.email(),
         ],
       ),
+      onSubmitted: (_) => _submit(),
     );
   }
 }

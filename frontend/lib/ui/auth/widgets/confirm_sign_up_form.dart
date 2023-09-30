@@ -42,13 +42,11 @@ class _ConfirmSignUpFormState extends State<ConfirmSignUpForm> {
             child: Text(l10.authResendConfirmCode),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
+          FilledButton(
             onPressed: widget.disabled ? null : _submit,
-            style: ElevatedButton.styleFrom(
+            style: FilledButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
             ),
             child: Text(l10.authSubmit),
           ),
@@ -83,6 +81,7 @@ class _ConfirmSignUpFormState extends State<ConfirmSignUpForm> {
           FormBuilderValidators.required(),
         ],
       ),
+      onSubmitted: (_) => _submit(),
     );
   }
 }

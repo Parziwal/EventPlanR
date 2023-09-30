@@ -1,6 +1,7 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/env/env.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/utils/app_scroll_behavior.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/breakpoint.dart';
@@ -25,6 +26,7 @@ class App extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: appRouter,
+      scrollBehavior: AppScrollBehavior(),
       builder: (context, child) => ResponsiveBreakpoints.builder(
         child: child!,
         breakpoints: [
