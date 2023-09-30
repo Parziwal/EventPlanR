@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,17 +9,18 @@ part 'event_navbar_cubit.freezed.dart';
 
 @injectable
 class EventNavbarCubit extends Cubit<EventNavbarState> {
-  EventNavbarCubit() : super(const EventNavbarState.none());
+  EventNavbarCubit(this._authRepository) : super(const EventNavbarState.idle());
 
-  void changeAppBar(AppBar? appBar) {
-    if (appBar != null) {
-      emit(EventNavbarState.appBarChanged(appBar));
-    } else {
-      removeAppBar();
-    }
+  final AuthRepository _authRepository;
+
+  void changeDesktopTitle(String? title) {
+    emit(EventNavbarState.desktopTitleChanged(title ?? ''));
+    emit(const EventNavbarState.idle());
   }
 
-  void removeAppBar() {
-    emit(const EventNavbarState.none());
+  Future<void> logout() async {
+    await _authRepository.signOut();
+    emit(const EventNavbarState.logout());
+    emit(const EventNavbarState.idle());
   }
 }

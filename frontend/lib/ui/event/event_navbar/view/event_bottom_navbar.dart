@@ -1,9 +1,7 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class EventBottomNavbar extends StatelessWidget {
@@ -18,7 +16,6 @@ class EventBottomNavbar extends StatelessWidget {
 
     return Scaffold(
       body: child,
-      appBar: _appBar(context),
       bottomNavigationBar: NavigationBar(
         destinations: [
           NavigationDestination(
@@ -38,7 +35,7 @@ class EventBottomNavbar extends StatelessWidget {
             label: l10n.navbarUserMessages,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.event),
+            icon: const Icon(Icons.person),
             label: l10n.navbarUserProfile,
           ),
         ],
@@ -48,15 +45,6 @@ class EventBottomNavbar extends StatelessWidget {
         selectedIndex: _calculateSelectedIndex(context),
         onDestinationSelected: (index) => _onItemTapped(index, context),
       ),
-    );
-  }
-
-  AppBar? _appBar(BuildContext context) {
-    final eventNavbarState = context.watch<EventNavbarCubit>().state;
-
-    return eventNavbarState.when(
-      none: () => null,
-      appBarChanged: (appBar) => appBar,
     );
   }
 

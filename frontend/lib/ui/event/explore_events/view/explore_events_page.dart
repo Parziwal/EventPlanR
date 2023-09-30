@@ -1,81 +1,21 @@
-import 'package:event_planr_app/domain/models/event/event.dart';
+import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/ui/event/event_navbar/widgets/app_scaffold.dart';
 import 'package:event_planr_app/ui/event/explore_events/widgets/filter_app_bar.dart';
-import 'package:event_planr_app/ui/shared/widgets/event_item_card_landscape.dart';
-import 'package:event_planr_app/ui/shared/widgets/event_item_card_portrait.dart';
+import 'package:event_planr_app/ui/shared/widgets/event_item_list.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 class ExploreEventsPage extends StatelessWidget {
   const ExploreEventsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final breakpoints = context.breakpoints;
+    final l10n = context.l10n;
 
-    return Scaffold(
+    return AppScaffold(
+      title: l10n.exploreEvents,
       appBar: const FilterAppBar(),
-      body: Center(
-        child: MaxWidthBox(
-          maxWidth: 1200,
-          child:
-              breakpoints.equals(MOBILE) ? _eventListView() : _eventGridView(),
-        ),
-      ),
-    );
-  }
-
-  Widget _eventListView() {
-    return ListView.builder(
-      padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 8,
-      ),
-      itemBuilder: (context, index) {
-        return EventItemCardLandscape(
-          event: Event(
-            id: 'asd',
-            name: 'Event name',
-            venue: 'Venue',
-            organizationName: 'Organization name',
-            fromDate: DateTime.now(),
-            toDate: DateTime.now(),
-            coverImage: const NetworkImage(
-                'https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _eventGridView() {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 400,
-        crossAxisSpacing: 16,
-      ),
-      padding: const EdgeInsets.only(
-        left: 32,
-        right: 32,
-        top: 8,
-      ),
-      itemBuilder: (context, index) {
-        return FittedBox(
-          child: EventItemCardPortrait(
-            event: Event(
-              id: 'asd',
-              name: 'Event name',
-              venue: 'Venue',
-              organizationName: 'Organization name',
-              fromDate: DateTime.now(),
-              toDate: DateTime.now(),
-              coverImage: const NetworkImage(
-                  'https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
-            ),
-          ),
-        );
-      },
+      body: const EventItemList(),
     );
   }
 }

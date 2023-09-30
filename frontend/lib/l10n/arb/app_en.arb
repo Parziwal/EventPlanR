@@ -5,6 +5,8 @@
     "cancel": "Cancel",
     "reset": "Reset",
     "filter": "Filter",
+    "yes": "Yes",
+    "no": "No",
 
     "authSignIn": "Sign In",
     "authSignUp": "Sign Up",
@@ -49,5 +51,25 @@
     "exploreEventsDate": "Date",
     "exploreEventsLocation": "Location",
     "exploreEventsLanguage": "Language",
-    "exploreEventsCurrency": "Currency"
+    "exploreEventsCurrency": "Currency",
+
+    "userDashboard": "Dashboard",
+
+    "userEvents": "My events",
+    "userEventsUpcoming": "Upcoming",
+    "userEventsInvitation": "Invitation",
+    "userEventsPast": "Past",
+
+    "userMessages": "Messages",
+    "userMessagesEvent": "Event",
+    "userMessagesDirect": "Direct",
+
+    "userProfile": "Profile",
+    "userProfileEditProfile": "Edit profile",
+    "userProfileNotifications": "Notifications",
+    "userProfileAppearance": "Appearance",
+    "userProfileSecurity": "Security",
+    "userProfileManageEvents": "Manage events",
+    "userProfileLogout": "Logout",
+    "profileAreYouSureYouWantToLogout": "Are you sure you want to logout?"
 }
