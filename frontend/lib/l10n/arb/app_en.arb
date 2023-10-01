@@ -7,6 +7,8 @@
     "filter": "Filter",
     "yes": "Yes",
     "no": "No",
+    "create": "Create",
+    "save": "Save",
 
     "authSignIn": "Sign In",
     "authSignUp": "Sign Up",
@@ -39,6 +41,7 @@
     "navbarUserEvents": "Event",
     "navbarUserMessages": "Message",
     "navbarUserProfile": "Profile",
+    "navbarManageEvents": "Manage events",
 
     "exploreEvents": "Explore events",
     "exploreEventsAnyCategory": "Any Category",
@@ -71,5 +74,23 @@
     "userProfileSecurity": "Security",
     "userProfileManageEvents": "Manage events",
     "userProfileLogout": "Logout",
-    "profileAreYouSureYouWantToLogout": "Are you sure you want to logout?"
+    "userProfileAreYouSureYouWantToLogout": "Are you sure you want to logout?",
+
+    "organizeNavbarEventManager": "Event manager",
+    "organizeNavbarEvents": "Events",
+    "organizeNavbarSwitchOrganization": "Switch organization",
+    "organizeNavbarBackToMain": "Back to main",
+
+    "userOrganizations": "Organizations",
+    "userOrganizationsCreateOrganization": "Create organization",
+
+    "createOrganization": "Create organization",
+    "createOrganizationName": "Name",
+    "createOrganizationDescription": "Description",
+    "createOrganizationOrganizationCreated": "Organization created",
+
+    "editOrganization": "Edit organization",
+    "editOrganizationName": "Name",
+    "editOrganizationDescription": "Description",
+    "editOrganizationOrganizationUpdated": "Organization updated"
 }

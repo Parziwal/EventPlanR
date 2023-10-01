@@ -22,7 +22,7 @@ class SignInTab extends StatelessWidget {
             BlocConsumer<AuthCubit, AuthState>(
               listener: authStateHandler,
               builder: (_, state) => SignInForm(
-                disabled: state == const AuthState.loading(),
+                disabled: state is Loading,
               ),
             ),
           ],

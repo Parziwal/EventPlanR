@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
 import 'package:event_planr_app/domain/models/auth/user_forgot_password_credential.dart';
 import 'package:event_planr_app/domain/models/auth/user_sign_in_credential.dart';
 import 'package:event_planr_app/domain/models/auth/user_sign_up_credential.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 

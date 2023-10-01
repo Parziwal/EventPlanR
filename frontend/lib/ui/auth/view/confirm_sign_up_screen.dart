@@ -25,7 +25,7 @@ class ConfirmSignUpScreen extends StatelessWidget {
             child: BlocConsumer<AuthCubit, AuthState>(
               listener: authStateHandler,
               builder: (_, state) => ConfirmSignUpForm(
-                disabled: state == const AuthState.loading(),
+                disabled: state is Loading,
               ),
             ),
           ),

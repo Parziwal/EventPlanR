@@ -15,7 +15,7 @@ class SignUpTab extends StatelessWidget {
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: authStateHandler,
           builder: (_, state) => SignUpForm(
-            disabled: state == const AuthState.loading(),
+            disabled: state is Loading,
           ),
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/event/event_navbar/widgets/app_scaffold.dart';
+import 'package:event_planr_app/ui/event/event_navbar/widgets/event_scaffold.dart';
 import 'package:event_planr_app/ui/shared/widgets/event_item_list.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +30,7 @@ class _UserEventsPageState extends State<UserEventsPage>
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return AppScaffold(
+    return EventScaffold(
       title: l10n.userEvents,
       mobileActions: [
         IconButton(

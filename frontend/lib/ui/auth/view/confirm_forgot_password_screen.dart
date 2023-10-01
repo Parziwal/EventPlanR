@@ -25,7 +25,7 @@ class ConfirmForgotPasswordScreen extends StatelessWidget {
             child: BlocConsumer<AuthCubit, AuthState>(
               listener: authStateHandler,
               builder: (_, state) => ConfirmForgotPasswordForm(
-                disabled: state == const AuthState.loading(),
+                disabled: state is Loading,
               ),
             ),
           ),

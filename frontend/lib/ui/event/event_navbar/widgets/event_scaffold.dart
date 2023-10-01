@@ -1,4 +1,3 @@
-import 'package:event_planr_app/app/app.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/max_width_box.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
-class AppScaffold extends StatelessWidget {
-  const AppScaffold({
+class EventScaffold extends StatelessWidget {
+  const EventScaffold({
     super.key,
     this.title,
     this.appBar,
@@ -60,7 +59,6 @@ class AppScaffold extends StatelessWidget {
   }
 
   Widget _desktopTabBar(BuildContext context) {
-    final theme = context.theme;
     return MaxWidthBox(
       maxWidth: 600,
       child: Card(

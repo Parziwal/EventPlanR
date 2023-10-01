@@ -1,6 +1,6 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/event/event_navbar/widgets/app_scaffold.dart';
+import 'package:event_planr_app/ui/event/event_navbar/widgets/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/widgets/logout_dialog.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
@@ -18,11 +18,11 @@ class UserProfilePage extends StatelessWidget {
 
     return BlocListener<UserProfileCubit, UserProfileState>(
       listener: (context, state) {
-        if (state == const UserProfileState.logout()) {
+        if (state is LoggedOut) {
           context.go(PagePaths.signIn);
         }
       },
-      child: AppScaffold(
+      child: EventScaffold(
         title: l10n.userProfile,
         body: ListView(
           children: [
@@ -50,6 +50,7 @@ class UserProfilePage extends StatelessWidget {
               title: Text(l10n.userProfileManageEvents),
               leading: const Icon(Icons.event_note_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () => context.go(PagePaths.userOrganizations),
             ),
             ListTile(
               title: Text(l10n.userProfileLogout),

@@ -1,6 +1,5 @@
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
-import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,22 +19,21 @@ Future<void> showLogoutDialog(BuildContext context) async {
 }
 
 Widget _logoutDialog(BuildContext context) {
-  final theme = context.theme;
   final l10n = context.l10n;
 
   return BlocBuilder<UserProfileCubit, UserProfileState>(
     builder: (context, state) {
       return AlertDialog(
-        title: Text(l10n.profileAreYouSureYouWantToLogout),
+        title: Text(l10n.userProfileAreYouSureYouWantToLogout),
         actions: [
           TextButton(
-            onPressed: state == const UserProfileState.loading()
+            onPressed: state is Loading
                 ? null
                 : () => Navigator.of(context).pop(),
             child: Text(l10n.no),
           ),
           FilledButton(
-            onPressed: state == const UserProfileState.loading()
+            onPressed: state is Loading
                 ? null
                 : () => context.read<UserProfileCubit>().logout(),
             child: Text(l10n.yes),

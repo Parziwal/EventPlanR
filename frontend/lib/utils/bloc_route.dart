@@ -9,26 +9,25 @@ class BlocRoute<TCubit extends Cubit<dynamic>> extends GoRoute {
   BlocRoute({
     required super.path,
     required Widget Function(GoRouterState s) builder,
+    TCubit Function(GoRouterState s, TCubit cubit)? cubit,
     List<GoRoute> super.routes = const [],
   }) : super(
-          builder: (context, state) {
-            return BlocProvider(
-              create: (context) => injector<TCubit>(),
-              child: builder(state),
-            );
-          },
           pageBuilder: (context, state) =>
               context.breakpoints.largerThan(MOBILE)
                   ? NoTransitionPage(
                       child: BlocProvider(
-                        create: (context) => injector<TCubit>(),
+                        create: (context) => cubit != null
+                            ? cubit(state, injector<TCubit>())
+                            : injector<TCubit>(),
                         child: builder(state),
                       ),
                     )
                   : MaterialPage(
                       key: state.pageKey,
                       child: BlocProvider(
-                        create: (context) => injector<TCubit>(),
+                        create: (context) => cubit != null
+                            ? cubit(state, injector<TCubit>())
+                            : injector<TCubit>(),
                         child: builder(state),
                       ),
                     ),

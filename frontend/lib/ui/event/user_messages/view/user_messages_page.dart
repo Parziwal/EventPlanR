@@ -1,5 +1,5 @@
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/event/event_navbar/widgets/app_scaffold.dart';
+import 'package:event_planr_app/ui/event/event_navbar/widgets/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/user_messages/widgets/chat_contact_item.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/max_width_box.dart';
@@ -35,7 +35,7 @@ class _UserMessagesPageState extends State<UserMessagesPage>
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return AppScaffold(
+    return EventScaffold(
       title: l10n.userMessages,
       mobileActions: [
         IconButton(

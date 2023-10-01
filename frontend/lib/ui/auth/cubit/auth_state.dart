@@ -1,13 +1,13 @@
 part of 'auth_cubit.dart';
 
 @freezed
-abstract class AuthState with _$AuthState {
-  const factory AuthState.idle() = _Idle;
-  const factory AuthState.loading() = _Loading;
-  const factory AuthState.success() = _Success;
-  const factory AuthState.confirmSignUp() = _ConfirmSignUp;
-  const factory AuthState.confirmForgotPassword() = _ConfirmForgotPassword;
-  const factory AuthState.codeResended() = _CodeResended;
-  const factory AuthState.signInNext() = _SignInNext;
-  const factory AuthState.error(String errorCode) = _Error;
+sealed class AuthState with _$AuthState {
+  const factory AuthState.idle() = Idle;
+  const factory AuthState.loading() = Loading;
+  const factory AuthState.success() = Success;
+  const factory AuthState.confirmSignUp() = ConfirmSignUp;
+  const factory AuthState.confirmForgotPassword() = ConfirmForgotPassword;
+  const factory AuthState.codeResended() = CodeResended;
+  const factory AuthState.signInNext() = SignInNext;
+  const factory AuthState.error(String errorCode) = Error;
 }

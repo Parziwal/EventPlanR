@@ -24,21 +24,25 @@ class ChatContactItem extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 32),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'User name',
-                    style: theme.textTheme.titleMedium,
-                  ),
-                  Text(
-                    '2022.02.18',
-                    style: theme.textTheme.titleSmall!
-                        .copyWith(color: theme.colorScheme.secondary),
-                  ),
-                ],
-              )
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'User name',
+                      style: theme.textTheme.titleMedium,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      '2022.02.18',
+                      style: theme.textTheme.titleSmall!
+                          .copyWith(color: theme.colorScheme.secondary),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

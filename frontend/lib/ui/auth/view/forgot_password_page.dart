@@ -25,7 +25,7 @@ class ForgotPasswordPage extends StatelessWidget {
             child: BlocConsumer<AuthCubit, AuthState>(
               listener: authStateHandler,
               builder: (_, state) => ForgotPasswordForm(
-                disabled: state == const AuthState.loading(),
+                disabled: state is Loading,
               ),
             ),
           ),

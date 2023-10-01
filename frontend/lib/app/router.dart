@@ -11,6 +11,14 @@ import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart'
 import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
+import 'package:event_planr_app/ui/organize/create_organization/cubit/create_organization_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_organization/view/create_organization_page.dart';
+import 'package:event_planr_app/ui/organize/edit_organization/cubit/edit_organization_cubit.dart';
+import 'package:event_planr_app/ui/organize/edit_organization/view/edit_organization_page.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_navbar.dart';
+import 'package:event_planr_app/ui/organize/user_organizations/cubit/user_organizations_cubit.dart';
+import 'package:event_planr_app/ui/organize/user_organizations/view/user_organizations_page.dart';
 import 'package:event_planr_app/utils/bloc_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +33,12 @@ class PagePaths {
   static String userEvents = '/userEvents';
   static String userMessages = '/userMessages';
   static String userProfile = '/userProfile';
+
+  static String userOrganizations = '/userOrganizations';
+  static String userOrganizationsCreate = '/userOrganizations/create';
+
+  static String userOrganizationsEdit(String organizationId) =>
+      '/userOrganizations/edit/$organizationId';
 }
 
 final appRouter = GoRouter(
@@ -69,6 +83,34 @@ final appRouter = GoRouter(
         BlocRoute<UserProfileCubit>(
           path: PagePaths.userProfile,
           builder: (state) => const UserProfilePage(),
+        ),
+      ],
+    ),
+    ShellRoute(
+      builder: (context, state, child) {
+        return BlocProvider(
+          create: (_) => injector<OrganizeNavbarCubit>(),
+          child: OrganizeNavbar(
+            child: child,
+          ),
+        );
+      },
+      routes: [
+        BlocRoute<UserOrganizationsCubit>(
+          path: PagePaths.userOrganizations,
+          builder: (state) => const UserOrganizationsPage(),
+          routes: [
+            BlocRoute<CreateOrganizationCubit>(
+              path: 'create',
+              builder: (state) => const CreateOrganizationPage(),
+            ),
+            BlocRoute<EditOrganizationCubit>(
+              path: 'edit/:organizationId',
+              builder: (state) => const EditOrganizationPage(),
+              cubit: (state, cubit) => cubit
+                ..loadOrganization(state.pathParameters['organizationId']!),
+            ),
+          ],
         ),
       ],
     ),

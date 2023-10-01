@@ -32,7 +32,7 @@ Future<void> showFilterModal(BuildContext context) async {
 }
 
 class _FilterModal extends StatelessWidget {
-  const _FilterModal({required this.isMobile, super.key});
+  const _FilterModal({required this.isMobile});
 
   final bool isMobile;
 

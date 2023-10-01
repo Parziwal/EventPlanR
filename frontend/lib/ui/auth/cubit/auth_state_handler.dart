@@ -14,46 +14,55 @@ void authStateHandler(BuildContext context, AuthState state) {
   final theme = context.theme;
   final authCubit = context.read<AuthCubit>();
 
-  state.whenOrNull(
-    success: () => context.go(PagePaths.userDashboard),
-    confirmSignUp: () => context.navigator.push(
-      MaterialPageRoute<void>(
-        builder: (context) => BlocProvider<AuthCubit>(
-          create: (_) => authCubit,
-          child: const ConfirmSignUpScreen(),
+  switch (state) {
+    case Success():
+      context.go(PagePaths.userDashboard);
+    case ConfirmSignUp():
+      context.navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) =>
+              BlocProvider<AuthCubit>(
+                create: (_) => authCubit,
+                child: const ConfirmSignUpScreen(),
+              ),
         ),
-      ),
-    ),
-    confirmForgotPassword: () => context.navigator.push(
-      MaterialPageRoute<void>(
-        builder: (context) => BlocProvider<AuthCubit>(
-          create: (_) => authCubit,
-          child: const ConfirmForgotPasswordScreen(),
+      );
+    case ConfirmForgotPassword():
+      context.navigator.push(
+        MaterialPageRoute<void>(
+          builder: (context) =>
+              BlocProvider<AuthCubit>(
+                create: (_) => authCubit,
+                child: const ConfirmForgotPasswordScreen(),
+              ),
         ),
-      ),
-    ),
-    codeResended: () => context.scaffoldMessenger
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(
-            l10n.authConfirmCodeResended,
-            style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+      );
+    case CodeResended():
+      context.scaffoldMessenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.authConfirmCodeResended,
+              style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+            ),
+            backgroundColor: theme.colorScheme.primaryContainer,
           ),
-          backgroundColor: theme.colorScheme.primaryContainer,
-        ),
-      ),
-    signInNext: () => context.go(PagePaths.signIn),
-    error: (errorCode) => context.scaffoldMessenger
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(
-            l10n.translateError(errorCode),
-            style: TextStyle(color: theme.colorScheme.onError),
+        );
+    case SignInNext():
+      context.go(PagePaths.signIn);
+    case Error(:final errorCode):
+      context.scaffoldMessenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.translateError(errorCode),
+              style: TextStyle(color: theme.colorScheme.onError),
+            ),
+            backgroundColor: theme.colorScheme.error,
           ),
-          backgroundColor: theme.colorScheme.error,
-        ),
-      ),
-  );
+        );
+    default:
+  }
 }

@@ -1,8 +1,7 @@
 import 'package:event_planr_app/app/router.dart';
-import 'package:event_planr_app/env/env.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
-import 'package:event_planr_app/ui/event/event_navbar/widgets/drawer_tile.dart';
+import 'package:event_planr_app/ui/shared/widgets/drawer_tile.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +25,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
 
     return BlocListener<EventNavbarCubit, EventNavbarState>(
       listener: (context, state) {
-        if (state == const EventNavbarState.logout()) {
+        if (state is LoggedOut) {
           context.go(PagePaths.signIn);
         }
       },
@@ -54,43 +53,36 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
 
   AppBar _appBar() {
     final breakpoints = context.breakpoints;
-    final eventNavbarState = context.watch<EventNavbarCubit>().state;
-    final leadingIcon = breakpoints.isDesktop
-        ? IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              setState(() {
-                _desktopDrawerIsOpen = !_desktopDrawerIsOpen;
-              });
-            },
-          )
-        : null;
-    final actions = [
-      const CircleAvatar(
-        foregroundImage: NetworkImage(
-            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80'),
-      ),
-      const SizedBox(width: 16),
-      IconButton(
-        onPressed: () => context.read<EventNavbarCubit>().logout(),
-        icon: const Icon(Icons.logout),
-      ),
-      const SizedBox(width: 8),
-    ];
 
-    return eventNavbarState.maybeWhen(
-      desktopTitleChanged: (title) => AppBar(
-        title: Text('${Env.appName} - $title'),
-        elevation: 5,
-        leading: leadingIcon,
-        actions: actions,
+    return AppBar(
+      title: BlocBuilder<EventNavbarCubit, EventNavbarState>(
+        buildWhen: (_, current) => current is DesktopTitleChanged,
+        builder: (_, state) =>
+            Text(context.read<EventNavbarCubit>().desktopTitle),
       ),
-      orElse: () => AppBar(
-        title: Text(Env.appName),
-        elevation: 5,
-        leading: leadingIcon,
-        actions: actions,
-      ),
+      elevation: 5,
+      leading: breakpoints.isDesktop
+          ? IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                setState(() {
+                  _desktopDrawerIsOpen = !_desktopDrawerIsOpen;
+                });
+              },
+            )
+          : null,
+      actions: [
+        const CircleAvatar(
+          foregroundImage: NetworkImage(
+              'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80'),
+        ),
+        const SizedBox(width: 16),
+        IconButton(
+          onPressed: () => context.read<EventNavbarCubit>().logout(),
+          icon: const Icon(Icons.logout),
+        ),
+        const SizedBox(width: 8),
+      ],
     );
   }
 
@@ -146,6 +138,11 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                     label: Text(l10n.navbarUserMessages),
                     onTap: () => context.go(PagePaths.userMessages),
                     selected: location == PagePaths.userMessages,
+                  ),
+                  DrawerTile(
+                    icon: const Icon(Icons.event_note_outlined),
+                    label: Text(l10n.navbarManageEvents),
+                    onTap: () => context.go(PagePaths.userOrganizations),
                   ),
                 ],
               ),
