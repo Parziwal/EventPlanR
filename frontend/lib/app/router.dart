@@ -15,6 +15,8 @@ import 'package:event_planr_app/ui/organize/create_organization/cubit/create_org
 import 'package:event_planr_app/ui/organize/create_organization/view/create_organization_page.dart';
 import 'package:event_planr_app/ui/organize/edit_organization/cubit/edit_organization_cubit.dart';
 import 'package:event_planr_app/ui/organize/edit_organization/view/edit_organization_page.dart';
+import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_events/view/organization_events_page.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_navbar.dart';
 import 'package:event_planr_app/ui/organize/user_organizations/cubit/user_organizations_cubit.dart';
@@ -36,9 +38,10 @@ class PagePaths {
 
   static String userOrganizations = '/userOrganizations';
   static String userOrganizationsCreate = '/userOrganizations/create';
-
   static String userOrganizationsEdit(String organizationId) =>
       '/userOrganizations/edit/$organizationId';
+  static String userOrganizationEvents(String organizationId) =>
+      '/userOrganizations/events/$organizationId';
 }
 
 final appRouter = GoRouter(
@@ -109,6 +112,10 @@ final appRouter = GoRouter(
               builder: (state) => const EditOrganizationPage(),
               cubit: (state, cubit) => cubit
                 ..loadOrganization(state.pathParameters['organizationId']!),
+            ),
+            BlocRoute<OrganizationEventsCubit>(
+              path: 'events/:organizationId',
+              builder: (state) => const OrganizationEventsPage(),
             ),
           ],
         ),

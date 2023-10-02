@@ -3,6 +3,7 @@ import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_dra
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_framework/max_width_box.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
 class OrganizeScaffold extends StatelessWidget {
@@ -11,6 +12,7 @@ class OrganizeScaffold extends StatelessWidget {
     this.title,
     this.appBar,
     this.body,
+    this.tabBar,
     this.mobileActions,
     this.mobileFloatingButton,
     this.desktopActions,
@@ -19,6 +21,7 @@ class OrganizeScaffold extends StatelessWidget {
   final String? title;
   final PreferredSizeWidget? appBar;
   final Widget? body;
+  final TabBar? tabBar;
   final List<Widget>? mobileActions;
   final FloatingActionButton? mobileFloatingButton;
   final List<Widget>? desktopActions;
@@ -33,6 +36,7 @@ class OrganizeScaffold extends StatelessWidget {
       drawer: breakpoints.isMobile ? const OrganizeDrawer() : null,
       body: Column(
         children: [
+          if (breakpoints.isDesktop) _desktopTabBar(context),
           if (breakpoints.largerThan(MOBILE)) _desktopActions(),
           if (body != null) Expanded(child: body!),
         ],
@@ -52,9 +56,24 @@ class OrganizeScaffold extends StatelessWidget {
         actions: mobileActions,
         elevation: 5,
       );
+    } else {
+      return AppBar(
+        toolbarHeight: 0,
+        elevation: 3,
+        bottom: breakpoints.largerThan(TABLET) ? null : tabBar,
+      );
     }
+  }
 
-    return null;
+  Widget _desktopTabBar(BuildContext context) {
+    return MaxWidthBox(
+      maxWidth: 600,
+      child: Card(
+        margin: const EdgeInsets.only(top: 16),
+        clipBehavior: Clip.hardEdge,
+        child: tabBar ?? Container(),
+      ),
+    );
   }
 
   Widget _desktopActions() {

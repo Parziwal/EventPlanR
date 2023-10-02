@@ -8,8 +8,6 @@ import 'package:go_router/go_router.dart';
 class OrganizeDrawer extends StatelessWidget {
   const OrganizeDrawer({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -20,6 +18,29 @@ class OrganizeDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const SizedBox(
+            height: 100,
+            child: DrawerHeader(
+              child: Row(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: CircleAvatar(
+                      foregroundImage: NetworkImage(
+                          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80'),
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                      child: Text(
+                    'Organization name',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                ],
+              ),
+            ),
+          ),
           Expanded(
             child: ListView(
               itemExtent: 50,
@@ -28,7 +49,11 @@ class OrganizeDrawer extends StatelessWidget {
                 DrawerTile(
                   icon: const Icon(Icons.event),
                   label: Text(l10n.organizeNavbarEvents),
-                  onTap: () {},
+                  onTap: () => context.go(
+                    PagePaths.userOrganizationEvents('Test'),
+                  ),
+                  selected:
+                      location == PagePaths.userOrganizationEvents('Test'),
                 ),
                 DrawerTile(
                   icon: const Icon(Icons.group),
@@ -36,6 +61,7 @@ class OrganizeDrawer extends StatelessWidget {
                   onTap: () => context.go(PagePaths.userOrganizations),
                   selected: location == PagePaths.userOrganizations,
                 ),
+                const Divider(),
                 DrawerTile(
                   icon: const Icon(Icons.arrow_back_ios),
                   label: Text(l10n.organizeNavbarBackToMain),

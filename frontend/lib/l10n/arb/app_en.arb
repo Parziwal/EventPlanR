@@ -43,6 +43,8 @@
     "navbarUserProfile": "Profile",
     "navbarManageEvents": "Manage events",
 
+    "userDashboard": "Dashboard",
+
     "exploreEvents": "Explore events",
     "exploreEventsAnyCategory": "Any Category",
     "exploreEventsAnytime": "Anytime",
@@ -56,7 +58,7 @@
     "exploreEventsLanguage": "Language",
     "exploreEventsCurrency": "Currency",
 
-    "userDashboard": "Dashboard",
+    "eventDetails": "Event details",
 
     "userEvents": "My events",
     "userEventsUpcoming": "Upcoming",
@@ -92,5 +94,17 @@
     "editOrganization": "Edit organization",
     "editOrganizationName": "Name",
     "editOrganizationDescription": "Description",
-    "editOrganizationOrganizationUpdated": "Organization updated"
+    "editOrganizationOrganizationUpdated": "Organization updated",
+
+    "organizationEvents": "Events",
+    "organizationEventsUpcoming": "Upcoming",
+    "organizationEventsDraft": "Draft",
+    "organizationEventsPast": "Past",
+
+    "createEvent": "Create event",
+    "createEventName": "Name",
+    "createEventDescription": "Description",
+    "createEventCategory": "Category",
+    "createEventFromDate": "From date",
+    "createEventToDate": "To date"
 }
