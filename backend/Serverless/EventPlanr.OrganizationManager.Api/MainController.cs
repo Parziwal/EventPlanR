@@ -1,3 +1,4 @@
+using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Features.Organization.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,16 +10,18 @@ namespace EventPlanr.OrganizationManager.Api;
 public class MainController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly IUserContext userContext;
 
-    public MainController(ISender sender)
+    public MainController(ISender sender, IUserContext userContext)
     {
         _sender = sender;
+        this.userContext = userContext;
     }
 
     [HttpGet]
-    public void GetUserOrganizations()
+    public string GetUserOrganizations()
     {
-
+        return $"{userContext.UserId} {userContext.FirstName} {userContext.LastName} {userContext.Email}";
     }
 
     [HttpPost]

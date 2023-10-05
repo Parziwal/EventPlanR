@@ -5,7 +5,7 @@ namespace EventPlanr.Domain.Entities;
 
 public class OrderEntity : BaseAuditableEntity
 {
-    public string CustomerUserId { get; set; } = null!;
+    public Guid CustomerUserId { get; set; }
     public string CustomerFirstName { get; set; } = null!;
     public string CustomerLastName { get; set; } = null!;
     public Address BillingAddress { get; set; } = null!;

@@ -2,6 +2,7 @@
 
 public interface IUserService
 {
-    Task AddOrganizationToUserClaimsAsync(Guid organizationId);
-    Task RemoveOrganizationFromUserClaimsAsync(Guid organizationId);
+    Task AddOrganizationToUserClaimsAsync(Guid userId, Guid organizationId);
+    Task RemoveOrganizationFromUserClaimsAsync(Guid userId, Guid organizationId);
+    Task<List<Guid>> GetUserOrganizationsAsync(Guid userId);
 }

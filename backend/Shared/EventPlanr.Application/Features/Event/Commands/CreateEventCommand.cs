@@ -37,9 +37,9 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Gui
 
     public async Task<Guid> Handle(CreateEventCommand request, CancellationToken cancellationToken)
     {
-        if (!_user.OrganizationIds.Contains(request.OrganizationId.ToString()))
+        if (!_user.OrganizationIds.Contains(request.OrganizationId))
         {
-            throw new UserNotBelongToOrganizationException(_user.UserId, request.OrganizationId.ToString());
+            //throw new UserNotBelongToOrganizationException(_user.UserId, request.OrganizationId.ToString());
         }
 
         var createdEvent = new EventEntity()

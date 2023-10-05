@@ -4,13 +4,13 @@ output "event_planr_api_url" {
 }
 
 output "event_planr_db_url" {
-  description = "Url of the event planr db"
-  value       = module.event_planr_db.rds_cluster_url
+  description = "Url of the event planr database"
+  value       = module.event_planr_db.cluster_url
 }
 
 output "event_planr_db_password" {
-  description = "Password of the event planr db"
-  value       = module.event_planr_db.rds_cluster_password
+  description = "Password of the event planr database"
+  value       = module.event_planr_db.password
   sensitive   = true
 }
 

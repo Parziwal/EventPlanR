@@ -49,7 +49,17 @@ resource "aws_apigatewayv2_integration" "this" {
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "this" {
+resource "aws_apigatewayv2_route" "main" {
+  for_each = var.route_settings
+
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "ANY ${each.key}"
+  target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
+  authorization_type = each.value.use_authorization ? "JWT" : null
+  authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
+}
+
+resource "aws_apigatewayv2_route" "child" {
   for_each = var.route_settings
 
   api_id             = aws_apigatewayv2_api.this.id

@@ -4,6 +4,10 @@ resource "aws_cognito_user_pool" "this" {
   username_attributes      = ["email"]
   auto_verified_attributes = ["email"]
 
+  lambda_config {
+    pre_token_generation = var.pre_token_generation_lambda
+  }
+
   password_policy {
     minimum_length                   = 8
     require_numbers                  = true
@@ -17,6 +21,18 @@ resource "aws_cognito_user_pool" "this" {
     recovery_mechanism {
       name     = "verified_email"
       priority = 1
+    }
+  }
+
+  schema {
+    name                     = "email"
+    attribute_data_type      = "String"
+    developer_only_attribute = false
+    mutable                  = true
+    required                 = true
+    string_attribute_constraints {
+      min_length = 1
+      max_length = 128
     }
   }
 
@@ -47,10 +63,36 @@ resource "aws_cognito_user_pool" "this" {
   tags = var.tags
 }
 
-resource "aws_cognito_user_pool_client" "this" {
-  name = "pool_client"
+resource "aws_cognito_user_pool_client" "mobile" {
+  name = "mobile_pool_client"
 
-  user_pool_id        = aws_cognito_user_pool.this.id
-  generate_secret     = false
-  explicit_auth_flows = ["ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_SRP_AUTH"]
+  user_pool_id                  = aws_cognito_user_pool.this.id
+  generate_secret               = false
+  enable_token_revocation       = true
+  prevent_user_existence_errors = "ENABLED"
+  explicit_auth_flows           = ["ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_SRP_AUTH"]
+}
+
+resource "aws_cognito_user_pool_domain" "test" {
+  count = var.test_client ? 1 : 0
+
+  domain       = "event-planr-auth-test"
+  user_pool_id = aws_cognito_user_pool.this.id
+}
+
+resource "aws_cognito_user_pool_client" "test" {
+  count = var.test_client ? 1 : 0
+
+  name = "test_client"
+
+  user_pool_id    = aws_cognito_user_pool.this.id
+  generate_secret = false
+
+  callback_urls                        = ["http://localhost"]
+  logout_urls                          = ["http://localhost"]
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["code"]
+  allowed_oauth_scopes                 = ["email", "openid", "profile"]
+  supported_identity_providers         = ["COGNITO"]
+  prevent_user_existence_errors        = "ENABLED"
 }

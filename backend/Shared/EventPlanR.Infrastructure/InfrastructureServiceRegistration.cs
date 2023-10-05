@@ -1,4 +1,7 @@
-﻿using EventPlanr.Application.Contracts;
+﻿using Amazon.DynamoDBv2;
+using EventPlanr.Application.Contracts;
+using EventPlanr.Domain.Constants;
+using EventPlanr.Infrastructure.Options;
 using EventPlanr.Infrastructure.Persistance;
 using EventPlanr.Infrastructure.Persistance.Interceptors;
 using EventPlanr.Infrastructure.Ticket;
@@ -14,6 +17,8 @@ public static class InfrastructureServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddInfrastructureOptions();
+
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddDbContext<EventPlanrDbContext>((sp, options) =>
         {
@@ -23,11 +28,18 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<EventPlanrDbContext>());
         services.AddScoped<DatabaseInitializer>();
 
+        services.AddSingleton<IAmazonDynamoDB, AmazonDynamoDBClient>();
+
         services.AddHttpContextAccessor();
+
         services.AddScoped<IUserContext, UserContext>();
-        
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<ITicketService, TicketService>();
+
+        if (EnvironmentType.IsDevelopmentLocal())
+        {
+            services.AddScoped<IUserContext, UserContextMock>();
+        }
 
         return services;
     }

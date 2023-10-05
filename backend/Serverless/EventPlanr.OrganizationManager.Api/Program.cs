@@ -1,5 +1,6 @@
 using EventPlanr.Application;
 using EventPlanr.Configuration;
+using EventPlanr.Domain.Constants;
 using EventPlanr.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (EnvironmentType.IsDevelopmentLocal())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

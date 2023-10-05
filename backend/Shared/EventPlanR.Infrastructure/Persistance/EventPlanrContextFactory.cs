@@ -13,7 +13,7 @@ public class EventPlanrContextFactory : IDesignTimeDbContextFactory<EventPlanrDb
             .Build();
         var optionsBuilder = new DbContextOptionsBuilder<EventPlanrDbContext>();
         optionsBuilder.UseNpgsql(configuration.GetConnectionString("EventPlanrDb"));
-
+        
         return new EventPlanrDbContext(optionsBuilder.Options);
     }
 }

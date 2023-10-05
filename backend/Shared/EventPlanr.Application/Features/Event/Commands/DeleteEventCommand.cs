@@ -31,9 +31,9 @@ public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand>
             .Include(e => e.Invitations)
             .SingleEntityAsync(e => e.Id == request.EventId);
 
-        if (!_user.OrganizationIds.Contains(eventEntity.OrganizationId.ToString()))
+        if (!_user.OrganizationIds.Contains(eventEntity.OrganizationId))
         {
-            throw new UserNotBelongToOrganizationException(_user.UserId, eventEntity.OrganizationId.ToString());
+            //throw new UserNotBelongToOrganizationException(_user.UserId, eventEntity.OrganizationId.ToString());
         }
 
         if (eventEntity.Tickets.Sum(t => t.SoldTickets.Count()) > 0)

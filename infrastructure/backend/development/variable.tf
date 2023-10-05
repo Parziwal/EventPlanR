@@ -7,7 +7,7 @@ variable "region" {
 variable "environment" {
   description = "The name of the environment"
   type        = string
-  default     = "dev"
+  default     = "development"
 }
 
 variable "tags" {

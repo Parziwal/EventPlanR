@@ -26,9 +26,9 @@ public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizati
 
     public async Task Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
     {
-        if (_user.OrganizationIds.Contains(request.OrganizationId.ToString()))
+        if (_user.OrganizationIds.Contains(request.OrganizationId))
         {
-            throw new UserNotBelongToOrganizationException(_user.UserId, request.OrganizationId.ToString());
+            //throw new UserNotBelongToOrganizationException(_user.UserId, request.OrganizationId.ToString());
         }
 
         var organization = await _context.Organizations

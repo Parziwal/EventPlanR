@@ -4,22 +4,13 @@ resource "random_password" "this" {
   override_special = "_!%^"
 }
 
-resource "aws_secretsmanager_secret" "this" {
-  name = "${var.cluster_identifier}_rds_password"
-}
-
-resource "aws_secretsmanager_secret_version" "this" {
-  secret_id     = aws_secretsmanager_secret.this.id
-  secret_string = random_password.this.result
-}
-
 resource "aws_rds_cluster" "this" {
   engine                 = "aurora-postgresql"
   engine_mode            = "provisioned"
   cluster_identifier     = var.cluster_identifier
   database_name          = var.database_name
   master_username        = "master"
-  master_password        = aws_secretsmanager_secret_version.this.secret_string
+  master_password        = random_password.this.result
   db_subnet_group_name   = aws_db_subnet_group.this.id
   vpc_security_group_ids = [aws_security_group.this.id]
   skip_final_snapshot    = true

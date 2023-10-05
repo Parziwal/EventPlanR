@@ -12,13 +12,13 @@ public class CreateOrganizationCommand : IRequest<Guid>
 
 public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Guid>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IUserService _userService;
 
     public CreateOrganizationCommandHandler(IApplicationDbContext context, IUserContext user, IUserService userService)
     {
-        _context = context;
+        _dbContext = context;
         _user = user;
         _userService = userService;
     }
@@ -29,13 +29,13 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         {
             Name = request.Name,
             Description = request.Description,
-            MemberUserIds = new List<string>() { _user.UserId },
+            MemberUserIds = new List<Guid>() { _user.UserId },
         };
 
-        _context.Organizations.Add(organization);
-        await _context.SaveChangesAsync();
+        _dbContext.Organizations.Add(organization);
+        await _dbContext.SaveChangesAsync();
 
-        await _userService.AddOrganizationToUserClaimsAsync(organization.Id);
+        await _userService.AddOrganizationToUserClaimsAsync(_user.UserId, organization.Id);
 
         return organization.Id;
     }

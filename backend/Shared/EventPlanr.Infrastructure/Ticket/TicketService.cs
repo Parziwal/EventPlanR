@@ -5,12 +5,12 @@ namespace EventPlanr.Infrastructure.Ticket;
 
 public class TicketService : ITicketService
 {
-    public Task<List<StoreReservedTicketDto>> GetUserReservedTicketsAsync(string userId)
+    public Task<List<StoreReservedTicketDto>> GetUserReservedTicketsAsync(Guid userId)
     {
         throw new NotImplementedException();
     }
 
-    public Task StoreReservedTicketsAsync(string userId, List<StoreReservedTicketDto> reserveTickets)
+    public Task StoreReservedTicketsAsync(Guid userId, List<StoreReservedTicketDto> reserveTickets)
     {
         throw new NotImplementedException();
     }
