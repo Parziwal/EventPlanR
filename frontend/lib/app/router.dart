@@ -2,6 +2,8 @@ import 'package:event_planr_app/di/injectable.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
+import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
+import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
@@ -30,6 +32,9 @@ class PagePaths {
   static String signIn = '/auth/signIn';
   static String signUp = '/auth/signUp';
   static String forgotPassword = '/auth/forgotPassword';
+  static String confirmSignUp = '/auth/confirmSignUp';
+  static String confirmForgotPassword = '/auth/confirmForgotPassword';
+
   static String userDashboard = '/userDashboard';
   static String exploreEvents = '/exploreEvents';
   static String userEvents = '/userEvents';
@@ -50,14 +55,24 @@ final appRouter = GoRouter(
     BlocRoute<AuthCubit>(
       path: PagePaths.signIn,
       builder: (_) => const AuthTabPage(),
+        init: (cubit, _) => cubit..autoLogin(),
     ),
     BlocRoute<AuthCubit>(
       path: PagePaths.signUp,
       builder: (_) => const AuthTabPage(),
+      init: (cubit, _) => cubit..autoLogin(),
     ),
     BlocRoute<AuthCubit>(
       path: PagePaths.forgotPassword,
       builder: (_) => const ForgotPasswordPage(),
+    ),
+    BlocRoute<AuthCubit>(
+      path: PagePaths.confirmSignUp,
+      builder: (_) => const ConfirmSignUpPage(),
+    ),
+    BlocRoute<AuthCubit>(
+      path: PagePaths.confirmForgotPassword,
+      builder: (_) => const ConfirmForgotPasswordPage(),
     ),
     ShellRoute(
       builder: (BuildContext context, GoRouterState state, Widget child) {
@@ -110,7 +125,7 @@ final appRouter = GoRouter(
             BlocRoute<EditOrganizationCubit>(
               path: 'edit/:organizationId',
               builder: (state) => const EditOrganizationPage(),
-              cubit: (state, cubit) => cubit
+              init: (cubit, state) => cubit
                 ..loadOrganization(state.pathParameters['organizationId']!),
             ),
             BlocRoute<OrganizationEventsCubit>(

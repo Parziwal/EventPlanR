@@ -6,8 +6,8 @@ import 'package:event_planr_app/ui/auth/widgets/confirm_forgot_password_form.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ConfirmForgotPasswordScreen extends StatelessWidget {
-  const ConfirmForgotPasswordScreen({super.key});
+class ConfirmForgotPasswordPage extends StatelessWidget {
+  const ConfirmForgotPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {

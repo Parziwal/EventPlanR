@@ -9,6 +9,7 @@ import 'package:event_planr_app/domain/models/auth/user.dart';
 import 'package:event_planr_app/domain/models/auth/user_forgot_password_credential.dart';
 import 'package:event_planr_app/domain/models/auth/user_sign_in_credential.dart';
 import 'package:event_planr_app/domain/models/auth/user_sign_up_credential.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -16,15 +17,16 @@ class AuthRepository {
   String? _userEmail;
 
   Future<bool> isUserSignedIn() async {
-    final result = await Amplify.Auth.fetchAuthSession();
-    return result.isSignedIn;
+    final session = await Amplify.Auth.fetchAuthSession();
+    return session.isSignedIn;
   }
 
   Future<String> get bearerToken async {
     final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
-    final result = await cognitoPlugin.fetchAuthSession();
-    final identityId = result.identityIdResult.value;
-    if (result.isSignedIn) {
+    final session = await cognitoPlugin.fetchAuthSession(options: FetchAuthSessionOptions(forceRefresh: true));
+    final identityId = session.userPoolTokensResult.value.idToken.raw;
+
+    if (session.isSignedIn) {
       return 'Bearer $identityId';
     }
 
@@ -46,8 +48,13 @@ class AuthRepository {
         username: credential.email,
         password: credential.password,
       );
+
       if (result.nextStep.signInStep == AuthSignInStep.confirmSignUp) {
         throw AuthSignUpNotConfirmedException();
+      }
+
+      if (kDebugMode) {
+        safePrint(await bearerToken);
       }
     } on NotAuthorizedServiceException {
       throw AuthWrongCredentialsException();
@@ -92,7 +99,7 @@ class AuthRepository {
     } on CodeMismatchException {
       throw AuthCodeMismatchException();
     } on AuthException catch (e) {
-      safePrint('Error confirming user: ${e.message}');
+      safePrint('Error confirming user: ${e.runtimeType}');
       throw common.UnknownException();
     }
   }

@@ -6,8 +6,8 @@ import 'package:event_planr_app/ui/auth/widgets/confirm_sign_up_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ConfirmSignUpScreen extends StatelessWidget {
-  const ConfirmSignUpScreen({super.key});
+class ConfirmSignUpPage extends StatelessWidget {
+  const ConfirmSignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {

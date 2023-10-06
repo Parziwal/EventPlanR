@@ -66,6 +66,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(const AuthState.signInNext());
     } on Exception catch (e) {
       emit(AuthState.error(e.toString()));
+    } finally {
+      emit(const AuthState.idle());
     }
   }
 

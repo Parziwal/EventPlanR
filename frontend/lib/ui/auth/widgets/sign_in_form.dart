@@ -41,7 +41,7 @@ class _SignInFormState extends State<SignInForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.save),
+            child: Text(l10.authSignIn),
           ),
           const SizedBox(height: 16),
           TextButton(

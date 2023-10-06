@@ -21,10 +21,6 @@ class _AuthTabPageState extends State<AuthTabPage>
   bool _initialized = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
@@ -32,8 +28,6 @@ class _AuthTabPageState extends State<AuthTabPage>
       return;
     }
     _initialized = true;
-
-    context.read<AuthCubit>().autoLogin();
 
     final currentPath = context.goRouterState.path;
     _tabController = TabController(
@@ -52,6 +46,9 @@ class _AuthTabPageState extends State<AuthTabPage>
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
+    final currentPath = context.goRouterState.path;
+    _tabController.animateTo(currentPath == PagePaths.signIn ? 0 : 1);
 
     return AuthResponsiveFrame(
       desktopHeight: 600,

@@ -128,7 +128,7 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
         [
           (confirmPassword) {
             if (confirmPassword !=
-                _formKey.currentState?.fields['password']?.value) {
+                _formKey.currentState?.fields['newPassword']?.value) {
               return l10.authPasswordsDoNotMatch;
             }
             return null;
