@@ -13,6 +13,11 @@ variable "handler" {
   type        = string
 }
 
+variable "role_arn" {
+  description = "The arn of them lambda role policy"
+  type        = string
+}
+
 variable "environment_varibles" {
   description = "Environment variables for the lambda function"
   type        = map(string)

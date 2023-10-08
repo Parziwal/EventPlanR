@@ -10,6 +10,7 @@ public static class InfrastructureOptionsRegistration
         var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
         services.Configure<DynamoDbTableOptions>(options => configuration.GetSection(nameof(DynamoDbTableOptions)).Bind(options));
+        services.Configure<CognitoUserPoolOptions>(options => configuration.GetSection(nameof(CognitoUserPoolOptions)).Bind(options));
 
         return services;
     }

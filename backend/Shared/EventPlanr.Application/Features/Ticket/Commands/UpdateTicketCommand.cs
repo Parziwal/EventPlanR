@@ -36,10 +36,10 @@ public class UpdateTicketCommandHandler : IRequestHandler<UpdateTicketCommand>
             .Include(t => t.SoldTickets)
             .SingleEntityAsync(t => t.Id == request.TicketId);
 
-        if (!_user.OrganizationIds.Contains(ticket.Event.OrganizationId))
-        {
+        //if (!_user.OrganizationIds.Contains(ticket.Event.OrganizationId))
+        //{
             //throw new UserNotBelongToOrganizationException(_user.UserId, ticket.Event.OrganizationId.ToString());
-        }
+        //}
 
         if (ticket.Event.FromDate > request.SaleStarts || ticket.Event.ToDate < request.SaleStarts
             || ticket.Event.FromDate > request.SaleEnds || ticket.Event.ToDate < request.SaleEnds)

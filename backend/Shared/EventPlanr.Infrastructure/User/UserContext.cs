@@ -14,6 +14,8 @@ public class UserContext : IUserContext
         _httpContext = httpContextAccessor.HttpContext!;
     }
 
+    public bool IsAuthenticated => _httpContext.User?.Identity?.IsAuthenticated ?? false;
+
     public Guid UserId => Guid.Parse(_httpContext.User.FindFirstValue("sub"));
 
     public string Email => _httpContext.User.FindFirstValue("email");
@@ -22,17 +24,33 @@ public class UserContext : IUserContext
 
     public string LastName => _httpContext.User.FindFirstValue("family_name");
 
-    public List<Guid> OrganizationIds {
+    public Guid? OrganizationId
+    {
         get
         {
-            var organizationClaim = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "organization_ids");
+            var organizationId = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "organization_id");
 
-            if (organizationClaim != null)
+            if (organizationId != null)
             {
-                return JsonSerializer.Deserialize<List<Guid>>(organizationClaim.Value)!;
+                return new Guid(organizationId.Value);
             }
 
-            return new List<Guid>();
+            return null;
+        }
+    }
+
+    public List<string> OrganizationPolicies
+    {
+        get
+        {
+            var organizationPolicies = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "organization_policies");
+
+            if (organizationPolicies != null)
+            {
+                return JsonSerializer.Deserialize<List<string>>(organizationPolicies.Value)!;
+            }
+
+            return new List<string>();
         }
     }
 }

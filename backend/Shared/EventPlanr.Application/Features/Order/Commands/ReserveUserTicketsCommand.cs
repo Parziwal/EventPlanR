@@ -32,7 +32,7 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
         {
             var ticket = await _context.Tickets
                 .Include(t => t.Event)
-                .SingleEntityAsync(t => t.Id == reserveTicket.TicketId, reserveTicket.TicketId);
+                .SingleEntityAsync(t => t.Id == reserveTicket.TicketId);
             if (ticket.SaleStarts <= DateTimeOffset.Now && ticket.SaleEnds >= DateTimeOffset.Now)
             {
                 throw new TicketNotOnSaleException(ticket);

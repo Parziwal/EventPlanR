@@ -10,7 +10,7 @@ resource "aws_lambda_function" "this" {
   runtime                        = "dotnet6"
   handler                        = var.handler
   source_code_hash               = filebase64sha256(data.archive_file.this.output_path)
-  role                           = aws_iam_role.this.arn
+  role                           = var.role_arn
   timeout                        = 15
   memory_size                    = var.memory_size
   reserved_concurrent_executions = var.reserved_concurrent_executions
@@ -18,24 +18,6 @@ resource "aws_lambda_function" "this" {
   environment {
     variables = var.environment_varibles
   }
-
-  tags = var.tags
-}
-
-data "aws_iam_policy_document" "this" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-  }
-}
-
-resource "aws_iam_role" "this" {
-  name               = "${var.function_name}_lambda_role"
-  assume_role_policy = data.aws_iam_policy_document.this.json
 
   tags = var.tags
 }

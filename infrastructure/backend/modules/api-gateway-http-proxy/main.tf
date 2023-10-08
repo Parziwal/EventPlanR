@@ -49,21 +49,81 @@ resource "aws_apigatewayv2_integration" "this" {
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "main" {
+resource "aws_apigatewayv2_route" "main_get" {
   for_each = var.route_settings
 
   api_id             = aws_apigatewayv2_api.this.id
-  route_key          = "ANY ${each.key}"
+  route_key          = "GET ${each.key}"
   target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
   authorization_type = each.value.use_authorization ? "JWT" : null
   authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
 }
 
-resource "aws_apigatewayv2_route" "child" {
+resource "aws_apigatewayv2_route" "main_post" {
   for_each = var.route_settings
 
   api_id             = aws_apigatewayv2_api.this.id
-  route_key          = "ANY ${each.key}/{proxy+}"
+  route_key          = "POST ${each.key}"
+  target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
+  authorization_type = each.value.use_authorization ? "JWT" : null
+  authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
+}
+
+resource "aws_apigatewayv2_route" "main_put" {
+  for_each = var.route_settings
+
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "PUT ${each.key}"
+  target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
+  authorization_type = each.value.use_authorization ? "JWT" : null
+  authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
+}
+
+resource "aws_apigatewayv2_route" "main_delete" {
+  for_each = var.route_settings
+
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "DELETE ${each.key}"
+  target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
+  authorization_type = each.value.use_authorization ? "JWT" : null
+  authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
+}
+
+resource "aws_apigatewayv2_route" "child_get" {
+  for_each = var.route_settings
+
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "GET ${each.key}/{proxy+}"
+  target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
+  authorization_type = each.value.use_authorization ? "JWT" : null
+  authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
+}
+
+resource "aws_apigatewayv2_route" "child_post" {
+  for_each = var.route_settings
+
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "POST ${each.key}/{proxy+}"
+  target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
+  authorization_type = each.value.use_authorization ? "JWT" : null
+  authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
+}
+
+resource "aws_apigatewayv2_route" "child_put" {
+  for_each = var.route_settings
+
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "PUT ${each.key}/{proxy+}"
+  target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
+  authorization_type = each.value.use_authorization ? "JWT" : null
+  authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null
+}
+
+resource "aws_apigatewayv2_route" "child_delete" {
+  for_each = var.route_settings
+
+  api_id             = aws_apigatewayv2_api.this.id
+  route_key          = "DELETE ${each.key}/{proxy+}"
   target             = "integrations/${aws_apigatewayv2_integration.this[each.key].id}"
   authorization_type = each.value.use_authorization ? "JWT" : null
   authorizer_id      = each.value.use_authorization ? aws_apigatewayv2_authorizer.this[0].id : null

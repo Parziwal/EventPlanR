@@ -18,6 +18,8 @@ namespace EventPlanr.Infrastructure.Persistance.Configuration
                 .IsRequired();
             builder.Property(o => o.Description)
                 .HasMaxLength(256);
+
+            builder.HasQueryFilter(x => x.IsDeleted == false);
         }
     }
 }

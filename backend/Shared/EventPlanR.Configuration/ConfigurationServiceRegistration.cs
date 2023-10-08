@@ -11,11 +11,12 @@ public static class ConfigurationServiceRegistration
         var configurationDirectory  = Path.Combine(rootDirectory, "Shared", "EventPlanr.Configuration");
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 
-        return builder.AddJsonFile(Path.Combine(configurationDirectory, "appsettings.json"), optional: true, reloadOnChange: true)
+        return builder
+            .AddSystemsManager($"/{environment.ToLower()}/event_planr")
+            .AddJsonFile(Path.Combine(configurationDirectory, "appsettings.json"), optional: true, reloadOnChange: true)
             .AddJsonFile(Path.Combine(configurationDirectory, $"appsettings.{environment}.json"), optional: true, reloadOnChange: true)
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
-            .AddEnvironmentVariables()
-            .AddSystemsManager($"/{environment.ToLower()}/event_planr");
+            .AddEnvironmentVariables();
     }
 }

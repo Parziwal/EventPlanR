@@ -2,7 +2,7 @@
 
 namespace EventPlanr.Domain.Entities;
 
-public class OrganizationEntity : BaseAuditableEntity
+public class OrganizationEntity : BaseSoftDeleteAuditableEntity
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }

@@ -1,83 +1,70 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.DynamoDBv2.Model;
+﻿using Amazon.CognitoIdentityProvider;
+using Amazon.CognitoIdentityProvider.Model;
 using EventPlanr.Application.Contracts;
-using EventPlanr.Domain.DocumentModels;
+using EventPlanr.Application.Exceptions.Common;
+using EventPlanr.Domain.Entities;
 using EventPlanr.Infrastructure.Options;
 using Microsoft.Extensions.Options;
-using System.Text.Json;
 
 namespace EventPlanr.Infrastructure.User;
 
 public class UserService : IUserService
 {
-    private readonly IAmazonDynamoDB _dynamoDb;
-    private readonly DynamoDbTableOptions _dynamoDbTableOptions;
+    private readonly IAmazonCognitoIdentityProvider _cognitoClient;
+    private readonly CognitoUserPoolOptions _cognitoUserPoolOptions;
 
-    public UserService(IAmazonDynamoDB dynamoDb, IOptions<DynamoDbTableOptions> dynamoDbTableOptions)
+    public UserService(
+        IAmazonCognitoIdentityProvider cognitoClient,
+        IOptions<CognitoUserPoolOptions> cognitoUserPoolOptions)
     {
-        _dynamoDb = dynamoDb;
-        _dynamoDbTableOptions = dynamoDbTableOptions.Value;
+        _cognitoClient = cognitoClient;
+        _cognitoUserPoolOptions = cognitoUserPoolOptions.Value;
     }
 
-    public async Task AddOrganizationToUserClaimsAsync(Guid userId, Guid organizationId)
+    public async Task<Guid?> GetUserIdByEmail(string email)
     {
-        var addOrganizationRequest = new UpdateItemRequest
+        var getUserWithEmailRequest = new ListUsersRequest
         {
-            TableName = _dynamoDbTableOptions.UserOrganizationClaimTable,
-            Key = new Dictionary<string, AttributeValue>()
-            { 
-                { "UserId", new AttributeValue { S = userId.ToString() } } 
-            },
-            ExpressionAttributeValues = new Dictionary<string, AttributeValue>()
-            {
-                {":org",new AttributeValue { S = organizationId.ToString() } },
-            },
-            UpdateExpression = "ADD OrganizationIds :org"
+            
+            UserPoolId = _cognitoUserPoolOptions.UserPoolId,
+            AttributesToGet = new List<string> { "sub" },
+            Filter = $"\"email\"=\"{email}\"",
+            Limit = 1,
         };
+        var userResponse = await _cognitoClient.ListUsersAsync(getUserWithEmailRequest);
 
-        await _dynamoDb.UpdateItemAsync(addOrganizationRequest);
-    }
-
-    public async Task RemoveOrganizationFromUserClaimsAsync(Guid userId, Guid organizationId)
-    {
-        var removeOrganizationRequest = new UpdateItemRequest
+        if (userResponse.Users.Count == 0)
         {
-            TableName = _dynamoDbTableOptions.UserOrganizationClaimTable,
-            Key = new Dictionary<string, AttributeValue>()
-            {
-                { "UserId", new AttributeValue { S = userId.ToString() } }
-            },
-            ExpressionAttributeValues = new Dictionary<string, AttributeValue>()
-            {
-                {":org",new AttributeValue { S = organizationId.ToString() } },
-            },
-            UpdateExpression = "DELETE OrganizationIds :org"
-        };
-
-        await _dynamoDb.UpdateItemAsync(removeOrganizationRequest);
-    }
-
-    public async Task<List<Guid>> GetUserOrganizationsAsync(Guid userId)
-    {
-        var getOrganizationsRequest = new GetItemRequest
-        {
-            TableName = _dynamoDbTableOptions.UserOrganizationClaimTable,
-            Key = new Dictionary<string, AttributeValue>
-            {
-                 { "UserId", new AttributeValue { S = userId.ToString() } }
-            }
-        };
-
-        var response = await _dynamoDb.GetItemAsync(getOrganizationsRequest);
-        if (response.Item.Count == 0)
-        {
-            return new List<Guid>();
+            return null;
         }
 
-        var itemAsDocument = Document.FromAttributeMap(response.Item);
-        var claimDocumentModel = JsonSerializer.Deserialize<UserOrganizationClaimDocumentModel>(itemAsDocument.ToJson())!;
+        return new Guid(userResponse.Users.First().Attributes.First().Value);
+    }
 
-        return claimDocumentModel.OrganizationIds;
+    public async Task<UserEntity> GetUserById(Guid userId)
+    {
+        var getUserWithEmailRequest = new ListUsersRequest
+        {
+
+            UserPoolId = _cognitoUserPoolOptions.UserPoolId,
+            AttributesToGet = new List<string> { "sub", "email", "given_name", "family_name" },
+            Filter = $"\"sub\"=\"{userId}\"",
+            Limit = 1,
+        };
+        var userResponse = await _cognitoClient.ListUsersAsync(getUserWithEmailRequest);
+
+        if (userResponse.Users.Count == 0)
+        {
+            throw new EntityNotFoundException("UserEntity");
+        }
+
+        var user = userResponse.Users.First();
+
+        return new UserEntity() {
+            Id = new Guid(user.Attributes.Single(a => a.Name == "sub").Value),
+            FirstName = user.Attributes.Single(a => a.Name == "given_name").Value,
+            LastName = user.Attributes.Single(a => a.Name == "family_name").Value,
+            Email = user.Attributes.Single(a => a.Name == "email").Value,
+        };
     }
 }

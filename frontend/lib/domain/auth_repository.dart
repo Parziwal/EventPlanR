@@ -4,7 +4,8 @@ import 'package:event_planr_app/domain/exceptions/auth/auth_code_mismatch_except
 import 'package:event_planr_app/domain/exceptions/auth/auth_email_already_taken_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_wrong_credentials_exception.dart';
-import 'package:event_planr_app/domain/exceptions/common/unknown_exception.dart' as common;
+import 'package:event_planr_app/domain/exceptions/common/unknown_exception.dart'
+    as common;
 import 'package:event_planr_app/domain/models/auth/user.dart';
 import 'package:event_planr_app/domain/models/auth/user_forgot_password_credential.dart';
 import 'package:event_planr_app/domain/models/auth/user_sign_in_credential.dart';
@@ -16,14 +17,14 @@ import 'package:injectable/injectable.dart';
 class AuthRepository {
   String? _userEmail;
 
-  Future<bool> isUserSignedIn() async {
+  Future<bool> get isUserSignedIn async {
     final session = await Amplify.Auth.fetchAuthSession();
     return session.isSignedIn;
   }
 
   Future<String> get bearerToken async {
     final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
-    final session = await cognitoPlugin.fetchAuthSession(options: FetchAuthSessionOptions(forceRefresh: true));
+    final session = await cognitoPlugin.fetchAuthSession();
     final identityId = session.userPoolTokensResult.value.idToken.raw;
 
     if (session.isSignedIn) {
@@ -39,6 +40,12 @@ class AuthRepository {
       for (final element in userAttributes)
         '${element.userAttributeKey}': element.value,
     });
+  }
+
+  Future<void> refreshToken() async {
+    await Amplify.Auth.fetchAuthSession(
+      options: const FetchAuthSessionOptions(forceRefresh: true),
+    );
   }
 
   Future<void> signInUser(UserSignInCredential credential) async {

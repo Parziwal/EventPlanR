@@ -8,7 +8,7 @@ class OrganizationDto with _$OrganizationDto {
   const factory OrganizationDto({
     required String id,
     required String name,
-    required String? profileImageUrl,
+    String? profileImageUrl,
   }) = _OrganizationDto;
 
   factory OrganizationDto.fromJson(Map<String, Object?> json) =>

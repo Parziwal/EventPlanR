@@ -49,7 +49,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> autoLogin() async {
     emit(const AuthState.loading());
     try {
-      if (await _authRepository.isUserSignedIn()) {
+      if (await _authRepository.isUserSignedIn) {
         emit(const AuthState.success());
       }
     } on Exception catch (e) {

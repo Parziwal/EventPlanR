@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (EnvironmentType.IsDevelopmentLocal())
+if (EnvironmentTypes.IsDevelopmentLocal())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

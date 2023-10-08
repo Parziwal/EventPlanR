@@ -36,7 +36,6 @@ class EditOrganizationCubit extends Cubit<EditOrganizationState> {
           saving: true,
         ),
       );
-      print(organization);
       emit(const EditOrganizationState.organizationSaved());
     }
   }

@@ -2,5 +2,5 @@
 
 public class DynamoDbTableOptions
 {
-    public string UserOrganizationClaimTable { get; set; } = null!;
+    public string UserClaimTable { get; set; } = null!;
 }

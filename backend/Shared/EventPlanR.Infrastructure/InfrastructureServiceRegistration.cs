@@ -1,4 +1,6 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Amazon.AppConfigData;
+using Amazon.CognitoIdentityProvider;
+using Amazon.DynamoDBv2;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Infrastructure.Options;
@@ -20,6 +22,7 @@ public static class InfrastructureServiceRegistration
         services.AddInfrastructureOptions();
 
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, SoftDeleteInterceptor>();
         services.AddDbContext<EventPlanrDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
@@ -28,15 +31,17 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<EventPlanrDbContext>());
         services.AddScoped<DatabaseInitializer>();
 
-        services.AddSingleton<IAmazonDynamoDB, AmazonDynamoDBClient>();
+        services.AddScoped<IAmazonDynamoDB, AmazonDynamoDBClient>();
+        services.AddScoped<IAmazonCognitoIdentityProvider, AmazonCognitoIdentityProviderClient>();
 
         services.AddHttpContextAccessor();
 
         services.AddScoped<IUserContext, UserContext>();
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IUserClaimService, UserClaimService>();
         services.AddTransient<ITicketService, TicketService>();
 
-        if (EnvironmentType.IsDevelopmentLocal())
+        if (EnvironmentTypes.IsDevelopmentLocal())
         {
             services.AddScoped<IUserContext, UserContextMock>();
         }

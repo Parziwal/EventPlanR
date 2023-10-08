@@ -13,19 +13,19 @@ public class GetOrganizationDetailsQuery : IRequest<OrganizationDetailsDto>
 
 public class GetOrganizationDetailsQueryHandler : IRequestHandler<GetOrganizationDetailsQuery, OrganizationDetailsDto>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetOrganizationDetailsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetOrganizationDetailsQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
     {
-        _context = context;
+        _dbContext = dbContext;
         _mapper = mapper;
     }
 
     public async Task<OrganizationDetailsDto> Handle(GetOrganizationDetailsQuery request, CancellationToken cancellationToken)
     {
-        var organization = await _context.Organizations
-            .SingleEntityAsync(o => o.Id == request.OrganizationId, request.OrganizationId);
+        var organization = await _dbContext.Organizations
+            .SingleEntityAsync(o => o.Id == request.OrganizationId);
 
         return _mapper.Map<OrganizationDetailsDto>(organization);
     }

@@ -15,5 +15,5 @@ output "invoke_arn" {
 
 output "role_id" {
   description = "The role id of the lambda function"
-  value       = aws_iam_role.this.id
+  value       = var.role_arn
 }

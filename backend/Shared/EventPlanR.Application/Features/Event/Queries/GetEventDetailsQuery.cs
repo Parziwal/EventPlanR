@@ -28,7 +28,7 @@ public class GetEventDetailsQueryHandler : IRequestHandler<GetEventDetailsQuery,
         var eventEntity = await _context.Events
             .AsNoTracking()
             .Include(e => e.Organization)
-            .SingleEntityAsync(e => e.Id == request.EventId, request.EventId);
+            .SingleEntityAsync(e => e.Id == request.EventId);
         var latestNews = await _context.NewsPosts
             .AsNoTracking()
             .Where(np => np.Event.Id == request.EventId)

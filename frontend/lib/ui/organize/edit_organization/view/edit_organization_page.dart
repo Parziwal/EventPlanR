@@ -50,9 +50,9 @@ class EditOrganizationPage extends StatelessWidget {
           SnackBar(
             content: Text(
               l10n.editOrganizationOrganizationUpdated,
-              style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+              style: TextStyle(color: theme.colorScheme.onPrimary),
             ),
-            backgroundColor: theme.colorScheme.primaryContainer,
+            backgroundColor: theme.colorScheme.primary,
           ),
         );
       context.pop();

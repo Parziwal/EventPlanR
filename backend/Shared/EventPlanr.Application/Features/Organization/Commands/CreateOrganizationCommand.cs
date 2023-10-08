@@ -1,9 +1,12 @@
 ﻿using EventPlanr.Application.Contracts;
+using EventPlanr.Application.Security;
+using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Entities;
 using MediatR;
 
 namespace EventPlanr.Application.Features.Organization.Commands;
 
+[Authorize]
 public class CreateOrganizationCommand : IRequest<Guid>
 {
     public string Name { get; set; } = null!;
@@ -14,13 +17,16 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
-    private readonly IUserService _userService;
+    private readonly IUserClaimService _userClaimService;
 
-    public CreateOrganizationCommandHandler(IApplicationDbContext context, IUserContext user, IUserService userService)
+    public CreateOrganizationCommandHandler(
+        IApplicationDbContext dbContext,
+        IUserContext user,
+        IUserClaimService userClaimService)
     {
-        _dbContext = context;
+        _dbContext = dbContext;
         _user = user;
-        _userService = userService;
+        _userClaimService = userClaimService;
     }
 
     public async Task<Guid> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
@@ -35,7 +41,16 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         _dbContext.Organizations.Add(organization);
         await _dbContext.SaveChangesAsync();
 
-        await _userService.AddOrganizationToUserClaimsAsync(_user.UserId, organization.Id);
+        var organizationPolicy = new OrganizationPolicyEntity()
+        {
+            OrganizationId = organization.Id,
+            Policies = new List<string>()
+            {
+                OrganizationPolicies.OrganizationManage,
+                OrganizationPolicies.OrganizationEventManage,
+            }
+        };
+        await _userClaimService.PutOrganizationToUserAsync(_user.UserId, organizationPolicy);
 
         return organization.Id;
     }

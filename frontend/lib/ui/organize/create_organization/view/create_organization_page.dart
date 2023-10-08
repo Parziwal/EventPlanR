@@ -1,4 +1,5 @@
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/create_organization/cubit/create_organization_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_organization/widgets/create_organization_form.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
@@ -44,12 +45,24 @@ class CreateOrganizationPage extends StatelessWidget {
           SnackBar(
             content: Text(
               l10n.createOrganizationOrganizationCreated,
-              style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+              style: TextStyle(color: theme.colorScheme.onPrimary),
             ),
-            backgroundColor: theme.colorScheme.primaryContainer,
+            backgroundColor: theme.colorScheme.primary,
           ),
         );
       context.pop();
+    } else if (state case Error(:final errorCode)) {
+      context.scaffoldMessenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.translateError(errorCode),
+              style: TextStyle(color: theme.colorScheme.onError),
+            ),
+            backgroundColor: theme.colorScheme.error,
+          ),
+        );
     }
   }
 }

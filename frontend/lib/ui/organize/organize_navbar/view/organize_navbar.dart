@@ -51,11 +51,10 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
 
     return AppBar(
       title: BlocBuilder<OrganizeNavbarCubit, OrganizeNavbarState>(
-        buildWhen: (_, current) => current is DesktopTitleChanged,
         builder: (_, state) {
-          final title = context.read<OrganizeNavbarCubit>().desktopTitle;
-          final space = title.isNotEmpty ? ' - ' : '';
-          return Text('${l10n.organizeNavbarEventManager}$space$title');
+          final title =
+              state.desktopTitle.isNotEmpty ? ' - ${state.desktopTitle}' : '';
+          return Text('${l10n.organizeNavbarEventManager}$title');
         },
       ),
       elevation: 5,

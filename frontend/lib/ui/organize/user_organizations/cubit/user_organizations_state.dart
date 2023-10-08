@@ -1,7 +1,12 @@
 part of 'user_organizations_cubit.dart';
 
+enum UserOrganizationsStatus { idle, loading, error, organizationChanged }
+
 @freezed
-sealed class UserOrganizationsState with _$UserOrganizationsState {
-  const factory UserOrganizationsState.idle() = Idle;
-  const factory UserOrganizationsState.loading() = Loading;
+class UserOrganizationsState with _$UserOrganizationsState {
+  const factory UserOrganizationsState({
+    required UserOrganizationsStatus status,
+    List<Organization>? organizations,
+    String? errorCode,
+  }) = _UserOrganizationsState;
 }

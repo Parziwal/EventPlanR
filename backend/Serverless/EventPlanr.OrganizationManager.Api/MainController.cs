@@ -1,5 +1,6 @@
-using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Features.Organization.Commands;
+using EventPlanr.Application.Features.Organization.Queries;
+using EventPlanr.Application.Models.Organization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,26 +11,38 @@ namespace EventPlanr.OrganizationManager.Api;
 public class MainController : ControllerBase
 {
     private readonly ISender _sender;
-    private readonly IUserContext userContext;
 
-    public MainController(ISender sender, IUserContext userContext)
+    public MainController(ISender sender)
     {
         _sender = sender;
-        this.userContext = userContext;
     }
 
     [HttpGet]
-    public string GetUserOrganizations()
-    {
-        return $"{userContext.UserId} {userContext.FirstName} {userContext.LastName} {userContext.Email}";
-    }
+    public Task<List<OrganizationDto>> GetUserOrganizations()
+        => _sender.Send(new GetUserOrganizationsQuery());
+
+    [HttpGet("current")]
+    public Task<OrganizationDto> GetUserCurrentOrganization()
+        => _sender.Send(new GetUserCurrentOrganizationQuery());
+
+    [HttpGet("current/details")]
+    public Task<UserOrganizationDetailsDto> GetUserCurrentOrganizationDetails()
+        => _sender.Send(new GetUserCurrentOrganizationDetailsQuery());
+
+
+    [HttpPost("set/{organizationId}")]
+    public Task SetUserOrganizations(Guid organizationId)
+        => _sender.Send(new SetUserOrganizationCommand()
+        {
+            OrganizationId = organizationId,
+        });
 
     [HttpPost]
-    public Task CreateOrganization([FromBody] CreateOrganizationCommand command)
+    public Task<Guid> CreateOrganization([FromBody] CreateOrganizationCommand command)
         => _sender.Send(command);
 
     [HttpPut("{organizationId}")]
-    public Task UpdateOrganization(Guid organizationId, [FromBody] UpdateOrganizationCommand command)
+    public Task EditOrganization(Guid organizationId, [FromBody] EditOrganizationCommand command)
     {
         command.OrganizationId = organizationId;
         return _sender.Send(command);

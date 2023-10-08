@@ -1,5 +1,6 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_drawer_header.dart';
 import 'package:event_planr_app/ui/shared/widgets/drawer_tile.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
@@ -20,26 +21,7 @@ class OrganizeDrawer extends StatelessWidget {
         children: [
           const SizedBox(
             height: 100,
-            child: DrawerHeader(
-              child: Row(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 1,
-                    child: CircleAvatar(
-                      foregroundImage: NetworkImage(
-                          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80'),
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                      child: Text(
-                    'Organization name',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  )),
-                ],
-              ),
-            ),
+            child: OrganizeDrawerHeader(),
           ),
           Expanded(
             child: ListView(

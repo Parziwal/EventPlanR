@@ -24,9 +24,9 @@ void authStateHandler(BuildContext context, AuthState state) {
           SnackBar(
             content: Text(
               l10n.authConfirmCodeResended,
-              style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+              style: TextStyle(color: theme.colorScheme.onPrimary),
             ),
-            backgroundColor: theme.colorScheme.primaryContainer,
+            backgroundColor: theme.colorScheme.primary,
           ),
         );
     case SignInNext():

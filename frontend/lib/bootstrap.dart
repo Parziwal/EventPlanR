@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:event_planr_app/amplify/amplify.dart';
 import 'package:event_planr_app/di/injectable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -23,6 +25,10 @@ class AppBlocObserver extends BlocObserver {
 }
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+  if (kIsWeb) {
+    usePathUrlStrategy();
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await configureDependencies();

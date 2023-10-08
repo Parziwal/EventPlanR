@@ -18,12 +18,12 @@ namespace EventPlanr.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Event", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,13 +45,15 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)");
+                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("FromDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsPrivate")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPublished")
                         .HasColumnType("boolean");
 
                     b.Property<int>("Language")
@@ -65,8 +67,8 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uuid");
@@ -76,8 +78,8 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<string>("Venue")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.HasKey("Id");
 
@@ -86,7 +88,46 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.ToTable("events", (string)null);
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.NewsPost", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.InvitationEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("invitations", (string)null);
+                });
+
+            modelBuilder.Entity("EventPlanr.Domain.Entities.NewsPostEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,7 +159,7 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.ToTable("news_posts", (string)null);
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Order", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.OrderEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,9 +184,8 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<string>("CustomerUserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("CustomerUserId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -153,12 +193,15 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
+                    b.Property<double>("Total")
+                        .HasColumnType("double precision");
+
                     b.HasKey("Id");
 
                     b.ToTable("orders", (string)null);
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Organization", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.OrganizationEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -170,9 +213,15 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -180,14 +229,14 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<List<string>>("MemberUserIds")
+                    b.Property<List<Guid>>("MemberUserIds")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("uuid[]");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("text");
@@ -197,19 +246,19 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.ToTable("organizations", (string)null);
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.SoldTicket", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.SoldTicketEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("OrderId")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
-                    b.Property<Guid>("TickerId")
+                    b.Property<Guid>("TicketId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("UserFirstName")
@@ -226,19 +275,18 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("TickerId")
-                        .IsUnique();
+                    b.HasIndex("TicketId");
 
                     b.ToTable("sold_tickets", (string)null);
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.TicketEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("Count")
+                    b.Property<int>("Count")
                         .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("Created")
@@ -248,7 +296,8 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
@@ -261,11 +310,20 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
+
+                    b.Property<int>("RemainingCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("SaleEnds")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("SaleStarts")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -274,17 +332,15 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.ToTable("tickets", (string)null);
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Event", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
                 {
-                    b.HasOne("EventPlanr.Domain.Entities.Organization", "Organization")
+                    b.HasOne("EventPlanr.Domain.Entities.OrganizationEntity", "Organization")
                         .WithMany("Events")
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrganizationId");
 
                     b.OwnsOne("EventPlanr.Domain.Common.Coordinates", "Coordinates", b1 =>
                         {
-                            b1.Property<Guid>("EventId")
+                            b1.Property<Guid>("EventEntityId")
                                 .HasColumnType("uuid");
 
                             b1.Property<double>("Latitude")
@@ -293,17 +349,17 @@ namespace EventPlanr.Infrastructure.Migrations
                             b1.Property<double>("Longitude")
                                 .HasColumnType("double precision");
 
-                            b1.HasKey("EventId");
+                            b1.HasKey("EventEntityId");
 
                             b1.ToTable("events");
 
                             b1.WithOwner()
-                                .HasForeignKey("EventId");
+                                .HasForeignKey("EventEntityId");
                         });
 
                     b.OwnsOne("EventPlanr.Domain.Common.Address", "Address", b1 =>
                         {
-                            b1.Property<Guid>("EventId")
+                            b1.Property<Guid>("EventEntityId")
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("AddressLine")
@@ -313,25 +369,25 @@ namespace EventPlanr.Infrastructure.Migrations
 
                             b1.Property<string>("City")
                                 .IsRequired()
-                                .HasMaxLength(128)
-                                .HasColumnType("character varying(128)");
+                                .HasMaxLength(64)
+                                .HasColumnType("character varying(64)");
 
                             b1.Property<string>("Country")
                                 .IsRequired()
-                                .HasMaxLength(128)
-                                .HasColumnType("character varying(128)");
+                                .HasMaxLength(64)
+                                .HasColumnType("character varying(64)");
 
                             b1.Property<string>("ZipCode")
                                 .IsRequired()
                                 .HasMaxLength(10)
                                 .HasColumnType("character varying(10)");
 
-                            b1.HasKey("EventId");
+                            b1.HasKey("EventEntityId");
 
                             b1.ToTable("events");
 
                             b1.WithOwner()
-                                .HasForeignKey("EventId");
+                                .HasForeignKey("EventEntityId");
                         });
 
                     b.Navigation("Address")
@@ -343,9 +399,20 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.NewsPost", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.InvitationEntity", b =>
                 {
-                    b.HasOne("EventPlanr.Domain.Entities.Event", "Event")
+                    b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
+                        .WithMany("Invitations")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("EventPlanr.Domain.Entities.NewsPostEntity", b =>
+                {
+                    b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("NewsPosts")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -354,11 +421,11 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Order", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.OrderEntity", b =>
                 {
                     b.OwnsOne("EventPlanr.Domain.Common.Address", "BillingAddress", b1 =>
                         {
-                            b1.Property<Guid>("OrderId")
+                            b1.Property<Guid>("OrderEntityId")
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("AddressLine")
@@ -368,49 +435,53 @@ namespace EventPlanr.Infrastructure.Migrations
 
                             b1.Property<string>("City")
                                 .IsRequired()
-                                .HasMaxLength(128)
-                                .HasColumnType("character varying(128)");
+                                .HasMaxLength(64)
+                                .HasColumnType("character varying(64)");
 
                             b1.Property<string>("Country")
                                 .IsRequired()
-                                .HasMaxLength(128)
-                                .HasColumnType("character varying(128)");
+                                .HasMaxLength(64)
+                                .HasColumnType("character varying(64)");
 
                             b1.Property<string>("ZipCode")
                                 .IsRequired()
                                 .HasMaxLength(10)
                                 .HasColumnType("character varying(10)");
 
-                            b1.HasKey("OrderId");
+                            b1.HasKey("OrderEntityId");
 
                             b1.ToTable("orders");
 
                             b1.WithOwner()
-                                .HasForeignKey("OrderId");
+                                .HasForeignKey("OrderEntityId");
                         });
 
                     b.Navigation("BillingAddress")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.SoldTicket", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.SoldTicketEntity", b =>
                 {
-                    b.HasOne("EventPlanr.Domain.Entities.Order", null)
+                    b.HasOne("EventPlanr.Domain.Entities.OrderEntity", "Order")
                         .WithMany("SoldTickets")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("EventPlanr.Domain.Entities.Ticket", "Ticket")
-                        .WithOne("SoldTicket")
-                        .HasForeignKey("EventPlanr.Domain.Entities.SoldTicket", "TickerId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("EventPlanr.Domain.Entities.TicketEntity", "Ticket")
+                        .WithMany("SoldTickets")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Ticket");
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.TicketEntity", b =>
                 {
-                    b.HasOne("EventPlanr.Domain.Entities.Event", "Event")
+                    b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("Tickets")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -419,27 +490,28 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Event", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
                 {
+                    b.Navigation("Invitations");
+
                     b.Navigation("NewsPosts");
 
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Order", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.OrderEntity", b =>
                 {
                     b.Navigation("SoldTickets");
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Organization", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.OrganizationEntity", b =>
                 {
                     b.Navigation("Events");
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("EventPlanr.Domain.Entities.TicketEntity", b =>
                 {
-                    b.Navigation("SoldTicket")
-                        .IsRequired();
+                    b.Navigation("SoldTickets");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,9 +2,9 @@
 
 namespace EventPlanr.Application.Features.Organization.Commands;
 
-public class UpdateOrganizationCommandValidator : AbstractValidator<UpdateOrganizationCommand>
+public class SetUserOrganizationCommandValidator : AbstractValidator<SetUserOrganizationCommand>
 {
-    public UpdateOrganizationCommandValidator()
+    public SetUserOrganizationCommandValidator()
     {
         RuleFor(x => x.OrganizationId)
             .NotEmpty();

@@ -16,7 +16,6 @@ class EventNavbarCubit extends Cubit<EventNavbarState> {
   String desktopTitle = Env.appName;
 
   Future<void> changeDesktopTitle(String? title) async {
-    print(await _authRepository.bearerToken);
     if (title != null && title.isNotEmpty) {
       desktopTitle = '${Env.appName} - $title';
       emit(const EventNavbarState.desktopTitleChanged());

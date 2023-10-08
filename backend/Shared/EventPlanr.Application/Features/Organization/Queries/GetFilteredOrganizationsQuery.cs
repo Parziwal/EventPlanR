@@ -16,18 +16,18 @@ public class GetFilteredOrganizationsQuery : PageWithOrderDto, IRequest<Paginate
 
 public class GetFilteredOrganizationsQueryHandler : IRequestHandler<GetFilteredOrganizationsQuery, PaginatedListDto<OrganizationDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetFilteredOrganizationsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetFilteredOrganizationsQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
     {
-        _context = context;
+        _dbContext = dbContext;
         _mapper = mapper;
     }
 
     public async Task<PaginatedListDto<OrganizationDto>> Handle(GetFilteredOrganizationsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Organizations
+        return await _dbContext.Organizations
             .Where(request.SearchTerm != null, o => o.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (o.Description != null && o.Description.ToLower().Contains(request.SearchTerm.ToLower())))
             .OrderBy<OrganizationEntity, OrganizationDto>(request, _mapper.ConfigurationProvider, o => o.Name)

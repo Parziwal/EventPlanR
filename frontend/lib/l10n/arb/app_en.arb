@@ -82,9 +82,11 @@
     "organizeNavbarEvents": "Events",
     "organizeNavbarSwitchOrganization": "Switch organization",
     "organizeNavbarBackToMain": "Back to main",
+    "organizeNavbarNoOrganizationSelected": "No organization selected",
 
     "userOrganizations": "Organizations",
     "userOrganizationsCreateOrganization": "Create organization",
+    "userOrganizationsOrganizationSelected": "Organization successfully selected",
 
     "createOrganization": "Create organization",
     "createOrganizationName": "Name",

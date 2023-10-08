@@ -1,12 +1,10 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/sign_in_tab.dart';
 import 'package:event_planr_app/ui/auth/view/sign_up_tab.dart';
 import 'package:event_planr_app/ui/auth/widgets/auth_responsive_frame.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthTabPage extends StatefulWidget {
   const AuthTabPage({super.key});

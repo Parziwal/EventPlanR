@@ -61,6 +61,6 @@ public class EventConfiguration : IEntityTypeConfiguration<EventEntity>
         builder.HasOne(e => e.Organization)
             .WithMany(o => o.Events)
             .HasForeignKey(e => e.OrganizationId)
-            .IsRequired();
+            .IsRequired(false);
     }
 }

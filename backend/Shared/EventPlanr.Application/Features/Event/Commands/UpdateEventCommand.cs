@@ -39,12 +39,12 @@ public class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
     public async Task Handle(UpdateEventCommand request, CancellationToken cancellationToken)
     {
         var eventEntity = await _context.Events
-            .SingleEntityAsync(e => e.Id == request.EventId, request.EventId);
+            .SingleEntityAsync(e => e.Id == request.EventId);
 
-        if (!_user.OrganizationIds.Contains(eventEntity.OrganizationId))
-        {
+        //if (!_user.OrganizationIds.Contains(eventEntity.OrganizationId))
+        //{
             //throw new UserNotBelongToOrganizationException(_user.UserId, eventEntity.OrganizationId.ToString());
-        }
+        //}
 
         eventEntity.Description = request.Description;
         eventEntity.Category = request.Category;

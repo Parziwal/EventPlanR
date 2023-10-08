@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
+using EventPlanr.Application.Exceptions.Common;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Pagination;
-using EventPlanr.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -32,11 +32,10 @@ public static class QueryableExtensions
 
     public static async Task<TSource> SingleEntityAsync<TSource>(
         this IQueryable<TSource> source,
-        Expression<Func<TSource, bool>> predicate,
-        Guid? entityId = null)
+        Expression<Func<TSource, bool>> predicate)
     {
         return await source.SingleOrDefaultAsync(predicate)
-            ?? throw EntityNotFoundException.CreateForType<TSource>(entityId);
+            ?? throw new EntityNotFoundException(typeof(TSource).Name);
     }
 
     public static IQueryable<TSource> OrderBy<TSource, TDto>(

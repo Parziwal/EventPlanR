@@ -43,8 +43,10 @@ class PagePaths {
 
   static String userOrganizations = '/userOrganizations';
   static String userOrganizationsCreate = '/userOrganizations/create';
+
   static String userOrganizationsEdit(String organizationId) =>
       '/userOrganizations/edit/$organizationId';
+
   static String userOrganizationEvents(String organizationId) =>
       '/userOrganizations/events/$organizationId';
 }
@@ -55,7 +57,7 @@ final appRouter = GoRouter(
     BlocRoute<AuthCubit>(
       path: PagePaths.signIn,
       builder: (_) => const AuthTabPage(),
-        init: (cubit, _) => cubit..autoLogin(),
+      init: (cubit, _) => cubit..autoLogin(),
     ),
     BlocRoute<AuthCubit>(
       path: PagePaths.signUp,
@@ -107,7 +109,9 @@ final appRouter = GoRouter(
     ShellRoute(
       builder: (context, state, child) {
         return BlocProvider(
-          create: (_) => injector<OrganizeNavbarCubit>(),
+          key: ValueKey(state.matchedLocation),
+          create: (_) =>
+              injector<OrganizeNavbarCubit>()..refreshCurrentOrganization(),
           child: OrganizeNavbar(
             child: child,
           ),
@@ -117,22 +121,23 @@ final appRouter = GoRouter(
         BlocRoute<UserOrganizationsCubit>(
           path: PagePaths.userOrganizations,
           builder: (state) => const UserOrganizationsPage(),
+          init: (cubit, _) => cubit..loadUserOrganization(),
           routes: [
             BlocRoute<CreateOrganizationCubit>(
               path: 'create',
               builder: (state) => const CreateOrganizationPage(),
             ),
-            BlocRoute<EditOrganizationCubit>(
-              path: 'edit/:organizationId',
-              builder: (state) => const EditOrganizationPage(),
-              init: (cubit, state) => cubit
-                ..loadOrganization(state.pathParameters['organizationId']!),
-            ),
-            BlocRoute<OrganizationEventsCubit>(
-              path: 'events/:organizationId',
-              builder: (state) => const OrganizationEventsPage(),
-            ),
           ],
+        ),
+        BlocRoute<EditOrganizationCubit>(
+          path: PagePaths.userOrganizationsEdit(':organizationId'),
+          builder: (state) => const EditOrganizationPage(),
+          init: (cubit, state) =>
+              cubit..loadOrganization(state.pathParameters['organizationId']!),
+        ),
+        BlocRoute<OrganizationEventsCubit>(
+          path: PagePaths.userOrganizationEvents(':organizationId'),
+          builder: (state) => const OrganizationEventsPage(),
         ),
       ],
     ),
@@ -144,7 +149,7 @@ Future<String?> _appRouterRedirect(
   BuildContext context,
   GoRouterState state,
 ) async {
-  final isAuthenticated = await injector<AuthRepository>().isUserSignedIn();
+  final isAuthenticated = await injector<AuthRepository>().isUserSignedIn;
   if (!isAuthenticated && !state.matchedLocation.startsWith('/auth')) {
     return PagePaths.signIn;
   }

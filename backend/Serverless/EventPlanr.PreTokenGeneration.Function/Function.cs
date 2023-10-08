@@ -5,9 +5,9 @@ using EventPlanr.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using EventPlanr.Configuration;
 using MediatR;
-using EventPlanr.Application.Features.Organization.Queries;
 using System.Text.Json.Nodes;
 using System.Text.Json;
+using EventPlanr.Application.Features.User.Queries;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -32,13 +32,22 @@ public class Function
     public async Task<JsonNode> FunctionHandler(JsonNode lambdaEvent, ILambdaContext context)
     {
         var mediator = _serviceProvider.GetRequiredService<IMediator>();
-        var organizationIds = await mediator.Send(new GetUserOrganizationClaimsQuery()
+        var userClaim = await mediator.Send(new GetUserClaimQuery()
         {
             UserId = new Guid(lambdaEvent["request"]!["userAttributes"]!["sub"]!.GetValue<string>()),
         });
+
+        if (userClaim.OrganizationId == null)
+        {
+            return lambdaEvent;
+        }
+
         lambdaEvent["response"]!["claimsOverrideDetails"] = JsonValue.Create(new
             { 
-                claimsToAddOrOverride = new { organization_ids = JsonSerializer.Serialize(organizationIds) }
+                claimsToAddOrOverride = new {
+                    organization_id = userClaim.OrganizationId.ToString(),
+                    organization_policies = JsonSerializer.Serialize(userClaim.OrganizationPolicies),
+                }
             });
 
         return lambdaEvent;
