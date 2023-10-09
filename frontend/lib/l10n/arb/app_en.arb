@@ -9,6 +9,7 @@
     "no": "No",
     "create": "Create",
     "save": "Save",
+    "noImageFound": "No image found",
 
     "authSignIn": "Sign In",
     "authSignUp": "Sign Up",
@@ -87,6 +88,11 @@
     "userOrganizations": "Organizations",
     "userOrganizationsCreateOrganization": "Create organization",
     "userOrganizationsOrganizationSelected": "Organization successfully selected",
+
+    "userOrganizationDetails": "Organization Details",
+    "userOrganizationDetailsEditOrganization": "Edit Organization",
+    "userOrganizationDetailsAddMember": "Add member",
+    "userOrganizationDetailsDescription": "Description",
 
     "createOrganization": "Create organization",
     "createOrganizationName": "Name",

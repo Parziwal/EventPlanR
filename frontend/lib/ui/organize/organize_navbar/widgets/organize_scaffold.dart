@@ -35,6 +35,7 @@ class OrganizeScaffold extends StatelessWidget {
       appBar: _appBar(context),
       drawer: breakpoints.isMobile ? const OrganizeDrawer() : null,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (breakpoints.isDesktop) _desktopTabBar(context),
           if (breakpoints.largerThan(MOBILE)) _desktopActions(),
@@ -66,6 +67,10 @@ class OrganizeScaffold extends StatelessWidget {
   }
 
   Widget _desktopTabBar(BuildContext context) {
+    if (tabBar == null) {
+      return Container();
+    }
+
     return MaxWidthBox(
       maxWidth: 600,
       child: Card(
@@ -77,6 +82,10 @@ class OrganizeScaffold extends StatelessWidget {
   }
 
   Widget _desktopActions() {
+    if (desktopActions == null) {
+      return Container();
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Row(

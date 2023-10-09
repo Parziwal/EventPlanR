@@ -1,6 +1,8 @@
 import 'package:event_planr_app/app/router.dart';
+import 'package:event_planr_app/env/env.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
+import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
 import 'package:event_planr_app/ui/shared/widgets/drawer_tile.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +26,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
     final breakpoints = context.breakpoints;
 
     return BlocListener<EventNavbarCubit, EventNavbarState>(
-      listener: (context, state) {
-        if (state is LoggedOut) {
-          context.go(PagePaths.signIn);
-        }
-      },
+      listener: _stateListener,
       child: Scaffold(
         appBar: breakpoints.isTablet ? _appBar() : null,
         drawer: breakpoints.isTablet ? _drawer() : null,
@@ -53,13 +51,12 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
 
   AppBar _appBar() {
     final breakpoints = context.breakpoints;
+    final state = context.watch<EventNavbarCubit>().state;
+    final title =
+        state.desktopTitle.isNotEmpty ? ' - ${state.desktopTitle}' : '';
 
     return AppBar(
-      title: BlocBuilder<EventNavbarCubit, EventNavbarState>(
-        buildWhen: (_, current) => current is DesktopTitleChanged,
-        builder: (_, state) =>
-            Text(context.read<EventNavbarCubit>().desktopTitle),
-      ),
+      title: Text('${Env.appName}$title'),
       elevation: 5,
       leading: breakpoints.isDesktop
           ? IconButton(
@@ -72,10 +69,8 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
             )
           : null,
       actions: [
-        const CircleAvatar(
-          foregroundImage: NetworkImage(
-              'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80'),
-        ),
+        if (state.user != null)
+          AvatarIcon(altText: state.user!.getUserMonogram(context)),
         const SizedBox(width: 16),
         IconButton(
           onPressed: () => context.read<EventNavbarCubit>().logout(),
@@ -151,5 +146,11 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
         ),
       ),
     );
+  }
+
+  void _stateListener(BuildContext context, EventNavbarState state) {
+    if (state.status == EventNavbarStatus.loggedOut) {
+      context.go(PagePaths.signIn);
+    }
   }
 }

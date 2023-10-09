@@ -1,4 +1,5 @@
 import 'package:event_planr_app/domain/auth_repository.dart';
+import 'package:event_planr_app/domain/models/auth/user.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/organization_manager_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
     required OrganizationManagerRepository organizationManagerRepository,
   })  : _authRepository = authRepository,
         _organizationManagerRepository = organizationManagerRepository,
-        super(const OrganizeNavbarState());
+        super(const OrganizeNavbarState(status: OrganizeNavbarStatus.idle));
 
   final AuthRepository _authRepository;
   final OrganizationManagerRepository _organizationManagerRepository;
@@ -25,6 +26,12 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
     if (title != null) {
       emit(state.copyWith(desktopTitle: title));
     }
+  }
+
+  Future<void> loadUserData() async {
+    final user = await _authRepository.user;
+    emit(state.copyWith(user: user));
+    await refreshCurrentOrganization();
   }
 
   Future<void> refreshCurrentOrganization() async {
@@ -39,5 +46,6 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
 
   Future<void> logout() async {
     await _authRepository.signOut();
+    emit(state.copyWith(status: OrganizeNavbarStatus.loggedOut));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:event_planr_app/domain/auth_repository.dart';
+import 'package:event_planr_app/domain/models/auth/user.dart';
 import 'package:event_planr_app/env/env.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,22 +11,24 @@ part 'event_navbar_cubit.freezed.dart';
 
 @injectable
 class EventNavbarCubit extends Cubit<EventNavbarState> {
-  EventNavbarCubit(this._authRepository) : super(const EventNavbarState.idle());
+  EventNavbarCubit(this._authRepository)
+      : super(const EventNavbarState(status: EventNavbarStatus.idle));
 
   final AuthRepository _authRepository;
-  String desktopTitle = Env.appName;
+
+  Future<void> loadUserData() async {
+    final user = await _authRepository.user;
+    emit(state.copyWith(user: user));
+  }
 
   Future<void> changeDesktopTitle(String? title) async {
-    if (title != null && title.isNotEmpty) {
-      desktopTitle = '${Env.appName} - $title';
-      emit(const EventNavbarState.desktopTitleChanged());
-      emit(const EventNavbarState.idle());
+    if (title != null) {
+      emit(state.copyWith(desktopTitle: title));
     }
   }
 
   Future<void> logout() async {
     await _authRepository.signOut();
-    emit(const EventNavbarState.loggedOut());
-    emit(const EventNavbarState.idle());
+    emit(state.copyWith(status: EventNavbarStatus.loggedOut));
   }
 }

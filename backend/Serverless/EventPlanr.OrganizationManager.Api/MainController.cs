@@ -31,7 +31,7 @@ public class MainController : ControllerBase
 
 
     [HttpPost("set/{organizationId}")]
-    public Task SetUserOrganizations(Guid organizationId)
+    public Task SetUserOrganization(Guid organizationId)
         => _sender.Send(new SetUserOrganizationCommand()
         {
             OrganizationId = organizationId,

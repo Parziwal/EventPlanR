@@ -32,10 +32,10 @@ class OrganizeDrawer extends StatelessWidget {
                   icon: const Icon(Icons.event),
                   label: Text(l10n.organizeNavbarEvents),
                   onTap: () => context.go(
-                    PagePaths.userOrganizationEvents('Test'),
+                    PagePaths.organizationEvents('Test'),
                   ),
                   selected:
-                      location == PagePaths.userOrganizationEvents('Test'),
+                      location == PagePaths.organizationEvents('Test'),
                 ),
                 DrawerTile(
                   icon: const Icon(Icons.group),

@@ -1,8 +1,10 @@
+import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class OrganizeDrawerHeader extends StatelessWidget {
   const OrganizeDrawerHeader({
@@ -20,7 +22,7 @@ class OrganizeDrawerHeader extends StatelessWidget {
         }
 
         return InkWell(
-          onTap: () {},
+          onTap: () => context.go(PagePaths.userOrganizationDetails),
           child: DrawerHeader(
             margin: EdgeInsets.zero,
             child: Row(

@@ -52,7 +52,7 @@ public class UserService : IUserService
             Limit = 1,
         };
         var userResponse = await _cognitoClient.ListUsersAsync(getUserWithEmailRequest);
-
+        
         if (userResponse.Users.Count == 0)
         {
             throw new EntityNotFoundException("UserEntity");

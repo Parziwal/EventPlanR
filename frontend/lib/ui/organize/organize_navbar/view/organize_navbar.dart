@@ -1,9 +1,12 @@
+import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_drawer.dart';
+import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class OrganizeNavbar extends StatefulWidget {
   const OrganizeNavbar({required this.child, super.key});
@@ -22,7 +25,7 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
     final breakpoints = context.breakpoints;
 
     return BlocListener<OrganizeNavbarCubit, OrganizeNavbarState>(
-      listener: (context, state) {},
+      listener: _stateListener,
       child: Scaffold(
         appBar: breakpoints.isTablet ? _appBar() : null,
         drawer: breakpoints.isTablet ? _drawer() : null,
@@ -49,14 +52,12 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
     final breakpoints = context.breakpoints;
     final l10n = context.l10n;
 
+    final state = context.watch<OrganizeNavbarCubit>().state;
+    final title =
+        state.desktopTitle.isNotEmpty ? ' - ${state.desktopTitle}' : '';
+
     return AppBar(
-      title: BlocBuilder<OrganizeNavbarCubit, OrganizeNavbarState>(
-        builder: (_, state) {
-          final title =
-              state.desktopTitle.isNotEmpty ? ' - ${state.desktopTitle}' : '';
-          return Text('${l10n.organizeNavbarEventManager}$title');
-        },
-      ),
+      title: Text('${l10n.organizeNavbarEventManager}$title'),
       elevation: 5,
       leading: breakpoints.isDesktop
           ? IconButton(
@@ -69,10 +70,8 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
             )
           : null,
       actions: [
-        const CircleAvatar(
-          foregroundImage: NetworkImage(
-              'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80'),
-        ),
+        if (state.user != null)
+          AvatarIcon(altText: state.user!.getUserMonogram(context)),
         const SizedBox(width: 16),
         IconButton(
           onPressed: () => context.read<OrganizeNavbarCubit>().logout(),
@@ -92,5 +91,11 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
         child: const OrganizeDrawer(),
       ),
     );
+  }
+
+  void _stateListener(BuildContext context, OrganizeNavbarState state) {
+    if (state.status == OrganizeNavbarStatus.loggedOut) {
+      context.go(PagePaths.signIn);
+    }
   }
 }

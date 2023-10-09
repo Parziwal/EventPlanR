@@ -11,15 +11,18 @@ class AvatarIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
 
-    return AspectRatio(
-      aspectRatio: 1,
-      child: CircleAvatar(
-        foregroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(altText, style: theme.textTheme.displayLarge),
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: CircleAvatar(
+          foregroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(altText, style: theme.textTheme.titleLarge),
+            ),
           ),
         ),
       ),
