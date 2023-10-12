@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:event_planr_app/data/network/event_planr_api.dart';
 import 'package:event_planr_app/data/network/event_planr_client.dart';
+import 'package:event_planr_app/data/network/nominatim_api.dart';
+import 'package:event_planr_app/data/network/nominatim_client.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/env/env.dart';
 import 'package:injectable/injectable.dart';
@@ -36,5 +38,10 @@ abstract class NetworkModule {
   @singleton
   EventPlanrApi getEventPlanrApi(Dio dio) {
     return EventPlanrClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  NominatimApi getNominatimApi(Dio dio) {
+    return NominatimClient(dio, baseUrl: '${Env.nominatimApiUrl}/');
   }
 }

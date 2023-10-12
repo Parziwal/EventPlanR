@@ -30,23 +30,23 @@ class OrganizeDrawer extends StatelessWidget {
               children: [
                 DrawerTile(
                   icon: const Icon(Icons.event),
-                  label: Text(l10n.organizeNavbarEvents),
+                  label: Text(l10n.organizeNavbar_Events),
                   onTap: () => context.go(
-                    PagePaths.organizationEvents('Test'),
+                    PagePaths.organizationEvents,
                   ),
                   selected:
-                      location == PagePaths.organizationEvents('Test'),
+                      location == PagePaths.organizationEvents,
                 ),
                 DrawerTile(
                   icon: const Icon(Icons.group),
-                  label: Text(l10n.organizeNavbarSwitchOrganization),
+                  label: Text(l10n.organizeNavbar_SwitchOrganization),
                   onTap: () => context.go(PagePaths.userOrganizations),
                   selected: location == PagePaths.userOrganizations,
                 ),
                 const Divider(),
                 DrawerTile(
                   icon: const Icon(Icons.arrow_back_ios),
-                  label: Text(l10n.organizeNavbarBackToMain),
+                  label: Text(l10n.organizeNavbar_BackToMain),
                   onTap: () => context.go(PagePaths.userDashboard),
                 ),
               ],

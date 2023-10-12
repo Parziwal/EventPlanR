@@ -45,7 +45,7 @@ class _SignUpFormState extends State<SignUpForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.authSignUp),
+            child: Text(l10.auth_SignUp),
           ),
         ],
       ),
@@ -69,7 +69,7 @@ class _SignUpFormState extends State<SignUpForm> {
       name: 'firstName',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authFirstName,
+        hintText: l10.auth_FirstName,
         prefixIcon: const Icon(Icons.person_outline),
         filled: true,
       ),
@@ -89,7 +89,7 @@ class _SignUpFormState extends State<SignUpForm> {
       name: 'lastName',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authLastName,
+        hintText: l10.auth_LastName,
         prefixIcon: const Icon(Icons.person_outline),
         filled: true,
       ),
@@ -109,7 +109,7 @@ class _SignUpFormState extends State<SignUpForm> {
       name: 'email',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authEmail,
+        hintText: l10.auth_Email,
         prefixIcon: const Icon(Icons.email_outlined),
         filled: true,
       ),
@@ -130,7 +130,7 @@ class _SignUpFormState extends State<SignUpForm> {
       name: 'password',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authPassword,
+        hintText: l10.auth_Password,
         prefixIcon: const Icon(Icons.lock_outline),
         filled: true,
       ),
@@ -145,11 +145,11 @@ class _SignUpFormState extends State<SignUpForm> {
             if (password == null) {
               return null;
             } else if (!password.contains(RegExp('[A-Z]'))) {
-              return l10.authPasswordMustContainUpperCase;
+              return l10.auth_PasswordMustContainUpperCase;
             } else if (!password.contains(RegExp('[a-z]'))) {
-              return l10.authPasswordMustContainLowerCase;
+              return l10.auth_PasswordMustContainLowerCase;
             } else if (!password.contains(RegExp('[0-9]'))) {
-              return l10.authPasswordMustContainNumber;
+              return l10.auth_PasswordMustContainNumber;
             }
             return null;
           }
@@ -164,7 +164,7 @@ class _SignUpFormState extends State<SignUpForm> {
       name: 'confirmPassword',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authConfirmPassword,
+        hintText: l10.auth_ConfirmPassword,
         prefixIcon: const Icon(Icons.lock_outline),
         filled: true,
       ),
@@ -175,7 +175,7 @@ class _SignUpFormState extends State<SignUpForm> {
           (confirmPassword) {
             if (confirmPassword !=
                 _formKey.currentState?.fields['password']?.value) {
-              return l10.authPasswordsDoNotMatch;
+              return l10.auth_PasswordsDoNotMatch;
             }
             return null;
           }

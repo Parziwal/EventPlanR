@@ -50,7 +50,7 @@ class _FilterModal extends StatelessWidget {
             children: [
               ListTile(
                 title: Text(
-                  l10n.exploreEventsSortDirection,
+                  l10n.exploreEvents_SortDirection,
                   style: theme.textTheme.titleLarge,
                 ),
               ),
@@ -65,13 +65,13 @@ class _FilterModal extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsDate,
+                  l10n.exploreEvents_Date,
                   style: theme.textTheme.titleLarge,
                 ),
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsAnytime,
+                  l10n.exploreEvents_Anytime,
                   style: theme.textTheme.titleSmall,
                 ),
                 onTap: () {
@@ -80,13 +80,13 @@ class _FilterModal extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsLocation,
+                  l10n.exploreEvents_Location,
                   style: theme.textTheme.titleLarge,
                 ),
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsAnyLocation,
+                  l10n.exploreEvents_AnyLocation,
                   style: theme.textTheme.titleSmall,
                 ),
                 onTap: () {
@@ -95,13 +95,13 @@ class _FilterModal extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsLanguage,
+                  l10n.exploreEvents_Language,
                   style: theme.textTheme.titleLarge,
                 ),
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsAnyLanguage,
+                  l10n.exploreEvents_AnyLanguage,
                   style: theme.textTheme.titleSmall,
                 ),
                 onTap: () {
@@ -110,13 +110,13 @@ class _FilterModal extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsCurrency,
+                  l10n.exploreEvents_Currency,
                   style: theme.textTheme.titleLarge,
                 ),
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEventsAnyCurrency,
+                  l10n.exploreEvents_AnyCurrency,
                   style: theme.textTheme.titleSmall,
                 ),
                 onTap: () {

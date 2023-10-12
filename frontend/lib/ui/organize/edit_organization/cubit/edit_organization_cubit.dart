@@ -12,7 +12,7 @@ part 'edit_organization_state.dart';
 class EditOrganizationCubit extends Cubit<EditOrganizationState> {
   EditOrganizationCubit() : super(const EditOrganizationState.initial());
 
-  Future<void> loadOrganization(String organizationId) async {
+  Future<void> loadOrganization() async {
     emit(const EditOrganizationState.loading());
     const organization = OrganizationDetails(
       id: '1',

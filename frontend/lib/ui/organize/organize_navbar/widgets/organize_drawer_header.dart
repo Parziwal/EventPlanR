@@ -18,7 +18,7 @@ class OrganizeDrawerHeader extends StatelessWidget {
     return BlocBuilder<OrganizeNavbarCubit, OrganizeNavbarState>(
       builder: (context, state) {
         if (state.organization == null) {
-          return Center(child: Text(l10n.organizeNavbarNoOrganizationSelected));
+          return Center(child: Text(l10n.organizeNavbar_NoOrganizationSelected));
         }
 
         return InkWell(

@@ -25,7 +25,7 @@ class UserOrganizationsCubit extends Cubit<UserOrganizationsState> {
   final OrganizationManagerRepository _organizationManagerRepository;
   final AuthRepository _authRepository;
 
-  Future<void> loadUserOrganization() async {
+  Future<void> loadUserOrganizations() async {
     try {
       emit(state.copyWith(status: UserOrganizationsStatus.loading));
       final organizations =

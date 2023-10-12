@@ -1,13 +1,17 @@
-// ignore_for_file: one_member_abstracts
-
-import 'package:event_planr_app/data/network/models/nominatim/searched_location_dto.dart';
+import 'package:event_planr_app/data/network/models/nominatim/map_location_dto.dart';
 
 abstract class NominatimApi {
-  Future<List<SearchedLocationDto>> searchPlaces({
+  Future<List<MapLocationDto>> locationSearch({
     String? query,
-    String? city,
-    String? format,
-    String? language,
     int? limit,
+    int? addressDetails,
+    String? format,
+  });
+
+  Future<MapLocationDto> reverseLocationSearch({
+    required double latitude,
+    required double longitude,
+    int? addressDetails,
+    String? format,
   });
 }

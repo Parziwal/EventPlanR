@@ -42,7 +42,7 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.authSubmit),
+            child: Text(l10.submit),
           ),
         ],
       ),
@@ -64,7 +64,7 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
       name: 'confirmCode',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authConfirmCode,
+        hintText: l10.auth_ConfirmCode,
         prefixIcon: const Icon(Icons.person_outline),
         filled: true,
       ),
@@ -84,7 +84,7 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
       name: 'newPassword',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authPassword,
+        hintText: l10.auth_Password,
         prefixIcon: const Icon(Icons.lock_outline),
         filled: true,
       ),
@@ -99,11 +99,11 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
             if (password == null) {
               return null;
             } else if (!password.contains(RegExp('[A-Z]'))) {
-              return l10.authPasswordMustContainUpperCase;
+              return l10.auth_PasswordMustContainUpperCase;
             } else if (!password.contains(RegExp('[a-z]'))) {
-              return l10.authPasswordMustContainLowerCase;
+              return l10.auth_PasswordMustContainLowerCase;
             } else if (!password.contains(RegExp('[0-9]'))) {
-              return l10.authPasswordMustContainNumber;
+              return l10.auth_PasswordMustContainNumber;
             }
             return null;
           }
@@ -118,7 +118,7 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
       name: 'confirmPassword',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authConfirmPassword,
+        hintText: l10.auth_ConfirmPassword,
         prefixIcon: const Icon(Icons.lock_outline),
         filled: true,
       ),
@@ -129,7 +129,7 @@ class _ConfirmForgotPasswordFormState extends State<ConfirmForgotPasswordForm> {
           (confirmPassword) {
             if (confirmPassword !=
                 _formKey.currentState?.fields['newPassword']?.value) {
-              return l10.authPasswordsDoNotMatch;
+              return l10.auth_PasswordsDoNotMatch;
             }
             return null;
           }

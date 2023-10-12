@@ -23,7 +23,7 @@ void authStateHandler(BuildContext context, AuthState state) {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.authConfirmCodeResended,
+              l10n.auth_ConfirmCodeResended,
               style: TextStyle(color: theme.colorScheme.onPrimary),
             ),
             backgroundColor: theme.colorScheme.primary,

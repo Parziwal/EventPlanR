@@ -17,7 +17,7 @@ class ConfirmSignUpPage extends StatelessWidget {
       desktopHeight: 500,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(l10n.authConfirmSignUp),
+          title: Text(l10n.auth_ConfirmSignUp),
         ),
         body: Center(
           child: SingleChildScrollView(

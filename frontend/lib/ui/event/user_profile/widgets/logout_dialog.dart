@@ -24,19 +24,19 @@ Widget _logoutDialog(BuildContext context) {
   return BlocBuilder<UserProfileCubit, UserProfileState>(
     builder: (context, state) {
       return AlertDialog(
-        title: Text(l10n.userProfileAreYouSureYouWantToLogout),
+        title: Text(l10n.userProfile_AreYouSureYouWantToLogout),
         actions: [
-          TextButton(
-            onPressed: state is Loading
-                ? null
-                : () => Navigator.of(context).pop(),
-            child: Text(l10n.no),
-          ),
           FilledButton(
             onPressed: state is Loading
                 ? null
                 : () => context.read<UserProfileCubit>().logout(),
             child: Text(l10n.yes),
+          ),
+          FilledButton.tonal(
+            onPressed: state is Loading
+                ? null
+                : () => Navigator.of(context).pop(),
+            child: Text(l10n.no),
           ),
         ],
       );

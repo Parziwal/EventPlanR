@@ -41,14 +41,14 @@ class _SignInFormState extends State<SignInForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.authSignIn),
+            child: Text(l10.auth_SignIn),
           ),
           const SizedBox(height: 16),
           TextButton(
             onPressed: widget.disabled
                 ? null
                 : () => context.push(PagePaths.forgotPassword),
-            child: Text(l10.authForgotYourPassword),
+            child: Text(l10.auth_ForgotYourPassword),
           ),
         ],
       ),
@@ -72,7 +72,7 @@ class _SignInFormState extends State<SignInForm> {
       name: 'email',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authEmail,
+        hintText: l10.auth_Email,
         prefixIcon: const Icon(Icons.email_outlined),
         filled: true,
       ),
@@ -92,7 +92,7 @@ class _SignInFormState extends State<SignInForm> {
       name: 'password',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authPassword,
+        hintText: l10.auth_Password,
         prefixIcon: const Icon(Icons.lock_outline),
         filled: true,
       ),

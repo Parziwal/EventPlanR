@@ -81,27 +81,27 @@ class FilterAppBar extends StatelessWidget implements PreferredSizeWidget {
             FilledButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.category),
-              label: Text(l10n.exploreEventsAnyCategory),
+              label: Text(l10n.exploreEvents_AnyCategory),
             ),
             FilledButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.access_time),
-              label: Text(l10n.exploreEventsAnytime),
+              label: Text(l10n.exploreEvents_Anytime),
             ),
             FilledButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.location_on),
-              label: Text(l10n.exploreEventsAnyLocation),
+              label: Text(l10n.exploreEvents_AnyLocation),
             ),
             FilledButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.language),
-              label: Text(l10n.exploreEventsAnyLanguage),
+              label: Text(l10n.exploreEvents_AnyLanguage),
             ),
             FilledButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.attach_money),
-              label: Text(l10n.exploreEventsAnyCurrency),
+              label: Text(l10n.exploreEvents_AnyCurrency),
             ),
           ],
         ),

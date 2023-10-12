@@ -17,7 +17,7 @@ class ConfirmForgotPasswordPage extends StatelessWidget {
       desktopHeight: 500,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(l10n.authConfirmForgotPassword),
+          title: Text(l10n.auth_ConfirmForgotPassword),
         ),
         body: Center(
           child: SingleChildScrollView(

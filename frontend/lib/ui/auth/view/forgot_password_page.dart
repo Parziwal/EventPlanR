@@ -17,7 +17,7 @@ class ForgotPasswordPage extends StatelessWidget {
       desktopHeight: 500,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(l10n.authForgotPassword),
+          title: Text(l10n.auth_ForgotPassword),
         ),
         body: Center(
           child: SingleChildScrollView(

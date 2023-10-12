@@ -44,7 +44,7 @@ class CreateOrganizationPage extends StatelessWidget {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.createOrganizationOrganizationCreated,
+              l10n.createOrganization_OrganizationCreated,
               style: TextStyle(color: theme.colorScheme.onPrimary),
             ),
             backgroundColor: theme.colorScheme.primary,

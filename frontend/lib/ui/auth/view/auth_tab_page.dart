@@ -57,8 +57,8 @@ class _AuthTabPageState extends State<AuthTabPage>
           bottom: TabBar(
             controller: _tabController,
             tabs: [
-              Tab(text: l10n.authSignIn),
-              Tab(text: l10n.authSignUp),
+              Tab(text: l10n.auth_SignIn),
+              Tab(text: l10n.auth_SignUp),
             ],
           ),
         ),

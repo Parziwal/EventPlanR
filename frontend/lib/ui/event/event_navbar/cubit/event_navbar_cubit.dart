@@ -1,6 +1,5 @@
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/domain/models/auth/user.dart';
-import 'package:event_planr_app/env/env.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';

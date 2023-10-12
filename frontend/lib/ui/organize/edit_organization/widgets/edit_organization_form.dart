@@ -78,7 +78,7 @@ class _EditOrganizationFormState extends State<EditOrganizationForm> {
       name: 'name',
       enabled: false,
       decoration: InputDecoration(
-        hintText: l10n.editOrganizationName,
+        hintText: l10n.editOrganization_Name,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(
@@ -98,7 +98,7 @@ class _EditOrganizationFormState extends State<EditOrganizationForm> {
       enabled: !widget.disabled,
       maxLines: 4,
       decoration: InputDecoration(
-        hintText: l10n.editOrganizationDescription,
+        hintText: l10n.editOrganization_Description,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(

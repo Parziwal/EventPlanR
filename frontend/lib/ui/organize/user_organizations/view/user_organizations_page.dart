@@ -43,7 +43,7 @@ class UserOrganizationsPage extends StatelessWidget {
         FilledButton.tonalIcon(
           onPressed: () => context.go(PagePaths.userOrganizationsCreate),
           icon: const Icon(Icons.add),
-          label: Text(l10n.userOrganizationsCreateOrganization),
+          label: Text(l10n.userOrganizations_CreateOrganization),
           style: FilledButton.styleFrom(
             textStyle: theme.textTheme.titleMedium,
             padding: const EdgeInsets.all(16),
@@ -76,7 +76,7 @@ class UserOrganizationsPage extends StatelessWidget {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.userOrganizationsOrganizationSelected,
+              l10n.userOrganizations_OrganizationSelected,
               style: TextStyle(color: theme.colorScheme.onPrimary),
             ),
             backgroundColor: theme.colorScheme.primary,

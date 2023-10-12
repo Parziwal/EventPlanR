@@ -1,7 +1,10 @@
+import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organization_events/widgets/organization_event_item.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class OrganizationEventsPage extends StatefulWidget {
@@ -34,6 +37,7 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final theme = context.theme;
 
     return OrganizeScaffold(
       title: l10n.organizationEvents,
@@ -45,11 +49,28 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
           });
         },
         tabs: [
-          Tab(text: l10n.organizationEventsUpcoming),
-          Tab(text: l10n.organizationEventsDraft),
-          Tab(text: l10n.organizationEventsPast),
+          Tab(text: l10n.organizationEvents_Upcoming),
+          Tab(text: l10n.organizationEvents_Draft),
+          Tab(text: l10n.organizationEvents_Past),
         ],
       ),
+      mobileFloatingButton: FloatingActionButton(
+        onPressed: () => context.go(PagePaths.organizationEventsCreate),
+        child: const Icon(Icons.add),
+      ),
+      desktopActions: [
+        FilledButton.tonalIcon(
+          onPressed: () => context.go(
+            PagePaths.organizationEventsCreate,
+          ),
+          icon: const Icon(Icons.add),
+          label: Text(l10n.organizationEvents_AddEvent),
+          style: FilledButton.styleFrom(
+            textStyle: theme.textTheme.titleMedium,
+            padding: const EdgeInsets.all(16),
+          ),
+        ),
+      ],
       body: Center(
         child: MaxWidthBox(
           maxWidth: 1000,

@@ -39,7 +39,7 @@ class _ConfirmSignUpFormState extends State<ConfirmSignUpForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.authResendConfirmCode),
+            child: Text(l10.auth_ResendConfirmCode),
           ),
           const SizedBox(height: 16),
           FilledButton(
@@ -48,7 +48,7 @@ class _ConfirmSignUpFormState extends State<ConfirmSignUpForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.authSubmit),
+            child: Text(l10.submit),
           ),
         ],
       ),
@@ -70,7 +70,7 @@ class _ConfirmSignUpFormState extends State<ConfirmSignUpForm> {
       name: 'confirmCode',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authConfirmCode,
+        hintText: l10.auth_ConfirmCode,
         prefixIcon: const Icon(Icons.person_outline),
         filled: true,
       ),

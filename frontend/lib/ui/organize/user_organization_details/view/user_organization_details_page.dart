@@ -27,7 +27,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
         FilledButton.tonalIcon(
           onPressed: () {},
           icon: const Icon(Icons.edit),
-          label: Text(l10n.userOrganizationDetailsEditOrganization),
+          label: Text(l10n.userOrganizationDetails_EditOrganization),
           style: FilledButton.styleFrom(
             textStyle: theme.textTheme.titleMedium,
             padding: const EdgeInsets.all(16),
@@ -37,7 +37,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
         FilledButton.tonalIcon(
           onPressed: () {},
           icon: const Icon(Icons.add),
-          label: Text(l10n.userOrganizationDetailsAddMember),
+          label: Text(l10n.userOrganizationDetails_AddMember),
           style: FilledButton.styleFrom(
             textStyle: theme.textTheme.titleMedium,
             padding: const EdgeInsets.all(16),
@@ -61,7 +61,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                l10n.userOrganizationDetailsDescription,
+                l10n.userOrganizationDetails_Description,
                 style: theme.textTheme.titleLarge,
               ),
               Text(

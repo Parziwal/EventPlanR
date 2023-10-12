@@ -49,7 +49,7 @@ class EditOrganizationPage extends StatelessWidget {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.editOrganizationOrganizationUpdated,
+              l10n.editOrganization_OrganizationUpdated,
               style: TextStyle(color: theme.colorScheme.onPrimary),
             ),
             backgroundColor: theme.colorScheme.primary,

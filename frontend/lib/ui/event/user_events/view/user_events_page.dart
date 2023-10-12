@@ -50,9 +50,9 @@ class _UserEventsPageState extends State<UserEventsPage>
           });
         },
         tabs: [
-          Tab(text: l10n.userEventsUpcoming),
-          Tab(text: l10n.userEventsInvitation),
-          Tab(text: l10n.userEventsPast),
+          Tab(text: l10n.userEvents_Upcoming),
+          Tab(text: l10n.userEvents_Invitation),
+          Tab(text: l10n.userEvents_Past),
         ],
       ),
       body: const EventItemList(),

@@ -27,33 +27,33 @@ class UserProfilePage extends StatelessWidget {
         body: ListView(
           children: [
             ListTile(
-              title: Text(l10n.userProfileEditProfile),
+              title: Text(l10n.userProfile_EditProfile),
               leading: const Icon(Icons.person_outline),
               trailing: const Icon(Icons.arrow_forward_ios),
             ),
             ListTile(
-              title: Text(l10n.userProfileSecurity),
+              title: Text(l10n.userProfile_Security),
               leading: const Icon(Icons.security_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
             ),
             ListTile(
-              title: Text(l10n.userProfileNotifications),
+              title: Text(l10n.userProfile_Notifications),
               leading: const Icon(Icons.notifications_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
             ),
             ListTile(
-              title: Text(l10n.userProfileAppearance),
+              title: Text(l10n.userProfile_Appearance),
               leading: const Icon(Icons.style_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
             ),
             ListTile(
-              title: Text(l10n.userProfileManageEvents),
+              title: Text(l10n.userProfile_ManageEvents),
               leading: const Icon(Icons.event_note_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () => context.go(PagePaths.userOrganizations),
             ),
             ListTile(
-              title: Text(l10n.userProfileLogout),
+              title: Text(l10n.userProfile_Logout),
               leading: const Icon(Icons.logout_outlined),
               textColor: theme.colorScheme.error,
               iconColor: theme.colorScheme.error,

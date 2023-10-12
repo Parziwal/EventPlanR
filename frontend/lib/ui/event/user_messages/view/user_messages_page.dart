@@ -55,8 +55,8 @@ class _UserMessagesPageState extends State<UserMessagesPage>
           });
         },
         tabs: [
-          Tab(text: l10n.userMessagesEvent),
-          Tab(text: l10n.userMessagesDirect),
+          Tab(text: l10n.userMessages_Event),
+          Tab(text: l10n.userMessages_Direct),
         ],
       ),
       body: Center(

@@ -64,7 +64,7 @@ class _CreateOrganizationFormState extends State<CreateOrganizationForm> {
       name: 'name',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10n.createOrganizationName,
+        hintText: l10n.createOrganization_Name,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(
@@ -84,7 +84,7 @@ class _CreateOrganizationFormState extends State<CreateOrganizationForm> {
       enabled: !widget.disabled,
       maxLines: 4,
       decoration: InputDecoration(
-        hintText: l10n.createOrganizationDescription,
+        hintText: l10n.createOrganization_Description,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(

@@ -112,31 +112,31 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                 children: [
                   DrawerTile(
                     icon: const Icon(Icons.home),
-                    label: Text(l10n.navbarUserDashboard),
+                    label: Text(l10n.navbar_UserDashboard),
                     onTap: () => context.go(PagePaths.userDashboard),
                     selected: location == PagePaths.userDashboard,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.search),
-                    label: Text(l10n.navbarExploreEvents),
+                    label: Text(l10n.navbar_ExploreEvents),
                     onTap: () => context.go(PagePaths.exploreEvents),
                     selected: location == PagePaths.exploreEvents,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.event),
-                    label: Text(l10n.navbarUserEvents),
+                    label: Text(l10n.navbar_UserEvents),
                     onTap: () => context.go(PagePaths.userEvents),
                     selected: location == PagePaths.userEvents,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.message),
-                    label: Text(l10n.navbarUserMessages),
+                    label: Text(l10n.navbar_UserMessages),
                     onTap: () => context.go(PagePaths.userMessages),
                     selected: location == PagePaths.userMessages,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.event_note_outlined),
-                    label: Text(l10n.navbarManageEvents),
+                    label: Text(l10n.navbar_ManageEvents),
                     onTap: () => context.go(PagePaths.userOrganizations),
                   ),
                 ],

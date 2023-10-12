@@ -13,6 +13,7 @@ import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart'
 import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
+import 'package:event_planr_app/ui/organize/create_event/cubit/create_event_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_event/view/create_event_page.dart';
 import 'package:event_planr_app/ui/organize/create_organization/cubit/create_organization_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_organization/view/create_organization_page.dart';
@@ -45,14 +46,11 @@ class PagePaths {
   static String userProfile = '/userProfile';
 
   static String userOrganizations = '/userOrganizations';
-  static String userOrganizationDetails = '/userOrganizationsDetails';
   static String userOrganizationsCreate = '/userOrganizations/create';
-
-  static String userOrganizationsDetailsEdit(String organizationId) =>
-      '/userOrganizationsDetails/edit/$organizationId';
-
-  static String organizationEvents(String organizationId) =>
-      '/organizationsEvents/$organizationId';
+  static String userOrganizationDetails = '/userOrganizationDetails';
+  static String userOrganizationsDetailsEdit = '/userOrganizationDetails/edit';
+  static String organizationEvents = '/organizationEvents';
+  static String organizationEventsCreate = '/organizationEvents/create';
 }
 
 final appRouter = GoRouter(
@@ -125,7 +123,7 @@ final appRouter = GoRouter(
         BlocRoute<UserOrganizationsCubit>(
           path: PagePaths.userOrganizations,
           builder: (state) => const UserOrganizationsPage(),
-          init: (cubit, _) => cubit..loadUserOrganization(),
+          init: (cubit, _) => cubit..loadUserOrganizations(),
           routes: [
             BlocRoute<CreateOrganizationCubit>(
               path: 'create',
@@ -138,16 +136,21 @@ final appRouter = GoRouter(
           builder: (state) => const UserOrganizationDetailsPage(),
           routes: [
             BlocRoute<EditOrganizationCubit>(
-              path: 'edit/:organizationId',
+              path: 'edit',
               builder: (state) => const EditOrganizationPage(),
-              init: (cubit, state) =>
-              cubit..loadOrganization(state.pathParameters['organizationId']!),
+              init: (cubit, state) => cubit..loadOrganization(),
             ),
           ],
         ),
         BlocRoute<OrganizationEventsCubit>(
-          path: PagePaths.organizationEvents(':organizationId'),
-          builder: (state) => const CreateEventPage(),
+          path: PagePaths.organizationEvents,
+          builder: (state) => const OrganizationEventsPage(),
+          routes: [
+            BlocRoute<CreateEventCubit>(
+              path: 'create',
+              builder: (state) => const CreateEventPage(),
+            ),
+          ],
         ),
       ],
     ),

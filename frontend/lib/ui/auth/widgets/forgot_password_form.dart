@@ -36,7 +36,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.authSubmit),
+            child: Text(l10.submit),
           ),
         ],
       ),
@@ -57,7 +57,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       name: 'email',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10.authEmail,
+        hintText: l10.auth_Email,
         prefixIcon: const Icon(Icons.email_outlined),
         filled: true,
       ),

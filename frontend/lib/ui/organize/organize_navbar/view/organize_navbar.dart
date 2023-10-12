@@ -57,7 +57,7 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
         state.desktopTitle.isNotEmpty ? ' - ${state.desktopTitle}' : '';
 
     return AppBar(
-      title: Text('${l10n.organizeNavbarEventManager}$title'),
+      title: Text('${l10n.organizeNavbar_EventManager}$title'),
       elevation: 5,
       leading: breakpoints.isDesktop
           ? IconButton(
