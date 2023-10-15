@@ -1,4 +1,3 @@
-import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,6 @@ class ImageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = context.theme;
 
     return AspectRatio(
@@ -21,12 +19,13 @@ class ImageWrapper extends StatelessWidget {
             )
           : Container(
               decoration: BoxDecoration(
-                border: Border.all(color: theme.colorScheme.primary),
+                color: theme.colorScheme.secondary,
               ),
               child: Center(
-                child: Text(
-                  l10n.noImageFound,
-                  style: theme.textTheme.titleLarge,
+                child: Icon(
+                  Icons.photo_camera,
+                  color: theme.colorScheme.onSecondary,
+                  size: theme.textTheme.displayLarge?.fontSize,
                 ),
               ),
             ),

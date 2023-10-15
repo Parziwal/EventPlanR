@@ -4,9 +4,14 @@ import 'package:event_planr_app/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
 
 class EventItemCardPortrait extends StatelessWidget {
-  const EventItemCardPortrait({required this.event, super.key});
+  const EventItemCardPortrait({
+    required this.event,
+    required this.onPressed,
+    super.key,
+  });
 
   final Event event;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class EventItemCardPortrait extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         elevation: 4,
         child: InkWell(
-          onTap: () {},
+          onTap: onPressed,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

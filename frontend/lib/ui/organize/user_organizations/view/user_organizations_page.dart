@@ -36,12 +36,12 @@ class UserOrganizationsPage extends StatelessWidget {
         },
       ),
       mobileFloatingButton: FloatingActionButton(
-        onPressed: () => context.go(PagePaths.userOrganizationsCreate),
+        onPressed: () => context.go(PagePaths.userOrganizationCreate),
         child: const Icon(Icons.add),
       ),
       desktopActions: [
         FilledButton.tonalIcon(
-          onPressed: () => context.go(PagePaths.userOrganizationsCreate),
+          onPressed: () => context.go(PagePaths.userOrganizationCreate),
           icon: const Icon(Icons.add),
           label: Text(l10n.userOrganizations_CreateOrganization),
           style: FilledButton.styleFrom(

@@ -10,7 +10,6 @@
     "create": "Create",
     "save": "Save",
     "submit": "Submit",
-    "noImageFound": "No image found",
     "pick": "Pick",
 
     "auth_SignIn": "Sign In",
@@ -123,5 +122,6 @@
     "createEvent_City": "City",
     "createEvent_AddressLine": "Address line",
     "createEvent_IsPrivate": "Private",
+    "createEvent_Currency": "Currency",
     "createEvent_LocationMustBeSet": "Location must be set"
 }

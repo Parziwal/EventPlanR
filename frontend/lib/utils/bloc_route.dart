@@ -11,6 +11,7 @@ class BlocRoute<TCubit extends Cubit<dynamic>> extends GoRoute {
     required Widget Function(GoRouterState s) builder,
     TCubit Function(TCubit cubit, GoRouterState s)? init,
     List<GoRoute> super.routes = const [],
+    super.parentNavigatorKey,
   }) : super(
           pageBuilder: (context, state) =>
               context.breakpoints.largerThan(MOBILE)

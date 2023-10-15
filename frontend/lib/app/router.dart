@@ -5,10 +5,18 @@ import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
+import 'package:event_planr_app/ui/event/event_details/cubit/event_details_cubit.dart';
+import 'package:event_planr_app/ui/event/event_details/view/event_details_page.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
+import 'package:event_planr_app/ui/event/event_tickets/cubit/event_tickets_cubit.dart';
+import 'package:event_planr_app/ui/event/event_tickets/view/event_tickets_page.dart';
 import 'package:event_planr_app/ui/event/explore_events/view/explore_events_page.dart';
+import 'package:event_planr_app/ui/event/ticket_checkout/cubit/ticket_checkout_cubit.dart';
+import 'package:event_planr_app/ui/event/ticket_checkout/view/ticket_checkout_page.dart';
 import 'package:event_planr_app/ui/event/user_dashboard/view/user_dashboard_page.dart';
+import 'package:event_planr_app/ui/event/user_event_tickets/cubit/user_event_tickets_cubit.dart';
+import 'package:event_planr_app/ui/event/user_event_tickets/view/user_event_tickets_page.dart';
 import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart';
 import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
@@ -45,10 +53,21 @@ class PagePaths {
   static String userMessages = '/userMessages';
   static String userProfile = '/userProfile';
 
+  static String eventDetails(String eventId) =>
+      '/exploreEvents/details/$eventId';
+
+  static String eventTickets(String eventId) =>
+      '/exploreEvents/details/$eventId/tickets';
+
+  static String eventTicketCheckout(String eventId) =>
+      '/exploreEvents/details/$eventId/tickets/checkout';
+
+  static String userEventTickets(String eventId) => '/userEvents/$eventId';
+
   static String userOrganizations = '/userOrganizations';
-  static String userOrganizationsCreate = '/userOrganizations/create';
+  static String userOrganizationCreate = '/userOrganizations/create';
   static String userOrganizationDetails = '/userOrganizationDetails';
-  static String userOrganizationsDetailsEdit = '/userOrganizationDetails/edit';
+  static String userOrganizationEdit = '/userOrganizationDetails/edit';
   static String organizationEvents = '/organizationEvents';
   static String organizationEventsCreate = '/organizationEvents/create';
 }
@@ -94,10 +113,34 @@ final appRouter = GoRouter(
         BlocRoute<AuthCubit>(
           path: PagePaths.exploreEvents,
           builder: (state) => const ExploreEventsPage(),
+          routes: [
+            BlocRoute<EventDetailsCubit>(
+              path: 'details/:eventId',
+              builder: (state) => const EventDetailsPage(),
+              routes: [
+                BlocRoute<EventTicketsCubit>(
+                  path: 'tickets',
+                  builder: (state) => const EventTicketsPage(),
+                  routes: [
+                    BlocRoute<TicketCheckoutCubit>(
+                      path: 'checkout',
+                      builder: (state) => const TicketCheckoutPage(),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
         BlocRoute<AuthCubit>(
           path: PagePaths.userEvents,
           builder: (state) => const UserEventsPage(),
+          routes: [
+            BlocRoute<UserEventTicketsCubit>(
+              path: ':eventId',
+              builder: (state) => const UserEventTicketsPage(),
+            ),
+          ],
         ),
         BlocRoute<AuthCubit>(
           path: PagePaths.userMessages,

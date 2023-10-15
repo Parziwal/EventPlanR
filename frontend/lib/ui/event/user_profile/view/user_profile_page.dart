@@ -1,6 +1,6 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/event/event_navbar/widgets/event_scaffold.dart';
+import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/widgets/logout_dialog.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';

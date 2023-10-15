@@ -13,38 +13,47 @@ class EventBottomNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
+    final location = context.goRouterState.matchedLocation;
+    final showBottomNavbar = location == PagePaths.userDashboard ||
+        location == PagePaths.exploreEvents ||
+        location == PagePaths.userEvents ||
+        location == PagePaths.userMessages ||
+        location == PagePaths.userProfile;
 
     return Scaffold(
       body: child,
-      bottomNavigationBar: NavigationBar(
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.home),
-            label: l10n.navbar_UserDashboard,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.search),
-            label: l10n.navbar_ExploreEvents,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.event),
-            label: l10n.navbar_UserEvents,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.message),
-            label: l10n.navbar_UserMessages,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.person),
-            label: l10n.navbar_UserProfile,
-          ),
-        ],
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        indicatorColor: theme.colorScheme.inversePrimary,
-        elevation: 5,
-        selectedIndex: _calculateSelectedIndex(context),
-        onDestinationSelected: (index) => _onItemTapped(index, context),
-      ),
+      bottomNavigationBar: showBottomNavbar
+          ? NavigationBar(
+              destinations: [
+                NavigationDestination(
+                  icon: const Icon(Icons.home),
+                  label: l10n.navbar_UserDashboard,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.search),
+                  label: l10n.navbar_ExploreEvents,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.event),
+                  label: l10n.navbar_UserEvents,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.message),
+                  label: l10n.navbar_UserMessages,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.person),
+                  label: l10n.navbar_UserProfile,
+                ),
+              ],
+              labelBehavior:
+                  NavigationDestinationLabelBehavior.onlyShowSelected,
+              indicatorColor: theme.colorScheme.inversePrimary,
+              elevation: 5,
+              selectedIndex: _calculateSelectedIndex(context),
+              onDestinationSelected: (index) => _onItemTapped(index, context),
+            )
+          : null,
     );
   }
 

@@ -4,9 +4,14 @@ import 'package:event_planr_app/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
 
 class EventItemCardLandscape extends StatelessWidget {
-  const EventItemCardLandscape({required this.event, super.key});
+  const EventItemCardLandscape({
+    required this.event,
+    required this.onPressed,
+    super.key,
+  });
 
   final Event event;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class EventItemCardLandscape extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         elevation: 4,
         child: InkWell(
-          onTap: () {},
+          onTap: onPressed,
           child: Stack(
             children: [
               Row(

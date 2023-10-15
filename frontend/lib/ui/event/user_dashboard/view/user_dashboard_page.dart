@@ -1,5 +1,5 @@
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/event/event_navbar/widgets/event_scaffold.dart';
+import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class UserDashboardPage extends StatelessWidget {

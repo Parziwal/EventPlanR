@@ -1,6 +1,5 @@
 import 'package:event_planr_app/domain/models/event/currency.dart';
 import 'package:event_planr_app/domain/models/event/event_category.dart';
-import 'package:event_planr_app/domain/models/event/language.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/create_event/cubit/create_event_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_event/widgets/map_location_form_field.dart';
@@ -51,8 +50,6 @@ class _CreateEventFormState extends State<CreateEventForm> {
           _cityField(context),
           const SizedBox(height: 16),
           _addressLineField(context),
-          const SizedBox(height: 16),
-          _languageField(context),
           const SizedBox(height: 16),
           _currencyField(context),
           const SizedBox(height: 16),
@@ -261,30 +258,6 @@ class _CreateEventFormState extends State<CreateEventForm> {
     );
   }
 
-  Widget _languageField(BuildContext context) {
-    final l10n = context.l10n;
-
-    return FormBuilderDropdown(
-      name: 'language',
-      enabled: !widget.disabled,
-      items: Language.values
-          .map(
-            (e) => DropdownMenuItem(
-              value: e.index,
-              child: Text(e.name),
-            ),
-          )
-          .toList(),
-      decoration: const InputDecoration(
-        hintText: 'Language',
-        filled: true,
-      ),
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required<int>(),
-      ]),
-    );
-  }
-
   Widget _currencyField(BuildContext context) {
     final l10n = context.l10n;
 
@@ -299,8 +272,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
             ),
           )
           .toList(),
-      decoration: const InputDecoration(
-        hintText: 'Currency',
+      decoration: InputDecoration(
+        hintText: l10n.createEvent_Currency,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([

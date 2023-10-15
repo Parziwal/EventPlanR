@@ -2,8 +2,7 @@ import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.d
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_framework/max_width_box.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class EventScaffold extends StatelessWidget {
   const EventScaffold({
@@ -12,6 +11,7 @@ class EventScaffold extends StatelessWidget {
     this.appBar,
     this.body,
     this.mobileActions,
+    this.mobileBottomSheet,
     this.tabBar,
   });
 
@@ -19,6 +19,7 @@ class EventScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget? body;
   final List<Widget>? mobileActions;
+  final Widget? mobileBottomSheet;
   final TabBar? tabBar;
 
   @override
@@ -28,7 +29,9 @@ class EventScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: _appBar(context),
+      bottomSheet: breakpoints.isMobile ? mobileBottomSheet : null,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (breakpoints.isDesktop) _desktopTabBar(context),
           if (body != null) Expanded(child: body!),
