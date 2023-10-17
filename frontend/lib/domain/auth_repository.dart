@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_code_mismatch_exception.dart';
@@ -35,11 +37,13 @@ class AuthRepository {
   }
 
   Future<User> get user async {
-    final userAttributes = await Amplify.Auth.fetchUserAttributes();
-    return User.fromJson({
-      for (final element in userAttributes)
-        '${element.userAttributeKey}': element.value,
-    });
+    final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+    final session = await cognitoPlugin.fetchAuthSession();
+    final claimsJson =
+        session.userPoolTokensResult.value.idToken.claims.toJson();
+    claimsJson['organization_policies'] =
+        jsonDecode(claimsJson['organization_policies']! as String);
+    return User.fromJson(claimsJson);
   }
 
   Future<void> refreshToken() async {

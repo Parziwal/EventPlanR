@@ -8,7 +8,7 @@ class OrganizationDetails with _$OrganizationDetails {
   const factory OrganizationDetails({
     required String id,
     required String name,
-    required String profileImageUrl,
+    String? profileImageUrl,
     String? description,
   }) = _OrganizationDetails;
 

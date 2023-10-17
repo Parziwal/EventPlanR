@@ -1,29 +1,39 @@
+import 'package:event_planr_app/domain/models/organization/create_organization.dart';
 import 'package:event_planr_app/domain/models/organization/edit_organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/organize/edit_organization/cubit/edit_organization_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-class EditOrganizationForm extends StatefulWidget {
-  const EditOrganizationForm({
-    required this.organization,
+class CreateOrEditOrganizationForm extends StatefulWidget {
+  const CreateOrEditOrganizationForm({
     this.disabled = false,
+    this.organizationDetails,
     super.key,
   });
 
   final bool disabled;
-  final OrganizationDetails organization;
+  final OrganizationDetails? organizationDetails;
 
   @override
-  State<EditOrganizationForm> createState() => _EditOrganizationFormState();
+  State<CreateOrEditOrganizationForm> createState() =>
+      _CreateOrEditOrganizationFormState();
 }
 
-class _EditOrganizationFormState extends State<EditOrganizationForm> {
+class _CreateOrEditOrganizationFormState
+    extends State<CreateOrEditOrganizationForm> {
   final _formKey = GlobalKey<FormBuilderState>();
+  late final bool _edit;
+
+  @override
+  void initState() {
+    super.initState();
+    _edit = widget.organizationDetails != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,43 +42,44 @@ class _EditOrganizationFormState extends State<EditOrganizationForm> {
 
     return FormBuilder(
       key: _formKey,
-      initialValue: widget.organization.toJson(),
+      initialValue: _edit ? widget.organizationDetails!.toJson() : {},
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _profileImage(context),
-          const SizedBox(height: 16),
           _nameField(context),
           const SizedBox(height: 16),
           _descriptionField(context),
           const SizedBox(height: 32),
           FilledButton(
-            onPressed: !widget.disabled ? _create : null,
+            onPressed: !widget.disabled ? _submit : null,
             style: FilledButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10n.create),
+            child: Text(l10n.submit),
           ),
         ],
       ),
     );
   }
 
-  void _create() {
+  void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      context.read<EditOrganizationCubit>().editOrganization(
-            EditOrganization.fromJson({
-              ...widget.organization.toJson(),
-              ..._formKey.currentState!.value,
-            }),
-          );
+      if (_edit) {
+        context.read<CreateOrEditOrganizationCubit>().editOrganization(
+              EditOrganization.fromJson(
+                _formKey.currentState!.value,
+              ),
+            );
+      } else {
+        context.read<CreateOrEditOrganizationCubit>().createOrganization(
+              CreateOrganization.fromJson(
+                _formKey.currentState!.value,
+              ),
+            );
+      }
     }
-  }
-
-  Widget _profileImage(BuildContext context) {
-    return Container();
   }
 
   Widget _nameField(BuildContext context) {
@@ -76,9 +87,9 @@ class _EditOrganizationFormState extends State<EditOrganizationForm> {
 
     return FormBuilderTextField(
       name: 'name',
-      enabled: false,
+      enabled: !widget.disabled && !_edit,
       decoration: InputDecoration(
-        hintText: l10n.editOrganization_Name,
+        hintText: l10n.createOrEditOrganization_Name,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(
@@ -98,7 +109,7 @@ class _EditOrganizationFormState extends State<EditOrganizationForm> {
       enabled: !widget.disabled,
       maxLines: 4,
       decoration: InputDecoration(
-        hintText: l10n.editOrganization_Description,
+        hintText: l10n.createOrEditOrganization_Description,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(

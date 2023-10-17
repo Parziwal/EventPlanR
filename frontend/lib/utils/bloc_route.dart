@@ -19,9 +19,11 @@ class BlocRoute<TCubit extends Cubit<dynamic>> extends GoRoute {
                       key: state.pageKey,
                       child: BlocProvider(
                         key: state.pageKey,
-                        create: (context) => init != null
-                            ? init(injector<TCubit>(), state)
-                            : injector<TCubit>(),
+                        create: (context) {
+                          return init != null
+                              ? init(injector<TCubit>(), state)
+                              : injector<TCubit>();
+                        },
                         child: builder(state),
                       ),
                     )

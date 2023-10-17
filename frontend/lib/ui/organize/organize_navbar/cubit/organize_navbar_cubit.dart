@@ -31,16 +31,23 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
   Future<void> loadUserData() async {
     final user = await _authRepository.user;
     emit(state.copyWith(user: user));
-    await refreshCurrentOrganization();
+    if (user.organizationId != null) {
+      await refreshCurrentOrganization();
+    }
   }
 
   Future<void> refreshCurrentOrganization() async {
     try {
       final organization =
-      await _organizationManagerRepository.getUserCurrentOrganization();
+          await _organizationManagerRepository.getUserCurrentOrganization();
       emit(state.copyWith(organization: organization));
     } catch (e) {
-      emit(state.copyWith(organization: null));
+      emit(
+        state.copyWith(
+          status: OrganizeNavbarStatus.error,
+          errorCode: e.toString(),
+        ),
+      );
     }
   }
 

@@ -85,9 +85,6 @@ class _UserEventsPageState extends State<UserEventsPage>
               organizationName: 'Organization name',
               fromDate: DateTime.now(),
               toDate: DateTime.now(),
-              coverImage: const NetworkImage(
-                'https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-              ),
             ),
           )
               : FittedBox(
@@ -102,9 +99,6 @@ class _UserEventsPageState extends State<UserEventsPage>
                 organizationName: 'Organization name',
                 fromDate: DateTime.now(),
                 toDate: DateTime.now(),
-                coverImage: const NetworkImage(
-                  'https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-                ),
               ),
             ),
           );

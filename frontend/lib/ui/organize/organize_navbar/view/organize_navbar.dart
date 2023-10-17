@@ -1,5 +1,6 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_drawer.dart';
 import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
@@ -94,8 +95,23 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
   }
 
   void _stateListener(BuildContext context, OrganizeNavbarState state) {
+    final l10n = context.l10n;
+    final theme = context.theme;
+
     if (state.status == OrganizeNavbarStatus.loggedOut) {
       context.go(PagePaths.signIn);
+    } else if (state.status == OrganizeNavbarStatus.error) {
+      context.scaffoldMessenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.translateError(state.errorCode!),
+              style: TextStyle(color: theme.colorScheme.onError),
+            ),
+            backgroundColor: theme.colorScheme.error,
+          ),
+        );
     }
   }
 }

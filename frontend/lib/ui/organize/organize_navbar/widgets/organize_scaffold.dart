@@ -86,12 +86,18 @@ class OrganizeScaffold extends StatelessWidget {
       return Container();
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-      child: Row(
-        children: [
-          ...?desktopActions,
-        ],
+    return Scrollbar(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        primary: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          child: Row(
+            children: [
+              ...?desktopActions,
+            ],
+          ),
+        ),
       ),
     );
   }

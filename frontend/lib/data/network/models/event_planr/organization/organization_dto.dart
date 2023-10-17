@@ -11,6 +11,7 @@ class OrganizationDto with _$OrganizationDto {
     String? profileImageUrl,
   }) = _OrganizationDto;
 
+  @override
   factory OrganizationDto.fromJson(Map<String, Object?> json) =>
       _$OrganizationDtoFromJson(json);
 }

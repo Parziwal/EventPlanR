@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'event.freezed.dart';
+part 'event.g.dart';
 
 @freezed
 class Event with _$Event {
@@ -12,6 +12,9 @@ class Event with _$Event {
     required String organizationName,
     required DateTime fromDate,
     required DateTime toDate,
-    required ImageProvider coverImage,
+    String? coverImageUrl,
   }) = _Event;
+
+  factory Event.fromJson(Map<String, dynamic> json) =>
+      _$EventFromJson(json);
 }

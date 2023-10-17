@@ -1,5 +1,6 @@
 import 'package:event_planr_app/di/injectable.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
+import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
@@ -23,10 +24,8 @@ import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.d
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
 import 'package:event_planr_app/ui/organize/create_event/cubit/create_event_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_event/view/create_event_page.dart';
-import 'package:event_planr_app/ui/organize/create_organization/cubit/create_organization_cubit.dart';
-import 'package:event_planr_app/ui/organize/create_organization/view/create_organization_page.dart';
-import 'package:event_planr_app/ui/organize/edit_organization/cubit/edit_organization_cubit.dart';
-import 'package:event_planr_app/ui/organize/edit_organization/view/edit_organization_page.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_organization/view/create_or_edit_organization_page.dart';
 import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_events/view/organization_events_page.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
@@ -72,6 +71,7 @@ class PagePaths {
   static String organizationEventsCreate = '/organizationEvents/create';
 }
 
+
 final appRouter = GoRouter(
   initialLocation: PagePaths.userDashboard,
   routes: [
@@ -100,7 +100,6 @@ final appRouter = GoRouter(
     ShellRoute(
       builder: (context, state, child) {
         return BlocProvider(
-          key: state.pageKey,
           create: (_) => injector<EventNavbarCubit>()..loadUserData(),
           child: EventNavbar(child: child),
         );
@@ -158,6 +157,7 @@ final appRouter = GoRouter(
           key: state.pageKey,
           create: (_) => injector<OrganizeNavbarCubit>()..loadUserData(),
           child: OrganizeNavbar(
+            key: state.pageKey,
             child: child,
           ),
         );
@@ -168,20 +168,22 @@ final appRouter = GoRouter(
           builder: (state) => const UserOrganizationsPage(),
           init: (cubit, _) => cubit..loadUserOrganizations(),
           routes: [
-            BlocRoute<CreateOrganizationCubit>(
+            BlocRoute<CreateOrEditOrganizationCubit>(
               path: 'create',
-              builder: (state) => const CreateOrganizationPage(),
+              builder: (state) => const CreateOrEditOrganizationPage(),
             ),
           ],
         ),
         BlocRoute<UserOrganizationDetailsCubit>(
           path: PagePaths.userOrganizationDetails,
           builder: (state) => const UserOrganizationDetailsPage(),
+          init: (cubit, _) => cubit..loadUserOrganizationDetails(),
           routes: [
-            BlocRoute<EditOrganizationCubit>(
+            BlocRoute<CreateOrEditOrganizationCubit>(
               path: 'edit',
-              builder: (state) => const EditOrganizationPage(),
-              init: (cubit, state) => cubit..loadOrganization(),
+              builder: (state) => const CreateOrEditOrganizationPage(),
+              init: (cubit, state) => cubit
+                ..loadEditableOrganizationDetails(),
             ),
           ],
         ),

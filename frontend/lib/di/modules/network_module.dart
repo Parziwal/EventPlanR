@@ -16,6 +16,7 @@ abstract class NetworkModule {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
+          options.contentType = Headers.jsonContentType;
           options.headers['Authorization'] = await authRepository.bearerToken;
           return handler.next(options);
         },

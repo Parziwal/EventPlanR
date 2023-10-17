@@ -1,4 +1,5 @@
 import 'package:event_planr_app/domain/models/event/event.dart';
+import 'package:event_planr_app/ui/shared/widgets/image_wrapper.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:event_planr_app/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,8 @@ class EventItemCardPortrait extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Image(
-                      image: event.coverImage,
-                      fit: BoxFit.cover,
-                    ),
+                  ImageWrapper(
+                    imageUrl: event.coverImageUrl,
                   ),
                   Positioned(
                     bottom: 4,

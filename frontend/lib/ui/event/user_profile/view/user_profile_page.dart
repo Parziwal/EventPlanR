@@ -2,7 +2,7 @@ import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
-import 'package:event_planr_app/ui/event/user_profile/widgets/logout_dialog.dart';
+import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,11 +57,24 @@ class UserProfilePage extends StatelessWidget {
               leading: const Icon(Icons.logout_outlined),
               textColor: theme.colorScheme.error,
               iconColor: theme.colorScheme.error,
-              onTap: () => showLogoutDialog(context),
+              onTap: () => _logout(context),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _logout(BuildContext context) {
+    final l10n = context.l10n;
+
+    showConfirmationDialog(
+      context,
+      message: l10n.userProfile_AreYouSureYouWantToLogout,
+    ).then((value) {
+      if (value ?? false) {
+        context.read<UserProfileCubit>().logout();
+      }
+    });
   }
 }

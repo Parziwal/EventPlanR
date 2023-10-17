@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:event_planr_app/data/network/event_planr_api.dart';
+import 'package:event_planr_app/data/network/models/event_planr/common/paginated_list_dto.dart';
 import 'package:event_planr_app/data/network/models/event_planr/event/event_details_dto.dart';
-import 'package:event_planr_app/data/network/models/event_planr/event/event_dto.dart';
 import 'package:event_planr_app/data/network/models/event_planr/organization/add_member_to_organization_dto.dart';
 import 'package:event_planr_app/data/network/models/event_planr/organization/create_organization_dto.dart';
 import 'package:event_planr_app/data/network/models/event_planr/organization/edit_organization_dto.dart';
+import 'package:event_planr_app/data/network/models/event_planr/organization/edit_organization_member_dto.dart';
+import 'package:event_planr_app/data/network/models/event_planr/organization/organization_details_dto.dart';
 import 'package:event_planr_app/data/network/models/event_planr/organization/organization_dto.dart';
 import 'package:event_planr_app/data/network/models/event_planr/organization/remove_member_from_organization_dto.dart';
 import 'package:event_planr_app/data/network/models/event_planr/organization/user_organization_details_dto.dart';
@@ -22,7 +24,7 @@ abstract class EventPlanrClient implements EventPlanrApi {
 
   @GET('/eventgeneral')
   @override
-  Future<List<EventDto>> getFilteredEvents({
+  Future<PaginatedListDto> getFilteredEvents({
     @Query('SearchTerm') String? searchTerm,
     @Query('Category') int? category,
     @Query('Language') int? language,
@@ -42,17 +44,29 @@ abstract class EventPlanrClient implements EventPlanrApi {
   @override
   Future<EventDetailsDto> getEventDetails(@Path('eventId') String eventId);
 
+  @GET('/eventgeneral/organization')
+  @override
+  Future<PaginatedListDto> getOrganizations({
+    @Query('SearchTerm') String? searchTerm,
+  });
+
+  @GET('/eventgeneral/{organizationId}')
+  @override
+  Future<OrganizationDetailsDto> getOrganizationDetails(
+    @Path('organizationId') String organizationId,
+  );
+
   // Organization Manager
 
   @GET('/organizationmanager')
   @override
-  Future<List<OrganizationDto>> getUserOrganizations();
-
-  @GET('/organizationmanager/current')
-  @override
   Future<OrganizationDto> getUserCurrentOrganization();
 
-  @GET('/organizationmanager/current/details')
+  @GET('/organizationmanager/organizations')
+  @override
+  Future<List<OrganizationDto>> getUserOrganizations();
+
+  @GET('/organizationmanager/details')
   @override
   Future<UserOrganizationDetailsDto> getUserCurrentOrganizationDetails();
 
@@ -66,30 +80,31 @@ abstract class EventPlanrClient implements EventPlanrApi {
   @override
   Future<String> createOrganization(@Body() CreateOrganizationDto organization);
 
-  @PUT('/organizationmanager/{organizationId}')
+  @PUT('/organizationmanager')
   @override
-  Future<void> editOrganization(
-    @Path('organizationId') String organizationId,
+  Future<void> editCurrentOrganization(
     @Body() EditOrganizationDto organization,
   );
 
-  @DELETE('/organizationmanager/{organizationId}')
+  @DELETE('/organizationmanager')
   @override
-  Future<void> deleteOrganization(
-    @Path('organizationId') String organizationId,
+  Future<void> deleteCurrentOrganization();
+
+  @POST('/organizationmanager/member')
+  @override
+  Future<void> addMemberToCurrentOrganization(
+    @Body() AddMemberToOrganizationDto member,
   );
 
-  @POST('/organizationmanager/member/{organizationId}')
+  @PUT('/organizationmanager/member')
   @override
-  Future<void> addMemberToOrganization(
-    @Path('organizationId') String organizationId,
-    @Body() AddMemberToOrganizationDto member,
+  Future<void> editCurrentOrganizationMember(
+    @Body() EditOrganizationMemberDto member,
   );
 
   @DELETE('/organizationmanager/member/{organizationId}')
   @override
-  Future<void> removeMemberToOrganization(
-    @Path('organizationId') String organizationId,
+  Future<void> removeMemberFromCurrentOrganization(
     @Body() RemoveMemberFromOrganizationDto member,
   );
 }

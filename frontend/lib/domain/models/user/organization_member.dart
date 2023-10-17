@@ -1,30 +1,24 @@
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'user.freezed.dart';
-
-part 'user.g.dart';
+part 'organization_member.freezed.dart';
+part 'organization_member.g.dart';
 
 @freezed
-class User with _$User {
-  const factory User({
-    @JsonKey(name: 'cognito:username')
+class OrganizationMember with _$OrganizationMember {
+  const factory OrganizationMember({
     required String id,
-    required String email,
-    @JsonKey(name: 'given_name')
     required String firstName,
-    @JsonKey(name: 'family_name')
     required String lastName,
-    @JsonKey(name: 'organization_id')
-    String? organizationId,
-    @JsonKey(name: 'organization_policies')
-    List<String>? organizationPolicies,
-  }) = _User;
+    required String email,
+    required List<String> organizationPolicies,
+  }) = _OrganizationMember;
 
-  const User._();
+  const OrganizationMember._();
 
-  factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);
+  factory OrganizationMember.fromJson(Map<String, Object?> json) =>
+      _$OrganizationMemberFromJson(json);
 
   String getUserFullName(BuildContext context) {
     return context.l10n.localeName == 'hu'

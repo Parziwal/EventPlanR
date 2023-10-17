@@ -92,7 +92,7 @@ class _MapLocationPickerState extends State<_MapLocationPicker> {
           right: 0,
           bottom: 0,
           child: Container(
-            color: theme.colorScheme.inversePrimary,
+            color: theme.colorScheme.surface,
             padding: const EdgeInsets.all(16),
             child: MaxWidthBox(
               maxWidth: 500,
@@ -111,7 +111,7 @@ class _MapLocationPickerState extends State<_MapLocationPicker> {
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: FilledButton.tonal(
+                    child: OutlinedButton(
                       onPressed: () => context.pop(),
                       style: FilledButton.styleFrom(
                         textStyle: theme.textTheme.titleMedium,

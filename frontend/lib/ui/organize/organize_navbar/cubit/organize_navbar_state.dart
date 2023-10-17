@@ -1,7 +1,7 @@
 part of 'organize_navbar_cubit.dart';
 
 enum OrganizeNavbarStatus {
-  idle, loggedOut
+  idle, error, loggedOut
 }
 
 
@@ -13,5 +13,6 @@ class OrganizeNavbarState with _$OrganizeNavbarState {
     String desktopTitle,
     Organization? organization,
     User? user,
+    String? errorCode,
   }) = _OrganizeNavbarState;
 }

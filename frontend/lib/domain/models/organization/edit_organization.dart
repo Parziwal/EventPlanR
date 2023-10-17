@@ -6,7 +6,6 @@ part 'edit_organization.g.dart';
 @freezed
 class EditOrganization with _$EditOrganization {
   const factory EditOrganization({
-    required String id,
     String? description,
   }) = _EditOrganization;
 
