@@ -32,12 +32,23 @@ class CreateOrEditOrganizationCubit
   final EventGeneralRepository _eventGeneralRepository;
   final AuthRepository _authRepository;
 
-  Future<void> loadEditableOrganizationDetails() async {
+  Future<void> loadOrganizationDetailsForEdit() async {
     try {
+      emit(
+        state.copyWith(
+          edit: true,
+          status: CreateOrEditOrganizationStatus.loading,
+        ),
+      );
       final user = await _authRepository.user;
       final organization = await _eventGeneralRepository
           .getOrganizationDetails(user.organizationId!);
-      emit(state.copyWith(edit: true, organizationDetails: organization));
+      emit(
+        state.copyWith(
+          status: CreateOrEditOrganizationStatus.idle,
+          organizationDetails: organization,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

@@ -74,6 +74,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
       body: BlocConsumer<UserOrganizationDetailsCubit,
           UserOrganizationDetailsState>(
         listener: _stateListener,
+        buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
           if (state.status == UserOrganizationDetailsStatus.loading) {
             return const LoadingIndicator();

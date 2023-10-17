@@ -8,34 +8,29 @@ import 'package:responsive_framework/responsive_breakpoints.dart';
 class BlocRoute<TCubit extends Cubit<dynamic>> extends GoRoute {
   BlocRoute({
     required super.path,
-    required Widget Function(GoRouterState s) builder,
-    TCubit Function(TCubit cubit, GoRouterState s)? init,
+    required Widget Function(GoRouterState state) builder,
+    void Function(TCubit cubit, GoRouterState state)? init,
     List<GoRoute> super.routes = const [],
-    super.parentNavigatorKey,
   }) : super(
-          pageBuilder: (context, state) =>
-              context.breakpoints.largerThan(MOBILE)
-                  ? NoTransitionPage(
-                      key: state.pageKey,
-                      child: BlocProvider(
-                        key: state.pageKey,
-                        create: (context) {
-                          return init != null
-                              ? init(injector<TCubit>(), state)
-                              : injector<TCubit>();
-                        },
-                        child: builder(state),
-                      ),
-                    )
-                  : MaterialPage(
-                      key: state.pageKey,
-                      child: BlocProvider(
-                        key: state.pageKey,
-                        create: (context) => init != null
-                            ? init(injector<TCubit>(), state)
-                            : injector<TCubit>(),
-                        child: builder(state),
-                      ),
-                    ),
+          pageBuilder: (context, state) {
+            final blocProvider = BlocProvider(
+              key: ValueKey(state.fullPath),
+              create: (context) {
+                final a = injector<TCubit>();
+                if (init != null && state.matchedLocation == state.fullPath) {
+                  init(a, state);
+                }
+                return a;
+              },
+              child: builder(state),
+            );
+
+            return context.breakpoints.largerThan(MOBILE)
+                ? NoTransitionPage(key: state.pageKey, child: blocProvider)
+                : MaterialPage(
+                    key: state.pageKey,
+                    child: blocProvider,
+                  );
+          },
         );
 }

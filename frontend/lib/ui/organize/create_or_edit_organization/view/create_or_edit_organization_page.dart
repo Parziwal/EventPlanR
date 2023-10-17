@@ -11,11 +11,14 @@ import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/max_width_box.dart';
 
 class CreateOrEditOrganizationPage extends StatelessWidget {
-  const CreateOrEditOrganizationPage({super.key});
+  const CreateOrEditOrganizationPage({this.edit = false, super.key});
+
+  final bool edit;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
 
     return BlocConsumer<CreateOrEditOrganizationCubit,
         CreateOrEditOrganizationState>(
@@ -34,6 +37,7 @@ class CreateOrEditOrganizationPage extends StatelessWidget {
                 disabled:
                     state.status == CreateOrEditOrganizationStatus.loading,
                 organizationDetails: state.organizationDetails,
+                key: ValueKey(state.organizationDetails?.id ?? 's'),
               ),
             ),
           ),
@@ -63,7 +67,7 @@ class CreateOrEditOrganizationPage extends StatelessWidget {
             backgroundColor: theme.colorScheme.primary,
           ),
         );
-      context.go(PagePaths.userOrganizationDetails, extra: {'reload': true});
+      context.go(PagePaths.userOrganizationDetails);
     } else if (state.status == CreateOrEditOrganizationStatus.error) {
       context.scaffoldMessenger
         ..hideCurrentSnackBar()

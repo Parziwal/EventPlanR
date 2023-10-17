@@ -71,19 +71,18 @@ class PagePaths {
   static String organizationEventsCreate = '/organizationEvents/create';
 }
 
-
 final appRouter = GoRouter(
   initialLocation: PagePaths.userDashboard,
   routes: [
     BlocRoute<AuthCubit>(
       path: PagePaths.signIn,
       builder: (_) => const AuthTabPage(),
-      init: (cubit, _) => cubit..autoLogin(),
+      init: (cubit, _) => cubit.autoLogin(),
     ),
     BlocRoute<AuthCubit>(
       path: PagePaths.signUp,
       builder: (_) => const AuthTabPage(),
-      init: (cubit, _) => cubit..autoLogin(),
+      init: (cubit, _) => cubit.autoLogin(),
     ),
     BlocRoute<AuthCubit>(
       path: PagePaths.forgotPassword,
@@ -166,7 +165,7 @@ final appRouter = GoRouter(
         BlocRoute<UserOrganizationsCubit>(
           path: PagePaths.userOrganizations,
           builder: (state) => const UserOrganizationsPage(),
-          init: (cubit, _) => cubit..loadUserOrganizations(),
+          init: (cubit, _) => cubit.loadUserOrganizations(),
           routes: [
             BlocRoute<CreateOrEditOrganizationCubit>(
               path: 'create',
@@ -177,13 +176,12 @@ final appRouter = GoRouter(
         BlocRoute<UserOrganizationDetailsCubit>(
           path: PagePaths.userOrganizationDetails,
           builder: (state) => const UserOrganizationDetailsPage(),
-          init: (cubit, _) => cubit..loadUserOrganizationDetails(),
+          init: (cubit, _) => cubit.loadUserOrganizationDetails(),
           routes: [
             BlocRoute<CreateOrEditOrganizationCubit>(
               path: 'edit',
               builder: (state) => const CreateOrEditOrganizationPage(),
-              init: (cubit, state) => cubit
-                ..loadEditableOrganizationDetails(),
+              init: (cubit, _) => cubit.loadOrganizationDetailsForEdit(),
             ),
           ],
         ),

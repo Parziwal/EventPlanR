@@ -89,14 +89,12 @@ class OrganizeScaffold extends StatelessWidget {
     return Scrollbar(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         primary: true,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          child: Row(
-            children: [
-              ...?desktopActions,
-            ],
-          ),
+        child: Row(
+          children: [
+            ...?desktopActions,
+          ],
         ),
       ),
     );

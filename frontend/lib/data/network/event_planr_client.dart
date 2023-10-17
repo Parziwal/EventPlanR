@@ -50,7 +50,7 @@ abstract class EventPlanrClient implements EventPlanrApi {
     @Query('SearchTerm') String? searchTerm,
   });
 
-  @GET('/eventgeneral/{organizationId}')
+  @GET('/eventgeneral/organization/{organizationId}')
   @override
   Future<OrganizationDetailsDto> getOrganizationDetails(
     @Path('organizationId') String organizationId,
