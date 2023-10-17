@@ -6,6 +6,7 @@ using EventPlanr.Application.Models.Organization;
 using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Organization.Queries;
 
@@ -28,6 +29,7 @@ public class GetFilteredOrganizationsQueryHandler : IRequestHandler<GetFilteredO
     public async Task<PaginatedListDto<OrganizationDto>> Handle(GetFilteredOrganizationsQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.Organizations
+            .AsNoTracking()
             .Where(request.SearchTerm != null, o => o.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (o.Description != null && o.Description.ToLower().Contains(request.SearchTerm.ToLower())))
             .OrderBy<OrganizationEntity, OrganizationDto>(request, _mapper.ConfigurationProvider, o => o.Name)

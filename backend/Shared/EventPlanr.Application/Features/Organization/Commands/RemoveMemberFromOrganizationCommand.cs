@@ -1,5 +1,4 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions.Organization;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
@@ -10,7 +9,6 @@ namespace EventPlanr.Application.Features.Organization.Commands;
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationManage)]
 public class RemoveMemberFromOrganizationCommand : IRequest
 {
-    public Guid OrganizationId { get; set; }
     public Guid MemberUserId { get; set; }
 }
 
@@ -32,13 +30,8 @@ public class RemoveMemberFromOrganizationCommandHandler : IRequestHandler<Remove
 
     public async Task Handle(RemoveMemberFromOrganizationCommand request, CancellationToken cancellationToken)
     {
-        if (request.OrganizationId != _user.OrganizationId)
-        {
-            throw new UserNotBelongToOrganizationException();
-        }
-
         var organization = await _dbContext.Organizations
-            .SingleEntityAsync(o => o.Id == request.OrganizationId);
+            .SingleEntityAsync(o => o.Id == _user.OrganizationId);
         organization.MemberUserIds.Remove(request.MemberUserId);
         await _dbContext.SaveChangesAsync();
 

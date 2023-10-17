@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    [Migration("20231008173442_Initial")]
+    [Migration("20231015115638_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -58,9 +58,6 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");

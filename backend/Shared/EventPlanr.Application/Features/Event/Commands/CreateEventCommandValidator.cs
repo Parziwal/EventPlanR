@@ -12,16 +12,16 @@ public class CreateEventCommandValidator : AbstractValidator<CreateEventCommand>
             .NotEmpty();
         RuleFor(x => x.Category)
             .IsInEnum();
-        RuleFor(x => x.Language)
-            .IsInEnum();
         RuleFor(x => x.Currency)
             .IsInEnum();
         RuleFor(x => x.FromDate)
             .Must((fields, fromDate) => fromDate <= fields.ToDate)
-            .WithMessage("FromDate must be before ToDate.");
+            .WithErrorCode("FromDateMustBeBeforeToDate")
+            .Must(x => x > DateTimeOffset.UtcNow)
+            .WithErrorCode("FromDateMustBeBeforeCurrentDate");
         RuleFor(x => x.ToDate)
             .Must((fields, toDate) => toDate >= fields.FromDate)
-            .WithMessage("ToDate must be after FromDate.");
+            .WithErrorCode("ToDateMustBeAfterFromDate");
         RuleFor(x => x.Venue)
             .MaximumLength(64)
             .NotEmpty();

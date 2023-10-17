@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
+using EventPlanr.Application.Models.Common;
 using EventPlanr.Application.Models.User;
 using EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Models.Organization;
 
-public class UserOrganizationDetailsDto
+public class UserOrganizationDetailsDto : BaseAuditableDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
     public string? Description { get; set; }
     public string? ProfileImageUrl { get; set; }
-    public List<UserDto> Members { get; set; } = new List<UserDto>();
+    public List<OrganizationMemberDto> Members { get; set; } = new List<OrganizationMemberDto>();
 
     private class Mapping : Profile
     {

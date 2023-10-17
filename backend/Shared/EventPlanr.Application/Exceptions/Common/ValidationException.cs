@@ -5,7 +5,7 @@ namespace EventPlanr.Application.Exceptions.Common;
 public class ValidationException : Exception
 {
     public ValidationException()
-        : base("One or more validation failures have occurred.")
+        : base(nameof(ValidationException))
     {
         Errors = new Dictionary<string, string[]>();
     }

@@ -16,7 +16,6 @@ public class GetFilteredEventsQuery : PageWithOrderDto, IRequest<PaginatedListDt
 {
     public string? SearchTerm { get; set; }
     public EventCategory? Category { get; set; }
-    public Language? Language { get; set; }
     public Currency? Currency { get; set; }
     public DateTimeOffset? FromDate { get; set; }
     public DateTimeOffset? ToDate { get; set; }
@@ -25,12 +24,12 @@ public class GetFilteredEventsQuery : PageWithOrderDto, IRequest<PaginatedListDt
 
 public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQuery, PaginatedListDto<EventDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetFilteredEventsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetFilteredEventsQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
     {
-        _context = context;
+        _dbContext = dbContext;
         _mapper = mapper;
     }
 
@@ -42,14 +41,15 @@ public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQu
             Longitude = request.Location.Longitude,
         } : null;
 
-        return await _context.Events
+        return await _dbContext.Events
             .AsNoTracking()
+            .Include(e => e.Organization)
+            .Where(e => !e.IsPrivate && e.IsPublished)
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower()))
                 || e.Venue.ToLower().Contains(request.SearchTerm!.ToLower()))
             .Where(request.Category != null, e => e.Category == request.Category)
-            .Where(request.Language != null, e => e.Language == request.Language)
             .Where(request.Currency != null, e => e.Currency == request.Currency)
             .Where(request.FromDate != null, e => e.FromDate >= request.FromDate)
             .Where(request.ToDate != null, e => e.ToDate <= request.ToDate)

@@ -2,14 +2,8 @@
 
 public static class EnvironmentTypes
 {
-    public const string DevelopmentLocal = "DevelopmentLocal";
     public const string Development = "Development";
     public const string Production = "Production";
-
-    public static bool IsDevelopmentLocal()
-    {
-        return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == DevelopmentLocal;
-    }
 
     public static bool IsDevelopment()
     {
@@ -19,5 +13,10 @@ public static class EnvironmentTypes
     public static bool IsProduction()
     {
         return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Production;
+    }
+
+    public static bool IsLocal()
+    {
+        return string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AWS_LAMBDA_FUNCTION_NAME"));
     }
 }

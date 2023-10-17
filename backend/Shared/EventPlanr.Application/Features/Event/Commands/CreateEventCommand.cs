@@ -1,13 +1,16 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Models.Common;
+using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;
+using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Entities;
 using EventPlanr.Domain.Enums;
 using MediatR;
 
 namespace EventPlanr.Application.Features.Event.Commands;
 
+[Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationEventManage)]
 public class CreateEventCommand : IRequest<Guid>
 {
     public string Name { get; set; } = null!;
@@ -18,30 +21,23 @@ public class CreateEventCommand : IRequest<Guid>
     public string Venue { get; set; } = null!;
     public AddressDto Address { get; set; } = null!;
     public CoordinatesDto Coordinates { get; set; } = null!;
-    public Language Language { get; set; }
     public Currency Currency { get; set; }
     public bool IsPrivate { get; set; }
-    public Guid OrganizationId { get; set; }
 }
 
 public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Guid>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
 
-    public CreateEventCommandHandler(IApplicationDbContext context, IUserContext user)
+    public CreateEventCommandHandler(IApplicationDbContext dbContext, IUserContext user)
     {
-        _context = context;
+        _dbContext = dbContext;
         _user = user;
     }
 
     public async Task<Guid> Handle(CreateEventCommand request, CancellationToken cancellationToken)
     {
-        //if (!_user.OrganizationIds.Contains(request.OrganizationId))
-        //{
-            //throw new UserNotBelongToOrganizationException(_user.UserId, request.OrganizationId.ToString());
-        //}
-
         var createdEvent = new EventEntity()
         {
             Name = request.Name,
@@ -62,15 +58,14 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Gui
                 Latitude = request.Coordinates.Latitude,
                 Longitude = request.Coordinates.Longitude,
             },
-            Language = request.Language,
             Currency = request.Currency,
             IsPrivate = request.IsPrivate,
             IsPublished = false,
-            OrganizationId = request.OrganizationId,
+            OrganizationId = (Guid)_user.OrganizationId!,
         };
 
-        _context.Events.Add(createdEvent);
-        await _context.SaveChangesAsync();
+        _dbContext.Events.Add(createdEvent);
+        await _dbContext.SaveChangesAsync();
 
         return createdEvent.Id;
     }

@@ -4,13 +4,13 @@ using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Organization.Commands;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationManage)]
 public class DeleteOrganizationCommand : IRequest
 {
-    public Guid OrganizationId { get; set; }
 }
 
 public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizationCommand>
@@ -31,15 +31,24 @@ public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizati
 
     public async Task Handle(DeleteOrganizationCommand request, CancellationToken cancellationToken)
     {
-        if (request.OrganizationId != _user.OrganizationId)
+        var organization = await _dbContext.Organizations
+            .SingleEntityAsync(o => o.Id == _user.OrganizationId);
+
+        if (organization.Events.Any(e => e.IsPublished && e.ToDate >= DateTimeOffset.Now))
         {
-            throw new UserNotBelongToOrganizationException();
+            throw new OrganizationWithUpcomingEventCannotBeDeletedException();
         }
 
-        var organization = await _dbContext.Organizations
-            .SingleEntityAsync(o => o.Id == request.OrganizationId);
+        var deletableEvents = await _dbContext.Events
+            .Include(e => e.Tickets)
+            .Include(e => e.NewsPosts)
+            .Include(e => e.Invitations)
+            .Where(e => e.OrganizationId == organization.Id && !e.IsPublished)
+            .ToListAsync();
 
+        _dbContext.Events.RemoveRange(deletableEvents);
         _dbContext.Organizations.Remove(organization);
+
         await _dbContext.SaveChangesAsync();
 
         foreach (var member in organization.MemberUserIds)

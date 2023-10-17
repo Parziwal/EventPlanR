@@ -14,22 +14,22 @@ public class GetEventDetailsQuery : IRequest<EventDetailsDto>
 
 public class GetEventDetailsQueryHandler : IRequestHandler<GetEventDetailsQuery, EventDetailsDto>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetEventDetailsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetEventDetailsQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
     {
-        _context = context;
+        _dbContext = dbContext;
         _mapper = mapper;
     }
 
     public async Task<EventDetailsDto> Handle(GetEventDetailsQuery request, CancellationToken cancellationToken)
     {
-        var eventEntity = await _context.Events
+        var eventEntity = await _dbContext.Events
             .AsNoTracking()
             .Include(e => e.Organization)
-            .SingleEntityAsync(e => e.Id == request.EventId);
-        var latestNews = await _context.NewsPosts
+            .SingleEntityAsync(e => e.Id == request.EventId && !e.IsPrivate && e.IsPublished);
+        var latestNews = await _dbContext.NewsPosts
             .AsNoTracking()
             .Where(np => np.Event.Id == request.EventId)
             .OrderByDescending(np => np.Created)

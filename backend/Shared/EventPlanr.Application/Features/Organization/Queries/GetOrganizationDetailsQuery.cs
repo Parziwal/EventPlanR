@@ -3,6 +3,7 @@ using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Organization;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Organization.Queries;
 
@@ -25,6 +26,7 @@ public class GetOrganizationDetailsQueryHandler : IRequestHandler<GetOrganizatio
     public async Task<OrganizationDetailsDto> Handle(GetOrganizationDetailsQuery request, CancellationToken cancellationToken)
     {
         var organization = await _dbContext.Organizations
+            .AsNoTracking()
             .SingleEntityAsync(o => o.Id == request.OrganizationId);
 
         return _mapper.Map<OrganizationDetailsDto>(organization);

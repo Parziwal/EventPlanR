@@ -7,13 +7,35 @@ public class AddMemberToOrganizationCommandValidator : AbstractValidator<AddMemb
 {
     public AddMemberToOrganizationCommandValidator()
     {
-        RuleFor(x => x.OrganizationId)
-            .NotEmpty();
         RuleFor(x => x.MemberUserEmail)
             .NotEmpty();
         RuleFor(x => x.Policies)
-            .Must(x => x.All(p => p == OrganizationPolicies.OrganizationView || p == OrganizationPolicies.OrganizationManage
-            || p == OrganizationPolicies.OrganizationEventView || p == OrganizationPolicies.OrganizationEventManage))
+            .Must(OrganizationPoliciesValidator)
             .WithErrorCode("InvalidPolicy");
+    }
+
+    private bool OrganizationPoliciesValidator(List<string> policies)
+    {
+        var inPolicies = policies.All(p => p == OrganizationPolicies.OrganizationView
+            || p == OrganizationPolicies.OrganizationManage
+            || p == OrganizationPolicies.OrganizationEventView
+            || p == OrganizationPolicies.OrganizationEventManage);
+        if (!inPolicies)
+        {
+            return false;
+        }
+
+        if (policies.Contains(OrganizationPolicies.OrganizationManage)
+            && !policies.Contains(OrganizationPolicies.OrganizationView))
+        {
+            return false;
+        }
+        if (policies.Contains(OrganizationPolicies.OrganizationEventManage)
+            && !policies.Contains(OrganizationPolicies.OrganizationEventView))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

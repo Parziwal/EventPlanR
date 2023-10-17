@@ -2,12 +2,19 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using EventPlanr.Application.Contracts;
 
 namespace EventPlanr.Infrastructure.Persistance.Interceptors;
 
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
+    private readonly IUserContext _user;
+
+    public AuditableEntityInterceptor(IUserContext user)
+    {
+        _user = user;
+    }
+
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         UpdateEntities(eventData.Context);
@@ -30,13 +37,13 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedBy = "";
+                entry.Entity.CreatedBy = _user.UserId.ToString();
                 entry.Entity.Created = DateTimeOffset.UtcNow;
             }
 
             if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
             {
-                entry.Entity.LastModifiedBy = "";
+                entry.Entity.LastModifiedBy = _user.UserId.ToString();
                 entry.Entity.LastModified = DateTimeOffset.UtcNow;
             }
         }

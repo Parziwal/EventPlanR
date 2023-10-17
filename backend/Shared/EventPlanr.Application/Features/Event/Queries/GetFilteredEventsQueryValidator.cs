@@ -11,18 +11,16 @@ public class GetFilteredEventsQueryValidator : AbstractValidator<GetFilteredEven
         Include(new PageWithOrderDtoValidator());
         RuleFor(x => x.Category)
             .IsInEnum();
-        RuleFor(x => x.Language)
-            .IsInEnum();
         RuleFor(x => x.Currency)
             .IsInEnum();
         RuleFor(x => x.FromDate)
             .Must((fields, fromDate) => fromDate <= fields.ToDate)
             .When(x => x.FromDate != null && x.ToDate != null)
-            .WithMessage("FromDate must be before ToDate.");
+            .WithErrorCode("FromDateMustBeBeforeToDate");
         RuleFor(x => x.ToDate)
             .Must((fields, toDate) => toDate >= fields.FromDate)
             .When(x => x.FromDate != null && x.ToDate != null)
-            .WithMessage("ToDate must be after FromDate.");
+            .WithErrorCode("ToDateMustBeAfterFromDate");
         RuleFor(x => x.Location)
             .SetValidator(new LocationDtoValidator()!);
     }

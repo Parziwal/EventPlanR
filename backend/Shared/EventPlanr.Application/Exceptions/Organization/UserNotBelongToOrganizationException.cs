@@ -2,7 +2,7 @@
 
 namespace EventPlanr.Application.Exceptions.Organization;
 
-public class UserNotBelongToOrganizationException : ForbiddenException
+public class UserNotBelongToOrganizationException : DomainException
 {
     public UserNotBelongToOrganizationException() :
         base(nameof(UserNotBelongToOrganizationException))

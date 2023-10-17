@@ -1,8 +1,8 @@
-﻿using Amazon.AppConfigData;
-using Amazon.CognitoIdentityProvider;
+﻿using Amazon.CognitoIdentityProvider;
 using Amazon.DynamoDBv2;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Domain.Constants;
+using EventPlanr.Infrastructure.ExceptionHandling;
 using EventPlanr.Infrastructure.Options;
 using EventPlanr.Infrastructure.Persistance;
 using EventPlanr.Infrastructure.Persistance.Interceptors;
@@ -41,7 +41,9 @@ public static class InfrastructureServiceRegistration
         services.AddTransient<IUserClaimService, UserClaimService>();
         services.AddTransient<ITicketService, TicketService>();
 
-        if (EnvironmentTypes.IsDevelopmentLocal())
+        services.AddCustomExceptionHandling();
+
+        if (EnvironmentTypes.IsLocal())
         {
             services.AddScoped<IUserContext, UserContextMock>();
         }

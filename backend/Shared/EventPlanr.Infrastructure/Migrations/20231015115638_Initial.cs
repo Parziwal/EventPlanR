@@ -75,7 +75,6 @@ namespace EventPlanr.Infrastructure.Migrations
                     Address_AddressLine = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Coordinates_Latitude = table.Column<double>(type: "double precision", nullable: false),
                     Coordinates_Longitude = table.Column<double>(type: "double precision", nullable: false),
-                    Language = table.Column<int>(type: "integer", nullable: false),
                     Currency = table.Column<int>(type: "integer", nullable: false),
                     IsPrivate = table.Column<bool>(type: "boolean", nullable: false),
                     IsPublished = table.Column<bool>(type: "boolean", nullable: false),

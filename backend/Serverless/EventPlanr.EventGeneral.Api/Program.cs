@@ -1,7 +1,7 @@
 using EventPlanr.Application;
 using EventPlanr.Configuration;
-using EventPlanr.Domain.Constants;
 using EventPlanr.Infrastructure;
+using EventPlanr.Infrastructure.ExceptionHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (EnvironmentTypes.IsDevelopmentLocal())
+app.UseCustomExceptionHandling();
+
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

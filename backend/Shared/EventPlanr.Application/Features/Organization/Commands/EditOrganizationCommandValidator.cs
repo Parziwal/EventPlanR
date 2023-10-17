@@ -6,8 +6,6 @@ public class EditOrganizationCommandValidator : AbstractValidator<EditOrganizati
 {
     public EditOrganizationCommandValidator()
     {
-        RuleFor(x => x.OrganizationId)
-            .NotEmpty();
         RuleFor(x => x.Description)
             .MaximumLength(256);
     }

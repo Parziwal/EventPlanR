@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Models.User;
+using EventPlanr.Application.Security;
 using MediatR;
 
 namespace EventPlanr.Application.Features.User.Queries;
 
+[Authorize]
 public class GetUserClaimQuery : IRequest<UserClaimDto>
 {
     public Guid UserId { get; set; }

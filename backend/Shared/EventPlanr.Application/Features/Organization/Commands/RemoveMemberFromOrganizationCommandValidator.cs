@@ -6,8 +6,6 @@ public class RemoveMemberFromOrganizationCommandValidator : AbstractValidator<Re
 {
     public RemoveMemberFromOrganizationCommandValidator()
     {
-        RuleFor(x => x.OrganizationId)
-            .NotEmpty();
         RuleFor(x => x.MemberUserId)
             .NotEmpty();
     }

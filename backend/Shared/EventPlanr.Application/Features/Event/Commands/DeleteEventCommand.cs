@@ -1,11 +1,14 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions;
+using EventPlanr.Application.Exceptions.Event;
 using EventPlanr.Application.Extensions;
+using EventPlanr.Application.Security;
+using EventPlanr.Domain.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Commands;
 
+[Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationEventManage)]
 public class DeleteEventCommand : IRequest
 {
     public Guid EventId { get; set; }
@@ -13,37 +16,30 @@ public class DeleteEventCommand : IRequest
 
 public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
 
-    public DeleteEventCommandHandler(IApplicationDbContext context, IUserContext user)
+    public DeleteEventCommandHandler(IApplicationDbContext dbContext, IUserContext user)
     {
-        _context = context;
+        _dbContext = dbContext;
         _user = user;
     }
 
     public async Task Handle(DeleteEventCommand request, CancellationToken cancellationToken)
     {
-        var eventEntity = await _context.Events
+        var eventEntity = await _dbContext.Events
             .Include(e => e.Tickets)
-                .ThenInclude(t => t.SoldTickets)
             .Include(e => e.NewsPosts)
             .Include(e => e.Invitations)
-            .SingleEntityAsync(e => e.Id == request.EventId);
+            .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        //if (!_user.OrganizationIds.Contains(eventEntity.OrganizationId))
-        //{
-            //throw new UserNotBelongToOrganizationException(_user.UserId, eventEntity.OrganizationId.ToString());
-        //}
-
-        if (eventEntity.Tickets.Sum(t => t.SoldTickets.Count()) > 0)
+        if (eventEntity.IsPublished)
         {
-            throw new EventCanNotBeDeletedException(eventEntity.Id);
+            throw new PublishedEventCannotBeDeletedException();
         }
 
-        _context.Tickets.RemoveRange(eventEntity.Tickets);
-        _context.Events.Remove(eventEntity);
+        _dbContext.Events.Remove(eventEntity);
 
-        await _context.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
     }
 }

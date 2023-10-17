@@ -18,14 +18,14 @@ public class MainController : ControllerBase
     }
 
     [HttpGet]
-    public Task<List<OrganizationDto>> GetUserOrganizations()
-        => _sender.Send(new GetUserOrganizationsQuery());
-
-    [HttpGet("current")]
     public Task<OrganizationDto> GetUserCurrentOrganization()
         => _sender.Send(new GetUserCurrentOrganizationQuery());
 
-    [HttpGet("current/details")]
+    [HttpGet("organizations")]
+    public Task<List<OrganizationDto>> GetUserOrganizations()
+        => _sender.Send(new GetUserOrganizationsQuery());
+
+    [HttpGet("details")]
     public Task<UserOrganizationDetailsDto> GetUserCurrentOrganizationDetails()
         => _sender.Send(new GetUserCurrentOrganizationDetailsQuery());
 
@@ -41,31 +41,23 @@ public class MainController : ControllerBase
     public Task<Guid> CreateOrganization([FromBody] CreateOrganizationCommand command)
         => _sender.Send(command);
 
-    [HttpPut("{organizationId}")]
-    public Task EditOrganization(Guid organizationId, [FromBody] EditOrganizationCommand command)
-    {
-        command.OrganizationId = organizationId;
-        return _sender.Send(command);
-    }
+    [HttpPut]
+    public Task EditCurrentOrganization([FromBody] EditOrganizationCommand command)
+        => _sender.Send(command);
 
-    [HttpDelete("{organizationId}")]
-    public Task DeleteOrganization(Guid organizationId)
-        => _sender.Send(new DeleteOrganizationCommand()
-        {
-            OrganizationId = organizationId,
-        });
+    [HttpDelete]
+    public Task DeleteCurrentOrganization()
+        => _sender.Send(new DeleteOrganizationCommand());
 
-    [HttpPost("member/{organizationId}")]
-    public Task AddMemberToOrganization(Guid organizationId, [FromBody] AddMemberToOrganizationCommand command)
-    {
-        command.OrganizationId = organizationId;
-        return _sender.Send(command);
-    }
+    [HttpPost("member")]
+    public Task AddMemberToCurrentOrganization([FromBody] AddMemberToOrganizationCommand command)
+        => _sender.Send(command);
 
-    [HttpDelete("member/{organizationId}")]
-    public Task RemoveMemberToOrganization(Guid organizationId, [FromBody] RemoveMemberFromOrganizationCommand command)
-    {
-        command.OrganizationId = organizationId;
-        return _sender.Send(command);
-    }
+    [HttpPut("member")]
+    public Task EditCurrentOrganizationMember([FromBody] EditOrganizationMemberCommand command)
+        => _sender.Send(command);
+
+    [HttpDelete("member")]
+    public Task RemoveMemberFromCurrentOrganization([FromBody] RemoveMemberFromOrganizationCommand command)
+        => _sender.Send(command);
 }

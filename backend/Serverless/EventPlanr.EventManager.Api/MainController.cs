@@ -1,4 +1,5 @@
 using EventPlanr.Application.Features.Event.Commands;
+using EventPlanr.Application.Features.Event.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +16,24 @@ public class MainController : ControllerBase
         _sender = sender;
     }
 
-    [HttpGet]
-    public void GetOrganizationEvents()
-    {
-    }
+    [HttpGet("draft")]
+    public Task GetOrganizationDraftEvents([FromQuery] GetOrganizationDraftEventsQuery query)
+        => _sender.Send(query);
+
+    [HttpGet("past")]
+    public Task GetOrganizationPastEvents([FromQuery] GetOrganizationPastEventsQuery query)
+        => _sender.Send(query);
+    
+    [HttpGet("upcoming")]
+    public Task GetOrganizationUpcomingEvents([FromQuery] GetOrganizationUpcomingEventsQuery query)
+        => _sender.Send(query);
+
+    [HttpGet("{eventId}")]
+    public Task GetOrganizationEventDetails(Guid eventId)
+        => _sender.Send(new GetOrganizationEventDetailsQuery()
+        {
+            EventId = eventId,
+        });
 
     [HttpPost]
     public Task<Guid> CreateEvent([FromBody] CreateEventCommand command)
@@ -26,7 +41,7 @@ public class MainController : ControllerBase
 
 
     [HttpPut("{eventId}")]
-    public Task UpdateEvent(Guid eventId, [FromBody] UpdateEventCommand command)
+    public Task EditEvent(Guid eventId, [FromBody] EditEventCommand command)
     {
         command.EventId = eventId;
         return _sender.Send(command);

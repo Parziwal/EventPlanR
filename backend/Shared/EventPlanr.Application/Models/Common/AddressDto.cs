@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EventPlanr.Application.Models.Event;
 using EventPlanr.Domain.Common;
 
 namespace EventPlanr.Application.Models.Common;

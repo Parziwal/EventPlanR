@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions.Organization;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Organization;
+using EventPlanr.Application.Security;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Organization.Queries;
 
+[Authorize]
 public class GetUserCurrentOrganizationQuery : IRequest<OrganizationDto>
 {
 }
@@ -29,12 +31,8 @@ public class GetUserCurrentOrganizationQueryHandler : IRequestHandler<GetUserCur
 
     public async Task<OrganizationDto> Handle(GetUserCurrentOrganizationQuery request, CancellationToken cancellationToken)
     {
-        if (_user.OrganizationId == null)
-        {
-            throw new OrganizationNotSelectedException();
-        }
-
         var organization = await _dbContext.Organizations
+            .AsNoTracking()
             .SingleEntityAsync(o => o.Id == _user.OrganizationId);
 
         return _mapper.Map<OrganizationDto>(organization);

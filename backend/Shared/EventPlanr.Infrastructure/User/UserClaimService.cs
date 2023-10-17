@@ -74,6 +74,7 @@ public class UserClaimService : IUserClaimService
         userClaim.Organizations = userClaim.Organizations
             .Where(o => o.OrganizationId != organizationId)
             .ToList();
+        userClaim.CurrentOrganizationId = userClaim.CurrentOrganizationId == organizationId ? null : organizationId;
 
         var claimAsJson = JsonSerializer.Serialize(userClaim);
         var claimAsDocument = Document.FromJson(claimAsJson);

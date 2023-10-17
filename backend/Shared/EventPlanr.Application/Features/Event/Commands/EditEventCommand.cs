@@ -1,15 +1,18 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions;
+using EventPlanr.Application.Exceptions.Event;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Common;
+using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;
+using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Enums;
 using MediatR;
 using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Event.Commands;
 
-public class UpdateEventCommand : IRequest
+[Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationEventManage)]
+public class EditEventCommand : IRequest
 {
     [JsonIgnore]
     public Guid EventId { get; set; }
@@ -20,31 +23,30 @@ public class UpdateEventCommand : IRequest
     public string Venue { get; set; } = null!;
     public AddressDto Address { get; set; } = null!;
     public CoordinatesDto Coordinates { get; set; } = null!;
-    public Language Language { get; set; }
     public Currency Currency { get; set; }
     public bool IsPrivate { get; set; }
 }
 
-public class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
+public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
 
-    public UpdateEventCommandHandler(IApplicationDbContext context, IUserContext user)
+    public UpdateEventCommandHandler(IApplicationDbContext dbContext, IUserContext user)
     {
-        _context = context;
+        _dbContext = dbContext;
         _user = user;
     }
 
-    public async Task Handle(UpdateEventCommand request, CancellationToken cancellationToken)
+    public async Task Handle(EditEventCommand request, CancellationToken cancellationToken)
     {
-        var eventEntity = await _context.Events
-            .SingleEntityAsync(e => e.Id == request.EventId);
+        var eventEntity = await _dbContext.Events
+            .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        //if (!_user.OrganizationIds.Contains(eventEntity.OrganizationId))
-        //{
-            //throw new UserNotBelongToOrganizationException(_user.UserId, eventEntity.OrganizationId.ToString());
-        //}
+        if (eventEntity.FromDate <= DateTimeOffset.UtcNow)
+        {
+            throw new LiveEventCannotBeEditedException();
+        }
 
         eventEntity.Description = request.Description;
         eventEntity.Category = request.Category;
@@ -63,10 +65,9 @@ public class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
             Latitude = request.Coordinates.Latitude,
             Longitude = request.Coordinates.Longitude,
         };
-        eventEntity.Language = request.Language;
         eventEntity.Currency = request.Currency;
         eventEntity.IsPrivate = request.IsPrivate;
 
-        await _context.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
     }
 }

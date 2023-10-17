@@ -14,7 +14,6 @@ public class EventEntity : BaseAuditableEntity
     public string Venue { get; set; } = null!;
     public Address Address { get; set; } = null!;
     public Coordinates Coordinates { get; set; } = null!;
-    public Language Language { get; set; }
     public Currency Currency { get; set; }
     public bool IsPrivate { get; set; }
     public bool IsPublished { get; set; }

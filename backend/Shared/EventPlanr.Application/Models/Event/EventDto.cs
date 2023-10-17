@@ -8,16 +8,18 @@ public class EventDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
-    public EventCategory Category { get; set; }
     public DateTimeOffset FromDate { get; set; }
+    public DateTimeOffset ToDate { get; set; }
     public string Venue { get; set; } = null!;
     public string? CoverImageUrl { get; set; }
+    public string OrganizationName { get; set; } = null!;
 
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<EventEntity, EventDto>();
+            CreateMap<EventEntity, EventDto>()
+                .ForMember(dest => dest.OrganizationName, opt => opt.MapFrom(src => src.Organization.Name));
         }
     }
 }

@@ -1,20 +1,16 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Exceptions.Common;
-using EventPlanr.Application.Exceptions.Organization;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Entities;
 using MediatR;
-using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Organization.Commands;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationManage)]
 public class AddMemberToOrganizationCommand : IRequest
 {
-    [JsonIgnore]
-    public Guid OrganizationId { get; set; }
     public string MemberUserEmail { get; set; } = null!;
     public List<string> Policies { get; set; } = new List<string>();
 }
@@ -40,20 +36,15 @@ public class AddMemberToOrganizationCommandHandler : IRequestHandler<AddMemberTo
 
     public async Task Handle(AddMemberToOrganizationCommand request, CancellationToken cancellationToken)
     {
-        if (request.OrganizationId != _user.OrganizationId)
-        {
-            throw new UserNotBelongToOrganizationException();
-        }
-
-        var memeberUserId = await _userService.GetUserIdByEmail(request.MemberUserEmail)
+        var memberUserId = await _userService.GetUserIdByEmail(request.MemberUserEmail)
             ?? throw new EntityNotFoundException("UserEntity");
 
         var organization = await _dbContext.Organizations
-            .SingleEntityAsync(o => o.Id == request.OrganizationId);
-        organization.MemberUserIds.Add(memeberUserId);
+            .SingleEntityAsync(o => o.Id == _user.OrganizationId);
+        organization.MemberUserIds.Add(memberUserId);
         await _dbContext.SaveChangesAsync();
 
-        await _userClaimService.PutOrganizationToUserAsync(organization.Id, new OrganizationPolicyEntity()
+        await _userClaimService.PutOrganizationToUserAsync(memberUserId, new OrganizationPolicyEntity()
         {
             OrganizationId = organization.Id,
             Policies = request.Policies,

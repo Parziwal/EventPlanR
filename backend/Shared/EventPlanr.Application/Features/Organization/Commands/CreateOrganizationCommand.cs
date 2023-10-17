@@ -46,7 +46,9 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
             OrganizationId = organization.Id,
             Policies = new List<string>()
             {
+                OrganizationPolicies.OrganizationView,
                 OrganizationPolicies.OrganizationManage,
+                OrganizationPolicies.OrganizationEventView,
                 OrganizationPolicies.OrganizationEventManage,
             }
         };

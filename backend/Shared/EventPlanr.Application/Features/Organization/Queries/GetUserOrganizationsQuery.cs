@@ -32,6 +32,7 @@ public class GetUserOrganizationsQueryHandler : IRequestHandler<GetUserOrganizat
     public async Task<List<OrganizationDto>> Handle(GetUserOrganizationsQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.Organizations
+            .AsNoTracking()
             .Where(o => o.MemberUserIds.Contains(_userContext.UserId))
             .OrderBy(o => o.Name)
             .ProjectTo<OrganizationDto>(_mapper.ConfigurationProvider)

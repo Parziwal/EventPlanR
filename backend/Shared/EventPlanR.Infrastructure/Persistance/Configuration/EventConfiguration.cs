@@ -25,8 +25,6 @@ public class EventConfiguration : IEntityTypeConfiguration<EventEntity>
         builder.Property(e => e.Venue)
             .HasMaxLength(64)
             .IsRequired();
-        builder.Property(e => e.Language)
-            .IsRequired();
         builder.Property(e => e.Currency)
             .IsRequired();
         builder.Property(e => e.IsPrivate)
