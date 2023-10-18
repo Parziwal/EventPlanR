@@ -1,0 +1,19 @@
+swagger_parser:
+  output_directory: lib/data/network/event_planr
+  squash_clients: true
+  root_client: false
+
+  schemas:
+    - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/eventgeneral/swagger/v1/swagger.json
+      name: event_general
+      enums_prefix: true
+    - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/eventmanager/swagger/v1/swagger.json
+      name: event_manager
+    - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/organizationmanager/swagger/v1/swagger.json
+      name: organization_manager
+    - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/ticketmanager/swagger/v1/swagger.json
+      name: ticket_manager
+    - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/ticketorder/swagger/v1/swagger.json
+      name: ticket_order
+    - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/userticket/swagger/v1/swagger.json
+      name: user_ticket

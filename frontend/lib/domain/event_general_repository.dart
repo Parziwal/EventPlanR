@@ -1,40 +1,62 @@
-import 'package:event_planr_app/data/network/event_planr_api.dart';
+import 'package:event_planr_app/data/network/event_planr/event_general/event_general_client.dart';
+import 'package:event_planr_app/data/network/event_planr/models/currency.dart';
+import 'package:event_planr_app/data/network/event_planr/models/event_category.dart';
+import 'package:event_planr_app/data/network/event_planr/models/order_direction.dart';
 import 'package:event_planr_app/domain/models/common/address.dart';
 import 'package:event_planr_app/domain/models/common/coordinates.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/event.dart';
+import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_details.dart';
 import 'package:event_planr_app/domain/models/event/event_filter.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization_details.dart';
+import 'package:event_planr_app/domain/models/ticket/ticket.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class EventGeneralRepository {
-  EventGeneralRepository({required EventPlanrApi eventPlanrApi})
-      : _eventPlanrApi = eventPlanrApi;
+  EventGeneralRepository({required EventGeneralClient eventGeneralClient})
+      : _eventGeneralClient = eventGeneralClient;
 
-  final EventPlanrApi _eventPlanrApi;
+  final EventGeneralClient _eventGeneralClient;
 
   Future<PaginatedList<Event>> getFilteredEvents(EventFilter filter) async {
-    final events = await _eventPlanrApi.getFilteredEvents(
+    final events = await _eventGeneralClient.getEventgeneral(
       searchTerm: filter.searchTerm,
-      category: filter.category,
-      currency: filter.currency,
+      category: filter.category != null
+          ? EventCategory.values.byName(filter.category!.name)
+          : null,
+      currency: filter.currency != null
+          ? Currency.values.byName(filter.currency!.name)
+          : null,
       fromDate: filter.fromDate,
       toDate: filter.toDate,
-      longitude: filter.longitude,
-      latitude: filter.latitude,
-      radius: filter.radius,
+      object0: filter.latitude,
+      object1: filter.longitude,
+      object2: filter.radius,
       pageNumber: filter.pageNumber ?? 1,
       pageSize: filter.pageSize ?? 10,
       orderBy: filter.orderBy,
-      orderDirection: filter.orderDirection,
+      orderDirection: filter.orderDirection != null
+          ? OrderDirection.values.byName(filter.orderDirection!.name)
+          : null,
     );
 
     return PaginatedList<Event>(
-      items: events.items.map(Event.fromJson).toList(),
+      items: events.items
+          .map(
+            (e) => Event(
+              id: e.id,
+              name: e.name,
+              venue: e.venue,
+              organizationName: e.organizationName,
+              fromDate: e.fromDate,
+              toDate: e.toDate,
+            ),
+          )
+          .toList(),
       pageNumber: events.pageNumber,
       totalPages: events.totalPages,
       totalCount: events.totalCount,
@@ -44,14 +66,15 @@ class EventGeneralRepository {
   }
 
   Future<EventDetails> getEventDetails(String eventId) async {
-    final event = await _eventPlanrApi.getEventDetails(eventId);
+    final event =
+        await _eventGeneralClient.getEventgeneralEventId(eventId: eventId);
 
     return EventDetails(
       id: event.id,
       name: event.name,
       description: event.description,
       coverImageUrl: event.coverImageUrl,
-      category: event.category,
+      category: EventCategoryEnum.values.byName(event.category.name),
       fromDate: event.fromDate,
       toDate: event.toDate,
       venue: event.venue,
@@ -70,20 +93,32 @@ class EventGeneralRepository {
         name: event.organization.name,
         profileImageUrl: event.organization.profileImageUrl,
       ),
-      latestNews: NewsPost(
-        text: event.latestNews.text,
-        created: event.latestNews.created,
-      ),
+      latestNews: event.latestNews != null
+          ? NewsPost(
+              text: event.latestNews!.text,
+              created: event.latestNews!.lastModified,
+            )
+          : null,
     );
   }
 
   Future<PaginatedList<Organization>> getOrganizations(
-      String? searchTerm) async {
-    final organizations =
-        await _eventPlanrApi.getOrganizations(searchTerm: searchTerm);
+    String? searchTerm,
+  ) async {
+    final organizations = await _eventGeneralClient.getEventgeneralOrganization(
+      searchTerm: searchTerm,
+    );
 
     return PaginatedList<Organization>(
-      items: organizations.items.map(Organization.fromJson).toList(),
+      items: organizations.items
+          .map(
+            (o) => Organization(
+              id: o.id,
+              name: o.name,
+              profileImageUrl: o.profileImageUrl,
+            ),
+          )
+          .toList(),
       pageNumber: organizations.pageNumber,
       totalPages: organizations.totalPages,
       totalCount: organizations.totalCount,
@@ -96,7 +131,9 @@ class EventGeneralRepository {
     String organizationId,
   ) async {
     final organization =
-        await _eventPlanrApi.getOrganizationDetails(organizationId);
+        await _eventGeneralClient.getEventgeneralOrganizationOrganizationId(
+      organizationId: organizationId,
+    );
 
     return OrganizationDetails(
       id: organization.id,
@@ -104,5 +141,23 @@ class EventGeneralRepository {
       profileImageUrl: organization.profileImageUrl,
       description: organization.description,
     );
+  }
+
+  Future<List<Ticket>> getEventTickets(String eventId) async {
+    final tickets = await _eventGeneralClient.getEventgeneralTicketEventId(
+      eventId: eventId,
+    );
+
+    return tickets
+        .map(
+          (t) => Ticket(
+            name: t.name,
+            price: t.price,
+            count: t.count,
+            saleStarts: t.saleStarts,
+            salesEnds: t.salesEnds,
+          ),
+        )
+        .toList();
   }
 }

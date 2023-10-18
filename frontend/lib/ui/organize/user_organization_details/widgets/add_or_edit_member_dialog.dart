@@ -227,13 +227,13 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
             value.contains(OrganizationPolicy.organizationManage) &&
             !value.contains(OrganizationPolicy.organizationView)) {
           _formKey.currentState?.fields['policies']
-              ?.setValue(value!..add(OrganizationPolicy.organizationView));
+              ?.setValue(value..add(OrganizationPolicy.organizationView));
         }
         if (value != null &&
             value.contains(OrganizationPolicy.organizationEventManage) &&
             !value.contains(OrganizationPolicy.organizationEventView)) {
           _formKey.currentState?.fields['policies']
-              ?.setValue(value!..add(OrganizationPolicy.organizationEventView));
+              ?.setValue(value..add(OrganizationPolicy.organizationEventView));
         }
       },
     );

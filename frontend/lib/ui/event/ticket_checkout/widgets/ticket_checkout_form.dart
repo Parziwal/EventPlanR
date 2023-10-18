@@ -129,8 +129,6 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
   }
 
   Widget _cityField(BuildContext context) {
-    final l10n = context.l10n;
-
     return FormBuilderTextField(
       name: 'address.city',
       enabled: !widget.disabled,

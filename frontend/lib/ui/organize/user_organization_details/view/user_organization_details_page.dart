@@ -1,5 +1,4 @@
 import 'package:event_planr_app/app/router.dart';
-import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/domain/models/organization/user_organization_details.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';

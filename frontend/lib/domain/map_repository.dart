@@ -1,18 +1,18 @@
-import 'package:event_planr_app/data/network/nominatim_api.dart';
+import 'package:event_planr_app/data/network/nominatim/nominatim_client.dart';
 import 'package:event_planr_app/domain/models/map/map_address.dart';
 import 'package:event_planr_app/domain/models/map/map_location.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class MapRepository {
-  MapRepository({required NominatimApi nominatimApi})
-      : _nominatimApi = nominatimApi;
+  MapRepository({required NominatimClient nominatimClient})
+      : _nominatimClient = nominatimClient;
 
-  final NominatimApi _nominatimApi;
+  final NominatimClient _nominatimClient;
 
   Future<List<MapLocation>> searchPlaces(String query, int limit) async {
     final locations =
-        await _nominatimApi.locationSearch(query: query, limit: limit);
+        await _nominatimClient.locationSearch(query: query, limit: limit);
     return locations
         .map(
           (l) => MapLocation(
@@ -36,7 +36,7 @@ class MapRepository {
   }
 
   Future<MapLocation> reverseSearch(double latitude, double longitude) async {
-    final location = await _nominatimApi.reverseLocationSearch(
+    final location = await _nominatimClient.reverseLocationSearch(
       latitude: latitude,
       longitude: longitude,
     );

@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:event_planr_app/data/network/event_planr_api.dart';
-import 'package:event_planr_app/data/network/event_planr_client.dart';
-import 'package:event_planr_app/data/network/nominatim_api.dart';
-import 'package:event_planr_app/data/network/nominatim_client.dart';
+import 'package:event_planr_app/data/network/event_planr/event_general/event_general_client.dart';
+import 'package:event_planr_app/data/network/event_planr/event_manager/event_manager_client.dart';
+import 'package:event_planr_app/data/network/event_planr/organization_manager/organization_manager_client.dart';
+import 'package:event_planr_app/data/network/event_planr/ticket_manager/ticket_manager_client.dart';
+import 'package:event_planr_app/data/network/event_planr/ticket_order/ticket_order_client.dart';
+import 'package:event_planr_app/data/network/event_planr/user_ticket/user_ticket_client.dart';
+import 'package:event_planr_app/data/network/nominatim/nominatim_client.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/env/env.dart';
 import 'package:injectable/injectable.dart';
@@ -37,12 +40,37 @@ abstract class NetworkModule {
   }
 
   @singleton
-  EventPlanrApi getEventPlanrApi(Dio dio) {
-    return EventPlanrClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  EventGeneralClient getEventGeneralClient(Dio dio) {
+    return EventGeneralClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
   }
 
   @singleton
-  NominatimApi getNominatimApi(Dio dio) {
+  EventManagerClient getEventManagerClient(Dio dio) {
+    return EventManagerClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  OrganizationManagerClient getOrganizationManagerClient(Dio dio) {
+    return OrganizationManagerClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  TicketManagerClient getTicketManagerClient(Dio dio) {
+    return TicketManagerClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  TicketOrderClient getTicketOrderClient(Dio dio) {
+    return TicketOrderClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  UserTicketClient getUserTicketClient(Dio dio) {
+    return UserTicketClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  NominatimClient getNominatimClient(Dio dio) {
     return NominatimClient(dio, baseUrl: '${Env.nominatimApiUrl}/');
   }
 }

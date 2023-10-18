@@ -1,3 +1,6 @@
+import 'package:event_planr_app/domain/models/common/order_direction_enum.dart';
+import 'package:event_planr_app/domain/models/event/currency_enum.dart';
+import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'event_filter.freezed.dart';
@@ -7,8 +10,8 @@ part 'event_filter.g.dart';
 class EventFilter with _$EventFilter {
   const factory EventFilter({
     String? searchTerm,
-    int? category,
-    int? currency,
+    EventCategoryEnum? category,
+    CurrencyEnum? currency,
     DateTime? fromDate,
     DateTime? toDate,
     double? longitude,
@@ -17,7 +20,7 @@ class EventFilter with _$EventFilter {
     int? pageNumber,
     int? pageSize,
     String? orderBy,
-    int? orderDirection,
+    OrderDirectionEnum? orderDirection,
   }) = _EventFilter;
 
   factory EventFilter.fromJson(Map<String, dynamic> json) =>

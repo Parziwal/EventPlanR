@@ -1,3 +1,4 @@
+import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +19,7 @@ class ChatContactItem extends StatelessWidget {
             children: [
               const AspectRatio(
                 aspectRatio: 1,
-                child: CircleAvatar(
-                  foregroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1780&q=80'),
-                ),
+                child: AvatarIcon(altText: 'A'),
               ),
               const SizedBox(width: 32),
               Expanded(

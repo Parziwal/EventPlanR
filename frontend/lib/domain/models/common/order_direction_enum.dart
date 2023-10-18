@@ -1,0 +1,4 @@
+enum OrderDirectionEnum {
+  ascending,
+  descending,
+}

@@ -1,5 +1,5 @@
-import 'package:event_planr_app/domain/models/event/currency.dart';
-import 'package:event_planr_app/domain/models/event/event_category.dart';
+import 'package:event_planr_app/domain/models/event/currency_enum.dart';
+import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/create_event/cubit/create_event_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_event/widgets/map_location_form_field.dart';
@@ -71,7 +71,6 @@ class _CreateEventFormState extends State<CreateEventForm> {
   void _create() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print(_formKey.currentState!.value);
     }
   }
 
@@ -114,7 +113,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
     return FormBuilderDropdown(
       name: 'category',
       enabled: !widget.disabled,
-      items: EventCategory.values
+      items: EventCategoryEnum.values
           .map(
             (e) => DropdownMenuItem(
               value: e.index,
@@ -264,7 +263,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
     return FormBuilderDropdown(
       name: 'currency',
       enabled: !widget.disabled,
-      items: Currency.values
+      items: CurrencyEnum.values
           .map(
             (e) => DropdownMenuItem(
               value: e.index,

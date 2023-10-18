@@ -1,6 +1,5 @@
 import 'package:event_planr_app/di/injectable.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
-import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
@@ -123,7 +122,7 @@ final appRouter = GoRouter(
                     BlocRoute<TicketCheckoutCubit>(
                       path: 'checkout',
                       builder: (state) => const TicketCheckoutPage(),
-                    )
+                    ),
                   ],
                 ),
               ],

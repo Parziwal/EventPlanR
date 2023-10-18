@@ -45,7 +45,7 @@ class UserTicketLandscape extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

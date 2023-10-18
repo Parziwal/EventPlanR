@@ -1,9 +1,9 @@
-import 'package:event_planr_app/data/network/event_planr_api.dart';
-import 'package:event_planr_app/data/network/models/event_planr/organization/add_member_to_organization_dto.dart';
-import 'package:event_planr_app/data/network/models/event_planr/organization/create_organization_dto.dart';
-import 'package:event_planr_app/data/network/models/event_planr/organization/edit_organization_dto.dart';
-import 'package:event_planr_app/data/network/models/event_planr/organization/edit_organization_member_dto.dart';
-import 'package:event_planr_app/data/network/models/event_planr/organization/remove_member_from_organization_dto.dart';
+import 'package:event_planr_app/data/network/event_planr/models/add_member_to_user_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr/models/create_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr/models/edit_organization_member_command.dart';
+import 'package:event_planr_app/data/network/event_planr/models/edit_user_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr/models/remove_member_from_user_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr/organization_manager/organization_manager_client.dart';
 import 'package:event_planr_app/domain/models/organization/add_or_edit_organization_member.dart';
 import 'package:event_planr_app/domain/models/organization/create_organization.dart';
 import 'package:event_planr_app/domain/models/organization/edit_organization.dart';
@@ -14,13 +14,15 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class OrganizationManagerRepository {
-  const OrganizationManagerRepository({required EventPlanrApi eventPlanrApi})
-      : _eventPlanrApi = eventPlanrApi;
+  const OrganizationManagerRepository({
+    required OrganizationManagerClient organizationManagerClient,
+  }) : _organizationManagerClient = organizationManagerClient;
 
-  final EventPlanrApi _eventPlanrApi;
+  final OrganizationManagerClient _organizationManagerClient;
 
   Future<List<Organization>> getUserOrganizations() async {
-    final organizations = await _eventPlanrApi.getUserOrganizations();
+    final organizations =
+        await _organizationManagerClient.getOrganizationmanagerOrganizations();
 
     return organizations
         .map(
@@ -35,7 +37,7 @@ class OrganizationManagerRepository {
 
   Future<Organization> getUserCurrentOrganization() async {
     final currentOrganization =
-        await _eventPlanrApi.getUserCurrentOrganization();
+        await _organizationManagerClient.getOrganizationmanager();
     return Organization(
       id: currentOrganization.id,
       name: currentOrganization.name,
@@ -45,7 +47,7 @@ class OrganizationManagerRepository {
 
   Future<UserOrganizationDetails> getUserCurrentOrganizationDetails() async {
     final currentOrganizationDetails =
-        await _eventPlanrApi.getUserCurrentOrganizationDetails();
+        await _organizationManagerClient.getOrganizationmanagerDetails();
 
     return UserOrganizationDetails(
       id: currentOrganizationDetails.id,
@@ -71,12 +73,14 @@ class OrganizationManagerRepository {
   }
 
   Future<void> setUserOrganization(String organizationId) async {
-    await _eventPlanrApi.setUserOrganization(organizationId);
+    await _organizationManagerClient.postOrganizationmanagerSetOrganizationId(
+      organizationId: organizationId,
+    );
   }
 
   Future<String> createOrganization(CreateOrganization organization) async {
-    return _eventPlanrApi.createOrganization(
-      CreateOrganizationDto(
+    return _organizationManagerClient.postOrganizationmanager(
+      body: CreateOrganizationCommand(
         name: organization.name,
         description: organization.description,
       ),
@@ -84,30 +88,30 @@ class OrganizationManagerRepository {
   }
 
   Future<void> editCurrentOrganization(EditOrganization organization) async {
-    await _eventPlanrApi.editCurrentOrganization(
-      EditOrganizationDto(
+    await _organizationManagerClient.putOrganizationmanager(
+      body: EditUserOrganizationCommand(
         description: organization.description,
       ),
     );
   }
 
   Future<void> deleteCurrentOrganization() async {
-    await _eventPlanrApi.deleteCurrentOrganization();
+    await _organizationManagerClient.deleteOrganizationmanager();
   }
 
   Future<void> addOrEditMemberToOrganization(
     AddOrEditOrganizationMember member,
   ) async {
     if (member.memberUserEmail != null) {
-      await _eventPlanrApi.addMemberToCurrentOrganization(
-        AddMemberToOrganizationDto(
+      await _organizationManagerClient.postOrganizationmanagerMember(
+        body: AddMemberToUserOrganizationCommand(
           memberUserEmail: member.memberUserEmail!,
           policies: member.policies,
         ),
       );
     } else if (member.memberUserId != null) {
-      await _eventPlanrApi.editCurrentOrganizationMember(
-        EditOrganizationMemberDto(
+      await _organizationManagerClient.putOrganizationmanagerMember(
+        body: EditOrganizationMemberCommand(
           memberUserId: member.memberUserId!,
           policies: member.policies,
         ),
@@ -118,8 +122,8 @@ class OrganizationManagerRepository {
   Future<void> removeMemberFromCurrentOrganization(
     String memberUserId,
   ) async {
-    await _eventPlanrApi.removeMemberFromCurrentOrganization(
-      RemoveMemberFromOrganizationDto(
+    await _organizationManagerClient.deleteOrganizationmanagerMember(
+      body: RemoveMemberFromUserOrganizationCommand(
         memberUserId: memberUserId,
       ),
     );

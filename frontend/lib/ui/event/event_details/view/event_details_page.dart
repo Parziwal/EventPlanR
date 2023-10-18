@@ -17,8 +17,6 @@ class EventDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = context.theme;
-    final breakpoints = context.breakpoints;
 
     return EventScaffold(
       title: l10n.eventDetails,
