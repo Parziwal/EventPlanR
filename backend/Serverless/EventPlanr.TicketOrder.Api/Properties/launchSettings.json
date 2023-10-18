@@ -3,9 +3,10 @@
     "EventPlanr.OrderTicket.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "ticketorder/swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "BASE_PATH": "ticketorder"
       },
       "applicationUrl": "https://localhost:5005"
     },

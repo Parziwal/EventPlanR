@@ -42,15 +42,15 @@ public class MainController : ControllerBase
         => _sender.Send(command);
 
     [HttpPut]
-    public Task EditCurrentOrganization([FromBody] EditOrganizationCommand command)
+    public Task EditCurrentOrganization([FromBody] EditUserOrganizationCommand command)
         => _sender.Send(command);
 
     [HttpDelete]
     public Task DeleteCurrentOrganization()
-        => _sender.Send(new DeleteOrganizationCommand());
+        => _sender.Send(new DeleteUserOrganizationCommand());
 
     [HttpPost("member")]
-    public Task AddMemberToCurrentOrganization([FromBody] AddMemberToOrganizationCommand command)
+    public Task AddMemberToCurrentOrganization([FromBody] AddMemberToUserOrganizationCommand command)
         => _sender.Send(command);
 
     [HttpPut("member")]
@@ -58,6 +58,6 @@ public class MainController : ControllerBase
         => _sender.Send(command);
 
     [HttpDelete("member")]
-    public Task RemoveMemberFromCurrentOrganization([FromBody] RemoveMemberFromOrganizationCommand command)
+    public Task RemoveMemberFromCurrentOrganization([FromBody] RemoveMemberFromUserOrganizationCommand command)
         => _sender.Send(command);
 }

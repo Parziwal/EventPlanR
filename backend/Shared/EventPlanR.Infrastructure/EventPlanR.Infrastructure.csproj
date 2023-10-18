@@ -13,7 +13,6 @@
 	<ItemGroup>
     <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.203.7" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.202.5" />
-    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,8 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EventPlanr.Application\EventPlanr.Application.csproj" />
-    <ProjectReference Include="..\EventPlanr.Configuration\EventPlanr.Configuration.csproj" />
-    <ProjectReference Include="..\EventPlanr.Domain\EventPlanr.Domain.csproj" />
   </ItemGroup>
 
 </Project>

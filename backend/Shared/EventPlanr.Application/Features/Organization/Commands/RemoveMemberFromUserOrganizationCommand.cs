@@ -7,18 +7,18 @@ using MediatR;
 namespace EventPlanr.Application.Features.Organization.Commands;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationManage)]
-public class RemoveMemberFromOrganizationCommand : IRequest
+public class RemoveMemberFromUserOrganizationCommand : IRequest
 {
     public Guid MemberUserId { get; set; }
 }
 
-public class RemoveMemberFromOrganizationCommandHandler : IRequestHandler<RemoveMemberFromOrganizationCommand>
+public class RemoveMemberFromUserOrganizationCommandHandler : IRequestHandler<RemoveMemberFromUserOrganizationCommand>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IUserClaimService _userClaimService;
 
-    public RemoveMemberFromOrganizationCommandHandler(
+    public RemoveMemberFromUserOrganizationCommandHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
         IUserClaimService userClaimService)
@@ -28,7 +28,7 @@ public class RemoveMemberFromOrganizationCommandHandler : IRequestHandler<Remove
         _userClaimService = userClaimService;
     }
 
-    public async Task Handle(RemoveMemberFromOrganizationCommand request, CancellationToken cancellationToken)
+    public async Task Handle(RemoveMemberFromUserOrganizationCommand request, CancellationToken cancellationToken)
     {
         var organization = await _dbContext.Organizations
             .SingleEntityAsync(o => o.Id == _user.OrganizationId);

@@ -3,9 +3,10 @@
     "EventPlanr.OrganizationManager.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "organizationmanager/swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "BASE_PATH": "organizationmanager"
       },
       "applicationUrl": "https://localhost:5003"
     },

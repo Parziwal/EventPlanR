@@ -9,20 +9,20 @@ using MediatR;
 namespace EventPlanr.Application.Features.Organization.Commands;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationManage)]
-public class AddMemberToOrganizationCommand : IRequest
+public class AddMemberToUserOrganizationCommand : IRequest
 {
     public string MemberUserEmail { get; set; } = null!;
     public List<string> Policies { get; set; } = new List<string>();
 }
 
-public class AddMemberToOrganizationCommandHandler : IRequestHandler<AddMemberToOrganizationCommand>
+public class AddMemberToUserOrganizationCommandHandler : IRequestHandler<AddMemberToUserOrganizationCommand>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IUserService _userService;
     private readonly IUserClaimService _userClaimService;
 
-    public AddMemberToOrganizationCommandHandler(
+    public AddMemberToUserOrganizationCommandHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
         IUserService userService,
@@ -34,7 +34,7 @@ public class AddMemberToOrganizationCommandHandler : IRequestHandler<AddMemberTo
         _userClaimService = userClaimService;
     }
 
-    public async Task Handle(AddMemberToOrganizationCommand request, CancellationToken cancellationToken)
+    public async Task Handle(AddMemberToUserOrganizationCommand request, CancellationToken cancellationToken)
     {
         var memberUserId = await _userService.GetUserIdByEmail(request.MemberUserEmail)
             ?? throw new EntityNotFoundException("UserEntity");

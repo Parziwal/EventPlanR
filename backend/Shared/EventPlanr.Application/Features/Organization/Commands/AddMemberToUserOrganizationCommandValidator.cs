@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace EventPlanr.Application.Features.Organization.Commands;
 
-public class AddMemberToOrganizationCommandValidator : AbstractValidator<AddMemberToOrganizationCommand>
+public class AddMemberToUserOrganizationCommandValidator : AbstractValidator<AddMemberToUserOrganizationCommand>
 {
-    public AddMemberToOrganizationCommandValidator()
+    public AddMemberToUserOrganizationCommandValidator()
     {
         RuleFor(x => x.MemberUserEmail)
             .NotEmpty();

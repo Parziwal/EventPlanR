@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
-namespace EventPlanr.Infrastructure.ExceptionHandling;
+namespace EventPlanr.LambdaBase.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {
@@ -16,22 +16,26 @@ public static class ExceptionHandlingExtensions
         {
             setup.IncludeExceptionDetails = (ctx, env) => EnvironmentTypes.IsDevelopment();
 
-            setup.Map<EntityNotFoundException>((context, exception) => {
+            setup.Map<EntityNotFoundException>((context, exception) =>
+            {
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status404NotFound);
                 problemDetails.Title = exception.Message;
                 return problemDetails;
             });
-            setup.Map<DomainException>((context, exception) => {
+            setup.Map<DomainException>((context, exception) =>
+            {
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status400BadRequest);
                 problemDetails.Title = exception.Message;
                 return problemDetails;
             });
-            setup.Map<ForbiddenException>((context, exception) => {
+            setup.Map<ForbiddenException>((context, exception) =>
+            {
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status403Forbidden);
                 problemDetails.Title = exception.Message;
                 return problemDetails;
             });
-            setup.Map<ValidationException>((context, exception) => {
+            setup.Map<ValidationException>((context, exception) =>
+            {
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status400BadRequest);
                 problemDetails.Title = exception.Message;
                 problemDetails.Detail = JsonSerializer.Serialize(exception.Errors);

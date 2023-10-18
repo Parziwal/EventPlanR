@@ -2,9 +2,9 @@
 
 namespace EventPlanr.Application.Features.Organization.Commands;
 
-public class EditOrganizationCommandValidator : AbstractValidator<EditOrganizationCommand>
+public class EditUserOrganizationCommandValidator : AbstractValidator<EditUserOrganizationCommand>
 {
-    public EditOrganizationCommandValidator()
+    public EditUserOrganizationCommandValidator()
     {
         RuleFor(x => x.Description)
             .MaximumLength(256);

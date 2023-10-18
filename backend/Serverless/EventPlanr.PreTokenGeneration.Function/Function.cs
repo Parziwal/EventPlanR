@@ -1,9 +1,6 @@
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.DependencyInjection;
-using EventPlanr.Application;
-using EventPlanr.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using EventPlanr.Configuration;
+using EventPlanr.LambdaBase;
 using MediatR;
 using System.Text.Json.Nodes;
 using System.Text.Json;
@@ -20,12 +17,7 @@ public class Function
     public Function()
     {
         var services = new ServiceCollection();
-        var configuration = new ConfigurationBuilder()
-            .AddConfigurationSettings()
-            .Build();
-        services.AddSingleton<IConfiguration>(configuration);
-        services.AddApplicationServices();
-        services.AddInfrastructureServices(configuration);
+        services.AddLambdaFunctionServices();
         _serviceProvider = services.BuildServiceProvider();
     }
 

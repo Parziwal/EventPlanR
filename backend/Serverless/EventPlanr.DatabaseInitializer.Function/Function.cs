@@ -1,9 +1,6 @@
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using EventPlanr.Application;
-using EventPlanr.Infrastructure;
-using EventPlanr.Configuration;
+using EventPlanr.LambdaBase;
 using EventPlanr.Infrastructure.Persistance;
 using System.Text.Json.Nodes;
 
@@ -18,12 +15,7 @@ public class Function
     public Function()
     {
         _services = new ServiceCollection();
-        var configuration = new ConfigurationBuilder()
-            .AddConfigurationSettings()
-            .Build();
-        _services.AddSingleton<IConfiguration>(configuration);
-        _services.AddApplicationServices();
-        _services.AddInfrastructureServices(configuration);
+        _services.AddLambdaFunctionServices();
     }
 
     public async Task FunctionHandler(JsonNode lambdaEvent, ILambdaContext context)

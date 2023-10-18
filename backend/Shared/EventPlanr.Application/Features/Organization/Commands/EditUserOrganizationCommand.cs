@@ -7,23 +7,23 @@ using MediatR;
 namespace EventPlanr.Application.Features.Organization.Commands;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationManage)]
-public class EditOrganizationCommand : IRequest
+public class EditUserOrganizationCommand : IRequest
 {
     public string? Description { get; set; }
 }
 
-public class EditOrganizationCommandHandler : IRequestHandler<EditOrganizationCommand>
+public class EditUserOrganizationCommandHandler : IRequestHandler<EditUserOrganizationCommand>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
 
-    public EditOrganizationCommandHandler(IApplicationDbContext dbContext, IUserContext user)
+    public EditUserOrganizationCommandHandler(IApplicationDbContext dbContext, IUserContext user)
     {
         _dbContext = dbContext;
         _user = user;
     }
 
-    public async Task Handle(EditOrganizationCommand request, CancellationToken cancellationToken)
+    public async Task Handle(EditUserOrganizationCommand request, CancellationToken cancellationToken)
     {
         var organization = await _dbContext.Organizations
             .SingleEntityAsync(o => o.Id == _user.OrganizationId);

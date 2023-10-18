@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 namespace EventPlanr.Application.Features.Organization.Commands;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationManage)]
-public class DeleteOrganizationCommand : IRequest
+public class DeleteUserOrganizationCommand : IRequest
 {
 }
 
-public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizationCommand>
+public class DeleteUserOrganizationCommandHandler : IRequestHandler<DeleteUserOrganizationCommand>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IUserClaimService _userClaimService;
 
-    public DeleteOrganizationCommandHandler(
+    public DeleteUserOrganizationCommandHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
         IUserClaimService userClaimService)
@@ -29,7 +29,7 @@ public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizati
         _userClaimService = userClaimService;
     }
 
-    public async Task Handle(DeleteOrganizationCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteUserOrganizationCommand request, CancellationToken cancellationToken)
     {
         var organization = await _dbContext.Organizations
             .SingleEntityAsync(o => o.Id == _user.OrganizationId);

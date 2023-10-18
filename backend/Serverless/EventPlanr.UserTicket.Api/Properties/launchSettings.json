@@ -3,9 +3,10 @@
     "EventPlanr.UserTicket.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "userticket/swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "BASE_PATH": "userticket"
       },
       "applicationUrl": "https://localhost:5006"
     },
