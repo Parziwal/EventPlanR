@@ -30,7 +30,7 @@ module "database_initializer_lambda" {
   }
 }
 
-data "aws_lambda_invocation" "database_initializer_lambda" {
+resource "aws_lambda_invocation" "database_initializer_lambda" {
   function_name = module.database_initializer_lambda.function_name
   input = ""
 

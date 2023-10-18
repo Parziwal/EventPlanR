@@ -1,5 +1,6 @@
 ﻿using EventPlanr.Domain.Constants;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventPlanr.LambdaBase.Swagger;
@@ -20,7 +21,8 @@ public static class SwaggerExtensions
 
     public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
     {
-        var basePath = Environment.GetEnvironmentVariable("BASE_PATH");
+        var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
+        var basePath = configuration.GetValue<string>("BasePath");
 
         app.UseSwagger(c =>
         {

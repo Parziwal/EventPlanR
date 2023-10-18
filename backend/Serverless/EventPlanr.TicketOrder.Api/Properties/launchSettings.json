@@ -5,8 +5,7 @@
       "launchBrowser": true,
       "launchUrl": "ticketorder/swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "BASE_PATH": "ticketorder"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5005"
     },

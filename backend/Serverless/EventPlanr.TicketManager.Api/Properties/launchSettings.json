@@ -5,8 +5,7 @@
       "launchBrowser": true,
       "launchUrl": "ticketmanager/swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "BASE_PATH": "ticketmanager"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5004"
     },
