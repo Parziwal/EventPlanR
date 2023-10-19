@@ -1,7 +1,6 @@
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/domain/event_general_repository.dart';
-import 'package:event_planr_app/domain/models/organization/create_organization.dart';
-import 'package:event_planr_app/domain/models/organization/edit_organization.dart';
+import 'package:event_planr_app/domain/models/organization/create_or_edit_organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/domain/organization_manager_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,30 +58,13 @@ class CreateOrEditOrganizationCubit
     }
   }
 
-  Future<void> createOrganization(CreateOrganization organization) async {
-    try {
-      emit(state.copyWith(status: CreateOrEditOrganizationStatus.loading));
-      await _organizationManagerRepository.createOrganization(organization);
-      emit(
-        const CreateOrEditOrganizationState(
-          status: CreateOrEditOrganizationStatus.organizationSubmitted,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          status: CreateOrEditOrganizationStatus.error,
-          errorCode: e.toString(),
-        ),
-      );
-    }
-  }
-
-  Future<void> editOrganization(EditOrganization organization) async {
+  Future<void> createOrEditOrganization(
+    CreateOrEditOrganization organization,
+  ) async {
     try {
       emit(state.copyWith(status: CreateOrEditOrganizationStatus.loading));
       await _organizationManagerRepository
-          .editCurrentOrganization(organization);
+          .createOrEditOrganization(organization);
       emit(
         const CreateOrEditOrganizationState(
           status: CreateOrEditOrganizationStatus.organizationSubmitted,

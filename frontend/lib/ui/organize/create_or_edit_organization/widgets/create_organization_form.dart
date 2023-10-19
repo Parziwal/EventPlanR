@@ -1,5 +1,4 @@
-import 'package:event_planr_app/domain/models/organization/create_organization.dart';
-import 'package:event_planr_app/domain/models/organization/edit_organization.dart';
+import 'package:event_planr_app/domain/models/organization/create_or_edit_organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
@@ -66,19 +65,11 @@ class _CreateOrEditOrganizationFormState
   void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      if (_edit) {
-        context.read<CreateOrEditOrganizationCubit>().editOrganization(
-              EditOrganization.fromJson(
-                _formKey.currentState!.value,
-              ),
-            );
-      } else {
-        context.read<CreateOrEditOrganizationCubit>().createOrganization(
-              CreateOrganization.fromJson(
-                _formKey.currentState!.value,
-              ),
-            );
-      }
+      context.read<CreateOrEditOrganizationCubit>().createOrEditOrganization(
+            CreateOrEditOrganization.fromJson(
+              _formKey.currentState!.value,
+            ),
+          );
     }
   }
 

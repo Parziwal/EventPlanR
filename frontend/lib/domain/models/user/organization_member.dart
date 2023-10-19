@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'organization_member.freezed.dart';
-part 'organization_member.g.dart';
 
 @freezed
 class OrganizationMember with _$OrganizationMember {
@@ -16,9 +15,6 @@ class OrganizationMember with _$OrganizationMember {
   }) = _OrganizationMember;
 
   const OrganizationMember._();
-
-  factory OrganizationMember.fromJson(Map<String, Object?> json) =>
-      _$OrganizationMemberFromJson(json);
 
   String getUserFullName(BuildContext context) {
     return context.l10n.localeName == 'hu'

@@ -7,6 +7,8 @@ import 'package:retrofit/retrofit.dart';
 
 import '../models/create_event_command.dart';
 import '../models/edit_event_command.dart';
+import '../models/organization_event_details_dto.dart';
+import '../models/organization_event_dto_paginated_list_dto.dart';
 
 part 'event_manager_client.g.dart';
 
@@ -15,28 +17,28 @@ abstract class EventManagerClient {
   factory EventManagerClient(Dio dio, {String? baseUrl}) = _EventManagerClient;
 
   @GET('/eventmanager/draft')
-  Future<void> getEventmanagerDraft({
+  Future<OrganizationEventDtoPaginatedListDto> getEventmanagerDraft({
     @Query('SearchTerm') String? searchTerm,
     @Query('PageNumber') int? pageNumber,
     @Query('PageSize') int? pageSize,
   });
 
   @GET('/eventmanager/past')
-  Future<void> getEventmanagerPast({
+  Future<OrganizationEventDtoPaginatedListDto> getEventmanagerPast({
     @Query('SearchTerm') String? searchTerm,
     @Query('PageNumber') int? pageNumber,
     @Query('PageSize') int? pageSize,
   });
 
   @GET('/eventmanager/upcoming')
-  Future<void> getEventmanagerUpcoming({
+  Future<OrganizationEventDtoPaginatedListDto> getEventmanagerUpcoming({
     @Query('SearchTerm') String? searchTerm,
     @Query('PageNumber') int? pageNumber,
     @Query('PageSize') int? pageSize,
   });
 
   @GET('/eventmanager/{eventId}')
-  Future<void> getEventmanagerEventId({
+  Future<OrganizationEventDetailsDto> getEventmanagerEventId({
     @Path('eventId') required String eventId,
   });
 

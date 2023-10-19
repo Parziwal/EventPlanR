@@ -18,17 +18,17 @@ public class MainController : ControllerBase
     }
 
     [HttpGet("{eventId}")]
-    public Task<List<OrderDto>> GetUserEventTicketsOrderData(Guid eventId)
+    public Task<List<OrderDto>> GetUserEventOrder(Guid eventId)
         => _sender.Send(new GetUserEventOrderQuery
         {
             EventId = eventId,
         });
 
     [HttpPost("reserve")]
-    public Task GetUserEventTicketsOrderData([FromBody] ReserveUserTicketsCommand command)
+    public Task ReserveUserTickets([FromBody] ReserveUserTicketsCommand command)
         => _sender.Send(command);
 
     [HttpPost]
-    public Task<Guid> GetUserEventTicketsOrderData([FromBody] OrderReservedTicketsCommand command)
+    public Task<Guid> OrderReservedTickets([FromBody] OrderReservedTicketsCommand command)
         => _sender.Send(command);
 }

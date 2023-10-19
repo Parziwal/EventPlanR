@@ -1,0 +1,2 @@
+class DomainException implements Exception {
+}

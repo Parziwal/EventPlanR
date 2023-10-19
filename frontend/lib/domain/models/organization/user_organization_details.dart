@@ -2,7 +2,6 @@ import 'package:event_planr_app/domain/models/user/organization_member.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_organization_details.freezed.dart';
-part 'user_organization_details.g.dart';
 
 @freezed
 class UserOrganizationDetails with _$UserOrganizationDetails {
@@ -17,7 +16,4 @@ class UserOrganizationDetails with _$UserOrganizationDetails {
     DateTime? lastModified,
     String? lastModifiedBy,
   }) = _UserOrganizationDetails;
-
-  factory UserOrganizationDetails.fromJson(Map<String, Object?> json) =>
-      _$UserOrganizationDetailsFromJson(json);
 }

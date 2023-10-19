@@ -1,15 +1,14 @@
 import 'package:event_planr_app/domain/models/common/address.dart';
 import 'package:event_planr_app/domain/models/common/coordinates.dart';
+import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
-import 'package:event_planr_app/domain/models/news_post/news_post.dart';
-import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'event_details.freezed.dart';
+part 'organization_event_details.freezed.dart';
 
 @freezed
-class EventDetails with _$EventDetails {
-  const factory EventDetails({
+class OrganizationEventDetails with _$OrganizationEventDetails {
+  const factory OrganizationEventDetails({
     required String id,
     required String name,
     required EventCategoryEnum category,
@@ -18,9 +17,14 @@ class EventDetails with _$EventDetails {
     required String venue,
     required Address address,
     required Coordinates coordinates,
-    required Organization organization,
+    required CurrencyEnum currency,
+    required bool isPrivate,
+    required bool isPublished,
+    required DateTime created,
+    required DateTime lastModified,
+    String? createdBy,
+    String? lastModifiedBy,
     String? description,
     String? coverImageUrl,
-    NewsPost? latestNews,
-  }) = _EventDetails;
+  }) = _OrganizationEventDetails;
 }

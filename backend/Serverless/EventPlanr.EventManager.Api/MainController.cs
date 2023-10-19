@@ -1,5 +1,7 @@
 using EventPlanr.Application.Features.Event.Commands;
 using EventPlanr.Application.Features.Event.Queries;
+using EventPlanr.Application.Models.Event;
+using EventPlanr.Application.Models.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,19 +19,19 @@ public class MainController : ControllerBase
     }
 
     [HttpGet("draft")]
-    public Task GetOrganizationDraftEvents([FromQuery] GetOrganizationDraftEventsQuery query)
+    public Task<PaginatedListDto<OrganizationEventDto>> GetOrganizationDraftEvents([FromQuery] GetOrganizationDraftEventsQuery query)
         => _sender.Send(query);
 
     [HttpGet("past")]
-    public Task GetOrganizationPastEvents([FromQuery] GetOrganizationPastEventsQuery query)
+    public Task<PaginatedListDto<OrganizationEventDto>> GetOrganizationPastEvents([FromQuery] GetOrganizationPastEventsQuery query)
         => _sender.Send(query);
     
     [HttpGet("upcoming")]
-    public Task GetOrganizationUpcomingEvents([FromQuery] GetOrganizationUpcomingEventsQuery query)
+    public Task<PaginatedListDto<OrganizationEventDto>> GetOrganizationUpcomingEvents([FromQuery] GetOrganizationUpcomingEventsQuery query)
         => _sender.Send(query);
 
     [HttpGet("{eventId}")]
-    public Task GetOrganizationEventDetails(Guid eventId)
+    public Task<OrganizationEventDetailsDto> GetOrganizationEventDetails(Guid eventId)
         => _sender.Send(new GetOrganizationEventDetailsQuery()
         {
             EventId = eventId,

@@ -2,9 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'paginated_list.freezed.dart';
 
-part 'paginated_list.g.dart';
-
-@Freezed(genericArgumentFactories: true)
+@freezed
 class PaginatedList<T> with _$PaginatedList<T> {
   const factory PaginatedList({
     required List<T> items,
@@ -14,10 +12,4 @@ class PaginatedList<T> with _$PaginatedList<T> {
     required bool hasPreviousPage,
     required bool hasNextPage,
   }) = _PaginatedList;
-
-  factory PaginatedList.fromJson(
-    Map<String, Object?> json,
-    T Function(Object?) fromJsonItems,
-  ) =>
-      _$PaginatedListFromJson(json, fromJsonItems);
 }

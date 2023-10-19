@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'event.freezed.dart';
-part 'event.g.dart';
 
 @freezed
 class Event with _$Event {
@@ -14,7 +13,4 @@ class Event with _$Event {
     required DateTime toDate,
     String? coverImageUrl,
   }) = _Event;
-
-  factory Event.fromJson(Map<String, dynamic> json) =>
-      _$EventFromJson(json);
 }

@@ -1,26 +1,28 @@
 import 'package:event_planr_app/domain/models/common/address.dart';
 import 'package:event_planr_app/domain/models/common/coordinates.dart';
+import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
-import 'package:event_planr_app/domain/models/news_post/news_post.dart';
-import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'event_details.freezed.dart';
+part 'create_or_edit_event.freezed.dart';
+part 'create_or_edit_event.g.dart';
 
 @freezed
-class EventDetails with _$EventDetails {
-  const factory EventDetails({
-    required String id,
-    required String name,
+class CreateOrEditEvent with _$CreateOrEditEvent {
+  const factory CreateOrEditEvent({
     required EventCategoryEnum category,
     required DateTime fromDate,
     required DateTime toDate,
     required String venue,
     required Address address,
     required Coordinates coordinates,
-    required Organization organization,
+    required CurrencyEnum currency,
+    required bool isPrivate,
+    String? id,
+    String? name,
     String? description,
-    String? coverImageUrl,
-    NewsPost? latestNews,
-  }) = _EventDetails;
+  }) = _CreateOrEditEvent;
+
+  factory CreateOrEditEvent.fromJson(Map<String, Object?> json) =>
+      _$CreateOrEditEventFromJson(json);
 }

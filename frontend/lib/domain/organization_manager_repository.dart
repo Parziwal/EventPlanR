@@ -5,8 +5,7 @@ import 'package:event_planr_app/data/network/event_planr/models/edit_user_organi
 import 'package:event_planr_app/data/network/event_planr/models/remove_member_from_user_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr/organization_manager/organization_manager_client.dart';
 import 'package:event_planr_app/domain/models/organization/add_or_edit_organization_member.dart';
-import 'package:event_planr_app/domain/models/organization/create_organization.dart';
-import 'package:event_planr_app/domain/models/organization/edit_organization.dart';
+import 'package:event_planr_app/domain/models/organization/create_or_edit_organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/models/organization/user_organization_details.dart';
 import 'package:event_planr_app/domain/models/user/organization_member.dart';
@@ -78,21 +77,23 @@ class OrganizationManagerRepository {
     );
   }
 
-  Future<String> createOrganization(CreateOrganization organization) async {
-    return _organizationManagerClient.postOrganizationmanager(
-      body: CreateOrganizationCommand(
-        name: organization.name,
-        description: organization.description,
-      ),
-    );
-  }
-
-  Future<void> editCurrentOrganization(EditOrganization organization) async {
-    await _organizationManagerClient.putOrganizationmanager(
-      body: EditUserOrganizationCommand(
-        description: organization.description,
-      ),
-    );
+  Future<void> createOrEditOrganization(
+    CreateOrEditOrganization organization,
+  ) async {
+    if (organization.name != null) {
+      await _organizationManagerClient.postOrganizationmanager(
+        body: CreateOrganizationCommand(
+          name: organization.name!,
+          description: organization.description,
+        ),
+      );
+    } else {
+      await _organizationManagerClient.putOrganizationmanager(
+        body: EditUserOrganizationCommand(
+          description: organization.description,
+        ),
+      );
+    }
   }
 
   Future<void> deleteCurrentOrganization() async {

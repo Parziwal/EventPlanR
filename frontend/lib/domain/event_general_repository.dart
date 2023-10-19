@@ -1,9 +1,4 @@
 import 'package:event_planr_app/data/network/event_planr/event_general/event_general_client.dart';
-import 'package:event_planr_app/data/network/event_planr/models/currency.dart';
-import 'package:event_planr_app/data/network/event_planr/models/event_category.dart';
-import 'package:event_planr_app/data/network/event_planr/models/order_direction.dart';
-import 'package:event_planr_app/domain/models/common/address.dart';
-import 'package:event_planr_app/domain/models/common/coordinates.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/event.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
@@ -13,6 +8,7 @@ import 'package:event_planr_app/domain/models/news_post/news_post.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/domain/models/ticket/ticket.dart';
+import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -26,10 +22,10 @@ class EventGeneralRepository {
     final events = await _eventGeneralClient.getEventgeneral(
       searchTerm: filter.searchTerm,
       category: filter.category != null
-          ? EventCategory.values.byName(filter.category!.name)
+          ? filter.category!.toNetworkEnum()
           : null,
       currency: filter.currency != null
-          ? Currency.values.byName(filter.currency!.name)
+          ? filter.currency!.toNetworkEnum()
           : null,
       fromDate: filter.fromDate,
       toDate: filter.toDate,
@@ -40,7 +36,7 @@ class EventGeneralRepository {
       pageSize: filter.pageSize ?? 10,
       orderBy: filter.orderBy,
       orderDirection: filter.orderDirection != null
-          ? OrderDirection.values.byName(filter.orderDirection!.name)
+          ? filter.orderDirection!.toNetworkEnum()
           : null,
     );
 
@@ -50,6 +46,7 @@ class EventGeneralRepository {
             (e) => Event(
               id: e.id,
               name: e.name,
+              coverImageUrl: e.coverImageUrl,
               venue: e.venue,
               organizationName: e.organizationName,
               fromDate: e.fromDate,
@@ -78,16 +75,8 @@ class EventGeneralRepository {
       fromDate: event.fromDate,
       toDate: event.toDate,
       venue: event.venue,
-      address: Address(
-        country: event.address.country,
-        city: event.address.city,
-        zipCode: event.address.zipCode,
-        addressLine: event.address.addressLine,
-      ),
-      coordinates: Coordinates(
-        latitude: event.coordinates.latitude,
-        longitude: event.coordinates.longitude,
-      ),
+      address: event.address.toDomainModel(),
+      coordinates: event.coordinates.toDomainModel(),
       organization: Organization(
         id: event.organization.id,
         name: event.organization.name,
@@ -156,6 +145,7 @@ class EventGeneralRepository {
             count: t.count,
             saleStarts: t.saleStarts,
             salesEnds: t.salesEnds,
+            description: t.description,
           ),
         )
         .toList();

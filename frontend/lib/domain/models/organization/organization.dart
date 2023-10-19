@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'organization.freezed.dart';
-part 'organization.g.dart';
 
 @freezed
 class Organization with _$Organization {
@@ -10,7 +9,4 @@ class Organization with _$Organization {
     required String name,
     String? profileImageUrl,
   }) = _Organization;
-
-  factory Organization.fromJson(Map<String, Object?> json) =>
-      _$OrganizationFromJson(json);
 }
