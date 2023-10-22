@@ -3,7 +3,7 @@ using EventPlanr.Domain.Enums;
 
 namespace EventPlanr.Domain.Entities;
 
-public class EventEntity : BaseAuditableEntity
+public class EventEntity : BaseSoftDeleteAuditableEntity
 {
     public string Name { get; set; } = null!;
     public string? Description { get; set; }

@@ -14,19 +14,20 @@ public class GetEventTicketsQuery : IRequest<List<TicketDto>>
 
 public class GetEventTicketsQueryHandler : IRequestHandler<GetEventTicketsQuery, List<TicketDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetEventTicketsQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetEventTicketsQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
     {
-        _context = context;
+        _dbContext = dbContext;
         _mapper = mapper;
     }
 
     public async Task<List<TicketDto>> Handle(GetEventTicketsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Tickets
+        return await _dbContext.Tickets
             .Where(t => t.EventId == request.EventId)
+            .OrderBy(t => t.Name)
             .ProjectTo<TicketDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }

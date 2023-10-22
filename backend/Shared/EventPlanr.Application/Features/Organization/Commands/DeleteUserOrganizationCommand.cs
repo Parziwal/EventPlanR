@@ -1,5 +1,5 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions.Organization;
+using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
@@ -36,7 +36,7 @@ public class DeleteUserOrganizationCommandHandler : IRequestHandler<DeleteUserOr
 
         if (organization.Events.Any(e => e.IsPublished && e.ToDate >= DateTimeOffset.Now))
         {
-            throw new OrganizationWithUpcomingEventCannotBeDeletedException();
+            throw new DomainException("OrganizationWithUpcomingEventCannotBeDeletedException");
         }
 
         var deletableEvents = await _dbContext.Events

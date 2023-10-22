@@ -6,8 +6,9 @@ using EventPlanr.Domain.Enums;
 
 namespace EventPlanr.Application.Models.Order;
 
-public class OrderDto
+public class OrderDetailsDto
 {
+    public Guid Id { get; set; }
     public string CustomerFirstName { get; set; } = null!;
     public string CustomerLastName { get; set; } = null!;
     public AddressDto BillingAddress { get; set; } = null!;
@@ -19,7 +20,7 @@ public class OrderDto
     {
         public Mapping()
         {
-            CreateMap<OrderEntity, OrderDto>();
+            CreateMap<OrderEntity, OrderDetailsDto>();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions.Event;
+using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Common;
 using EventPlanr.Application.Security;
@@ -45,7 +45,7 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
 
         if (eventEntity.FromDate <= DateTimeOffset.UtcNow)
         {
-            throw new LiveEventCannotBeEditedException();
+            throw new DomainException("LiveEventCannotBeEditedException");
         }
 
         eventEntity.Description = request.Description;

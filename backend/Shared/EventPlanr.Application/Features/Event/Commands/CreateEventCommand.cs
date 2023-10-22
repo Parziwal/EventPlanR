@@ -1,5 +1,4 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Models.Common;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;

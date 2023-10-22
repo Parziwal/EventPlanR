@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace EventPlanr.Application.Exceptions.Common;
+namespace EventPlanr.Application.Exceptions;
 
 public class ValidationException : Exception
 {
@@ -14,7 +14,7 @@ public class ValidationException : Exception
         : this()
     {
         Errors = failures
-            .GroupBy(e => e.PropertyName, e => e.ErrorCode)
+            .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
             .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
     }
 

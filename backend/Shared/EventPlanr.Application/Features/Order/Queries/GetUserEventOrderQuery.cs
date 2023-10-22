@@ -8,32 +8,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Order.Queries;
 
-public class GetUserEventOrderQuery : IRequest<List<OrderDto>>
+public class GetUserEventOrderQuery : IRequest<List<OrderDetailsDto>>
 {
     public Guid EventId;
 }
 
-public class GetUserEventOrderQueryHandler : IRequestHandler<GetUserEventOrderQuery, List<OrderDto>>
+public class GetUserEventOrderQueryHandler : IRequestHandler<GetUserEventOrderQuery, List<OrderDetailsDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly IUserContext _user;
 
-    public GetUserEventOrderQueryHandler(IApplicationDbContext context, IMapper mapper, IUserContext user)
+    public GetUserEventOrderQueryHandler(IApplicationDbContext dbContext, IMapper mapper, IUserContext user)
     {
-        _context = context;
+        _dbContext = dbContext;
         _mapper = mapper;
         _user = user;
     }
 
-    public async Task<List<OrderDto>> Handle(GetUserEventOrderQuery request, CancellationToken cancellationToken)
+    public async Task<List<OrderDetailsDto>> Handle(GetUserEventOrderQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Orders
+        return await _dbContext.Orders
+            .IgnoreQueryFilters()
             .Include(o => o.SoldTickets)
                 .ThenInclude(st => st.Ticket)
             .Where(o => o.CustomerUserId == _user.UserId)
-            .Where(o => o.SoldTickets.First().Ticket.Event.Id == request.EventId)
-            .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+            .Where(o => o.SoldTickets.First().Ticket.EventId == request.EventId)
+            .OrderByDescending(o => o.Created)
+            .ProjectTo<OrderDetailsDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
     }
 }

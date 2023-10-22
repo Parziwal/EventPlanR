@@ -3,12 +3,14 @@ using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Common;
 using EventPlanr.Application.Models.Order;
+using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Entities;
 using MediatR;
 
 namespace EventPlanr.Application.Features.Order.Commands;
 
+[Authorize]
 public class OrderReservedTicketsCommand : IRequest<Guid>
 {
     public string CustomerFirstName { get; set; } = null!;
@@ -41,7 +43,7 @@ public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedT
                 .Count();
             if (ticketInfoCount != reservedTicket.Count)
             {
-                throw new TicketUserInfoNotMatchException(reservedTicket.TicketId);
+                throw new DomainException("TicketUserInfoNotMatchException");
             }
         }
 

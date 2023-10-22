@@ -1,5 +1,5 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions.Organization;
+using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
@@ -41,7 +41,7 @@ public class EditOrganizationMemberCommandHandler : IRequestHandler<EditOrganiza
 
         if (!organization.MemberUserIds.Contains(request.MemberUserId))
         {
-            throw new UserNotBelongToOrganizationException();
+            throw new DomainException("UserNotBelongToOrganizationException");
         }
 
         await _userClaimService.PutOrganizationToUserAsync(request.MemberUserId, new OrganizationPolicyEntity()

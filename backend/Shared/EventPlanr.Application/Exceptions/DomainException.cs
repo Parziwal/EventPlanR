@@ -1,4 +1,4 @@
-﻿namespace EventPlanr.Application.Exceptions.Common;
+﻿namespace EventPlanr.Application.Exceptions;
 
 public class DomainException : Exception
 {

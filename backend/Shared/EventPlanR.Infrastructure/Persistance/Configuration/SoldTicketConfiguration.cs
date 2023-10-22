@@ -25,7 +25,7 @@ public class SoldTicketConfiguration : IEntityTypeConfiguration<SoldTicketEntity
         builder.HasOne(st => st.Ticket)
             .WithMany(st => st.SoldTickets)
             .HasForeignKey(st => st.TicketId)
-            .IsRequired();
+            .IsRequired(false);
         builder.HasOne(st => st.Order)
             .WithMany(o => o.SoldTickets)
             .HasForeignKey(st => st.OrderId)

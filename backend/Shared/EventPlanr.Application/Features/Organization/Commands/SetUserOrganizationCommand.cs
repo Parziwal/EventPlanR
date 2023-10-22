@@ -1,5 +1,5 @@
 ﻿using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions.Organization;
+using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using MediatR;
@@ -35,7 +35,7 @@ public class SetUserOrganizationCommandHandler : IRequestHandler<SetUserOrganiza
 
         if (!organization.MemberUserIds.Contains(_userContext.UserId))
         {
-            throw new UserNotBelongToOrganizationException();
+            throw new ForbiddenException("UserNotBelongToOrganizationException");
         }
 
         await _userClaimService.SetUserCurrentOrganization(_userContext.UserId, organization.Id);

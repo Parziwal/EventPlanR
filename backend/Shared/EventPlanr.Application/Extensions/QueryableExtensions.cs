@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
-using EventPlanr.Application.Exceptions.Common;
+using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Pagination;
 using Microsoft.EntityFrameworkCore;

@@ -1,8 +1,8 @@
 ﻿using EventPlanr.Domain.Enums;
 
-namespace EventPlanr.Application.Models.Order;
+namespace EventPlanr.Domain.Entities;
 
-public class StoreReservedTicketDto
+public class ReservedTicketEntity
 {
     public Guid TicketId { get; set; }
     public int Count { get; set; }

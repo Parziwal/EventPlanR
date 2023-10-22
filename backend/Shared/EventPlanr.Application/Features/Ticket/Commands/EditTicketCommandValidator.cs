@@ -2,9 +2,9 @@
 
 namespace EventPlanr.Application.Features.Ticket.Commands;
 
-public class UpdateTicketCommandValidator : AbstractValidator<UpdateTicketCommand>
+public class EditTicketCommandValidator : AbstractValidator<EditTicketCommand>
 {
-    public UpdateTicketCommandValidator()
+    public EditTicketCommandValidator()
     {
         RuleFor(x => x.TicketId)
             .NotEmpty();

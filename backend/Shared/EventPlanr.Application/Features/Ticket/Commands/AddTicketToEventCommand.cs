@@ -1,12 +1,15 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
+using EventPlanr.Application.Security;
+using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Entities;
 using MediatR;
 using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Ticket.Commands;
 
+[Authorize(OrganizationPolicy = OrganizationPolicies.EventTicketManage)]
 public class AddTicketToEventCommand : IRequest<Guid>
 {
     [JsonIgnore]
@@ -21,29 +24,24 @@ public class AddTicketToEventCommand : IRequest<Guid>
 
 public class AddTicketToEventCommandHandler : IRequestHandler<AddTicketToEventCommand, Guid>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
 
     public AddTicketToEventCommandHandler(IApplicationDbContext context, IUserContext user)
     {
-        _context = context;
+        _dbContext = context;
         _user = user;
     }
 
     public async Task<Guid> Handle(AddTicketToEventCommand request, CancellationToken cancellationToken)
     {
-        var eventEntity = await _context.Events
-            .SingleEntityAsync(e => e.Id == request.EventId);
-
-        //if (!_user.OrganizationIds.Contains(eventEntity.OrganizationId))
-        //{
-            //throw new UserNotBelongToOrganizationException(_user.UserId, eventEntity.OrganizationId.ToString());
-        //}
+        var eventEntity = await _dbContext.Events
+            .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
         if (eventEntity.FromDate > request.SaleStarts || eventEntity.ToDate < request.SaleStarts
             || eventEntity.FromDate > request.SaleEnds || eventEntity.ToDate < request.SaleEnds)
         {
-            throw new TicketSaleDatesNotBetweenEventDateException(request.SaleStarts, request.SaleEnds, eventEntity.FromDate, eventEntity.ToDate);
+            throw new DomainException("TicketSaleDatesNotBetweenEventDateException");
         }
 
         var ticket = new TicketEntity()
@@ -58,8 +56,8 @@ public class AddTicketToEventCommandHandler : IRequestHandler<AddTicketToEventCo
             Event = eventEntity,
         };
 
-        _context.Tickets.Add(ticket);
-        await _context.SaveChangesAsync();
+        _dbContext.Tickets.Add(ticket);
+        await _dbContext.SaveChangesAsync();
 
         return ticket.Id;
     }

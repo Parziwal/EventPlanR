@@ -1,7 +1,7 @@
 ﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using EventPlanr.Application.Contracts;
-using EventPlanr.Application.Exceptions.Common;
+using EventPlanr.Application.Exceptions;
 using EventPlanr.Domain.Entities;
 using EventPlanr.Infrastructure.Options;
 using Microsoft.Extensions.Options;

@@ -1,4 +1,4 @@
-﻿using EventPlanr.Application.Exceptions.Common;
+﻿using EventPlanr.Application.Exceptions;
 using EventPlanr.Domain.Constants;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;

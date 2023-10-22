@@ -60,5 +60,7 @@ public class EventConfiguration : IEntityTypeConfiguration<EventEntity>
             .WithMany(o => o.Events)
             .HasForeignKey(e => e.OrganizationId)
             .IsRequired(false);
+
+        builder.HasQueryFilter(x => x.IsDeleted == false);
     }
 }

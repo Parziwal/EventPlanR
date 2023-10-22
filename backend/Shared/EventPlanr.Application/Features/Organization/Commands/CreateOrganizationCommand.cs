@@ -50,6 +50,11 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
                 OrganizationPolicies.OrganizationManage,
                 OrganizationPolicies.OrganizationEventView,
                 OrganizationPolicies.OrganizationEventManage,
+                OrganizationPolicies.EventTicketView,
+                OrganizationPolicies.EventTicketManage,
+                OrganizationPolicies.NewsPostView,
+                OrganizationPolicies.NewsPostManage,
+                OrganizationPolicies.UserCheckIn,
             }
         };
         await _userClaimService.PutOrganizationToUserAsync(_user.UserId, organizationPolicy);

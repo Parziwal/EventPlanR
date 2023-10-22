@@ -22,6 +22,6 @@ public class InvitationConfiguration : IEntityTypeConfiguration<InvitationEntity
         builder.HasOne(i => i.Event)
             .WithMany(e => e.Invitations)
             .HasForeignKey(i => i.EventId)
-            .IsRequired();
+            .IsRequired(false);
     }
 }

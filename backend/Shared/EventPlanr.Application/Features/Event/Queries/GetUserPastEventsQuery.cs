@@ -33,6 +33,7 @@ public class GetUserPastEventsQueryHandler : IRequestHandler<GetUserPastEventsQu
     {
         return await _dbContext.Events
             .AsNoTracking()
+            .IgnoreQueryFilters()
             .Include(e => e.Organization)
             .Where(e => e.Tickets.Any(t => t.SoldTickets.Any(st => st.Order.CustomerUserId == _user.UserId)))
             .Where(e => e.FromDate < DateTimeOffset.Now)

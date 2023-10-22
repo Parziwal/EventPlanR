@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using ValidationException = EventPlanr.Application.Exceptions.ValidationException;
 
 namespace EventPlanr.Application.Behaviour;
 

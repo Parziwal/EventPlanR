@@ -55,4 +55,18 @@ public class MainController : ControllerBase
         {
             EventId = eventId,
         });
+
+    [HttpPost("publish/{eventId}")]
+    public Task PublishEvent(Guid eventId)
+        => _sender.Send(new PublishEventCommand()
+        {
+            EventId = eventId,
+        });
+
+    [HttpPut("unpublish/{eventId}")]
+    public Task UnPublishEvent(Guid eventId)
+        => _sender.Send(new UnPublishEventCommand()
+        {
+            EventId = eventId,
+        });
 }

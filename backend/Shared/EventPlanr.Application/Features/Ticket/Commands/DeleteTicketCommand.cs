@@ -1,11 +1,14 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
+using EventPlanr.Application.Security;
+using EventPlanr.Domain.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Ticket.Commands;
 
+[Authorize(OrganizationPolicy = OrganizationPolicies.EventTicketManage)]
 public class DeleteTicketCommand : IRequest
 {
     public Guid TicketId { get; set; }
@@ -13,25 +16,28 @@ public class DeleteTicketCommand : IRequest
 
 public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
+    private readonly IUserContext _user;
 
-    public DeleteTicketCommandHandler(IApplicationDbContext context)
+    public DeleteTicketCommandHandler(IApplicationDbContext dbContext, IUserContext user)
     {
-        _context = context;
+        _dbContext = dbContext;
+        _user = user;
     }
 
     public async Task Handle(DeleteTicketCommand request, CancellationToken cancellationToken)
     {
-        var ticket = await _context.Tickets
+        var ticket = await _dbContext.Tickets
             .Include(t => t.SoldTickets)
-            .SingleEntityAsync(t => t.Id == request.TicketId);
+            .SingleEntityAsync(t => t.Id == request.TicketId && t.Event.OrganizationId == _user.OrganizationId);
 
-        if (ticket.SoldTickets.Count() > 0)
+        if (ticket.RemainingCount != ticket.Count)
         {
-            throw new TicketCanNotBeDeletedException(ticket.Id);
+            throw new DomainException("Ticket type has no refunded tickets");
         }
 
-        _context.Tickets.Remove(ticket);
-        await _context.SaveChangesAsync();
+        ticket.SoldTickets.Clear();
+        _dbContext.Tickets.Remove(ticket);
+        await _dbContext.SaveChangesAsync();
     }
 }

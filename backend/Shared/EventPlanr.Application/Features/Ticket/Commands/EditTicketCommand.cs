@@ -1,13 +1,16 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
+using EventPlanr.Application.Security;
+using EventPlanr.Domain.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Ticket.Commands;
 
-public class UpdateTicketCommand : IRequest
+[Authorize(OrganizationPolicy = OrganizationPolicies.EventTicketManage)]
+public class EditTicketCommand : IRequest
 {
     [JsonIgnore]
     public Guid TicketId { get; set; }
@@ -18,44 +21,37 @@ public class UpdateTicketCommand : IRequest
     public DateTimeOffset SaleEnds { get; set; }
 }
 
-public class UpdateTicketCommandHandler : IRequestHandler<UpdateTicketCommand>
+public class EditTicketCommandHandler : IRequestHandler<EditTicketCommand>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
 
-    public UpdateTicketCommandHandler(IApplicationDbContext context, IUserContext user)
+    public EditTicketCommandHandler(IApplicationDbContext dbContext, IUserContext user)
     {
-        _context = context;
+        _dbContext = dbContext;
         _user = user;
     }
 
-    public async Task Handle(UpdateTicketCommand request, CancellationToken cancellationToken)
+    public async Task Handle(EditTicketCommand request, CancellationToken cancellationToken)
     {
-        var ticket = await _context.Tickets
+        var ticket = await _dbContext.Tickets
             .Include(t => t.Event)
             .Include(t => t.SoldTickets)
-            .SingleEntityAsync(t => t.Id == request.TicketId);
-
-        //if (!_user.OrganizationIds.Contains(ticket.Event.OrganizationId))
-        //{
-            //throw new UserNotBelongToOrganizationException(_user.UserId, ticket.Event.OrganizationId.ToString());
-        //}
+            .SingleEntityAsync(t => t.Id == request.TicketId && t.Event.OrganizationId == _user.OrganizationId);
 
         if (ticket.Event.FromDate > request.SaleStarts || ticket.Event.ToDate < request.SaleStarts
             || ticket.Event.FromDate > request.SaleEnds || ticket.Event.ToDate < request.SaleEnds)
         {
-            throw new TicketSaleDatesNotBetweenEventDateException(request.SaleStarts, request.SaleEnds, ticket.Event.FromDate, ticket.Event.ToDate);
+            throw new DomainException("TicketSaleDatesNotBetweenEventDateException");
         }
 
         ticket.Price = request.Price;
-        ticket.Count = request.Count;
+        ticket.Count = request.Count < ticket.SoldTickets.Count() ? ticket.SoldTickets.Count() : request.Count;
         ticket.Description = request.Description;
         ticket.SaleStarts = request.SaleStarts;
         ticket.SaleEnds = request.SaleEnds;
+        ticket.RemainingCount = ticket.Count - ticket.SoldTickets.Count();
 
-        var calculatedTicketCount = ticket.Count - ticket.SoldTickets.Count();
-        ticket.RemainingCount = calculatedTicketCount > 0 ? calculatedTicketCount : 0;
-
-        await _context.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
     }
 }

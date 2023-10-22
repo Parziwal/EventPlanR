@@ -2,17 +2,20 @@
 using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Order;
+using EventPlanr.Application.Security;
+using EventPlanr.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Order.Commands;
 
-public class ReserveUserTicketsCommand : IRequest
+[Authorize]
+public class ReserveUserTicketsCommand : IRequest<DateTimeOffset>
 {
     public List<AddReserveTicketDto> ReserveTickets { get; set; } = new List<AddReserveTicketDto>();
 }
 
-public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicketsCommand>
+public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicketsCommand, DateTimeOffset>
 {
     private readonly IApplicationDbContext _context;
     private readonly ITicketService _ticketService;
@@ -25,9 +28,9 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
         _user = user;
     }
 
-    public async Task Handle(ReserveUserTicketsCommand request, CancellationToken cancellationToken)
+    public async Task<DateTimeOffset> Handle(ReserveUserTicketsCommand request, CancellationToken cancellationToken)
     {
-        var storeTicket = new List<StoreReservedTicketDto>();
+        var storeTicket = new List<ReservedTicketEntity>();
         foreach (var reserveTicket in request.ReserveTickets)
         {
             var ticket = await _context.Tickets
@@ -35,16 +38,16 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
                 .SingleEntityAsync(t => t.Id == reserveTicket.TicketId);
             if (ticket.SaleStarts <= DateTimeOffset.Now && ticket.SaleEnds >= DateTimeOffset.Now)
             {
-                throw new TicketNotOnSaleException(ticket);
+                throw new DomainException("TicketNotOnSaleException");
             }
 
             if (ticket.RemainingCount < reserveTicket.Count)
             {
-                throw new NotEnoughTicketException(ticket);
+                throw new DomainException("NotEnoughTicketException");
             }
 
             ticket.RemainingCount -= reserveTicket.Count;
-            storeTicket.Add(new StoreReservedTicketDto()
+            storeTicket.Add(new ReservedTicketEntity()
             {
                 TicketId = ticket.Id,
                 Count = reserveTicket.Count,
@@ -53,7 +56,9 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
             });
         }
 
+        var resarvationTime = await _ticketService.ReserveTicketsAsync(_user.UserId, storeTicket);
         await _context.SaveChangesAsync();
-        await _ticketService.StoreReservedTicketsAsync(_user.UserId, storeTicket);
+
+        return resarvationTime;
     }
 }

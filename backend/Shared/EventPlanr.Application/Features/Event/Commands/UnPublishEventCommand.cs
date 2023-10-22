@@ -9,36 +9,40 @@ using Microsoft.EntityFrameworkCore;
 namespace EventPlanr.Application.Features.Event.Commands;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationEventManage)]
-public class DeleteEventCommand : IRequest
+public class UnPublishEventCommand : IRequest
 {
     public Guid EventId { get; set; }
 }
 
-public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand>
+public class UnPublishEventCommandHandler : IRequestHandler<UnPublishEventCommand>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
 
-    public DeleteEventCommandHandler(IApplicationDbContext dbContext, IUserContext user)
+    public UnPublishEventCommandHandler(IApplicationDbContext dbContext, IUserContext user)
     {
         _dbContext = dbContext;
         _user = user;
     }
 
-    public async Task Handle(DeleteEventCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UnPublishEventCommand request, CancellationToken cancellationToken)
     {
         var eventEntity = await _dbContext.Events
             .Include(e => e.Tickets)
-            .Include(e => e.NewsPosts)
-            .Include(e => e.Invitations)
+                .ThenInclude(t => t.SoldTickets)
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (eventEntity.IsPublished && eventEntity.ToDate > DateTime.UtcNow)
+        if (eventEntity.Tickets.Any(t => t.SoldTickets.Any(st => !st.IsRefunded)))
         {
-            throw new DomainException("PublishedEventCannotBeDeletedException");
+            throw new DomainException("Event with unrefunded orders cannot be deleted");
         }
 
-        _dbContext.Events.Remove(eventEntity);
+        if (eventEntity.ToDate < DateTime.UtcNow)
+        {
+            throw new DomainException("Past event cannot be unpublished");
+        }
+
+        eventEntity.IsPublished = false;
 
         await _dbContext.SaveChangesAsync();
     }

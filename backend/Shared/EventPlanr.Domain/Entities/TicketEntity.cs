@@ -2,7 +2,7 @@
 
 namespace EventPlanr.Domain.Entities;
 
-public class TicketEntity : BaseAuditableEntity
+public class TicketEntity : BaseSoftDeleteAuditableEntity
 {
     public string Name { get; set; } = null!;
     public double Price { get; set; }

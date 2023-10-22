@@ -11,7 +11,7 @@ public class PageDtoValidator : AbstractValidator<PageDto>
             .NotNull();
         RuleFor(x => x.PageSize)
             .GreaterThanOrEqualTo(1)
-            .GreaterThanOrEqualTo(50)
+            .LessThanOrEqualTo(50)
             .NotNull();
     }
 }

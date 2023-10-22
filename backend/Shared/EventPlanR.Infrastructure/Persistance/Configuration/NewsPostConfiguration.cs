@@ -19,6 +19,6 @@ public class NewsPostConfiguration : IEntityTypeConfiguration<NewsPostEntity>
         builder.HasOne(np => np.Event)
             .WithMany(e => e.NewsPosts)
             .HasForeignKey(np => np.EventId)
-            .IsRequired();
+            .IsRequired(false);
     }
 }
