@@ -13,11 +13,13 @@ class MapLocationFormField extends StatefulWidget {
     required this.latitudeFieldName,
     required this.longitudeFieldName,
     required this.locationPicked,
+    this.initialLocation,
     super.key,
   });
 
   final String latitudeFieldName;
   final String longitudeFieldName;
+  final LatLng? initialLocation;
   final void Function(LatLng location) locationPicked;
 
   @override
@@ -33,6 +35,12 @@ class _MapLocationFormFieldState extends State<MapLocationFormField> {
   LatLng? _pickedLocation;
 
   @override
+  void initState() {
+    super.initState();
+    _pickedLocation = widget.initialLocation;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
@@ -46,6 +54,7 @@ class _MapLocationFormFieldState extends State<MapLocationFormField> {
         FormBuilderTextField(
           key: _latitudeFieldKey,
           name: widget.latitudeFieldName,
+          initialValue: widget.initialLocation?.latitude.toString(),
           valueTransformer: (value) =>
               value != null ? double.parse(value) : null,
           validator: FormBuilderValidators.compose(
@@ -61,6 +70,7 @@ class _MapLocationFormFieldState extends State<MapLocationFormField> {
         FormBuilderTextField(
           key: _longitudeFieldKey,
           name: widget.longitudeFieldName,
+          initialValue: widget.initialLocation?.longitude.toString(),
           enabled: false,
           valueTransformer: (value) =>
               value != null ? double.parse(value) : null,
@@ -76,9 +86,10 @@ class _MapLocationFormFieldState extends State<MapLocationFormField> {
         ),
         FlutterMap(
           mapController: _mapController,
-          options: const MapOptions(
-            initialZoom: 1,
-            interactionOptions: InteractionOptions(
+          options: MapOptions(
+            initialZoom: widget.initialLocation != null ? 14 : 1,
+            initialCenter: widget.initialLocation ?? const LatLng(50.5, 30.51),
+            interactionOptions: const InteractionOptions(
               enableScrollWheel: false,
               flags: InteractiveFlag.none,
             ),
@@ -116,7 +127,7 @@ class _MapLocationFormFieldState extends State<MapLocationFormField> {
             padding: const EdgeInsets.all(8),
             color: theme.colorScheme.error,
             child: Text(
-              l10n.createEvent_LocationMustBeSet,
+              l10n.createOrEditEvent_LocationMustBeSet,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onError,
               ),
@@ -131,11 +142,10 @@ class _MapLocationFormFieldState extends State<MapLocationFormField> {
     if (location != null) {
       setState(() {
         _pickedLocation = location;
-        _mapController.move(location, 9);
+        _mapController.move(location, 14);
         _latitudeFieldKey.currentState?.reset();
         _longitudeFieldKey.currentState?.reset();
-        _latitudeFieldKey.currentState
-            ?.setValue(location.latitude.toString());
+        _latitudeFieldKey.currentState?.setValue(location.latitude.toString());
         _longitudeFieldKey.currentState
             ?.setValue(location.longitude.toString());
       });

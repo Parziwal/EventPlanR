@@ -74,6 +74,10 @@ extension AddressX on Address {
       addressLine: addressLine,
     );
   }
+
+  String formatToString() {
+    return '$country, $zipCode $city, $addressLine';
+  }
 }
 
 extension CoordinatesX on Coordinates {

@@ -2,7 +2,7 @@ import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
-import 'package:event_planr_app/ui/organize/create_or_edit_organization/widgets/create_organization_form.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_organization/widgets/create_or_edit_organization_form.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class CreateOrEditOrganizationPage extends StatelessWidget {
                 disabled:
                     state.status == CreateOrEditOrganizationStatus.loading,
                 organizationDetails: state.organizationDetails,
-                key: ValueKey(state.organizationDetails?.id ?? 's'),
+                key: ValueKey(state.organizationDetails?.id),
               ),
             ),
           ),

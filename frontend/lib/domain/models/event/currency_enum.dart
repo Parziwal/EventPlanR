@@ -1,5 +1,5 @@
 enum CurrencyEnum {
-  huh,
+  huf,
   eur,
   usd,
   gbp,

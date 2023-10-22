@@ -1,9 +1,9 @@
 import 'package:event_planr_app/domain/models/common/address.dart';
-import 'package:event_planr_app/domain/models/common/coordinates.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:latlong2/latlong.dart';
 
 part 'event_details.freezed.dart';
 
@@ -17,7 +17,7 @@ class EventDetails with _$EventDetails {
     required DateTime toDate,
     required String venue,
     required Address address,
-    required Coordinates coordinates,
+    required LatLng coordinates,
     required Organization organization,
     String? description,
     String? coverImageUrl,

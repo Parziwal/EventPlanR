@@ -1,25 +1,41 @@
+import 'package:event_planr_app/domain/models/event/create_or_edit_event.dart';
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
+import 'package:event_planr_app/domain/models/event/organization_event_details.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/organize/create_event/cubit/create_event_cubit.dart';
-import 'package:event_planr_app/ui/organize/create_event/widgets/map_location_form_field.dart';
+import 'package:event_planr_app/l10n/l10n_enums.dart';
+import 'package:event_planr_app/ui/organize/create_or_delete_event/cubit/create_or_edit_event_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_or_delete_event/widgets/map_location_form_field.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:latlong2/latlong.dart';
 
-class CreateEventForm extends StatefulWidget {
-  const CreateEventForm({this.disabled = false, super.key});
+class CreateOrEditEventForm extends StatefulWidget {
+  const CreateOrEditEventForm({
+    this.eventDetails,
+    this.disabled = false,
+    super.key,
+  });
 
   final bool disabled;
+  final OrganizationEventDetails? eventDetails;
 
   @override
-  State<CreateEventForm> createState() => _CreateEventFormState();
+  State<CreateOrEditEventForm> createState() => _CreateOrEditEventFormState();
 }
 
-class _CreateEventFormState extends State<CreateEventForm> {
+class _CreateOrEditEventFormState extends State<CreateOrEditEventForm> {
   final _formKey = GlobalKey<FormBuilderState>();
+  late final bool _edit;
+
+  @override
+  void initState() {
+    super.initState();
+    _edit = widget.eventDetails != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +44,16 @@ class _CreateEventFormState extends State<CreateEventForm> {
 
     return FormBuilder(
       key: _formKey,
+      initialValue: _edit
+          ? {
+              ...widget.eventDetails!.toJson(),
+              'fromDate': widget.eventDetails!.fromDate,
+              'toDate': widget.eventDetails!.toDate,
+              ...widget.eventDetails!.address
+                  .toJson()
+                  .map((key, value) => MapEntry('address.$key', value)),
+            }
+          : {},
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -43,6 +69,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
           const SizedBox(height: 16),
           _locationField(context),
           const SizedBox(height: 16),
+          _venueField(context),
+          const SizedBox(height: 16),
           _countryField(context),
           const SizedBox(height: 16),
           _zipCodeField(context),
@@ -56,21 +84,37 @@ class _CreateEventFormState extends State<CreateEventForm> {
           _isPrivateField(context),
           const SizedBox(height: 32),
           FilledButton(
-            onPressed: !widget.disabled ? _create : null,
+            onPressed: !widget.disabled ? _submit : null,
             style: FilledButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10n.create),
+            child: Text(l10n.submit),
           ),
         ],
       ),
     );
   }
 
-  void _create() {
+  void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      final address = _formKey.currentState!.value.entries
+          .where((a) => a.key.startsWith('address'))
+          .map((a) => MapEntry(a.key.split('.')[1], a.value));
+      final coordinates = _formKey.currentState!.value.entries
+          .where((c) => c.key.startsWith('coordinates'))
+          .map((c) => MapEntry(c.key.split('.')[1], c.value));
+      context.read<CreateOrEditEventCubit>().createOrEditEvent(
+            CreateOrEditEvent.fromJson({
+              ..._formKey.currentState!.value,
+              'address': Map.fromEntries(address),
+              'coordinates': Map.fromEntries(coordinates),
+              if (_edit)
+                'id': widget.eventDetails!.id,
+            }),
+          );
     }
   }
 
@@ -79,9 +123,9 @@ class _CreateEventFormState extends State<CreateEventForm> {
 
     return FormBuilderTextField(
       name: 'name',
-      enabled: !widget.disabled,
+      enabled: !widget.disabled && !_edit,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_Name,
+        hintText: l10n.createOrEditEvent_Name,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(
@@ -101,7 +145,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
       enabled: !widget.disabled,
       maxLines: 4,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_Description,
+        hintText: l10n.createOrEditEvent_Description,
         filled: true,
       ),
     );
@@ -116,17 +160,17 @@ class _CreateEventFormState extends State<CreateEventForm> {
       items: EventCategoryEnum.values
           .map(
             (e) => DropdownMenuItem(
-              value: e.index,
-              child: Text(e.name),
+              value: e.name,
+              child: Text(l10n.translateEnums(e.name)),
             ),
           )
           .toList(),
       decoration: InputDecoration(
-        hintText: l10n.createEvent_Category,
+        hintText: l10n.createOrEditEvent_Category,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required<int>(),
+        FormBuilderValidators.required<String>(),
       ]),
     );
   }
@@ -138,12 +182,25 @@ class _CreateEventFormState extends State<CreateEventForm> {
       name: 'fromDate',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_FromDate,
+        hintText: l10n.createOrEditEvent_FromDate,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(),
+        (value) {
+          if (value!.isAfter(
+            _formKey.currentState!.fields['toDate']!.value as DateTime,
+          )) {
+            return l10n.createOrEditEvent_FromDateMustBeBeforeToDate;
+          }
+          if (value.isBefore(DateTime.now())) {
+            return l10n.createOrEditEvent_FromDateMustBeAfterCurrentDate;
+          }
+
+          return null;
+        }
       ]),
+      valueTransformer: (value) => value.toString(),
     );
   }
 
@@ -154,38 +211,70 @@ class _CreateEventFormState extends State<CreateEventForm> {
       name: 'toDate',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_ToDate,
+        hintText: l10n.createOrEditEvent_ToDate,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(),
+        (value) {
+          if (value!.isBefore(
+            _formKey.currentState!.fields['fromDate']!.value as DateTime,
+          )) {
+            return l10n.createOrEditEvent_ToDateMustBeAfterFromDate;
+          }
+
+          return null;
+        }
       ]),
+      valueTransformer: (value) => value.toString(),
     );
   }
 
   Widget _locationField(BuildContext context) {
-    return BlocListener<CreateEventCubit, CreateEventState>(
+    return BlocListener<CreateOrEditEventCubit, CreateOrEditEventState>(
       listener: (context, state) {
-        if (state.address != null) {
+        if (state.location != null) {
           _formKey.currentState?.patchValue({
-            'address.country': state.address!.country,
-            'address.city': state.address!.city,
-            'address.zipCode': state.address!.zipCode,
-            'address.addressLine':
-                '${state.address!.road} ${state.address!.houseNumber}',
+            'venue': state.location!.displayName.split(',')[0],
+            'address.country': state.location!.address.country,
+            'address.city': state.location!.address.city,
+            'address.zipCode': state.location!.address.zipCode,
+            'address.addressLine': '${state.location!.address.road} '
+                '${state.location!.address.houseNumber}',
           });
         }
       },
       child: SizedBox(
         height: 300,
         child: MapLocationFormField(
+          initialLocation: _edit ? LatLng(
+            widget.eventDetails!.coordinates.latitude,
+            widget.eventDetails!.coordinates.longitude,
+          ) : null,
           latitudeFieldName: 'coordinates.latitude',
           longitudeFieldName: 'coordinates.longitude',
           locationPicked: (location) {
-            context.read<CreateEventCubit>().getLocationAddress(location);
+            context.read<CreateOrEditEventCubit>().getLocationAddress(location);
           },
         ),
       ),
+    );
+  }
+
+  Widget _venueField(BuildContext context) {
+    final l10n = context.l10n;
+
+    return FormBuilderTextField(
+      name: 'venue',
+      enabled: !widget.disabled,
+      decoration: InputDecoration(
+        hintText: l10n.createOrEditEvent_Venue,
+        filled: true,
+      ),
+      validator: FormBuilderValidators.compose([
+        FormBuilderValidators.required(),
+        FormBuilderValidators.maxLength(64),
+      ]),
     );
   }
 
@@ -196,7 +285,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
       name: 'address.country',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_Country,
+        hintText: l10n.createOrEditEvent_Country,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -213,7 +302,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
       name: 'address.zipCode',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_ZipCode,
+        hintText: l10n.createOrEditEvent_ZipCode,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -230,7 +319,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
       name: 'address.city',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_City,
+        hintText: l10n.createOrEditEvent_City,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -247,7 +336,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
       name: 'address.addressLine',
       enabled: !widget.disabled,
       decoration: InputDecoration(
-        hintText: l10n.createEvent_AddressLine,
+        hintText: l10n.createOrEditEvent_AddressLine,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -265,18 +354,18 @@ class _CreateEventFormState extends State<CreateEventForm> {
       enabled: !widget.disabled,
       items: CurrencyEnum.values
           .map(
-            (e) => DropdownMenuItem(
-              value: e.index,
-              child: Text(e.name),
+            (c) => DropdownMenuItem(
+              value: c.name,
+              child: Text(l10n.translateEnums(c.name)),
             ),
           )
           .toList(),
       decoration: InputDecoration(
-        hintText: l10n.createEvent_Currency,
+        hintText: l10n.createOrEditEvent_Currency,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required<int>(),
+        FormBuilderValidators.required<String>(),
       ]),
     );
   }
@@ -287,8 +376,9 @@ class _CreateEventFormState extends State<CreateEventForm> {
 
     return FormBuilderCheckbox(
       name: 'isPrivate',
+      initialValue: _edit ? null : false,
       title: Text(
-        l10n.createEvent_IsPrivate,
+        l10n.createOrEditEvent_IsPrivate,
         style: theme.textTheme.titleMedium,
       ),
       enabled: !widget.disabled,

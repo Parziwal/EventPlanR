@@ -17,7 +17,8 @@ class BlocRoute<TCubit extends Cubit<dynamic>> extends GoRoute {
               key: ValueKey(state.fullPath),
               create: (context) {
                 final a = injector<TCubit>();
-                if (init != null && state.matchedLocation == state.fullPath) {
+                if (init != null &&
+                    state.matchedLocation == state.uri.toString()) {
                   init(a, state);
                 }
                 return a;

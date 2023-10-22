@@ -101,7 +101,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ImageWrapper(),
+            ImageWrapper(imageUrl: organizationDetails.profileImageUrl),
             const SizedBox(height: 16),
             Text(
               organizationDetails.name,

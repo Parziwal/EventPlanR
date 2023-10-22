@@ -12,6 +12,7 @@ class OrganizeNavbarState with _$OrganizeNavbarState {
     @Default('')
     String desktopTitle,
     Organization? organization,
+    OrganizationEvent? event,
     User? user,
     String? errorCode,
   }) = _OrganizeNavbarState;

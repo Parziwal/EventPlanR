@@ -1,5 +1,6 @@
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/domain/models/auth/user.dart';
+import 'package:event_planr_app/domain/models/event/organization_event.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/organization_manager_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,6 +50,10 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
         ),
       );
     }
+  }
+
+  void selectEvent(OrganizationEvent event) {
+    emit(state.copyWith(event: event));
   }
 
   Future<void> logout() async {

@@ -1,11 +1,15 @@
 import 'package:event_planr_app/app/router.dart';
+import 'package:event_planr_app/domain/models/event/organization_event.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_events/widgets/organization_event_item.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:responsive_framework/responsive_framework.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:responsive_framework/max_width_box.dart';
 
 class OrganizationEventsPage extends StatefulWidget {
   const OrganizationEventsPage({super.key});
@@ -17,20 +21,38 @@ class OrganizationEventsPage extends StatefulWidget {
 class _OrganizationEventsPageState extends State<OrganizationEventsPage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  final PagingController<int, OrganizationEvent> _pagingController =
+      PagingController(firstPageKey: 1);
+  bool initialized = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (initialized) {
+      return;
+    }
+    initialized = true;
 
     _tabController = TabController(
       length: 3,
       vsync: this,
     );
+
+    _pagingController.addPageRequestListener(loadOrganizationEvents);
+
+    context.watch<OrganizationEventsCubit>().stream.listen((state) {
+      _pagingController.value = PagingState(
+        error: state.errorCode,
+        itemList: state.events?.items,
+      );
+    });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _pagingController.dispose();
     super.dispose();
   }
 
@@ -44,9 +66,8 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
       tabBar: TabBar(
         controller: _tabController,
         onTap: (int index) {
-          setState(() {
-            _tabController.animateTo(index);
-          });
+          _tabController.animateTo(index);
+          _pagingController.refresh();
         },
         tabs: [
           Tab(text: l10n.organizationEvents_Upcoming),
@@ -71,23 +92,43 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
           ),
         ),
       ],
-      body: Center(
-        child: MaxWidthBox(
-          maxWidth: 1000,
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 700,
-              mainAxisExtent: 100,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
+      body: MaxWidthBox(
+        maxWidth: 1000,
+        child: PagedGridView<int, OrganizationEvent>(
+          showNoMoreItemsIndicatorAsGridChild: false,
+          showNewPageErrorIndicatorAsGridChild: false,
+          pagingController: _pagingController,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 700,
+            mainAxisExtent: 100,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+          ),
+          padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
+          builderDelegate: PagedChildBuilderDelegate<OrganizationEvent>(
+            itemBuilder: (context, item, index) => OrganizationEventItem(
+              event: item,
             ),
-            padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
-            itemBuilder: (context, index) {
-              return const OrganizationEventItem();
-            },
           ),
         ),
       ),
     );
+  }
+
+  void loadOrganizationEvents(int pageNumber) {
+    switch (_tabController.index) {
+      case 0:
+        context
+            .read<OrganizationEventsCubit>()
+            .getOrganizationUpcomingEvents(pageNumber);
+      case 1:
+        context
+            .read<OrganizationEventsCubit>()
+            .getOrganizationDraftEvents(pageNumber);
+      case 2:
+        context
+            .read<OrganizationEventsCubit>()
+            .getOrganizationPastEvents(pageNumber);
+    }
   }
 }

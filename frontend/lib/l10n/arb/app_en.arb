@@ -14,6 +14,22 @@
   "enum_OrganizationManage": "Organization manage",
   "enum_OrganizationEventView": "Event view",
   "enum_OrganizationEventManage": "Event manage",
+  "enum_Conference": "Conference",
+  "enum_TradeShows": "Trade shows",
+  "enum_Workshop": "Workshop",
+  "enum_Networking": "Networking",
+  "enum_SocialGathering": "Social gathering",
+  "enum_Community": "Community",
+  "enum_Entertainment": "Entertainment",
+  "enum_Competition": "Competition",
+  "enum_Sport": "Sport",
+  "enum_Cultural": "Cultural",
+  "enum_Travel": "Travel",
+  "enum_Other": "Other",
+  "enum_HUF": "Hungarian forint",
+  "enum_EUR": "Euro",
+  "enum_USD": "Us dollar",
+  "enum_GBP": "British Pound",
   "auth_SignIn": "Sign In",
   "auth_SignUp": "Sign Up",
   "auth_Email": "Email",
@@ -79,6 +95,13 @@
   "organizeNavbar_SwitchOrganization": "Switch organization",
   "organizeNavbar_BackToMain": "Back to main",
   "organizeNavbar_NoOrganizationSelected": "No organization selected",
+  "organizeNavbar_Statistics": "Statistics",
+  "organizeNavbar_Ticket": "Ticket",
+  "organizeNavbar_NewsPost": "News post",
+  "organizeNavbar_Order": "Order",
+  "organizeNavbar_CheckIn": "Check in",
+  "organizeNavbar_Chat": "Chat",
+  "organizeNavbar_Invite": "Invite",
   "userOrganizations": "Organizations",
   "userOrganizations_CreateOrganization": "Create organization",
   "userOrganizations_OrganizationSelected": "Organization successfully selected",
@@ -98,7 +121,7 @@
       }
     }
   },
-  "userOrganizationDetails_AreYouSureYouWantToDeleteOrganization": "Are you sure you want to delete {organizationName}?",
+  "userOrganizationDetails_AreYouSureYouWantToDeleteOrganization": "Are you sure you want to delete '{organizationName}' organization?",
   "@userOrganizationDetails_AreYouSureYouWantToDeleteOrganization": {
     "placeholders": {
       "organizationName": {
@@ -117,17 +140,69 @@
   "organizationEvents_Draft": "Draft",
   "organizationEvents_Past": "Past",
   "organizationEvents_AddEvent": "Add event",
-  "createEvent": "Create event",
-  "createEvent_Name": "Name",
-  "createEvent_Description": "Description",
-  "createEvent_Category": "Category",
-  "createEvent_FromDate": "From date",
-  "createEvent_ToDate": "To date",
-  "createEvent_Country": "Country",
-  "createEvent_ZipCode": "Zip code",
-  "createEvent_City": "City",
-  "createEvent_AddressLine": "Address line",
-  "createEvent_IsPrivate": "Private",
-  "createEvent_Currency": "Currency",
-  "createEvent_LocationMustBeSet": "Location must be set"
+  "createOrEditEvent_Create": "Create event",
+  "createOrEditEvent_Edit": "Edit event",
+  "createOrEditEvent_Name": "Name",
+  "createOrEditEvent_Description": "Description",
+  "createOrEditEvent_Category": "Category",
+  "createOrEditEvent_FromDate": "From date",
+  "createOrEditEvent_ToDate": "To date",
+  "createOrEditEvent_Venue": "Venue",
+  "createOrEditEvent_Country": "Country",
+  "createOrEditEvent_ZipCode": "Zip code",
+  "createOrEditEvent_City": "City",
+  "createOrEditEvent_AddressLine": "Address line",
+  "createOrEditEvent_IsPrivate": "Private",
+  "createOrEditEvent_Currency": "Currency",
+  "createOrEditEvent_LocationMustBeSet": "Location must be set",
+  "createOrEditEvent_FromDateMustBeBeforeToDate": "From date must be before To date",
+  "createOrEditEvent_FromDateMustBeAfterCurrentDate": "From date must be after the current date",
+  "createOrEditEvent_ToDateMustBeAfterFromDate": "To date must be after From date",
+  "createOrEditEvent_EventCreated": "Event created",
+  "createOrEditEvent_EvenUpdated": "Event updated",
+  "organizationEventDetails": "Event details",
+  "organizationEventDetails_About": "About",
+  "organizationEventDetails_Currency": "Currency: {currencyName}",
+  "@organizationEventDetails_Currency": {
+    "placeholders": {
+      "currencyName": {
+        "type": "String"
+      }
+    }
+  },
+  "organizationEventDetails_VisibilityPrivateEvent": "Visibility: private event",
+  "organizationEventDetails_VisibilityPublicEvent": "Visibility: public event",
+  "organizationEventDetails_Created": "Created: {userName}, {createdAt}",
+  "@organizationEventDetails_Created": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "createdAt": {
+        "type": "String"
+      }
+    }
+  },
+  "organizationEventDetails_LastModified": "Last modified: {userName}, {modifiedAt}",
+  "@organizationEventDetails_LastModified": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "modifiedAt": {
+        "type": "String"
+      }
+    }
+  },
+  "organizationEventDetails_EditEvent": "Edit event",
+  "organizationEventDetails_DeleteEvent": "Delete event",
+  "organizationEventDetails_PublishEvent": "Publish event",
+  "organizationEventDetails_AreYouSureYouWantToDeleteEvent": "Are you sure you want to delete '{eventName}' event?",
+  "@organizationEventDetails_AreYouSureYouWantToDeleteEvent": {
+    "placeholders": {
+      "eventName": {
+        "type": "String"
+      }
+    }
+  }
 }

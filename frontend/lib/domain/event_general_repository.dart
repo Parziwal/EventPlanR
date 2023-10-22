@@ -10,6 +10,7 @@ import 'package:event_planr_app/domain/models/organization/organization_details.
 import 'package:event_planr_app/domain/models/ticket/ticket.dart';
 import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:injectable/injectable.dart';
+import 'package:latlong2/latlong.dart';
 
 @singleton
 class EventGeneralRepository {
@@ -21,12 +22,10 @@ class EventGeneralRepository {
   Future<PaginatedList<Event>> getFilteredEvents(EventFilter filter) async {
     final events = await _eventGeneralClient.getEventgeneral(
       searchTerm: filter.searchTerm,
-      category: filter.category != null
-          ? filter.category!.toNetworkEnum()
-          : null,
-      currency: filter.currency != null
-          ? filter.currency!.toNetworkEnum()
-          : null,
+      category:
+          filter.category != null ? filter.category!.toNetworkEnum() : null,
+      currency:
+          filter.currency != null ? filter.currency!.toNetworkEnum() : null,
       fromDate: filter.fromDate,
       toDate: filter.toDate,
       object0: filter.latitude,
@@ -76,7 +75,8 @@ class EventGeneralRepository {
       toDate: event.toDate,
       venue: event.venue,
       address: event.address.toDomainModel(),
-      coordinates: event.coordinates.toDomainModel(),
+      coordinates:
+          LatLng(event.coordinates.latitude, event.coordinates.longitude),
       organization: Organization(
         id: event.organization.id,
         name: event.organization.name,

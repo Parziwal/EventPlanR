@@ -3,8 +3,10 @@ import 'package:event_planr_app/domain/models/common/coordinates.dart';
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:latlong2/latlong.dart';
 
 part 'organization_event_details.freezed.dart';
+part 'organization_event_details.g.dart';
 
 @freezed
 class OrganizationEventDetails with _$OrganizationEventDetails {
@@ -16,7 +18,7 @@ class OrganizationEventDetails with _$OrganizationEventDetails {
     required DateTime toDate,
     required String venue,
     required Address address,
-    required Coordinates coordinates,
+    required LatLng coordinates,
     required CurrencyEnum currency,
     required bool isPrivate,
     required bool isPublished,
@@ -27,4 +29,7 @@ class OrganizationEventDetails with _$OrganizationEventDetails {
     String? description,
     String? coverImageUrl,
   }) = _OrganizationEventDetails;
+
+  factory OrganizationEventDetails.fromJson(Map<String, dynamic> json) =>
+      _$OrganizationEventDetailsFromJson(json);
 }

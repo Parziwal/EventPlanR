@@ -8,6 +8,7 @@ import 'package:event_planr_app/domain/models/event/organization_event_details.d
 import 'package:event_planr_app/domain/models/event/organization_event_filter.dart';
 import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:injectable/injectable.dart';
+import 'package:latlong2/latlong.dart';
 
 @singleton
 class EventManagerRepository {
@@ -114,7 +115,10 @@ class EventManagerRepository {
       toDate: event.toDate,
       venue: event.venue,
       address: event.address.toDomainModel(),
-      coordinates: event.coordinates.toDomainModel(),
+      coordinates: LatLng(
+        event.coordinates.latitude,
+        event.coordinates.longitude,
+      ),
       currency: event.currency.toDomainEnum(),
       isPrivate: event.isPrivate,
       isPublished: event.isPublished,
@@ -160,5 +164,9 @@ class EventManagerRepository {
         ),
       );
     }
+  }
+
+  Future<void> deleteEvent(String eventId) async {
+    await _eventManagerClient.deleteEventmanagerEventId(eventId: eventId);
   }
 }

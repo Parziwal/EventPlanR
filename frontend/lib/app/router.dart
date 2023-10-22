@@ -21,10 +21,12 @@ import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart'
 import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
-import 'package:event_planr_app/ui/organize/create_event/cubit/create_event_cubit.dart';
-import 'package:event_planr_app/ui/organize/create_event/view/create_event_page.dart';
+import 'package:event_planr_app/ui/organize/create_or_delete_event/cubit/create_or_edit_event_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_or_delete_event/view/create_or_edit_event_page.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/view/create_or_edit_organization_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_details/cubit/organization_event_details_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_details/view/organization_event_details_page.dart';
 import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_events/view/organization_events_page.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
@@ -68,6 +70,12 @@ class PagePaths {
   static String userOrganizationEdit = '/userOrganizationDetails/edit';
   static String organizationEvents = '/organizationEvents';
   static String organizationEventsCreate = '/organizationEvents/create';
+
+  static String organizationEventDetails(String eventId) =>
+      '/organizationEventDetails/$eventId';
+
+  static String organizationEventEdit(String eventId) =>
+      '/organizationEventDetails/$eventId/edit';
 }
 
 final appRouter = GoRouter(
@@ -188,9 +196,24 @@ final appRouter = GoRouter(
           path: PagePaths.organizationEvents,
           builder: (state) => const OrganizationEventsPage(),
           routes: [
-            BlocRoute<CreateEventCubit>(
+            BlocRoute<CreateOrEditEventCubit>(
               path: 'create',
-              builder: (state) => const CreateEventPage(),
+              builder: (state) => const CreateOrEditEventPage(),
+            ),
+          ],
+        ),
+        BlocRoute<OrganizationEventDetailsCubit>(
+          path: PagePaths.organizationEventDetails(':eventId'),
+          builder: (state) => const OrganizationEventDetailsPage(),
+          init: (cubit, state) =>
+              cubit.loadEventDetails(state.pathParameters['eventId']!),
+          routes: [
+            BlocRoute<CreateOrEditEventCubit>(
+              path: 'edit',
+              builder: (state) => const CreateOrEditEventPage(),
+              init: (cubit, state) => cubit.loadEventDetailsForEdit(
+                state.pathParameters['eventId']!,
+              ),
             ),
           ],
         ),
