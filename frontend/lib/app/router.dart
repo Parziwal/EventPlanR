@@ -138,6 +138,8 @@ final appRouter = GoRouter(
             BlocRoute<EventDetailsCubit>(
               path: 'details/:eventId',
               builder: (state) => const EventDetailsPage(),
+              init: (cubit, state) =>
+                  cubit.loadEventDetails(state.pathParameters['eventId']!),
               routes: [
                 BlocRoute<EventTicketsCubit>(
                   path: 'tickets',
