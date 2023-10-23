@@ -1,8 +1,21 @@
+import 'package:event_planr_app/ui/event/event_tickets/cubit/event_tickets_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuantitySelector extends StatefulWidget {
-  const QuantitySelector({super.key});
+  const QuantitySelector({
+    required this.maxCount,
+    required this.ticketAdded,
+    required this.ticketRemoved,
+    this.disabled = false,
+    super.key,
+  });
+
+  final bool disabled;
+  final int maxCount;
+  final void Function() ticketAdded;
+  final void Function() ticketRemoved;
 
   @override
   State<QuantitySelector> createState() => _QuantitySelectorState();
@@ -12,8 +25,13 @@ class _QuantitySelectorState extends State<QuantitySelector> {
   int _quantity = 0;
 
   void _increase() {
+    if (_quantity >= widget.maxCount) {
+      return;
+    }
+
     setState(() {
       _quantity += 1;
+      widget.ticketAdded();
     });
   }
 
@@ -24,6 +42,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
 
     setState(() {
       _quantity -= 1;
+      widget.ticketRemoved();
     });
   }
 
@@ -39,7 +58,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
       child: Row(
         children: [
           IconButton(
-            onPressed: _decrease,
+            onPressed: !widget.disabled ? _decrease : null,
             icon: const Icon(Icons.remove),
           ),
           Text(
@@ -47,7 +66,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
             style: theme.textTheme.titleLarge,
           ),
           IconButton(
-            onPressed: _increase,
+            onPressed: !widget.disabled ? _increase : null,
             icon: const Icon(Icons.add),
           ),
         ],
