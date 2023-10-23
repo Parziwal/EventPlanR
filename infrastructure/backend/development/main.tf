@@ -29,6 +29,10 @@ module "event_planr_api" {
     "/userticket" = {
       lambda_invoke_arn = module.lambda_apis["user_ticket_api"].invoke_arn,
       use_authorization = true
+    },
+    "/newspost" = {
+      lambda_invoke_arn = module.lambda_apis["news_post_api"].invoke_arn,
+      use_authorization = true
     }
   }
 }

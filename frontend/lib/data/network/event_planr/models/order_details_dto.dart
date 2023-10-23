@@ -8,11 +8,12 @@ import 'address_dto.dart';
 import 'currency.dart';
 import 'sold_ticket_dto.dart';
 
-part 'order_dto.g.dart';
+part 'order_details_dto.g.dart';
 
 @JsonSerializable()
-class OrderDto {
-  const OrderDto({
+class OrderDetailsDto {
+  const OrderDetailsDto({
+    required this.id,
     required this.customerFirstName,
     required this.customerLastName,
     required this.billingAddress,
@@ -21,8 +22,9 @@ class OrderDto {
     required this.soldTickets,
   });
   
-  factory OrderDto.fromJson(Map<String, Object?> json) => _$OrderDtoFromJson(json);
+  factory OrderDetailsDto.fromJson(Map<String, Object?> json) => _$OrderDetailsDtoFromJson(json);
   
+  final String id;
   final String customerFirstName;
   final String customerLastName;
   final AddressDto billingAddress;
@@ -30,5 +32,5 @@ class OrderDto {
   final Currency currency;
   final List<SoldTicketDto> soldTickets;
 
-  Map<String, Object?> toJson() => _$OrderDtoToJson(this);
+  Map<String, Object?> toJson() => _$OrderDetailsDtoToJson(this);
 }

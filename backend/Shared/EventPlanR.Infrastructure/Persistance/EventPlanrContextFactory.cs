@@ -7,7 +7,7 @@ public class EventPlanrContextFactory : IDesignTimeDbContextFactory<EventPlanrDb
     public EventPlanrDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<EventPlanrDbContext>();
-        optionsBuilder.UseNpgsql(args[0]);
+        optionsBuilder.UseNpgsql(args.Length > 0 ? args[0] : "");
         
         return new EventPlanrDbContext(optionsBuilder.Options);
     }

@@ -12,4 +12,5 @@ public class SoldTicketEntity : BaseEntity
     public Guid OrderId { get; set; }
     public OrderEntity Order { get; set; } = null!;
     public bool IsRefunded { get; set; }
+    public bool IsCheckedIn { get; set; }
 }

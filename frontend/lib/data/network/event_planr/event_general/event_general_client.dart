@@ -9,6 +9,7 @@ import '../models/currency.dart';
 import '../models/event_category.dart';
 import '../models/event_details_dto.dart';
 import '../models/event_dto_paginated_list_dto.dart';
+import '../models/news_post_dto_paginated_list_dto.dart';
 import '../models/order_direction.dart';
 import '../models/organization_details_dto.dart';
 import '../models/organization_dto_paginated_list_dto.dart';
@@ -44,6 +45,13 @@ abstract class EventGeneralClient {
   @GET('/eventgeneral/ticket/{eventId}')
   Future<List<TicketDto>> getEventgeneralTicketEventId({
     @Path('eventId') required String eventId,
+  });
+
+  @GET('/eventgeneral/newspost/{eventId}')
+  Future<NewsPostDtoPaginatedListDto> getEventgeneralNewspostEventId({
+    @Path('eventId') required String eventId,
+    @Query('PageNumber') int? pageNumber,
+    @Query('PageSize') int? pageSize,
   });
 
   @GET('/eventgeneral/organization')

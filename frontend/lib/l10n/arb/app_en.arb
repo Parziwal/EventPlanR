@@ -204,5 +204,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "organizationEventTickets": "Tickets",
+  "organizationEventTickets_AddTicket": "Add ticket"
 }

@@ -35,10 +35,10 @@ class OrganizeDrawer extends StatelessWidget {
                   DrawerTile(
                     icon: const Icon(Icons.event_available),
                     label: Text(event.name),
-                    onTap: () =>
-                        context.go(PagePaths.organizationEventDetails(event.id)),
-                    selected:
-                        location == PagePaths.organizationEventDetails(event.id),
+                    onTap: () => context
+                        .go(PagePaths.organizationEventDetails(event.id)),
+                    selected: location ==
+                        PagePaths.organizationEventDetails(event.id),
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.stacked_line_chart),
@@ -49,8 +49,10 @@ class OrganizeDrawer extends StatelessWidget {
                   DrawerTile(
                     icon: const Icon(Icons.credit_card),
                     label: Text(l10n.organizeNavbar_Ticket),
-                    onTap: () {},
-                    selected: false,
+                    onTap: () => context
+                        .go(PagePaths.organizationEventTickets(event.id)),
+                    selected: location ==
+                        PagePaths.organizationEventTickets(event.id),
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.post_add),

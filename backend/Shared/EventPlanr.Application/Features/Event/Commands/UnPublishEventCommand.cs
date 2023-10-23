@@ -32,7 +32,7 @@ public class UnPublishEventCommandHandler : IRequestHandler<UnPublishEventComman
                 .ThenInclude(t => t.SoldTickets)
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (eventEntity.Tickets.Any(t => t.SoldTickets.Any(st => !st.IsRefunded)))
+        if (eventEntity.Tickets.Any(t => t.Count != t.RemainingCount))
         {
             throw new DomainException("Event with unrefunded orders cannot be deleted");
         }

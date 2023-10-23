@@ -4,11 +4,11 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'update_ticket_command.g.dart';
+part 'edit_ticket_command.g.dart';
 
 @JsonSerializable()
-class UpdateTicketCommand {
-  const UpdateTicketCommand({
+class EditTicketCommand {
+  const EditTicketCommand({
     required this.price,
     required this.count,
     required this.saleStarts,
@@ -16,7 +16,7 @@ class UpdateTicketCommand {
     this.description,
   });
   
-  factory UpdateTicketCommand.fromJson(Map<String, Object?> json) => _$UpdateTicketCommandFromJson(json);
+  factory EditTicketCommand.fromJson(Map<String, Object?> json) => _$EditTicketCommandFromJson(json);
   
   final double price;
   final int count;
@@ -24,5 +24,5 @@ class UpdateTicketCommand {
   final DateTime saleStarts;
   final DateTime saleEnds;
 
-  Map<String, Object?> toJson() => _$UpdateTicketCommandToJson(this);
+  Map<String, Object?> toJson() => _$EditTicketCommandToJson(this);
 }

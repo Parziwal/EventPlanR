@@ -82,7 +82,9 @@ namespace EventPlanr.Infrastructure.Migrations
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -102,6 +104,7 @@ namespace EventPlanr.Infrastructure.Migrations
                     UserEmail = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
+                    IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
@@ -115,8 +118,7 @@ namespace EventPlanr.Infrastructure.Migrations
                         name: "FK_invitations_events_EventId",
                         column: x => x.EventId,
                         principalTable: "events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -138,8 +140,7 @@ namespace EventPlanr.Infrastructure.Migrations
                         name: "FK_news_posts_events_EventId",
                         column: x => x.EventId,
                         principalTable: "events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -158,7 +159,9 @@ namespace EventPlanr.Infrastructure.Migrations
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -167,8 +170,7 @@ namespace EventPlanr.Infrastructure.Migrations
                         name: "FK_tickets_events_EventId",
                         column: x => x.EventId,
                         principalTable: "events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -180,7 +182,9 @@ namespace EventPlanr.Infrastructure.Migrations
                     UserLastName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     TicketId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false)
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsRefunded = table.Column<bool>(type: "boolean", nullable: false),
+                    IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,8 +199,7 @@ namespace EventPlanr.Infrastructure.Migrations
                         name: "FK_sold_tickets_tickets_TicketId",
                         column: x => x.TicketId,
                         principalTable: "tickets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

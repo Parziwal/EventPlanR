@@ -57,4 +57,14 @@ abstract class EventManagerClient {
   Future<String> postEventmanager({
     @Body() required CreateEventCommand body,
   });
+
+  @POST('/eventmanager/publish/{eventId}')
+  Future<void> postEventmanagerPublishEventId({
+    @Path('eventId') required String eventId,
+  });
+
+  @PUT('/eventmanager/unpublish/{eventId}')
+  Future<void> putEventmanagerUnpublishEventId({
+    @Path('eventId') required String eventId,
+  });
 }

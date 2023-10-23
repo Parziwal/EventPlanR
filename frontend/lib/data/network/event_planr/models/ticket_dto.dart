@@ -9,6 +9,7 @@ part 'ticket_dto.g.dart';
 @JsonSerializable()
 class TicketDto {
   const TicketDto({
+    required this.id,
     required this.name,
     required this.price,
     required this.count,
@@ -19,6 +20,7 @@ class TicketDto {
   
   factory TicketDto.fromJson(Map<String, Object?> json) => _$TicketDtoFromJson(json);
   
+  final String id;
   final String name;
   final double price;
   final int count;

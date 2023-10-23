@@ -19,11 +19,13 @@ public class MainController : ControllerBase
     }
 
     [HttpGet("{eventId}")]
-    public Task<PaginatedListDto<NewsPostDto>> GetEventNewsPost(Guid eventId, [FromQuery] GetEventNewsPostQuery query)
-    {
-        query.EventId = eventId;
-        return _sender.Send(query);
-    }
+    public Task<PaginatedListDto<NewsPostDto>> GetEventNewsPost(Guid eventId, [FromQuery] PageDto page)
+        => _sender.Send(new GetEventNewsPostQuery()
+        {
+            EventId = eventId,
+            PageNumber = page.PageNumber,
+            PageSize = page.PageSize,
+        });
 
     [HttpPost("{eventId}")]
     public Task<Guid> CreateNewsPost(Guid eventId, [FromBody] CreateNewsPostCommand command)

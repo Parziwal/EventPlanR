@@ -1,7 +1,9 @@
 ﻿using EventPlanr.Application.Features.Event.Queries;
+using EventPlanr.Application.Features.NewsPost.Queries;
 using EventPlanr.Application.Features.Organization.Queries;
 using EventPlanr.Application.Features.Ticket.Queries;
 using EventPlanr.Application.Models.Event;
+using EventPlanr.Application.Models.NewsPost;
 using EventPlanr.Application.Models.Organization;
 using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Application.Models.Ticket;
@@ -38,6 +40,16 @@ public class MainController : ControllerBase
         {
             EventId = eventId,
         });
+
+    [HttpGet("newspost/{eventId}")]
+    public Task<PaginatedListDto<NewsPostDto>> GetEventNewsPost(Guid eventId, [FromQuery] PageDto page)
+        => _sender.Send(new GetEventNewsPostQuery()
+        {
+            EventId = eventId,
+            PageNumber = page.PageNumber,
+            PageSize = page.PageSize,
+        });
+    
 
     [HttpGet("organization")]
     public Task<PaginatedListDto<OrganizationDto>> GetOrganizations([FromQuery] GetFilteredOrganizationsQuery query)

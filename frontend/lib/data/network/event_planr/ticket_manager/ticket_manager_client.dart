@@ -6,13 +6,19 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../models/add_ticket_to_event_command.dart';
-import '../models/update_ticket_command.dart';
+import '../models/edit_ticket_command.dart';
+import '../models/organization_ticket_dto.dart';
 
 part 'ticket_manager_client.g.dart';
 
 @RestApi()
 abstract class TicketManagerClient {
   factory TicketManagerClient(Dio dio, {String? baseUrl}) = _TicketManagerClient;
+
+  @GET('/ticketmanager/event/{eventId}')
+  Future<List<OrganizationTicketDto>> getTicketmanagerEventEventId({
+    @Path('eventId') required String eventId,
+  });
 
   @POST('/ticketmanager/event/{eventId}')
   Future<String> postTicketmanagerEventEventId({
@@ -23,11 +29,16 @@ abstract class TicketManagerClient {
   @PUT('/ticketmanager/{ticketId}')
   Future<void> putTicketmanagerTicketId({
     @Path('ticketId') required String ticketId,
-    @Body() required UpdateTicketCommand body,
+    @Body() required EditTicketCommand body,
   });
 
   @DELETE('/ticketmanager/{ticketId}')
   Future<void> deleteTicketmanagerTicketId({
     @Path('ticketId') required String ticketId,
+  });
+
+  @POST('/ticketmanager/refund/{soldTicketId}')
+  Future<void> postTicketmanagerRefundSoldTicketId({
+    @Path('soldTicketId') required String soldTicketId,
   });
 }

@@ -26,7 +26,7 @@ public class MainController : ControllerBase
         });
 
     [HttpPost("reserve")]
-    public Task ReserveUserTickets([FromBody] ReserveUserTicketsCommand command)
+    public Task<DateTimeOffset> ReserveUserTickets([FromBody] ReserveUserTicketsCommand command)
         => _sender.Send(command);
 
     [HttpPost]
@@ -34,11 +34,13 @@ public class MainController : ControllerBase
         => _sender.Send(command);
 
     [HttpGet("organization/{eventId}")]
-    public Task<PaginatedListDto<EventOrderDto>> GetOrganizationEventOrders(Guid eventId, [FromQuery] GetOrganizationEventOrdersQuery query)
-    {
-        query.EventId = eventId;
-        return _sender.Send(query);
-    }
+    public Task<PaginatedListDto<EventOrderDto>> GetOrganizationEventOrders(Guid eventId, [FromQuery] PageDto page)
+        => _sender.Send(new GetOrganizationEventOrdersQuery()
+        {
+            EventId = eventId,
+            PageSize = page.PageSize,
+            PageNumber = page.PageNumber,
+        });
 
     [HttpGet("organization/order/{orderId}")]
     public Task<OrderDetailsDto> GetOrganizationEventOrderDetails(Guid orderId)

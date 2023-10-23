@@ -18,6 +18,25 @@ resource "aws_dynamodb_table" "user_claim" {
   }
 }
 
+resource "aws_dynamodb_table" "user_reserved_ticket_order" {
+  name           = "UserReservedTicketOrder"
+  billing_mode   = "PAY_PER_REQUEST"
+  hash_key       = "UserId"
+
+  attribute {
+    name = "UserId"
+    type = "S"
+  }
+
+  ttl {
+    attribute_name = "ExpirationTime"
+    enabled        = true
+  }
+
+  stream_enabled = true
+  stream_view_type = "OLD_IMAGE"
+}
+
 module "database_initializer_lambda" {
   source = "../modules/lambda-dotnet"
 
@@ -37,6 +56,18 @@ resource "aws_lambda_invocation" "database_initializer_lambda" {
   depends_on = [module.database_initializer_lambda]
 }
 
+module "user_reserved_ticket_order" {
+  source = "../modules/lambda-dotnet"
+
+  function_name = "${var.environment}_user_reserved_ticket_order_function"
+  role_arn      = aws_iam_role.lambda_role.arn
+  handler       = "EventPlanr.UserReservedTicketOrder.Function::EventPlanr.UserReservedTicketOrder.Function.Function::FunctionHandler"
+  source_dir    = "../../../backend/Serverless/EventPlanr.UserReservedTicketOrder.Function/bin/Release/net6.0/publish"
+  environment_varibles = {
+    ASPNETCORE_ENVIRONMENT = "Development"
+  }
+}
+
 resource "aws_ssm_parameter" "event_planr_db" {
   name        = "/${var.environment}/event_planr/ConnectionStrings/EventPlanrDb"
   type        = "SecureString"
@@ -47,4 +78,10 @@ resource "aws_ssm_parameter" "user_claim" {
   name        = "/${var.environment}/event_planr/DynamoDbTableOptions/UserClaimTable"
   type        = "String"
   value       = aws_dynamodb_table.user_claim.name
+}
+
+resource "aws_ssm_parameter" "user_reserved_ticket_order" {
+  name        = "/${var.environment}/event_planr/DynamoDbTableOptions/UserReservedTicketOrderTable"
+  type        = "String"
+  value       = aws_dynamodb_table.user_reserved_ticket_order.name
 }

@@ -96,3 +96,21 @@ resource "aws_iam_role_policy" "cognito_list_users_access" {
   role   = aws_iam_role.lambda_role.id
   policy = data.aws_iam_policy_document.cognito_list_users_access.json
 }
+
+data "aws_iam_policy_document" "user_reserved_ticket_order_access" {
+  statement {
+    actions = [
+      "dynamodb:BatchGetItem",
+      "dynamodb:GetItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:BatchWriteItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+    ]
+    resources = [
+      aws_dynamodb_table.user_reserved_ticket_order.arn
+    ]
+  }
+}

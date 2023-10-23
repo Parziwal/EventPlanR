@@ -44,11 +44,17 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<int>("Currency")
                         .HasColumnType("integer");
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("FromDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsPrivate")
                         .HasColumnType("boolean");
@@ -99,6 +105,9 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsCheckedIn")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -249,6 +258,12 @@ namespace EventPlanr.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsCheckedIn")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRefunded")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
 
@@ -292,12 +307,18 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -400,9 +421,7 @@ namespace EventPlanr.Infrastructure.Migrations
                 {
                     b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("Invitations")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Event");
                 });
@@ -411,9 +430,7 @@ namespace EventPlanr.Infrastructure.Migrations
                 {
                     b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("NewsPosts")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Event");
                 });
@@ -467,9 +484,7 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.HasOne("EventPlanr.Domain.Entities.TicketEntity", "Ticket")
                         .WithMany("SoldTickets")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TicketId");
 
                     b.Navigation("Order");
 
@@ -480,9 +495,7 @@ namespace EventPlanr.Infrastructure.Migrations
                 {
                     b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("Tickets")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Event");
                 });
