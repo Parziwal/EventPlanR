@@ -7,7 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-Future<LatLng?> showMapLocationPickerDialog(BuildContext context) {
+Future<LatLng?> showMapLocationPickerDialog(
+  BuildContext context, {
+  LatLng? initialLocation,
+}) {
   final breakpoints = context.breakpoints;
 
   return showDialog<LatLng>(
@@ -15,16 +18,18 @@ Future<LatLng?> showMapLocationPickerDialog(BuildContext context) {
     builder: (context) {
       return MaxWidthBox(
         maxWidth: 1000,
-        child: breakpoints.isMobile ? const Dialog.fullscreen(
-          child: _MapLocationPicker(
-            initialLocation: LatLng(51.509364, -0.128928),
-          ),
-        ) : const Dialog(
-          clipBehavior: Clip.hardEdge,
-          child: _MapLocationPicker(
-            initialLocation: LatLng(51.509364, -0.128928),
-          ),
-        ),
+        child: breakpoints.isMobile
+            ? Dialog.fullscreen(
+                child: _MapLocationPicker(
+                  initialLocation: initialLocation,
+                ),
+              )
+            : Dialog(
+                clipBehavior: Clip.hardEdge,
+                child: _MapLocationPicker(
+                  initialLocation: initialLocation,
+                ),
+              ),
       );
     },
   );
@@ -32,10 +37,10 @@ Future<LatLng?> showMapLocationPickerDialog(BuildContext context) {
 
 class _MapLocationPicker extends StatefulWidget {
   const _MapLocationPicker({
-    required this.initialLocation,
+    this.initialLocation,
   });
 
-  final LatLng initialLocation;
+  final LatLng? initialLocation;
 
   @override
   State<_MapLocationPicker> createState() => _MapLocationPickerState();
@@ -63,8 +68,8 @@ class _MapLocationPickerState extends State<_MapLocationPicker> {
       children: [
         FlutterMap(
           options: MapOptions(
-            initialCenter: widget.initialLocation,
-            initialZoom: 9.2,
+            initialCenter: widget.initialLocation ?? const LatLng(50.5, 30.51),
+            initialZoom: widget.initialLocation != null ? 14 : 3,
             onTap: (_, position) => _selectLocation(position),
           ),
           children: [

@@ -3,6 +3,7 @@ import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/event.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_details.dart';
+import 'package:event_planr_app/domain/models/event/event_distance_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_filter.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
@@ -30,13 +31,18 @@ class EventGeneralRepository {
       toDate: filter.toDate,
       object0: filter.latitude,
       object1: filter.longitude,
-      object2: filter.radius,
+      object2: filter.latitude == null ? null : switch(filter.distance) {
+        EventDistanceEnum.km5 => 5000,
+        EventDistanceEnum.km10 => 10000,
+        EventDistanceEnum.km20 => 20000,
+        EventDistanceEnum.km50 => 50000,
+        EventDistanceEnum.km100 => 100000,
+        null => null,
+      },
       pageNumber: filter.pageNumber ?? 1,
-      pageSize: filter.pageSize ?? 10,
-      orderBy: filter.orderBy,
-      orderDirection: filter.orderDirection != null
-          ? filter.orderDirection!.toNetworkEnum()
-          : null,
+      pageSize: filter.pageSize ?? 20,
+      orderBy: filter.orderBy.name,
+      orderDirection: filter.orderDirection.toNetworkEnum(),
     );
 
     return PaginatedList<Event>(

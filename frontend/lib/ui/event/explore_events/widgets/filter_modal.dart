@@ -1,29 +1,49 @@
+import 'package:event_planr_app/domain/models/common/order_direction_enum.dart';
+import 'package:event_planr_app/domain/models/event/event_distance_enum.dart';
+import 'package:event_planr_app/domain/models/event/event_filter.dart';
+import 'package:event_planr_app/domain/models/event/event_order_by_enum.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/l10n/l10n_enums.dart';
+import 'package:event_planr_app/ui/event/explore_events/cubit/explore_events_cubit.dart';
+import 'package:event_planr_app/ui/event/explore_events/widgets/datetime_range_picker_modal.dart';
+import 'package:event_planr_app/ui/event/explore_events/widgets/event_category_picker_modal.dart';
+import 'package:event_planr_app/ui/event/explore_events/widgets/event_currency_picker_modal.dart';
+import 'package:event_planr_app/ui/event/explore_events/widgets/event_distance_picker_modal.dart';
+import 'package:event_planr_app/ui/event/explore_events/widgets/event_order_picker_modal.dart';
+import 'package:event_planr_app/ui/shared/widgets/map_location_picker_dialog.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
+import 'package:event_planr_app/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/max_width_box.dart';
-
 
 Future<void> showFilterModal(BuildContext context) async {
   final breakpoints = context.breakpoints;
+  final exploreCubit = context.read<ExploreEventsCubit>();
 
   if (breakpoints.isMobile) {
     return showModalBottomSheet(
       context: context,
       useRootNavigator: true,
       builder: (contextModal) {
-        return const _FilterModal(isMobile: true);
+        return BlocProvider.value(
+          value: exploreCubit,
+          child: const _FilterModal(isMobile: true),
+        );
       },
     );
   } else {
     return showDialog(
       context: context,
       builder: (context) {
-        return const MaxWidthBox(
-          maxWidth: 600,
-          child: Dialog(
-            clipBehavior: Clip.hardEdge,
-            child: _FilterModal(isMobile: false),
+        return BlocProvider.value(
+          value: exploreCubit,
+          child: const MaxWidthBox(
+            maxWidth: 600,
+            child: Dialog(
+              clipBehavior: Clip.hardEdge,
+              child: _FilterModal(isMobile: false),
+            ),
           ),
         );
       },
@@ -40,10 +60,15 @@ class _FilterModal extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
+    final filter = context
+        .watch<ExploreEventsCubit>()
+        .state
+        .filter;
 
     return Wrap(
       children: [
-        if (isMobile) _mobileHeader(context) else _desktopHeader(context),
+        if (isMobile) _mobileHeader(context) else
+          _desktopHeader(context),
         SizedBox(
           height: 300,
           child: ListView(
@@ -55,12 +80,33 @@ class _FilterModal extends StatelessWidget {
                 ),
               ),
               ListTile(
-                title: Text(
-                  'From Date',
-                  style: theme.textTheme.titleSmall,
+                title: Row(
+                  children: [
+                    Text(l10n.translateEnums(filter.orderBy.name)),
+                    if (filter.orderDirection == OrderDirectionEnum.ascending)
+                      const Icon(Icons.arrow_upward),
+                    if (filter.orderDirection == OrderDirectionEnum.descending)
+                      const Icon(Icons.arrow_downward),
+                  ],
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showOrderPickerModal(context);
+                },
+              ),
+              ListTile(
+                title: Text(
+                  l10n.exploreEvents_Category,
+                  style: theme.textTheme.titleLarge,
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  filter.category != null
+                      ? l10n.translateEnums(filter.category!.name)
+                      : l10n.exploreEvents_AnyCategory,
+                ),
+                onTap: () {
+                  showCategoryPickerModal(context);
                 },
               ),
               ListTile(
@@ -71,11 +117,15 @@ class _FilterModal extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEvents_Anytime,
-                  style: theme.textTheme.titleSmall,
+                  filter.fromDate == null && filter.toDate == null
+                      ? l10n.exploreEvents_Anytime
+                      : formatEventDateTimeRange(
+                    filter.fromDate!,
+                    filter.toDate!,
+                  ),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDateTimeRangePickerModal(context);
                 },
               ),
               ListTile(
@@ -86,28 +136,36 @@ class _FilterModal extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEvents_AnyLocation,
-                  style: theme.textTheme.titleSmall,
+                  filter.locationName != null
+                      ? filter.locationName!
+                      : l10n.exploreEvents_AnyLocation,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showMapLocationPickerDialog(context).then((location) {
+                    if (location != null) {
+                      context
+                          .read<ExploreEventsCubit>()
+                          .getLocationAddress(location);
+                    }
+                  });
                 },
               ),
-              ListTile(
-                title: Text(
-                  l10n.exploreEvents_Language,
-                  style: theme.textTheme.titleLarge,
+              if (filter.locationName != null) ...[
+                ListTile(
+                  title: Text(
+                    l10n.exploreEvents_Distance,
+                    style: theme.textTheme.titleLarge,
+                  ),
                 ),
-              ),
-              ListTile(
-                title: Text(
-                  l10n.exploreEvents_AnyLanguage,
-                  style: theme.textTheme.titleSmall,
+                ListTile(
+                  title: Text(
+                    l10n.translateEnums(filter.distance!.name),
+                  ),
+                  onTap: () {
+                    showDistancePickerModal(context);
+                  },
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
+              ],
               ListTile(
                 title: Text(
                   l10n.exploreEvents_Currency,
@@ -116,11 +174,12 @@ class _FilterModal extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  l10n.exploreEvents_AnyCurrency,
-                  style: theme.textTheme.titleSmall,
+                  filter.currency != null
+                      ? l10n.translateEnums(filter.currency!.name)
+                      : l10n.exploreEvents_AnyCurrency,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showCurrencyPickerModal(context);
                 },
               ),
             ],
@@ -150,6 +209,13 @@ class _FilterModal extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
+              context.read<ExploreEventsCubit>().filterEvents(
+                const EventFilter(
+                  orderBy: EventOrderByEnum.fromDate,
+                  orderDirection: OrderDirectionEnum.descending,
+                  distance: EventDistanceEnum.km10,
+                ),
+              );
               Navigator.pop(context);
             },
             child: Text(l10n.reset),
@@ -197,6 +263,13 @@ class _FilterModal extends StatelessWidget {
           const SizedBox(width: 16),
           OutlinedButton(
             onPressed: () {
+              context.read<ExploreEventsCubit>().filterEvents(
+                  const EventFilter(
+                    orderBy: EventOrderByEnum.fromDate,
+                    orderDirection: OrderDirectionEnum.descending,
+                    distance: EventDistanceEnum.km10,
+                  ),
+              );
               Navigator.pop(context);
             },
             style: FilledButton.styleFrom(

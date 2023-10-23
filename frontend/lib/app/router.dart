@@ -12,6 +12,7 @@ import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.d
 import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
 import 'package:event_planr_app/ui/event/event_tickets/cubit/event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/event/event_tickets/view/event_tickets_page.dart';
+import 'package:event_planr_app/ui/event/explore_events/cubit/explore_events_cubit.dart';
 import 'package:event_planr_app/ui/event/explore_events/view/explore_events_page.dart';
 import 'package:event_planr_app/ui/event/ticket_checkout/cubit/ticket_checkout_cubit.dart';
 import 'package:event_planr_app/ui/event/ticket_checkout/view/ticket_checkout_page.dart';
@@ -129,9 +130,10 @@ final appRouter = GoRouter(
           path: PagePaths.userDashboard,
           builder: (_) => const UserDashboardPage(),
         ),
-        BlocRoute<AuthCubit>(
+        BlocRoute<ExploreEventsCubit>(
           path: PagePaths.exploreEvents,
           builder: (state) => const ExploreEventsPage(),
+          init: (cubit, state) => cubit.filterEvents(cubit.state.filter),
           routes: [
             BlocRoute<EventDetailsCubit>(
               path: 'details/:eventId',
