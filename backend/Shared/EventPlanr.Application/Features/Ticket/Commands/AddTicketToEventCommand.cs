@@ -38,10 +38,9 @@ public class AddTicketToEventCommandHandler : IRequestHandler<AddTicketToEventCo
         var eventEntity = await _dbContext.Events
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (eventEntity.FromDate > request.SaleStarts || eventEntity.ToDate < request.SaleStarts
-            || eventEntity.FromDate > request.SaleEnds || eventEntity.ToDate < request.SaleEnds)
+        if (eventEntity.ToDate < request.SaleEnds)
         {
-            throw new DomainException("TicketSaleDatesNotBetweenEventDateException");
+            throw new DomainException("TicketSaleDatesMustBeBeforeEventDateException");
         }
 
         var ticket = new TicketEntity()

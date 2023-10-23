@@ -14,7 +14,7 @@ class TicketDto {
     required this.price,
     required this.count,
     required this.saleStarts,
-    required this.salesEnds,
+    required this.saleEnds,
     this.description,
   });
   
@@ -26,7 +26,7 @@ class TicketDto {
   final int count;
   final String? description;
   final DateTime saleStarts;
-  final DateTime salesEnds;
+  final DateTime saleEnds;
 
   Map<String, Object?> toJson() => _$TicketDtoToJson(this);
 }

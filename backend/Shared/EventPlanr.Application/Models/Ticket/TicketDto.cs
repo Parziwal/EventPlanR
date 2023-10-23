@@ -11,7 +11,7 @@ public class TicketDto
     public int Count { get; set; }
     public string? Description { get; set; }
     public DateTimeOffset SaleStarts { get; set; }
-    public DateTimeOffset SalesEnds { get; set; }
+    public DateTimeOffset SaleEnds { get; set; }
 
     private class Mapping : Profile
     {

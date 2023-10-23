@@ -1,7 +1,7 @@
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
-import 'package:event_planr_app/ui/organize/create_or_delete_event/cubit/create_or_edit_event_cubit.dart';
-import 'package:event_planr_app/ui/organize/create_or_delete_event/widgets/create_or_edit_event_form.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_event/cubit/create_or_edit_event_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_event/widgets/create_or_edit_event_form.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';

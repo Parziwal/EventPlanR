@@ -43,9 +43,45 @@ class OrganizationEventDetailsCubit
     }
   }
 
-  Future<void> deleteEvent(String eventId) async {
+  Future<void> publishEvent() async {
+    if (state.eventDetails == null) {
+      return;
+    }
+
     try {
-      await _eventManagerRepository.deleteEvent(eventId);
+      await _eventManagerRepository.publishEvent(
+        eventId: state.eventDetails!.id,
+        publish: !state.eventDetails!.isPublished,
+      );
+      emit(
+        state.copyWith(
+          status: OrganizationEventDetailsStatus.eventPublished,
+          eventDetails: state.eventDetails!
+              .copyWith(isPublished: !state.eventDetails!.isPublished),
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: OrganizationEventDetailsStatus.error,
+          errorCode: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> deleteEvent() async {
+    if (state.eventDetails == null) {
+      return;
+    }
+
+    try {
+      await _eventManagerRepository.deleteEvent(state.eventDetails!.id);
+      emit(
+        state.copyWith(
+          status: OrganizationEventDetailsStatus.eventDeleted,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

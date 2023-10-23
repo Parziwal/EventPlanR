@@ -11,9 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/max_width_box.dart';
 
 class CreateOrEditOrganizationPage extends StatelessWidget {
-  const CreateOrEditOrganizationPage({this.edit = false, super.key});
-
-  final bool edit;
+  const CreateOrEditOrganizationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +65,7 @@ class CreateOrEditOrganizationPage extends StatelessWidget {
             backgroundColor: theme.colorScheme.primary,
           ),
         );
-      context.go(PagePaths.userOrganizationDetails);
+      context.pop();
     } else if (state.status == CreateOrEditOrganizationStatus.error) {
       context.scaffoldMessenger
         ..hideCurrentSnackBar()

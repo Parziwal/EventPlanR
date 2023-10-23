@@ -1,5 +1,6 @@
 import 'package:event_planr_app/di/injectable.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
+import 'package:event_planr_app/domain/models/ticket/organization_ticket.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
@@ -21,12 +22,16 @@ import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart'
 import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
-import 'package:event_planr_app/ui/organize/create_or_delete_event/cubit/create_or_edit_event_cubit.dart';
-import 'package:event_planr_app/ui/organize/create_or_delete_event/view/create_or_edit_event_page.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_event/cubit/create_or_edit_event_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_event/view/create_or_edit_event_page.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/view/create_or_edit_organization_page.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_ticket/cubit/create_or_edit_ticket_cubit.dart';
+import 'package:event_planr_app/ui/organize/create_or_edit_ticket/view/create_or_edit_ticket_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/cubit/organization_event_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/view/organization_event_details_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_tickets/cubit/organization_event_tickets_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_tickets/view/organization_event_tickets_page.dart';
 import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_events/view/organization_events_page.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
@@ -76,6 +81,15 @@ class PagePaths {
 
   static String organizationEventEdit(String eventId) =>
       '/organizationEventDetails/$eventId/edit';
+
+  static String organizationEventTickets(String eventId) =>
+      '/organizationEventTickets/$eventId';
+
+  static String organizationEventTicketCreate(String eventId) =>
+      '/organizationEventTickets/$eventId/create';
+
+  static String organizationEventTicketEdit(String eventId) =>
+      '/organizationEventTickets/$eventId/edit';
 }
 
 final appRouter = GoRouter(
@@ -214,6 +228,24 @@ final appRouter = GoRouter(
               init: (cubit, state) => cubit.loadEventDetailsForEdit(
                 state.pathParameters['eventId']!,
               ),
+            ),
+          ],
+        ),
+        BlocRoute<OrganizationEventTicketsCubit>(
+          path: PagePaths.organizationEventTickets(':eventId'),
+          builder: (state) => const OrganizationEventTicketsPage(),
+          init: (cubit, state) =>
+              cubit.loadEventTickets(state.pathParameters['eventId']!),
+          routes: [
+            BlocRoute<CreateOrEditTicketCubit>(
+              path: 'create',
+              builder: (state) => const CreateOrEditTicketPage(),
+            ),
+            BlocRoute<CreateOrEditTicketCubit>(
+              path: 'edit',
+              builder: (state) => const CreateOrEditTicketPage(),
+              init: (cubit, state) =>
+                  cubit.loadTicketForEdit(state.extra! as OrganizationTicket),
             ),
           ],
         ),

@@ -169,4 +169,19 @@ class EventManagerRepository {
   Future<void> deleteEvent(String eventId) async {
     await _eventManagerClient.deleteEventmanagerEventId(eventId: eventId);
   }
+
+  Future<void> publishEvent({
+    required String eventId,
+    required bool publish,
+  }) async {
+    if (publish) {
+      await _eventManagerClient.postEventmanagerPublishEventId(
+        eventId: eventId,
+      );
+    } else {
+      await _eventManagerClient.putEventmanagerUnpublishEventId(
+        eventId: eventId,
+      );
+    }
+  }
 }

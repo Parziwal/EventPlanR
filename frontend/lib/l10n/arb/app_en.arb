@@ -197,6 +197,10 @@
   "organizationEventDetails_EditEvent": "Edit event",
   "organizationEventDetails_DeleteEvent": "Delete event",
   "organizationEventDetails_PublishEvent": "Publish event",
+  "organizationEventDetails_UnPublishEvent": "Unpublish event",
+  "organizationEventDetails_EventPublished": "Event published",
+  "organizationEventDetails_EventUnPublished": "Event unpublished",
+  "organizationEventDetails_EventDeleted": "Event deleted",
   "organizationEventDetails_AreYouSureYouWantToDeleteEvent": "Are you sure you want to delete '{eventName}' event?",
   "@organizationEventDetails_AreYouSureYouWantToDeleteEvent": {
     "placeholders": {
@@ -206,5 +210,32 @@
     }
   },
   "organizationEventTickets": "Tickets",
-  "organizationEventTickets_AddTicket": "Add ticket"
+  "organizationEventTickets_AddTicket": "Add ticket",
+  "organizationEventTickets_Total": "Total:",
+  "organizationEventTickets_Price": "Price:",
+  "organizationEventTickets_SaleStarts": "Sale starts:",
+  "organizationEventTickets_SaleEnds": "Sale ends:",
+  "organizationEventTickets_Description": "Description:",
+  "organizationEventTickets_Created": "Created:",
+  "organizationEventTickets_LastModified": "Last modified:",
+  "organizationEventTickets_AreYouSureYouWantToDeleteTicket": "Are you sure you want to delete '{ticketName}' ticket",
+  "@organizationEventTickets_AreYouSureYouWantToDeleteTicket": {
+    "placeholders": {
+      "ticketName": {
+        "type": "String"
+      }
+    }
+  },
+  "createOrEditTicket_CreateTicket": "Create ticket",
+  "createOrEditTicket_EditTicket": "Edit ticket",
+  "createOrEditTicket_Name": "Name",
+  "createOrEditTicket_Price": "Price",
+  "createOrEditTicket_Count": "Count",
+  "createOrEditTicket_Description": "Description",
+  "createOrEditTicket_SalesStarts": "Sale starts",
+  "createOrEditTicket_SalesEnds": "Sale ends",
+  "createOrEditTicket_SalesStartMustBeBeforeSalesEnds": "Sale start must be before sales ends",
+  "createOrEditTicket_SalesEndsMustBeAfterSalesStart": "Sale ends must be after sales start",
+  "createOrEditTicket_TicketCreated": "Ticket created",
+  "createOrEditTicket_TicketUpdated": "Ticket updated"
 }

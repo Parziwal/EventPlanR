@@ -2,6 +2,7 @@ import 'package:event_planr_app/data/network/event_planr/models/add_ticket_to_ev
 import 'package:event_planr_app/data/network/event_planr/models/edit_ticket_command.dart';
 import 'package:event_planr_app/data/network/event_planr/ticket_manager/ticket_manager_client.dart';
 import 'package:event_planr_app/domain/models/ticket/add_or_edit_ticket.dart';
+import 'package:event_planr_app/domain/models/ticket/organization_ticket.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -41,5 +42,31 @@ class TicketManagerRepository {
 
   Future<void> deleteTicket(String ticketId) async {
     await _ticketManager.deleteTicketmanagerTicketId(ticketId: ticketId);
+  }
+
+  Future<List<OrganizationTicket>> getOrganizationEventTickets(
+    String eventId,
+  ) async {
+    final tickets =
+        await _ticketManager.getTicketmanagerEventEventId(eventId: eventId);
+
+    return tickets
+        .map(
+          (t) => OrganizationTicket(
+            created: t.created,
+            lastModified: t.lastModified,
+            id: t.id,
+            name: t.name,
+            count: t.count,
+            remainingCount: t.remainingCount,
+            price: t.price,
+            saleStarts: t.saleStarts,
+            saleEnds: t.saleEnds,
+            description: t.description,
+            lastModifiedBy: t.lastModifiedBy,
+            createdBy: t.createdBy,
+          ),
+        )
+        .toList();
   }
 }

@@ -9,7 +9,7 @@ class Ticket with _$Ticket {
     required double price,
     required int count,
     required DateTime saleStarts,
-    required DateTime salesEnds,
+    required DateTime saleEnds,
     String? description,
   }) = _Ticket;
 }

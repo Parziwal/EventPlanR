@@ -17,7 +17,7 @@ class OrganizationTicketDto {
     required this.remainingCount,
     required this.price,
     required this.saleStarts,
-    required this.salesEnds,
+    required this.saleEnds,
     this.createdBy,
     this.lastModifiedBy,
     this.description,
@@ -36,7 +36,7 @@ class OrganizationTicketDto {
   final double price;
   final String? description;
   final DateTime saleStarts;
-  final DateTime salesEnds;
+  final DateTime saleEnds;
 
   Map<String, Object?> toJson() => _$OrganizationTicketDtoToJson(this);
 }

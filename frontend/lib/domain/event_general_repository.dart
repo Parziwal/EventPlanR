@@ -144,7 +144,7 @@ class EventGeneralRepository {
             price: t.price,
             count: t.count,
             saleStarts: t.saleStarts,
-            salesEnds: t.salesEnds,
+            saleEnds: t.saleEnds,
             description: t.description,
           ),
         )
