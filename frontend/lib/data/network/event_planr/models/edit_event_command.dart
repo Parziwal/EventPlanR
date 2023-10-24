@@ -5,7 +5,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'address_dto.dart';
-import 'coordinates_dto.dart';
+import 'coordinate_dto.dart';
 import 'currency.dart';
 import 'event_category.dart';
 
@@ -19,7 +19,7 @@ class EditEventCommand {
     required this.toDate,
     required this.venue,
     required this.address,
-    required this.coordinates,
+    required this.coordinate,
     required this.currency,
     required this.isPrivate,
     this.description,
@@ -33,7 +33,7 @@ class EditEventCommand {
   final DateTime toDate;
   final String venue;
   final AddressDto address;
-  final CoordinatesDto coordinates;
+  final CoordinateDto coordinate;
   final Currency currency;
   final bool isPrivate;
 

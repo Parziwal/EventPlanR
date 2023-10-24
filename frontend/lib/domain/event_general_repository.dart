@@ -31,14 +31,16 @@ class EventGeneralRepository {
       toDate: filter.toDate,
       object0: filter.latitude,
       object1: filter.longitude,
-      object2: filter.latitude == null ? null : switch(filter.distance) {
-        EventDistanceEnum.km5 => 5000,
-        EventDistanceEnum.km10 => 10000,
-        EventDistanceEnum.km20 => 20000,
-        EventDistanceEnum.km50 => 50000,
-        EventDistanceEnum.km100 => 100000,
-        null => null,
-      },
+      object2: filter.latitude == null
+          ? null
+          : switch (filter.distance) {
+              EventDistanceEnum.km5 => 5000,
+              EventDistanceEnum.km10 => 10000,
+              EventDistanceEnum.km20 => 20000,
+              EventDistanceEnum.km50 => 50000,
+              EventDistanceEnum.km100 => 100000,
+              null => null,
+            },
       pageNumber: filter.pageNumber ?? 1,
       pageSize: filter.pageSize ?? 20,
       orderBy: filter.orderBy.name,
@@ -82,7 +84,7 @@ class EventGeneralRepository {
       venue: event.venue,
       address: event.address.toDomainModel(),
       coordinates:
-          LatLng(event.coordinates.latitude, event.coordinates.longitude),
+          LatLng(event.coordinate.latitude, event.coordinate.longitude),
       organization: Organization(
         id: event.organization.id,
         name: event.organization.name,

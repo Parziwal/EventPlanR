@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
-[Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationEventView)]
+[Authorize]
 public class GetOrganizationPastEventsQuery : PageDto, IRequest<PaginatedListDto<OrganizationEventDto>>
 {
     public string? SearchTerm { get; set; }

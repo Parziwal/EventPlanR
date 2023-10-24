@@ -5,13 +5,12 @@ using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Application.Security;
-using EventPlanr.Domain.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
-[Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationEventView)]
+[Authorize]
 public class GetOrganizationDraftEventsQuery : PageDto, IRequest<PaginatedListDto<OrganizationEventDto>>
 {
     public string? SearchTerm { get; set; }

@@ -1,5 +1,5 @@
 import 'package:event_planr_app/domain/models/common/address.dart';
-import 'package:event_planr_app/domain/models/common/coordinates.dart';
+import 'package:event_planr_app/domain/models/common/coordinate.dart';
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -15,7 +15,7 @@ class CreateOrEditEvent with _$CreateOrEditEvent {
     required DateTime toDate,
     required String venue,
     required Address address,
-    required Coordinates coordinates,
+    required Coordinate coordinates,
     required CurrencyEnum currency,
     required bool isPrivate,
     String? id,

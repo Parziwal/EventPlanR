@@ -4,6 +4,8 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
+import 'currency.dart';
+
 part 'ticket_dto.g.dart';
 
 @JsonSerializable()
@@ -12,6 +14,7 @@ class TicketDto {
     required this.id,
     required this.name,
     required this.price,
+    required this.currency,
     required this.count,
     required this.saleStarts,
     required this.saleEnds,
@@ -23,6 +26,7 @@ class TicketDto {
   final String id;
   final String name;
   final double price;
+  final Currency currency;
   final int count;
   final String? description;
   final DateTime saleStarts;

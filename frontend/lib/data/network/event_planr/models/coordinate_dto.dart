@@ -4,19 +4,19 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'coordinates_dto.g.dart';
+part 'coordinate_dto.g.dart';
 
 @JsonSerializable()
-class CoordinatesDto {
-  const CoordinatesDto({
+class CoordinateDto {
+  const CoordinateDto({
     required this.latitude,
     required this.longitude,
   });
   
-  factory CoordinatesDto.fromJson(Map<String, Object?> json) => _$CoordinatesDtoFromJson(json);
+  factory CoordinateDto.fromJson(Map<String, Object?> json) => _$CoordinateDtoFromJson(json);
   
   final double latitude;
   final double longitude;
 
-  Map<String, Object?> toJson() => _$CoordinatesDtoToJson(this);
+  Map<String, Object?> toJson() => _$CoordinateDtoToJson(this);
 }

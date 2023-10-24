@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'organization_event.freezed.dart';
+part 'organization_event.g.dart';
 
 @freezed
 class OrganizationEvent with _$OrganizationEvent {
@@ -10,4 +11,7 @@ class OrganizationEvent with _$OrganizationEvent {
     required DateTime fromDate,
     String? coverImageUrl,
   }) = _OrganizationEvent;
+
+  factory OrganizationEvent.fromJson(Map<String, dynamic> json) =>
+      _$OrganizationEventFromJson(json);
 }
