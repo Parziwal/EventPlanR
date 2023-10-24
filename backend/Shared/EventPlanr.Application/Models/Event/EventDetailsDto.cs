@@ -18,7 +18,7 @@ public class EventDetailsDto
     public DateTimeOffset ToDate { get; set; }
     public string Venue { get; set; } = null!;
     public AddressDto Address { get; set; } = null!;
-    public CoordinatesDto Coordinates { get; set; } = null!;
+    public CoordinateDto Coordinate { get; set; } = null!;
     public OrganizationDto Organization { get; set; } = null!;
     public NewsPostDto? LatestNews { get; set; } = null!;
 

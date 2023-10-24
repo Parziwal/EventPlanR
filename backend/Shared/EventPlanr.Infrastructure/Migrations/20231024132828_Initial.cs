@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
+using NetTopologySuite.Geometries;
 
 #nullable disable
 
@@ -12,6 +13,9 @@ namespace EventPlanr.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:postgis", ",,");
+
             migrationBuilder.CreateTable(
                 name: "orders",
                 columns: table => new
@@ -73,8 +77,7 @@ namespace EventPlanr.Infrastructure.Migrations
                     Address_ZipCode = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     Address_City = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Address_AddressLine = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Coordinates_Latitude = table.Column<double>(type: "double precision", nullable: false),
-                    Coordinates_Longitude = table.Column<double>(type: "double precision", nullable: false),
+                    Coordinate = table.Column<Point>(type: "geography (point)", nullable: false),
                     Currency = table.Column<int>(type: "integer", nullable: false),
                     IsPrivate = table.Column<bool>(type: "boolean", nullable: false),
                     IsPublished = table.Column<bool>(type: "boolean", nullable: false),

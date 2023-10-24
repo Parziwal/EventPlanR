@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -13,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    [Migration("20231023070727_Initial")]
+    [Migration("20231024132828_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +25,7 @@ namespace EventPlanr.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
@@ -34,6 +36,10 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<int>("Category")
                         .HasColumnType("integer");
+
+                    b.Property<Point>("Coordinate")
+                        .IsRequired()
+                        .HasColumnType("geography (point)");
 
                     b.Property<string>("CoverImageUrl")
                         .HasColumnType("text");
@@ -359,25 +365,6 @@ namespace EventPlanr.Infrastructure.Migrations
                         .WithMany("Events")
                         .HasForeignKey("OrganizationId");
 
-                    b.OwnsOne("EventPlanr.Domain.Common.Coordinates", "Coordinates", b1 =>
-                        {
-                            b1.Property<Guid>("EventEntityId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<double>("Latitude")
-                                .HasColumnType("double precision");
-
-                            b1.Property<double>("Longitude")
-                                .HasColumnType("double precision");
-
-                            b1.HasKey("EventEntityId");
-
-                            b1.ToTable("events");
-
-                            b1.WithOwner()
-                                .HasForeignKey("EventEntityId");
-                        });
-
                     b.OwnsOne("EventPlanr.Domain.Common.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("EventEntityId")
@@ -412,9 +399,6 @@ namespace EventPlanr.Infrastructure.Migrations
                         });
 
                     b.Navigation("Address")
-                        .IsRequired();
-
-                    b.Navigation("Coordinates")
                         .IsRequired();
 
                     b.Navigation("Organization");

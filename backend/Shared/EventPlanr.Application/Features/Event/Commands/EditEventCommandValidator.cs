@@ -26,8 +26,8 @@ public class EditEventCommandValidator : AbstractValidator<EditEventCommand>
             .NotEmpty();
         RuleFor(x => x.Address)
             .SetValidator(new AddressDtoValidator());
-        RuleFor(x => x.Coordinates)
-            .SetValidator(new CoordinatesDtoValidator());
+        RuleFor(x => x.Coordinate)
+            .SetValidator(new CoordinateDtoValidator());
         RuleFor(x => x.IsPrivate)
             .NotNull();
     }

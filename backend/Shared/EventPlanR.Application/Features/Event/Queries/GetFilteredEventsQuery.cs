@@ -5,10 +5,10 @@ using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Common;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
-using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 
 namespace EventPlanr.Application.Features.Event.Queries;
 
@@ -35,11 +35,11 @@ public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQu
 
     public async Task<PaginatedListDto<EventDto>> Handle(GetFilteredEventsQuery request, CancellationToken cancellationToken)
     {
-        var filteredCoordinates = request.Location != null ? new Coordinates()
+        var filteredCoordinate = request.Location != null ? new Point(new Coordinate()
         {
-            Latitude = request.Location.Latitude,
-            Longitude = request.Location.Longitude,
-        } : null;
+            X = request.Location.Latitude,
+            Y = request.Location.Longitude,
+        }) : null;
 
         return await _dbContext.Events
             .AsNoTracking()
@@ -53,7 +53,7 @@ public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQu
             .Where(request.Currency != null, e => e.Currency == request.Currency)
             .Where(request.FromDate != null, e => e.FromDate >= request.FromDate)
             .Where(request.ToDate != null, e => e.ToDate <= request.ToDate)
-            .Where(request.Location != null, e => e.Coordinates.GetDistance(filteredCoordinates!) < request.Location!.Radius)
+            .Where(request.Location != null, e => e.Coordinate.Distance(filteredCoordinate!) < request.Location!.Radius)
             .OrderBy<Domain.Entities.EventEntity, EventDto>(request, _mapper.ConfigurationProvider, e => e.FromDate, OrderDirection.Descending)
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(request);

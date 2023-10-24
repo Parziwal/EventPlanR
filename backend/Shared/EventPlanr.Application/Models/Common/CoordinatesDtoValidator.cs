@@ -2,9 +2,9 @@
 
 namespace EventPlanr.Application.Models.Common;
 
-public class CoordinatesDtoValidator : AbstractValidator<CoordinatesDto>
+public class CoordinateDtoValidator : AbstractValidator<CoordinateDto>
 {
-    public CoordinatesDtoValidator()
+    public CoordinateDtoValidator()
     {
         RuleFor(x => x.Latitude)
             .GreaterThanOrEqualTo(-90)

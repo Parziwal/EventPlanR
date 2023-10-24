@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using EventPlanr.Domain.Common;
+using NetTopologySuite.Geometries;
 
 namespace EventPlanr.Application.Models.Common;
 
-public class CoordinatesDto
+public class CoordinateDto
 {
     public double Latitude { get; set; }
     public double Longitude { get; set; }
@@ -12,7 +13,9 @@ public class CoordinatesDto
     {
         public Mapping()
         {
-            CreateMap<Coordinates, CoordinatesDto>();
+            CreateMap<Point, CoordinateDto>()
+                .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.X))
+                .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.Y));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Enums;
+using NetTopologySuite.Geometries;
 
 namespace EventPlanr.Domain.Entities;
 
@@ -13,7 +14,7 @@ public class EventEntity : BaseSoftDeleteAuditableEntity
     public DateTimeOffset ToDate { get; set; }
     public string Venue { get; set; } = null!;
     public Address Address { get; set; } = null!;
-    public Coordinates Coordinates { get; set; } = null!;
+    public Point Coordinate { get; set; } = null!;
     public Currency Currency { get; set; }
     public bool IsPrivate { get; set; }
     public bool IsPublished { get; set; }

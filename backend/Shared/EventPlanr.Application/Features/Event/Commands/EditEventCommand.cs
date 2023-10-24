@@ -7,6 +7,7 @@ using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Enums;
 using MediatR;
+using NetTopologySuite.Geometries;
 using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Event.Commands;
@@ -22,7 +23,7 @@ public class EditEventCommand : IRequest
     public DateTimeOffset ToDate { get; set; }
     public string Venue { get; set; } = null!;
     public AddressDto Address { get; set; } = null!;
-    public CoordinatesDto Coordinates { get; set; } = null!;
+    public CoordinateDto Coordinate { get; set; } = null!;
     public Currency Currency { get; set; }
     public bool IsPrivate { get; set; }
 }
@@ -60,11 +61,11 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
             City = request.Address.City,
             AddressLine = request.Address.AddressLine,
         };
-        eventEntity.Coordinates = new Coordinates()
+        eventEntity.Coordinate = new Point(new Coordinate()
         {
-            Latitude = request.Coordinates.Latitude,
-            Longitude = request.Coordinates.Longitude,
-        };
+            X = request.Coordinate.Latitude,
+            Y = request.Coordinate.Longitude,
+        });
         eventEntity.Currency = request.Currency;
         eventEntity.IsPrivate = request.IsPrivate;
 

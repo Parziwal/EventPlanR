@@ -16,7 +16,7 @@ public class OrganizationEventDetailsDto : BaseAuditableDto
     public DateTimeOffset ToDate { get; set; }
     public string Venue { get; set; } = null!;
     public AddressDto Address { get; set; } = null!;
-    public CoordinatesDto Coordinates { get; set; } = null!;
+    public CoordinateDto Coordinate { get; set; } = null!;
     public Currency Currency { get; set; }
     public bool IsPrivate { get; set; }
     public bool IsPublished { get; set; }

@@ -31,6 +31,9 @@ public class EventConfiguration : IEntityTypeConfiguration<EventEntity>
             .IsRequired();
         builder.Property(e => e.IsPublished)
             .IsRequired();
+        builder.Property(e => e.Coordinate)
+            .HasColumnType("geography (point)")
+            .IsRequired();
 
         builder.OwnsOne(e => e.Address, address =>
         {
@@ -45,14 +48,6 @@ public class EventConfiguration : IEntityTypeConfiguration<EventEntity>
                 .IsRequired();
             address.Property(a => a.AddressLine)
                 .HasMaxLength(256)
-                .IsRequired();
-        });
-
-        var coordinates = builder.OwnsOne(e => e.Coordinates, coordinates =>
-        {
-            coordinates.Property(c => c.Latitude)
-                .IsRequired();
-            coordinates.Property(c => c.Longitude)
                 .IsRequired();
         });
 

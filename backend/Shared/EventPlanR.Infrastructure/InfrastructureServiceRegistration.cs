@@ -25,7 +25,7 @@ public static class InfrastructureServiceRegistration
         services.AddDbContext<EventPlanrDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-            options.UseNpgsql(configuration.GetConnectionString("EventPlanrDb"));
+            options.UseNpgsql(configuration.GetConnectionString("EventPlanrDb"), o => o.UseNetTopologySuite());
         });
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<EventPlanrDbContext>());
         services.AddScoped<DatabaseInitializer>();
