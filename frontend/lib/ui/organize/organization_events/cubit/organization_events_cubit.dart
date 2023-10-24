@@ -1,5 +1,4 @@
 import 'package:event_planr_app/domain/event_manager_repository.dart';
-import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/organization_event.dart';
 import 'package:event_planr_app/domain/models/event/organization_event_filter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +24,6 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
     int pageNumber,
   ) async {
     try {
-      emit(state.copyWith(status: OrganizationEventsStatus.loading));
       final events =
           await _eventManagerRepository.getOrganizationUpcomingEvents(
         OrganizationEventFilter(
@@ -34,7 +32,12 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         ),
       );
       emit(
-        state.copyWith(status: OrganizationEventsStatus.idle, events: events),
+        state.copyWith(
+          events: pageNumber == 1
+              ? events.items
+              : [...state.events, ...events.items],
+          pageNumber: events.hasNextPage ? pageNumber + 1 : null,
+        ),
       );
     } catch (e) {
       emit(
@@ -44,13 +47,13 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         ),
       );
     }
+    emit(state.copyWith(status: OrganizationEventsStatus.idle));
   }
 
   Future<void> getOrganizationDraftEvents(
     int pageNumber,
   ) async {
     try {
-      emit(state.copyWith(status: OrganizationEventsStatus.loading));
       final events = await _eventManagerRepository.getOrganizationDraftEvents(
         OrganizationEventFilter(
           pageNumber: pageNumber,
@@ -58,7 +61,12 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         ),
       );
       emit(
-        state.copyWith(status: OrganizationEventsStatus.idle, events: events),
+        state.copyWith(
+          events: pageNumber == 1
+              ? events.items
+              : [...state.events, ...events.items],
+          pageNumber: events.hasNextPage ? pageNumber + 1 : null,
+        ),
       );
     } catch (e) {
       emit(
@@ -68,13 +76,13 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         ),
       );
     }
+    emit(state.copyWith(status: OrganizationEventsStatus.idle));
   }
 
   Future<void> getOrganizationPastEvents(
     int pageNumber,
   ) async {
     try {
-      emit(state.copyWith(status: OrganizationEventsStatus.loading));
       final events = await _eventManagerRepository.getOrganizationPastEvents(
         OrganizationEventFilter(
           pageNumber: pageNumber,
@@ -82,7 +90,12 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         ),
       );
       emit(
-        state.copyWith(status: OrganizationEventsStatus.idle, events: events),
+        state.copyWith(
+          events: pageNumber == 1
+              ? events.items
+              : [...state.events, ...events.items],
+          pageNumber: events.hasNextPage ? pageNumber + 1 : null,
+        ),
       );
     } catch (e) {
       emit(
@@ -92,5 +105,6 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         ),
       );
     }
+    emit(state.copyWith(status: OrganizationEventsStatus.idle));
   }
 }

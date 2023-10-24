@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:event_planr_app/data/network/event_planr/event_general/event_general_client.dart';
 import 'package:event_planr_app/data/network/event_planr/event_manager/event_manager_client.dart';
+import 'package:event_planr_app/data/network/event_planr/news_post/news_post_client.dart';
 import 'package:event_planr_app/data/network/event_planr/organization_manager/organization_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr/ticket_manager/ticket_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr/ticket_order/ticket_order_client.dart';
@@ -67,6 +68,11 @@ abstract class NetworkModule {
   @singleton
   UserTicketClient getUserTicketClient(Dio dio) {
     return UserTicketClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  NewsPostClient getNewsPostClient(Dio dio) {
+    return NewsPostClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
   }
 
   @singleton

@@ -39,12 +39,13 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
       vsync: this,
     );
 
-    _pagingController.addPageRequestListener(loadOrganizationEvents);
+    _pagingController.addPageRequestListener(_loadOrganizationEvents);
 
     context.watch<OrganizationEventsCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
+        nextPageKey: state.pageNumber,
         error: state.errorCode,
-        itemList: state.events?.items,
+        itemList: state.events,
       );
     });
   }
@@ -67,7 +68,7 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
         controller: _tabController,
         onTap: (int index) {
           _tabController.animateTo(index);
-          _pagingController.refresh();
+          _pagingController.notifyPageRequestListeners(1);
         },
         tabs: [
           Tab(text: l10n.organizationEvents_Upcoming),
@@ -115,7 +116,7 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
     );
   }
 
-  void loadOrganizationEvents(int pageNumber) {
+  void _loadOrganizationEvents(int pageNumber) {
     switch (_tabController.index) {
       case 0:
         context

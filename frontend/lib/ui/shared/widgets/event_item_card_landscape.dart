@@ -19,7 +19,7 @@ class EventItemCardLandscape extends StatelessWidget {
     final theme = context.theme;
 
     return SizedBox(
-      height: 150,
+      height: 120,
       child: Card(
         clipBehavior: Clip.hardEdge,
         elevation: 4,

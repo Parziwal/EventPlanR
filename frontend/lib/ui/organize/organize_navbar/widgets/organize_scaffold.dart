@@ -33,6 +33,7 @@ class OrganizeScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: _appBar(context),
+
       drawer: breakpoints.isMobile ? const OrganizeDrawer() : null,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -55,6 +56,7 @@ class OrganizeScaffold extends StatelessWidget {
       return AppBar(
         title: title != null ? Text(title!) : null,
         actions: mobileActions,
+        bottom: tabBar,
         elevation: 5,
       );
     } else {

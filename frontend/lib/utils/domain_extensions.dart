@@ -1,10 +1,10 @@
 import 'package:event_planr_app/data/network/event_planr/models/address_dto.dart';
-import 'package:event_planr_app/data/network/event_planr/models/coordinates_dto.dart';
+import 'package:event_planr_app/data/network/event_planr/models/coordinate_dto.dart';
 import 'package:event_planr_app/data/network/event_planr/models/currency.dart';
 import 'package:event_planr_app/data/network/event_planr/models/event_category.dart';
 import 'package:event_planr_app/data/network/event_planr/models/order_direction.dart';
 import 'package:event_planr_app/domain/models/common/address.dart';
-import 'package:event_planr_app/domain/models/common/coordinates.dart';
+import 'package:event_planr_app/domain/models/common/coordinate.dart';
 import 'package:event_planr_app/domain/models/common/order_direction_enum.dart';
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
@@ -38,9 +38,9 @@ extension AddressDtoX on AddressDto {
   }
 }
 
-extension CoordinatesDtoX on CoordinatesDto {
-  Coordinates toDomainModel() {
-    return Coordinates(
+extension CoordinatesDtoX on CoordinateDto {
+  Coordinate toDomainModel() {
+    return Coordinate(
       latitude: latitude,
       longitude: longitude,
     );
@@ -80,9 +80,9 @@ extension AddressX on Address {
   }
 }
 
-extension CoordinatesX on Coordinates {
-  CoordinatesDto toNetworkModel() {
-    return CoordinatesDto(
+extension CoordinatesX on Coordinate {
+  CoordinateDto toNetworkModel() {
+    return CoordinateDto(
       latitude: latitude,
       longitude: longitude,
     );

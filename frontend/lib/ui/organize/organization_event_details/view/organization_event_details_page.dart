@@ -124,14 +124,6 @@ class OrganizationEventDetailsPage extends StatelessWidget {
     final l10n = context.l10n;
     final theme = context.theme;
 
-    context.read<OrganizeNavbarCubit>().selectEvent(
-          OrganizationEvent(
-            id: eventDetails.id,
-            name: eventDetails.name,
-            fromDate: eventDetails.fromDate,
-          ),
-        );
-
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       child: MaxWidthBox(

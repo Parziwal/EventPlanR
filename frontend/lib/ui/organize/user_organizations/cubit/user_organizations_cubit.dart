@@ -32,7 +32,6 @@ class UserOrganizationsCubit extends Cubit<UserOrganizationsState> {
           await _organizationManagerRepository.getUserOrganizations();
       emit(
         state.copyWith(
-          status: UserOrganizationsStatus.idle,
           organizations: organizations,
         ),
       );
@@ -44,6 +43,7 @@ class UserOrganizationsCubit extends Cubit<UserOrganizationsState> {
         ),
       );
     }
+    emit(state.copyWith(status: UserOrganizationsStatus.idle));
   }
 
   Future<void> setOrganization(String organizationId) async {
@@ -63,5 +63,6 @@ class UserOrganizationsCubit extends Cubit<UserOrganizationsState> {
         ),
       );
     }
+    emit(state.copyWith(status: UserOrganizationsStatus.idle));
   }
 }

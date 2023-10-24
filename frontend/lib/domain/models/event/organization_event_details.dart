@@ -1,5 +1,5 @@
 import 'package:event_planr_app/domain/models/common/address.dart';
-import 'package:event_planr_app/domain/models/common/coordinates.dart';
+import 'package:event_planr_app/domain/models/common/coordinate.dart';
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
