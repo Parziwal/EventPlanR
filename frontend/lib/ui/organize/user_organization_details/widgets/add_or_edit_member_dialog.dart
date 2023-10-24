@@ -220,6 +220,36 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
             l10n.translateEnums(OrganizationPolicy.organizationEventManage),
           ),
         ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.eventTicketView,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.eventTicketView),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.eventTicketManage,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.eventTicketManage),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.newsPostView,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.newsPostView),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.newsPostManage,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.newsPostManage),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.userCheckIn,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.userCheckIn),
+          ),
+        ),
       ],
       orientation: OptionsOrientation.vertical,
       onChanged: (value) {
