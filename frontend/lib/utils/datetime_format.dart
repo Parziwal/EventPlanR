@@ -37,3 +37,8 @@ String formatEventDetailsTime(DateTime from, DateTime to) {
     return '$fromDate $fromHour - $toDate $toHour';
   }
 }
+
+String formatDateTime(DateTime dateTime) {
+  return '${DateFormat.yMEd().format(dateTime)}, '
+      '${DateFormat.jm().format(dateTime)}';
+}

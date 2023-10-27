@@ -92,6 +92,8 @@ class EventGeneralRepository {
       ),
       latestNews: event.latestNews != null
           ? NewsPost(
+              id: event.latestNews!.id,
+              title: event.latestNews!.title,
               text: event.latestNews!.text,
               created: event.latestNews!.lastModified,
             )

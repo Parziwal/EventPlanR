@@ -19,8 +19,8 @@ public class MainController : ControllerBase
     }
 
     [HttpGet("{eventId}")]
-    public Task<PaginatedListDto<NewsPostDto>> GetEventNewsPost(Guid eventId, [FromQuery] PageDto page)
-        => _sender.Send(new GetEventNewsPostQuery()
+    public Task<PaginatedListDto<OrganizationNewsPostDto>> GetEventNewsPost(Guid eventId, [FromQuery] PageDto page)
+        => _sender.Send(new GetOrganizationEventNewsPostQuery()
         {
             EventId = eventId,
             PageNumber = page.PageNumber,
@@ -35,7 +35,7 @@ public class MainController : ControllerBase
     }
 
     [HttpDelete("{newsPostId}")]
-    public Task CreateNewsPost(Guid newsPostId)
+    public Task DeleteNewsPost(Guid newsPostId)
         => _sender.Send(new DeleteNewsPostCommand()
         {
             NewsPostId = newsPostId,

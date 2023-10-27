@@ -14,6 +14,7 @@ public class CreateNewsPostCommand : IRequest<Guid>
 {
     [JsonIgnore]
     public Guid EventId { get; set; }
+    public string Title { get; set; } = null!;
     public string Text { get; set; } = null!;
 }
 
@@ -31,15 +32,11 @@ public class CreateNewsPostCommandHandler : IRequestHandler<CreateNewsPostComman
     public async Task<Guid> Handle(CreateNewsPostCommand request, CancellationToken cancellationToken)
     {
         var eventEntity = await _dbContext.Events
-            .SingleEntityAsync(e => e.Id == request.EventId);
-
-        if (eventEntity.OrganizationId != _user.OrganizationId)
-        {
-            throw new ForbiddenException();
-        }
+            .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
         var post = new NewsPostEntity()
         {
+            Title = request.Title,
             Text = request.Text,
             EventId = request.EventId,
         };

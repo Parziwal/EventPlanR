@@ -31,6 +31,8 @@ import 'package:event_planr_app/ui/organize/create_or_edit_ticket/cubit/create_o
 import 'package:event_planr_app/ui/organize/create_or_edit_ticket/view/create_or_edit_ticket_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/cubit/organization_event_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/view/organization_event_details_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_news/cubit/organization_event_news_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_news/view/organization_event_news_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/cubit/organization_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/view/organization_event_tickets_page.dart';
 import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
@@ -91,6 +93,9 @@ class PagePaths {
 
   static String organizationEventTicketEdit(String eventId) =>
       '/organizationEventTickets/$eventId/edit';
+
+  static String organizationEventNews(String eventId) =>
+      '/organizationEventNews/$eventId';
 }
 
 final appRouter = GoRouter(
@@ -254,6 +259,10 @@ final appRouter = GoRouter(
                   cubit.loadTicketForEdit(state.extra! as OrganizationTicket),
             ),
           ],
+        ),
+        BlocRoute<OrganizationEventNewsCubit>(
+          path: PagePaths.organizationEventNews(':eventId'),
+          builder: (state) => const OrganizationEventNewsPage(),
         ),
       ],
     ),

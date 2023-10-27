@@ -8,9 +8,9 @@ module "event_planr_db" {
 }
 
 resource "aws_dynamodb_table" "user_claim" {
-  name           = "UserClaim"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "UserId"
+  name         = "UserClaim"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "UserId"
 
   attribute {
     name = "UserId"
@@ -19,9 +19,9 @@ resource "aws_dynamodb_table" "user_claim" {
 }
 
 resource "aws_dynamodb_table" "user_reserved_ticket_order" {
-  name           = "UserReservedTicketOrder"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "UserId"
+  name         = "UserReservedTicketOrder"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "UserId"
 
   attribute {
     name = "UserId"
@@ -33,7 +33,7 @@ resource "aws_dynamodb_table" "user_reserved_ticket_order" {
     enabled        = true
   }
 
-  stream_enabled = true
+  stream_enabled   = true
   stream_view_type = "OLD_IMAGE"
 }
 
@@ -49,9 +49,13 @@ module "database_initializer_lambda" {
   }
 }
 
-data "aws_lambda_invocation" "database_initializer_lambda" {
+resource "aws_lambda_invocation" "database_initializer_lambda" {
   function_name = module.database_initializer_lambda.function_name
-  input = ""
+  input         = ""
+
+  triggers = {
+    always_run = "${timestamp()}"
+  }
 }
 
 module "user_reserved_ticket_order" {
@@ -67,19 +71,19 @@ module "user_reserved_ticket_order" {
 }
 
 resource "aws_ssm_parameter" "event_planr_db" {
-  name        = "/${var.environment}/event_planr/ConnectionStrings/EventPlanrDb"
-  type        = "SecureString"
-  value       = "Host=${module.event_planr_db.cluster_url};Port=5432;Username=${module.event_planr_db.username};Password=${module.event_planr_db.password};Database=${module.event_planr_db.database_name}"
+  name  = "/${var.environment}/event_planr/ConnectionStrings/EventPlanrDb"
+  type  = "SecureString"
+  value = "Host=${module.event_planr_db.cluster_url};Port=5432;Username=${module.event_planr_db.username};Password=${module.event_planr_db.password};Database=${module.event_planr_db.database_name}"
 }
 
 resource "aws_ssm_parameter" "user_claim" {
-  name        = "/${var.environment}/event_planr/DynamoDbTableOptions/UserClaimTable"
-  type        = "String"
-  value       = aws_dynamodb_table.user_claim.name
+  name  = "/${var.environment}/event_planr/DynamoDbTableOptions/UserClaimTable"
+  type  = "String"
+  value = aws_dynamodb_table.user_claim.name
 }
 
 resource "aws_ssm_parameter" "user_reserved_ticket_order" {
-  name        = "/${var.environment}/event_planr/DynamoDbTableOptions/UserReservedTicketOrderTable"
-  type        = "String"
-  value       = aws_dynamodb_table.user_reserved_ticket_order.name
+  name  = "/${var.environment}/event_planr/DynamoDbTableOptions/UserReservedTicketOrderTable"
+  type  = "String"
+  value = aws_dynamodb_table.user_reserved_ticket_order.name
 }

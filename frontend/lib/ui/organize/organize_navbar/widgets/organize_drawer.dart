@@ -57,8 +57,10 @@ class OrganizeDrawer extends StatelessWidget {
                   DrawerTile(
                     icon: const Icon(Icons.post_add),
                     label: Text(l10n.organizeNavbar_NewsPost),
-                    onTap: () {},
-                    selected: false,
+                    onTap: () =>
+                        context.go(PagePaths.organizationEventNews(event.id)),
+                    selected:
+                        location == PagePaths.organizationEventNews(event.id),
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.insert_invitation),

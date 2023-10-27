@@ -13,6 +13,9 @@ public class NewsPostConfiguration : IEntityTypeConfiguration<NewsPostEntity>
 
         builder.Property(op => op.Id)
             .HasValueGenerator<GuidValueGenerator>();
+        builder.Property(np => np.Title)
+            .IsRequired()
+            .HasMaxLength(64);
         builder.Property(np => np.Text)
             .IsRequired();
 

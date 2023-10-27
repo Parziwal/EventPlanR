@@ -9,12 +9,16 @@ part 'news_post_dto.g.dart';
 @JsonSerializable()
 class NewsPostDto {
   const NewsPostDto({
+    required this.id,
+    required this.title,
     required this.text,
     required this.lastModified,
   });
   
   factory NewsPostDto.fromJson(Map<String, Object?> json) => _$NewsPostDtoFromJson(json);
   
+  final String id;
+  final String title;
   final String text;
   final DateTime lastModified;
 

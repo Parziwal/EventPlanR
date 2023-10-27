@@ -3,6 +3,7 @@ import 'package:event_planr_app/data/network/event_planr/models/edit_ticket_comm
 import 'package:event_planr_app/data/network/event_planr/ticket_manager/ticket_manager_client.dart';
 import 'package:event_planr_app/domain/models/ticket/add_or_edit_ticket.dart';
 import 'package:event_planr_app/domain/models/ticket/organization_ticket.dart';
+import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -62,6 +63,7 @@ class TicketManagerRepository {
             price: t.price,
             saleStarts: t.saleStarts,
             saleEnds: t.saleEnds,
+            currency: t.currency.toDomainEnum(),
             description: t.description,
             lastModifiedBy: t.lastModifiedBy,
             createdBy: t.createdBy,

@@ -1,3 +1,5 @@
+import 'package:event_planr_app/data/network/event_planr/models/currency.dart';
+import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'organization_ticket.freezed.dart';
@@ -15,6 +17,7 @@ class OrganizationTicket with _$OrganizationTicket {
     required double price,
     required DateTime saleStarts,
     required DateTime saleEnds,
+    required CurrencyEnum currency,
     String? createdBy,
     String? lastModifiedBy,
     String? description,

@@ -267,5 +267,21 @@
   "createOrEditTicket_SalesStartMustBeBeforeSalesEnds": "Sale start must be before sales ends",
   "createOrEditTicket_SalesEndsMustBeAfterSalesStart": "Sale ends must be after sales start",
   "createOrEditTicket_TicketCreated": "Ticket created",
-  "createOrEditTicket_TicketUpdated": "Ticket updated"
+  "createOrEditTicket_TicketUpdated": "Ticket updated",
+  "organizationEventNews": "News posts",
+  "organizationEventNews_AddPost": "Add post",
+  "organizationEventNews_PostNews": "Post news",
+  "organizationEventNews_Title": "Title",
+  "organizationEventNews_NewsAboutTheEvent": "News about the event...",
+  "organizationEventNews_Created": "Created:",
+  "organizationEventNews_NewsCreated": "News created",
+  "organizationEventNews_NewsDeleted": "News deleted",
+  "organizationEventNews_AreYouSureYouWantToDeleteNews": "Are you sure you want to delete {newsTitle} news?",
+  "@organizationEventNews_AreYouSureYouWantToDeleteNews": {
+    "placeholders": {
+      "newsTitle": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -44,7 +44,7 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
         var eventEntity = await _dbContext.Events
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (eventEntity.FromDate <= DateTimeOffset.UtcNow)
+        if (eventEntity.IsPublished && eventEntity.FromDate <= DateTimeOffset.UtcNow)
         {
             throw new DomainException("LiveEventCannotBeEditedException");
         }

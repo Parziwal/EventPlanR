@@ -88,13 +88,7 @@ class OrganizationEventTicketsPage extends StatelessWidget {
     return Center(
       child: MaxWidthBox(
         maxWidth: 1000,
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 1000,
-            mainAxisExtent: 300,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-          ),
+        child: ListView.builder(
           itemCount: tickets.length,
           padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
           itemBuilder: (context, i) {

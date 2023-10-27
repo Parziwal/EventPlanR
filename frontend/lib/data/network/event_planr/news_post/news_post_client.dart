@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../models/create_news_post_command.dart';
-import '../models/news_post_dto_paginated_list_dto.dart';
+import '../models/organization_news_post_dto_paginated_list_dto.dart';
 
 part 'news_post_client.g.dart';
 
@@ -15,7 +15,7 @@ abstract class NewsPostClient {
   factory NewsPostClient(Dio dio, {String? baseUrl}) = _NewsPostClient;
 
   @GET('/newspost/{eventId}')
-  Future<NewsPostDtoPaginatedListDto> getNewspostEventId({
+  Future<OrganizationNewsPostDtoPaginatedListDto> getNewspostEventId({
     @Path('eventId') required String eventId,
     @Query('PageNumber') int? pageNumber,
     @Query('PageSize') int? pageSize,

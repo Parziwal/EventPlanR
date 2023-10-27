@@ -1,9 +1,11 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/ticket/organization_ticket.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/l10n/l10n_enums.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/cubit/organization_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
+import 'package:event_planr_app/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -36,24 +38,30 @@ class TicketItem extends StatelessWidget {
                   style: theme.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 16),
-                Text('${l10n.organizationEventTickets_Price} ${ticket.price}'),
+                Text('${l10n.organizationEventTickets_Price} '
+                    '${ticket.price} '
+                    '${l10n.translateEnums(ticket.currency.name)}'),
                 const SizedBox(height: 16),
                 Text('${l10n.organizationEventTickets_SaleStarts} '
-                    '${DateFormat.yMEd().format(ticket.saleStarts)}, '
-                    '${DateFormat.jm().format(ticket.saleStarts)}'),
+                    '${formatDateTime(ticket.saleStarts)}'),
                 Text('${l10n.organizationEventTickets_SaleEnds} '
-                    '${DateFormat.yMEd().format(ticket.saleEnds)}, '
-                    '${DateFormat.jm().format(ticket.saleEnds)}'),
+                    '${formatDateTime(ticket.saleEnds)}'),
                 const SizedBox(height: 16),
                 Text('${l10n.organizationEventTickets_Description} '
                     '${ticket.description ?? '-'}'),
-                const Spacer(),
-                Text('${l10n.organizationEventTickets_Created} '
-                    '${ticket.createdBy ?? '-'}, '
-                    '${DateFormat.yMEd().format(ticket.created)}'),
-                Text('${l10n.organizationEventTickets_LastModified} '
-                    '${ticket.lastModifiedBy ?? '-'}, '
-                    '${DateFormat.yMEd().format(ticket.lastModified)}'),
+                const SizedBox(height: 16),
+                Text(
+                  '${l10n.organizationEventTickets_Created} '
+                  '${ticket.createdBy ?? '-'}, '
+                  '${formatDateTime(ticket.created)}',
+                  style: theme.textTheme.labelMedium,
+                ),
+                Text(
+                  '${l10n.organizationEventTickets_LastModified} '
+                  '${ticket.lastModifiedBy ?? '-'}, '
+                  '${formatDateTime(ticket.lastModified)}',
+                  style: theme.textTheme.labelMedium,
+                ),
               ],
             ),
             Positioned(

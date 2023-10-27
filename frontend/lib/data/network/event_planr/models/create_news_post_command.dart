@@ -9,11 +9,13 @@ part 'create_news_post_command.g.dart';
 @JsonSerializable()
 class CreateNewsPostCommand {
   const CreateNewsPostCommand({
+    required this.title,
     required this.text,
   });
   
   factory CreateNewsPostCommand.fromJson(Map<String, Object?> json) => _$CreateNewsPostCommandFromJson(json);
   
+  final String title;
   final String text;
 
   Map<String, Object?> toJson() => _$CreateNewsPostCommandToJson(this);

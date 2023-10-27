@@ -8,7 +8,11 @@ public class CreateNewsPostCommandValidator : AbstractValidator<CreateNewsPostCo
     {
         RuleFor(x => x.EventId)
             .NotEmpty();
+        RuleFor(x => x.Title)
+            .NotEmpty()
+            .MaximumLength(64);
         RuleFor(x => x.Text)
             .NotEmpty();
+
     }
 }

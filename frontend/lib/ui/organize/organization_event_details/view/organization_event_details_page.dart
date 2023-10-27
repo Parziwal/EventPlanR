@@ -28,91 +28,90 @@ class OrganizationEventDetailsPage extends StatelessWidget {
     final l10n = context.l10n;
     final theme = context.theme;
     final goRouterState = context.goRouterState;
+    final eventDetails =
+        context.watch<OrganizationEventDetailsCubit>().state.eventDetails;
 
-    return BlocConsumer<OrganizationEventDetailsCubit,
-        OrganizationEventDetailsState>(
-      listener: _stateListener,
-      builder: (context, state) => OrganizeScaffold(
-        title: l10n.organizationEventDetails,
-        mobileActions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem<void>(
-                onTap: () => context
-                    .read<OrganizationEventDetailsCubit>()
-                    .publishEvent(),
-                child: Text(
-                  state.eventDetails != null && state.eventDetails!.isPublished
-                      ? l10n.organizationEventDetails_UnPublishEvent
-                      : l10n.organizationEventDetails_PublishEvent,
+    return OrganizeScaffold(
+      title: l10n.organizationEventDetails,
+      mobileActions: [
+        PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem<void>(
+              onTap: () =>
+                  context.read<OrganizationEventDetailsCubit>().publishEvent(),
+              child: Text(
+                eventDetails != null && eventDetails!.isPublished
+                    ? l10n.organizationEventDetails_UnPublishEvent
+                    : l10n.organizationEventDetails_PublishEvent,
+              ),
+            ),
+            PopupMenuItem<void>(
+              onTap: () => context.go(
+                PagePaths.organizationEventEdit(
+                  goRouterState.pathParameters['eventId']!,
                 ),
               ),
-              PopupMenuItem<void>(
-                onTap: () => context.go(
-                  PagePaths.organizationEventEdit(
-                    goRouterState.pathParameters['eventId']!,
-                  ),
-                ),
-                child: Text(l10n.organizationEventDetails_EditEvent),
-              ),
-              PopupMenuItem<void>(
-                onTap: () => _deleteEvent(context),
-                child: Text(l10n.organizationEventDetails_DeleteEvent),
-              ),
-            ],
-          ),
-        ],
-        desktopActions: [
-          FilledButton.tonalIcon(
-            onPressed: () =>
-                context.read<OrganizationEventDetailsCubit>().publishEvent(),
-            icon: const Icon(Icons.publish),
-            label: Text(
-              state.eventDetails != null && state.eventDetails!.isPublished
-                  ? l10n.organizationEventDetails_UnPublishEvent
-                  : l10n.organizationEventDetails_PublishEvent,
+              child: Text(l10n.organizationEventDetails_EditEvent),
             ),
-            style: FilledButton.styleFrom(
-              textStyle: theme.textTheme.titleMedium,
-              padding: const EdgeInsets.all(16),
+            PopupMenuItem<void>(
+              onTap: () => _deleteEvent(context),
+              child: Text(l10n.organizationEventDetails_DeleteEvent),
             ),
-          ),
-          const SizedBox(width: 16),
-          FilledButton.tonalIcon(
-            onPressed: () => context.go(
-              PagePaths.organizationEventEdit(
-                goRouterState.pathParameters['eventId']!,
-              ),
-            ),
-            icon: const Icon(Icons.edit),
-            label: Text(l10n.organizationEventDetails_EditEvent),
-            style: FilledButton.styleFrom(
-              textStyle: theme.textTheme.titleMedium,
-              padding: const EdgeInsets.all(16),
-            ),
-          ),
-          const SizedBox(width: 16),
-          FilledButton.tonalIcon(
-            onPressed: () => _deleteEvent(context),
-            icon: const Icon(Icons.delete),
-            label: Text(l10n.organizationEventDetails_DeleteEvent),
-            style: FilledButton.styleFrom(
-              textStyle: theme.textTheme.titleMedium,
-              padding: const EdgeInsets.all(16),
-            ),
-          ),
-        ],
-        body: Builder(
-          builder: (context) {
-            if (state.status == OrganizationEventDetailsStatus.loading) {
-              const LoadingIndicator();
-            } else if (state.eventDetails != null) {
-              return _mainContent(context, state.eventDetails!);
-            }
-
-            return Container();
-          },
+          ],
         ),
+      ],
+      desktopActions: [
+        FilledButton.tonalIcon(
+          onPressed: () =>
+              context.read<OrganizationEventDetailsCubit>().publishEvent(),
+          icon: const Icon(Icons.publish),
+          label: Text(
+            eventDetails != null && eventDetails!.isPublished
+                ? l10n.organizationEventDetails_UnPublishEvent
+                : l10n.organizationEventDetails_PublishEvent,
+          ),
+          style: FilledButton.styleFrom(
+            textStyle: theme.textTheme.titleMedium,
+            padding: const EdgeInsets.all(16),
+          ),
+        ),
+        const SizedBox(width: 16),
+        FilledButton.tonalIcon(
+          onPressed: () => context.go(
+            PagePaths.organizationEventEdit(
+              goRouterState.pathParameters['eventId']!,
+            ),
+          ),
+          icon: const Icon(Icons.edit),
+          label: Text(l10n.organizationEventDetails_EditEvent),
+          style: FilledButton.styleFrom(
+            textStyle: theme.textTheme.titleMedium,
+            padding: const EdgeInsets.all(16),
+          ),
+        ),
+        const SizedBox(width: 16),
+        FilledButton.tonalIcon(
+          onPressed: () => _deleteEvent(context),
+          icon: const Icon(Icons.delete),
+          label: Text(l10n.organizationEventDetails_DeleteEvent),
+          style: FilledButton.styleFrom(
+            textStyle: theme.textTheme.titleMedium,
+            padding: const EdgeInsets.all(16),
+          ),
+        ),
+      ],
+      body: BlocConsumer<OrganizationEventDetailsCubit,
+          OrganizationEventDetailsState>(
+        listener: _stateListener,
+        builder: (context, state) {
+          if (state.status == OrganizationEventDetailsStatus.loading) {
+            return const LoadingIndicator();
+          } else if (state.eventDetails != null) {
+            return _mainContent(context, state.eventDetails!);
+          }
+
+          return Text(state.status.name);
+        },
       ),
     );
   }
