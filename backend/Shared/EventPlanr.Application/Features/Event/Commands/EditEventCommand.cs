@@ -25,7 +25,6 @@ public class EditEventCommand : IRequest
     public AddressDto Address { get; set; } = null!;
     public CoordinateDto Coordinate { get; set; } = null!;
     public Currency Currency { get; set; }
-    public bool IsPrivate { get; set; }
 }
 
 public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
@@ -67,7 +66,6 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
             Y = request.Coordinate.Longitude,
         });
         eventEntity.Currency = request.Currency;
-        eventEntity.IsPrivate = request.IsPrivate;
 
         await _dbContext.SaveChangesAsync();
     }

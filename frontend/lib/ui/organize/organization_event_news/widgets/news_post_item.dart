@@ -16,7 +16,6 @@ class NewsPostItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
-    final eventId = context.goRouterState.pathParameters['eventId']!;
 
     return Card(
       child: Padding(

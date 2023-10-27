@@ -45,8 +45,9 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
 
     context.watch<ExploreEventsCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
+        nextPageKey: state.filter.pageNumber,
         error: state.errorCode,
-        itemList: state.events?.items,
+        itemList: state.events,
       );
     });
   }
@@ -61,6 +62,11 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final breakpoints = context.breakpoints;
+
+    final goRouterState = context.goRouterState;
+    if (goRouterState.uri.toString() != PagePaths.exploreEvents) {
+      return Container();
+    }
 
     return EventScaffold(
       title: l10n.exploreEvents,

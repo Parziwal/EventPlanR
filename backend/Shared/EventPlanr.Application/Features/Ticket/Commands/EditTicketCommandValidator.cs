@@ -19,6 +19,8 @@ public class EditTicketCommandValidator : AbstractValidator<EditTicketCommand>
         RuleFor(x => x.SaleStarts)
             .Must((fields, saleStarts) => saleStarts <= fields.SaleEnds)
             .WithMessage("SaleStarts must be before SaleEnds.")
+            .Must(x => x > DateTimeOffset.UtcNow)
+            .WithErrorCode("SaleStartsMustBeBeforeCurrentDate")
             .NotNull();
         RuleFor(x => x.SaleEnds)
             .Must((fields, saleEnds) => saleEnds >= fields.SaleStarts)

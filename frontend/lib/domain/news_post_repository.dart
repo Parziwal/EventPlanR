@@ -3,7 +3,7 @@ import 'package:event_planr_app/data/network/event_planr/news_post/news_post_cli
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/news_post/create_news_post.dart';
 import 'package:event_planr_app/domain/models/news_post/organization_news_post.dart';
-import 'package:event_planr_app/domain/models/news_post/organization_news_post_filter.dart';
+import 'package:event_planr_app/domain/models/news_post/news_post_filter.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -13,8 +13,8 @@ class NewsPostRepository {
 
   final NewsPostClient _newsPostClient;
 
-  Future<PaginatedList<OrganizationNewsPost>> getEventNewsPost(
-    OrganizationNewsPostFilter filter,
+  Future<PaginatedList<OrganizationNewsPost>> getEventNewsPosts(
+    NewsPostFilter filter,
   ) async {
     final news = await _newsPostClient.getNewspostEventId(
       eventId: filter.eventId,

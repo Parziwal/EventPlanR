@@ -1,7 +1,6 @@
 import 'package:event_planr_app/domain/event_general_repository.dart';
 import 'package:event_planr_app/domain/map_repository.dart';
 import 'package:event_planr_app/domain/models/common/order_direction_enum.dart';
-import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/event.dart';
 import 'package:event_planr_app/domain/models/event/event_distance_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_filter.dart';
@@ -20,31 +19,35 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
   ExploreEventsCubit({
     required EventGeneralRepository eventGeneralRepository,
     required MapRepository mapRepository,
-  })
-      : _eventGeneralRepository = eventGeneralRepository,
+  })  : _eventGeneralRepository = eventGeneralRepository,
         _mapRepository = mapRepository,
         super(
-        const ExploreEventsState(
-          status: ExploreEventsStatus.idle,
-          filter: EventFilter(
-            orderBy: EventOrderByEnum.fromDate,
-            orderDirection: OrderDirectionEnum.descending,
-            distance: EventDistanceEnum.km10,
+          const ExploreEventsState(
+            status: ExploreEventsStatus.idle,
+            filter: EventFilter(
+              orderBy: EventOrderByEnum.fromDate,
+              orderDirection: OrderDirectionEnum.descending,
+              distance: EventDistanceEnum.km10,
+              pageNumber: 1,
+              pageSize: 20,
+            ),
           ),
-        ),
-      );
+        );
 
   final EventGeneralRepository _eventGeneralRepository;
   final MapRepository _mapRepository;
 
   Future<void> filterEvents(EventFilter filter) async {
     try {
-      emit(state.copyWith(status: ExploreEventsStatus.loading, filter: filter));
       final events = await _eventGeneralRepository.getFilteredEvents(filter);
       emit(
         state.copyWith(
-          status: ExploreEventsStatus.idle,
-          events: events,
+          events: filter.pageNumber == 1
+              ? events.items
+              : [...state.events, ...events.items],
+          filter: filter.copyWith(
+            pageNumber: events.hasNextPage ? filter.pageNumber! + 1 : null,
+          ),
         ),
       );
     } catch (e) {
@@ -59,7 +62,6 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
 
   Future<void> getLocationAddress(LatLng location) async {
     try {
-      emit(state.copyWith(status: ExploreEventsStatus.loading));
       final locationDetails = await _mapRepository.reverseSearch(
         location.latitude,
         location.longitude,
@@ -83,6 +85,8 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
         ),
       );
     }
+
+    emit(state.copyWith(status: ExploreEventsStatus.idle));
     await filterEvents(state.filter);
   }
 }

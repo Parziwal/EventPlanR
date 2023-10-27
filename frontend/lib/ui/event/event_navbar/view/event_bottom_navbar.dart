@@ -13,7 +13,7 @@ class EventBottomNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
-    final location = context.goRouterState.matchedLocation;
+    final location = context.goRouterState.uri.toString();
     final showBottomNavbar = location == PagePaths.userDashboard ||
         location == PagePaths.exploreEvents ||
         location == PagePaths.userEvents ||

@@ -8,6 +8,6 @@ class NewsPost with _$NewsPost {
     required String id,
     required String title,
     required String text,
-    required DateTime created,
+    required DateTime lastModified,
   }) = _NewsPost;
 }

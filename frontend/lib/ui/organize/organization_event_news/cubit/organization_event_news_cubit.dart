@@ -1,6 +1,6 @@
 import 'package:event_planr_app/domain/models/news_post/create_news_post.dart';
 import 'package:event_planr_app/domain/models/news_post/organization_news_post.dart';
-import 'package:event_planr_app/domain/models/news_post/organization_news_post_filter.dart';
+import 'package:event_planr_app/domain/models/news_post/news_post_filter.dart';
 import 'package:event_planr_app/domain/news_post_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -28,8 +28,8 @@ class OrganizationEventNewsCubit extends Cubit<OrganizationEventNewsState> {
     required int pageNumber,
   }) async {
     try {
-      final newsPosts = await _newsPostRepository.getEventNewsPost(
-        OrganizationNewsPostFilter(
+      final newsPosts = await _newsPostRepository.getEventNewsPosts(
+        NewsPostFilter(
           eventId: eventId,
           pageNumber: pageNumber,
           pageSize: 20,

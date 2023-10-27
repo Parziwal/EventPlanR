@@ -6,6 +6,7 @@ import 'package:event_planr_app/domain/models/event/event_details.dart';
 import 'package:event_planr_app/domain/models/event/event_distance_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_filter.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post.dart';
+import 'package:event_planr_app/domain/models/news_post/news_post_filter.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization_details.dart';
 import 'package:event_planr_app/domain/models/ticket/ticket.dart';
@@ -95,7 +96,7 @@ class EventGeneralRepository {
               id: event.latestNews!.id,
               title: event.latestNews!.title,
               text: event.latestNews!.text,
-              created: event.latestNews!.lastModified,
+              lastModified: event.latestNews!.lastModified,
             )
           : null,
     );
@@ -159,5 +160,33 @@ class EventGeneralRepository {
           ),
         )
         .toList();
+  }
+
+  Future<PaginatedList<NewsPost>> getEventNewsPosts(
+    NewsPostFilter filter,
+  ) async {
+    final news = await _eventGeneralClient.getEventgeneralNewspostEventId(
+      eventId: filter.eventId,
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
+    );
+
+    return PaginatedList(
+      items: news.items
+          .map(
+            (n) => NewsPost(
+              id: n.id,
+              title: n.title,
+              text: n.text,
+              lastModified: n.lastModified,
+            ),
+          )
+          .toList(),
+      pageNumber: news.pageNumber,
+      totalPages: news.totalPages,
+      totalCount: news.totalCount,
+      hasPreviousPage: news.hasPreviousPage,
+      hasNextPage: news.hasNextPage,
+    );
   }
 }

@@ -10,10 +10,14 @@ import 'package:event_planr_app/ui/event/event_details/cubit/event_details_cubit
 import 'package:event_planr_app/ui/event/event_details/view/event_details_page.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
+import 'package:event_planr_app/ui/event/event_news/cubit/event_news_cubit.dart';
+import 'package:event_planr_app/ui/event/event_news/view/event_news_page.dart';
 import 'package:event_planr_app/ui/event/event_tickets/cubit/event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/event/event_tickets/view/event_tickets_page.dart';
 import 'package:event_planr_app/ui/event/explore_events/cubit/explore_events_cubit.dart';
 import 'package:event_planr_app/ui/event/explore_events/view/explore_events_page.dart';
+import 'package:event_planr_app/ui/event/organization_details/cubit/organization_details_cubit.dart';
+import 'package:event_planr_app/ui/event/organization_details/view/organiation_details_page.dart';
 import 'package:event_planr_app/ui/event/ticket_checkout/cubit/ticket_checkout_cubit.dart';
 import 'package:event_planr_app/ui/event/ticket_checkout/view/ticket_checkout_page.dart';
 import 'package:event_planr_app/ui/event/user_dashboard/view/user_dashboard_page.dart';
@@ -63,6 +67,12 @@ class PagePaths {
 
   static String eventDetails(String eventId) =>
       '/exploreEvents/details/$eventId';
+
+  static String eventOrganization(String eventId, String organizationId) =>
+      '/exploreEvents/details/$eventId/organization/$organizationId';
+
+  static String eventNews(String eventId) =>
+      '/exploreEvents/details/$eventId/news';
 
   static String eventTickets(String eventId) =>
       '/exploreEvents/details/$eventId/tickets';
@@ -126,8 +136,12 @@ final appRouter = GoRouter(
     ShellRoute(
       builder: (context, state, child) {
         return BlocProvider(
+          key: state.pageKey,
           create: (_) => injector<EventNavbarCubit>()..loadUserData(),
-          child: EventNavbar(child: child),
+          child: EventNavbar(
+            key: state.pageKey,
+            child: child,
+          ),
         );
       },
       routes: [
@@ -138,7 +152,6 @@ final appRouter = GoRouter(
         BlocRoute<ExploreEventsCubit>(
           path: PagePaths.exploreEvents,
           builder: (state) => const ExploreEventsPage(),
-          init: (cubit, state) => cubit.filterEvents(cubit.state.filter),
           routes: [
             BlocRoute<EventDetailsCubit>(
               path: 'details/:eventId',
@@ -146,6 +159,17 @@ final appRouter = GoRouter(
               init: (cubit, state) =>
                   cubit.loadEventDetails(state.pathParameters['eventId']!),
               routes: [
+                BlocRoute<OrganizationDetailsCubit>(
+                  path: 'organization/:organizationId',
+                  builder: (state) => const OrganizationDetailsPage(),
+                  init: (cubit, state) => cubit.loadOrganizationDetails(
+                    state.pathParameters['organizationId']!,
+                  ),
+                ),
+                BlocRoute<EventNewsCubit>(
+                  path: 'news',
+                  builder: (state) => const EventNewsPage(),
+                ),
                 BlocRoute<EventTicketsCubit>(
                   path: 'tickets',
                   builder: (state) => const EventTicketsPage(),

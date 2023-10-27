@@ -207,28 +207,36 @@ class EventDetailsPage extends StatelessWidget {
     final l10n = context.l10n;
     final theme = context.theme;
 
-    return Row(
-      children: [
-        SizedBox(
-          height: 80,
-          child: AvatarIcon(
-            altText: eventDetails.organization.name[0],
-            imageUrl: eventDetails.coverImageUrl,
+    return InkWell(
+      onTap: () => context.go(
+        PagePaths.eventOrganization(
+          eventDetails.id,
+          eventDetails.organization.id,
+        ),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            height: 80,
+            child: AvatarIcon(
+              altText: eventDetails.organization.name[0],
+              imageUrl: eventDetails.coverImageUrl,
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Text(
-            eventDetails.organization.name,
-            style: theme.textTheme.titleMedium,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              eventDetails.organization.name,
+              style: theme.textTheme.titleMedium,
+            ),
           ),
-        ),
-        const SizedBox(width: 8),
-        OutlinedButton(
-          onPressed: () {},
-          child: Text(l10n.eventDetails_Follow),
-        ),
-      ],
+          const SizedBox(width: 8),
+          OutlinedButton(
+            onPressed: () {},
+            child: Text(l10n.eventDetails_Follow),
+          ),
+        ],
+      ),
     );
   }
 
@@ -242,17 +250,24 @@ class EventDetailsPage extends StatelessWidget {
       const Divider(),
       if (eventDetails.latestNews != null) ...[
         Text(
+          eventDetails.latestNews!.title,
+          style: theme.textTheme.titleLarge,
+        ),
+        const SizedBox(height: 8),
+        Text(
           eventDetails.latestNews!.text,
           textAlign: TextAlign.justify,
+          style: theme.textTheme.bodyLarge,
         ),
+        const SizedBox(height: 8),
         Text(
-          DateFormat.MMMMEEEEd().format(eventDetails.latestNews!.created),
-          style: const TextStyle(fontStyle: FontStyle.italic),
+          DateFormat.MMMMEEEEd().format(eventDetails.latestNews!.lastModified),
+          style: theme.textTheme.labelMedium,
         ),
         const Divider(),
         Center(
           child: FilledButton(
-            onPressed: () {},
+            onPressed: () => context.go(PagePaths.eventNews(eventDetails.id)),
             child: Text(l10n.eventDetails_MoreNews),
           ),
         ),

@@ -8,6 +8,7 @@ import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:responsive_framework/max_width_box.dart';
 
 class OrganizationEventNewsPage extends StatefulWidget {
   const OrganizationEventNewsPage({super.key});
@@ -82,7 +83,10 @@ class _OrganizationEventNewsPageState extends State<OrganizationEventNewsPage> {
           pagingController: _pagingController,
           padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
           builderDelegate: PagedChildBuilderDelegate<OrganizationNewsPost>(
-            itemBuilder: (context, item, index) => NewsPostItem(newsPost: item),
+            itemBuilder: (context, item, index) => MaxWidthBox(
+              maxWidth: 1000,
+              child: NewsPostItem(newsPost: item),
+            ),
           ),
         ),
       ),
