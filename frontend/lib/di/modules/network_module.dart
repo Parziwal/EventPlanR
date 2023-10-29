@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:event_planr_app/data/network/event_planr/event_general/event_general_client.dart';
 import 'package:event_planr_app/data/network/event_planr/event_manager/event_manager_client.dart';
@@ -32,7 +33,7 @@ abstract class NetworkModule {
           } else if (e.response?.statusCode == 404) {
 
           }
-
+          safePrint(e.response);
           return handler.next(e);
         },
       ),

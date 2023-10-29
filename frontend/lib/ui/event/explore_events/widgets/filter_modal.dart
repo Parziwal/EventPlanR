@@ -119,7 +119,7 @@ class _FilterModal extends StatelessWidget {
                 title: Text(
                   filter.fromDate == null && filter.toDate == null
                       ? l10n.exploreEvents_Anytime
-                      : formatEventDateTimeRange(
+                      : formatDateRange(
                     filter.fromDate!,
                     filter.toDate!,
                   ),
@@ -214,6 +214,7 @@ class _FilterModal extends StatelessWidget {
                   orderBy: EventOrderByEnum.fromDate,
                   orderDirection: OrderDirectionEnum.descending,
                   distance: EventDistanceEnum.km10,
+                  pageNumber: 1,
                 ),
               );
               Navigator.pop(context);
@@ -268,6 +269,7 @@ class _FilterModal extends StatelessWidget {
                     orderBy: EventOrderByEnum.fromDate,
                     orderDirection: OrderDirectionEnum.descending,
                     distance: EventDistanceEnum.km10,
+                    pageNumber: 1,
                   ),
               );
               Navigator.pop(context);

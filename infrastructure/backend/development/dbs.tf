@@ -27,14 +27,6 @@ resource "aws_dynamodb_table" "user_reserved_ticket_order" {
     name = "UserId"
     type = "S"
   }
-
-  ttl {
-    attribute_name = "ExpirationTime"
-    enabled        = true
-  }
-
-  stream_enabled   = true
-  stream_view_type = "OLD_IMAGE"
 }
 
 module "database_initializer_lambda" {
@@ -55,18 +47,6 @@ resource "aws_lambda_invocation" "database_initializer_lambda" {
 
   triggers = {
     always_run = "${timestamp()}"
-  }
-}
-
-module "user_reserved_ticket_order" {
-  source = "../modules/lambda-dotnet"
-
-  function_name = "${var.environment}_user_reserved_ticket_order_function"
-  role_arn      = aws_iam_role.lambda_role.arn
-  handler       = "EventPlanr.UserReservedTicketOrder.Function::EventPlanr.UserReservedTicketOrder.Function.Function::FunctionHandler"
-  source_dir    = "../../../backend/Serverless/EventPlanr.UserReservedTicketOrder.Function/bin/Release/net6.0/publish"
-  environment_varibles = {
-    ASPNETCORE_ENVIRONMENT = "Development"
   }
 }
 

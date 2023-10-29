@@ -45,7 +45,6 @@ class _EventCategoryPickerModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = context.theme;
     final state = context.watch<ExploreEventsCubit>().state;
 
     return Wrap(
@@ -57,9 +56,12 @@ class _EventCategoryPickerModal extends StatelessWidget {
             children: [
               ...EventCategoryEnum.values.map(
                 (ec) => ListTile(
-                  onTap: () => context
-                      .read<ExploreEventsCubit>()
-                      .filterEvents(state.filter.copyWith(category: ec)),
+                  onTap: () => context.read<ExploreEventsCubit>().filterEvents(
+                        state.filter.copyWith(
+                          category: ec,
+                          pageNumber: 1,
+                        ),
+                      ),
                   title: Text(
                     l10n.translateEnums(ec.name),
                   ),
@@ -96,12 +98,11 @@ class _EventCategoryPickerModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                context
-                    .read<ExploreEventsCubit>()
-                    .state
-                    .filter
-                    .copyWith(category: null),
-              );
+                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                          category: null,
+                          pageNumber: 1,
+                        ),
+                  );
               Navigator.pop(context);
             },
             child: Text(l10n.reset),
@@ -150,11 +151,10 @@ class _EventCategoryPickerModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context
-                        .read<ExploreEventsCubit>()
-                        .state
-                        .filter
-                        .copyWith(category: null),
+                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                          category: null,
+                          pageNumber: 1,
+                        ),
                   );
               Navigator.pop(context);
             },

@@ -109,6 +109,25 @@
   "eventTickets": "Tickets",
   "eventTickets_Total": "Total",
   "eventTickets_Checkout": "Checkout",
+  "eventTickets_SaleEndInHour": "Sale ends in {hour} hour",
+  "@eventTickets_SaleEndInHour": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "eventTickets_RemainingTickets": "Remaining tickets",
+  "ticketCheckout": "Checkout",
+  "ticketCheckout_TimeLeft": "Time left",
+  "ticketCheckout_FirstName": "First name",
+  "ticketCheckout_LastName": "Last name",
+  "ticketCheckout_Country": "Country",
+  "ticketCheckout_ZipCode": "Zip code",
+  "ticketCheckout_City": "City",
+  "ticketCheckout_AddressLine": "Address line",
+  "ticketCheckout_Tickets": "Tickets",
+  "ticketCheckout_OrderWasSuccessful": "Order was successful",
   "userEvents": "My events",
   "userEvents_Upcoming": "Upcoming",
   "userEvents_Invitation": "Invitation",

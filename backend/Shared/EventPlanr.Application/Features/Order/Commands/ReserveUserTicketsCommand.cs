@@ -18,10 +18,10 @@ public class ReserveUserTicketsCommand : IRequest<DateTimeOffset>
 public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicketsCommand, DateTimeOffset>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ITicketService _ticketService;
+    private readonly ITicketOrderService _ticketService;
     private readonly IUserContext _user;
 
-    public ReserveUserTicketsCommandHandler(IApplicationDbContext context, ITicketService ticketService, IUserContext user)
+    public ReserveUserTicketsCommandHandler(IApplicationDbContext context, ITicketOrderService ticketService, IUserContext user)
     {
         _context = context;
         _ticketService = ticketService;
@@ -30,13 +30,15 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
 
     public async Task<DateTimeOffset> Handle(ReserveUserTicketsCommand request, CancellationToken cancellationToken)
     {
-        var storeTicket = new List<ReservedTicketEntity>();
+        var reservedTickets = new List<ReservedTicketEntity>();
         foreach (var reserveTicket in request.ReserveTickets)
         {
             var ticket = await _context.Tickets
                 .Include(t => t.Event)
-                .SingleEntityAsync(t => t.Id == reserveTicket.TicketId);
-            if (ticket.SaleStarts <= DateTimeOffset.Now && ticket.SaleEnds >= DateTimeOffset.Now)
+                .SingleEntityAsync(t => t.Id == reserveTicket.TicketId && t.Event.IsPublished && !t.Event.IsPrivate);
+
+            var timeNow = DateTimeOffset.UtcNow;
+            if (ticket.SaleStarts > timeNow || ticket.SaleEnds < timeNow)
             {
                 throw new DomainException("TicketNotOnSaleException");
             }
@@ -47,7 +49,7 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
             }
 
             ticket.RemainingCount -= reserveTicket.Count;
-            storeTicket.Add(new ReservedTicketEntity()
+            reservedTickets.Add(new ReservedTicketEntity()
             {
                 TicketId = ticket.Id,
                 Count = reserveTicket.Count,
@@ -56,7 +58,7 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
             });
         }
 
-        var resarvationTime = await _ticketService.ReserveTicketsAsync(_user.UserId, storeTicket);
+        var resarvationTime = await _ticketService.ReserveTicketsAsync(_user.UserId, reservedTickets);
         await _context.SaveChangesAsync();
 
         return resarvationTime;

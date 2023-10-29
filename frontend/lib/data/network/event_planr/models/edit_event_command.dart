@@ -21,7 +21,6 @@ class EditEventCommand {
     required this.address,
     required this.coordinate,
     required this.currency,
-    required this.isPrivate,
     this.description,
   });
   
@@ -35,7 +34,6 @@ class EditEventCommand {
   final AddressDto address;
   final CoordinateDto coordinate;
   final Currency currency;
-  final bool isPrivate;
 
   Map<String, Object?> toJson() => _$EditEventCommandToJson(this);
 }

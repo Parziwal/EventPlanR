@@ -22,10 +22,10 @@ public class OrderReservedTicketsCommand : IRequest<Guid>
 public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedTicketsCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ITicketService _ticketService;
+    private readonly ITicketOrderService _ticketService;
     private readonly IUserContext _user;
 
-    public OrderReservedTicketsCommandHandler(IApplicationDbContext context, ITicketService ticketService, IUserContext user)
+    public OrderReservedTicketsCommandHandler(IApplicationDbContext context, ITicketOrderService ticketService, IUserContext user)
     {
         _context = context;
         _ticketService = ticketService;

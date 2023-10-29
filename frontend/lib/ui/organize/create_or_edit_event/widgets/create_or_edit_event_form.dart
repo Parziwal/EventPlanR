@@ -200,7 +200,7 @@ class _CreateOrEditEventFormState extends State<CreateOrEditEventForm> {
           return null;
         }
       ]),
-      valueTransformer: (value) => value.toString(),
+      valueTransformer: (value) => value!.toUtc().toString(),
     );
   }
 
@@ -226,7 +226,7 @@ class _CreateOrEditEventFormState extends State<CreateOrEditEventForm> {
           return null;
         }
       ]),
-      valueTransformer: (value) => value.toString(),
+      valueTransformer: (value) => value!.toUtc().toString(),
     );
   }
 

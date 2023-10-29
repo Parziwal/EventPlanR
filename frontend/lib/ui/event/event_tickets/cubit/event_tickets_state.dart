@@ -4,6 +4,7 @@ enum EventTicketsStatus {
   idle,
   loading,
   error,
+  ticketsReserved,
 }
 
 @freezed
@@ -12,7 +13,11 @@ class EventTicketsState with _$EventTicketsState {
     required EventTicketsStatus status,
     @Default(0)
     double totalPrice,
-    List<Ticket>? tickets,
+    CurrencyEnum? currency,
+    @Default([])
+    List<Ticket> tickets,
+    @Default([])
+    List<AddReserveTicket> reservedTickets,
     String? errorCode,
   }) = _EventTicketsState;
 }

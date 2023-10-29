@@ -1,5 +1,6 @@
 ﻿using Amazon.CognitoIdentityProvider;
 using Amazon.DynamoDBv2;
+using Amazon.SQS;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Infrastructure.Options;
@@ -31,6 +32,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<DatabaseInitializer>();
 
         services.AddScoped<IAmazonDynamoDB, AmazonDynamoDBClient>();
+        services.AddScoped<IAmazonSQS, AmazonSQSClient>();
         services.AddScoped<IAmazonCognitoIdentityProvider, AmazonCognitoIdentityProviderClient>();
 
         services.AddHttpContextAccessor();
@@ -38,7 +40,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IUserContext, UserContext>();
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IUserClaimService, UserClaimService>();
-        services.AddTransient<ITicketService, TicketService>();
+        services.AddTransient<ITicketOrderService, TicketOrderService>();
 
         if (EnvironmentTypes.IsLocal())
         {

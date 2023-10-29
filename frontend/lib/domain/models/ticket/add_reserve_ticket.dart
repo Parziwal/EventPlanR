@@ -7,6 +7,7 @@ part 'add_reserve_ticket.g.dart';
 class AddReserveTicket with _$AddReserveTicket {
   const factory AddReserveTicket({
     required String ticketId,
+    required String ticketName,
     required int count,
   }) = _AddReserveTicket;
 

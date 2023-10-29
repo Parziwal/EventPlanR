@@ -179,6 +179,7 @@ final appRouter = GoRouter(
                     BlocRoute<TicketCheckoutCubit>(
                       path: 'checkout',
                       builder: (state) => const TicketCheckoutPage(),
+                      init: (cubit, state) => cubit.loadReservedTickets(),
                     ),
                   ],
                 ),

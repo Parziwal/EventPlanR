@@ -46,7 +46,6 @@ class _EventOrderPickerModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = context.theme;
     final state = context.watch<ExploreEventsCubit>().state;
 
     return Wrap(
@@ -65,6 +64,7 @@ class _EventOrderPickerModal extends StatelessWidget {
                                 state.filter.copyWith(
                                   orderBy: orderBy,
                                   orderDirection: OrderDirectionEnum.ascending,
+                                  pageNumber: 1,
                                 ),
                               ),
                       title: Row(
@@ -137,6 +137,7 @@ class _EventOrderPickerModal extends StatelessWidget {
                     context.read<ExploreEventsCubit>().state.filter.copyWith(
                           orderBy: EventOrderByEnum.fromDate,
                           orderDirection: OrderDirectionEnum.descending,
+                          pageNumber: 1,
                         ),
                   );
               Navigator.pop(context);
@@ -190,6 +191,7 @@ class _EventOrderPickerModal extends StatelessWidget {
                     context.read<ExploreEventsCubit>().state.filter.copyWith(
                           orderBy: EventOrderByEnum.fromDate,
                           orderDirection: OrderDirectionEnum.descending,
+                          pageNumber: 1,
                         ),
                   );
               Navigator.pop(context);

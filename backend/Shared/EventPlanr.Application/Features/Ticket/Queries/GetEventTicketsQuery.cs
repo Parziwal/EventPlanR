@@ -25,8 +25,13 @@ public class GetEventTicketsQueryHandler : IRequestHandler<GetEventTicketsQuery,
 
     public async Task<List<TicketDto>> Handle(GetEventTicketsQuery request, CancellationToken cancellationToken)
     {
+        var timeNow = DateTimeOffset.UtcNow;
+
         return await _dbContext.Tickets
+            .AsNoTracking()
             .Where(t => t.EventId == request.EventId)
+            .Where(t => t.Event.IsPublished && !t.Event.IsPrivate)
+            .Where(t => timeNow >= t.SaleStarts && timeNow <= t.SaleEnds)
             .OrderBy(t => t.Name)
             .ProjectTo<TicketDto>(_mapper.ConfigurationProvider)
             .ToListAsync();

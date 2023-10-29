@@ -17,7 +17,7 @@ class CreateOrEditEvent with _$CreateOrEditEvent {
     required Address address,
     required Coordinate coordinates,
     required CurrencyEnum currency,
-    required bool isPrivate,
+    bool? isPrivate,
     String? id,
     String? name,
     String? description,

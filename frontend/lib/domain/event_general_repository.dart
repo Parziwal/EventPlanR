@@ -151,10 +151,11 @@ class EventGeneralRepository {
     return tickets
         .map(
           (t) => Ticket(
+            id: t.id,
             name: t.name,
             price: t.price,
-            count: t.count,
-            saleStarts: t.saleStarts,
+            currency: t.currency.toDomainEnum(),
+            remainingCount: t.remainingCount,
             saleEnds: t.saleEnds,
             description: t.description,
           ),

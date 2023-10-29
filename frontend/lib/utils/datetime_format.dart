@@ -13,7 +13,7 @@ String formatEventDateTimeRange(DateTime from, DateTime to) {
   }
 }
 
-String formatEventDetailsDate(DateTime from, DateTime to) {
+String formatEventDetailsDateRange(DateTime from, DateTime to) {
   final fromDate = DateFormat.MMMEd().format(from);
   final toDate = DateFormat.MMMEd().format(to);
   final fromYear = DateTime.now().year < from.year ? '${from.year}, ' : '';
@@ -25,7 +25,7 @@ String formatEventDetailsDate(DateTime from, DateTime to) {
   }
 }
 
-String formatEventDetailsTime(DateTime from, DateTime to) {
+String formatEventDetailsTimeRange(DateTime from, DateTime to) {
   final fromHour = DateFormat.jm().format(to);
   final toHour = DateFormat.jm().format(to);
   final fromDate = DateFormat.Md().format(from);
@@ -41,4 +41,8 @@ String formatEventDetailsTime(DateTime from, DateTime to) {
 String formatDateTime(DateTime dateTime) {
   return '${DateFormat.yMEd().format(dateTime)}, '
       '${DateFormat.jm().format(dateTime)}';
+}
+
+String formatDateRange(DateTime from, DateTime to) {
+  return '${DateFormat.yMEd().format(from)} - ${DateFormat.yMEd().format(to)}';
 }

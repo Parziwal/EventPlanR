@@ -8,9 +8,8 @@
   "profile": "default",
   "region": "us-east-1",
   "configuration": "Release",
-  "function-architecture": "x86_64",
   "function-runtime": "dotnet6",
   "function-memory-size": 256,
   "function-timeout": 30,
-  "function-handler": "EventPlanr.UserReservedTicketOrder.Function::EventPlanr.UserReservedTicketOrder.Function.Function::FunctionHandler"
+  "function-handler": "EventPlanr.ReservedTicketOrderExpiration.Function::EventPlanr.ReservedTicketOrderExpiration.Function.Function::FunctionHandler"
 }

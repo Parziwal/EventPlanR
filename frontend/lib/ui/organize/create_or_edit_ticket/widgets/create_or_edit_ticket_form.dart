@@ -193,7 +193,7 @@ class _CreateOrEditTicketFormState extends State<CreateOrEditTicketForm> {
           return null;
         }
       ]),
-      valueTransformer: (value) => value.toString(),
+      valueTransformer: (value) => value!.toUtc().toString(),
     );
   }
 
@@ -219,7 +219,7 @@ class _CreateOrEditTicketFormState extends State<CreateOrEditTicketForm> {
           return null;
         }
       ]),
-      valueTransformer: (value) => value.toString(),
+      valueTransformer: (value) => value!.toUtc().toString(),
     );
   }
 }

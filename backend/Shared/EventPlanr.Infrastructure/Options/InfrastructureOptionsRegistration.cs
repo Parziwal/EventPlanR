@@ -11,6 +11,7 @@ public static class InfrastructureOptionsRegistration
 
         services.Configure<DynamoDbTableOptions>(options => configuration.GetSection(nameof(DynamoDbTableOptions)).Bind(options));
         services.Configure<CognitoUserPoolOptions>(options => configuration.GetSection(nameof(CognitoUserPoolOptions)).Bind(options));
+        services.Configure<SqsQueueOptions>(options => configuration.GetSection(nameof(SqsQueueOptions)).Bind(options));
 
         return services;
     }

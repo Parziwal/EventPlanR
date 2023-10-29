@@ -29,6 +29,7 @@ Future<void> showDateTimeRangePickerModal(BuildContext context) async {
         filter.copyWith(
           fromDate: picked.start,
           toDate: picked.end,
+          pageNumber: 1,
         ),
       ),
     );

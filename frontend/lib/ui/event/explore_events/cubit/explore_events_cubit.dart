@@ -58,6 +58,8 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
         ),
       );
     }
+
+    emit(state.copyWith(status: ExploreEventsStatus.idle));
   }
 
   Future<void> getLocationAddress(LatLng location) async {

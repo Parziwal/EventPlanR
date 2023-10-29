@@ -57,9 +57,12 @@ class _EventDistancePickerModal extends StatelessWidget {
             children: [
               ...EventDistanceEnum.values.map(
                 (d) => ListTile(
-                  onTap: () => context
-                      .read<ExploreEventsCubit>()
-                      .filterEvents(state.filter.copyWith(distance: d)),
+                  onTap: () => context.read<ExploreEventsCubit>().filterEvents(
+                        state.filter.copyWith(
+                          distance: d,
+                          pageNumber: 1,
+                        ),
+                      ),
                   title: Text(
                     l10n.translateEnums(d.name),
                   ),
@@ -96,12 +99,11 @@ class _EventDistancePickerModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                context
-                    .read<ExploreEventsCubit>()
-                    .state
-                    .filter
-                    .copyWith(distance: EventDistanceEnum.km10),
-              );
+                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                          distance: EventDistanceEnum.km10,
+                          pageNumber: 1,
+                        ),
+                  );
               Navigator.pop(context);
             },
             child: Text(l10n.reset),
@@ -150,11 +152,10 @@ class _EventDistancePickerModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context
-                        .read<ExploreEventsCubit>()
-                        .state
-                        .filter
-                        .copyWith(distance: EventDistanceEnum.km10),
+                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                          distance: EventDistanceEnum.km10,
+                          pageNumber: 1,
+                        ),
                   );
               Navigator.pop(context);
             },

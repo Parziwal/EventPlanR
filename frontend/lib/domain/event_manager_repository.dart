@@ -1,3 +1,4 @@
+import 'package:event_planr_app/data/disk/persistent_store.dart';
 import 'package:event_planr_app/data/network/event_planr/event_manager/event_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr/models/create_event_command.dart';
 import 'package:event_planr_app/data/network/event_planr/models/edit_event_command.dart';
@@ -12,10 +13,25 @@ import 'package:latlong2/latlong.dart';
 
 @singleton
 class EventManagerRepository {
-  EventManagerRepository({required EventManagerClient eventManagerClient})
-      : _eventManagerClient = eventManagerClient;
+  EventManagerRepository({
+    required EventManagerClient eventManagerClient,
+    required PersistentStore persistentStore,
+  })  : _persistentStore = persistentStore,
+        _eventManagerClient = eventManagerClient;
 
   final EventManagerClient _eventManagerClient;
+  final PersistentStore _persistentStore;
+  OrganizationEvent? _selectedEvent;
+
+  Future<void> setSelectedEvent(OrganizationEvent event) async {
+    _selectedEvent = event;
+    await _persistentStore.save('selectedEvent', event);
+  }
+
+  OrganizationEvent? getSelectedEvent() {
+    return _selectedEvent ??=
+        _persistentStore.getObject('selectedEvent', OrganizationEvent.fromJson);
+  }
 
   Future<PaginatedList<OrganizationEvent>> getOrganizationDraftEvents(
     OrganizationEventFilter filter,
@@ -144,7 +160,6 @@ class EventManagerRepository {
           address: event.address.toNetworkModel(),
           coordinate: event.coordinates.toNetworkModel(),
           currency: event.currency.toNetworkEnum(),
-          isPrivate: event.isPrivate,
         ),
       );
       return event.id!;
@@ -160,7 +175,7 @@ class EventManagerRepository {
           address: event.address.toNetworkModel(),
           coordinate: event.coordinates.toNetworkModel(),
           currency: event.currency.toNetworkEnum(),
-          isPrivate: event.isPrivate,
+          isPrivate: event.isPrivate!,
         ),
       );
     }

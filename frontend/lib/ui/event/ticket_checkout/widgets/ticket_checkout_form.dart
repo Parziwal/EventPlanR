@@ -1,13 +1,23 @@
+import 'package:event_planr_app/domain/models/ticket/add_reserve_ticket.dart';
+import 'package:event_planr_app/domain/models/ticket/add_ticket_user_info.dart';
+import 'package:event_planr_app/domain/models/ticket/create_order.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/ui/event/ticket_checkout/cubit/ticket_checkout_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class TicketCheckoutForm extends StatefulWidget {
-  const TicketCheckoutForm({this.disabled = false, super.key});
+  const TicketCheckoutForm({
+    required this.reservedTickets,
+    this.disabled = false,
+    super.key,
+  });
 
   final bool disabled;
+  final List<AddReserveTicket> reservedTickets;
 
   @override
   State<TicketCheckoutForm> createState() => _TicketCheckoutFormState();
@@ -37,12 +47,7 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
           _cityField(context),
           const SizedBox(height: 16),
           _addressLineField(context),
-          const SizedBox(height: 32),
-          Text(
-            'Tickets',
-            style: theme.textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           _userTickets(context),
           const SizedBox(height: 32),
           FilledButton(
@@ -61,15 +66,28 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
   void _create() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      final address = _formKey.currentState!.value.entries
+          .where((a) => a.key.startsWith('billingAddress'))
+          .map((a) => MapEntry(a.key.split('.')[1], a.value));
+
+      context.read<TicketCheckoutCubit>().orderReservedTickets(
+            CreateOrder.fromJson({
+              ..._formKey.currentState!.value,
+              'billingAddress': Map.fromEntries(address),
+            }),
+          );
     }
   }
 
-  Widget _firstNameField(BuildContext context) {
+  Widget _firstNameField(BuildContext context, {String postFix = ''}) {
+    final l10n = context.l10n;
+
     return FormBuilderTextField(
-      name: 'firstName',
+      name: 'firstName$postFix',
       enabled: !widget.disabled,
-      decoration: const InputDecoration(
-        hintText: 'First name',
+      decoration: InputDecoration(
+        hintText: l10n.ticketCheckout_FirstName,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(
@@ -81,12 +99,14 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
     );
   }
 
-  Widget _lastNameField(BuildContext context) {
+  Widget _lastNameField(BuildContext context, {String postFix = ''}) {
+    final l10n = context.l10n;
+
     return FormBuilderTextField(
-      name: 'lastName',
+      name: 'lastName$postFix',
       enabled: !widget.disabled,
-      decoration: const InputDecoration(
-        hintText: 'Last name',
+      decoration: InputDecoration(
+        hintText: l10n.ticketCheckout_LastName,
         filled: true,
       ),
       validator: FormBuilderValidators.compose(
@@ -99,11 +119,13 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
   }
 
   Widget _countryField(BuildContext context) {
+    final l10n = context.l10n;
+
     return FormBuilderTextField(
-      name: 'address.country',
+      name: 'billingAddress.country',
       enabled: !widget.disabled,
-      decoration: const InputDecoration(
-        hintText: 'Country',
+      decoration: InputDecoration(
+        hintText: l10n.ticketCheckout_Country,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -114,11 +136,13 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
   }
 
   Widget _zipCodeField(BuildContext context) {
+    final l10n = context.l10n;
+
     return FormBuilderTextField(
-      name: 'address.zipCode',
+      name: 'billingAddress.zipCode',
       enabled: !widget.disabled,
-      decoration: const InputDecoration(
-        hintText: 'Zip code',
+      decoration: InputDecoration(
+        hintText: l10n.ticketCheckout_ZipCode,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -129,11 +153,13 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
   }
 
   Widget _cityField(BuildContext context) {
+    final l10n = context.l10n;
+
     return FormBuilderTextField(
-      name: 'address.city',
+      name: 'billingAddress.city',
       enabled: !widget.disabled,
-      decoration: const InputDecoration(
-        hintText: 'City',
+      decoration: InputDecoration(
+        hintText: l10n.ticketCheckout_City,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -144,11 +170,13 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
   }
 
   Widget _addressLineField(BuildContext context) {
+    final l10n = context.l10n;
+
     return FormBuilderTextField(
-      name: 'address.addressLine',
+      name: 'billingAddress.addressLine',
       enabled: !widget.disabled,
-      decoration: const InputDecoration(
-        hintText: 'Address line',
+      decoration: InputDecoration(
+        hintText: l10n.ticketCheckout_AddressLine,
         filled: true,
       ),
       validator: FormBuilderValidators.compose([
@@ -159,21 +187,65 @@ class _TicketCheckoutFormState extends State<TicketCheckoutForm> {
   }
 
   Widget _userTickets(BuildContext context) {
+    final l10n = context.l10n;
     final theme = context.theme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Ticket type',
-          style: theme.textTheme.titleMedium
-              ?.copyWith(color: theme.colorScheme.primary),
-        ),
-        const SizedBox(height: 16),
-        _firstNameField(context),
-        const SizedBox(height: 16),
-        _lastNameField(context),
-      ],
+    return FormBuilderField(
+      name: 'ticketUserInfos',
+      valueTransformer: (_) {
+        final ticketInfos = <Map<String, dynamic>>[];
+
+        for (final ticket in widget.reservedTickets) {
+          for (var i = 0; i < ticket.count; i++) {
+            final ticketInfo = AddTicketUserInfo(
+              ticketId: ticket.ticketId,
+              userFirstName: _formKey.currentState!
+                  .fields['firstName${ticket.ticketId}$i']!.value as String,
+              userLastName: _formKey.currentState!
+                  .fields['lastName${ticket.ticketId}$i']!.value as String,
+            );
+            ticketInfos.add(ticketInfo.toJson());
+          }
+        }
+
+        return ticketInfos;
+      },
+      builder: (FormFieldState<dynamic> field) {
+        return InputDecorator(
+          decoration: InputDecoration(
+            labelText: l10n.ticketCheckout_Tickets,
+            labelStyle: theme.textTheme.headlineLarge,
+            border: InputBorder.none,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              ...widget.reservedTickets.map(
+                (t) => ListView.builder(
+                  itemCount: t.count,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      Text(
+                        t.ticketName,
+                        style: theme.textTheme.titleMedium
+                            ?.copyWith(color: theme.colorScheme.primary),
+                      ),
+                      const SizedBox(height: 16),
+                      _firstNameField(context, postFix: '${t.ticketId}$index'),
+                      const SizedBox(height: 16),
+                      _lastNameField(context, postFix: '${t.ticketId}$index'),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

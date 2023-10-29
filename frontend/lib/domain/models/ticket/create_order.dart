@@ -8,8 +8,8 @@ part 'create_order.g.dart';
 @freezed
 class CreateOrder with _$CreateOrder {
   const factory CreateOrder({
-    required String customerFirstName,
-    required String customerLastName,
+    required String firstName,
+    required String lastName,
     required Address billingAddress,
     required List<AddTicketUserInfo> ticketUserInfos,
   }) = _CreateOrder;

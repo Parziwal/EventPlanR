@@ -15,8 +15,7 @@ class TicketDto {
     required this.name,
     required this.price,
     required this.currency,
-    required this.count,
-    required this.saleStarts,
+    required this.remainingCount,
     required this.saleEnds,
     this.description,
   });
@@ -27,9 +26,8 @@ class TicketDto {
   final String name;
   final double price;
   final Currency currency;
-  final int count;
+  final int remainingCount;
   final String? description;
-  final DateTime saleStarts;
   final DateTime saleEnds;
 
   Map<String, Object?> toJson() => _$TicketDtoToJson(this);

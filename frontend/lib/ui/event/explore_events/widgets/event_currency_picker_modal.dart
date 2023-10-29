@@ -46,7 +46,6 @@ class _EventCurrencyPickerModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = context.theme;
     final state = context.watch<ExploreEventsCubit>().state;
 
     return Wrap(
@@ -60,7 +59,10 @@ class _EventCurrencyPickerModal extends StatelessWidget {
                 (c) => ListTile(
                   onTap: () => context
                       .read<ExploreEventsCubit>()
-                      .filterEvents(state.filter.copyWith(currency: c)),
+                      .filterEvents(state.filter.copyWith(
+                        currency: c,
+                        pageNumber: 1,
+                      )),
                   title: Text(
                     l10n.translateEnums(c.name),
                   ),
@@ -97,12 +99,11 @@ class _EventCurrencyPickerModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                context
-                    .read<ExploreEventsCubit>()
-                    .state
-                    .filter
-                    .copyWith(currency: null),
-              );
+                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                          currency: null,
+                          pageNumber: 1,
+                        ),
+                  );
               Navigator.pop(context);
             },
             child: Text(l10n.reset),
@@ -151,11 +152,10 @@ class _EventCurrencyPickerModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context
-                        .read<ExploreEventsCubit>()
-                        .state
-                        .filter
-                        .copyWith(currency: null),
+                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                          currency: null,
+                          pageNumber: 1,
+                        ),
                   );
               Navigator.pop(context);
             },

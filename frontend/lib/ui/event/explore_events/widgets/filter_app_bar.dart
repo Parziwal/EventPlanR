@@ -140,7 +140,7 @@ class _FilterAppBarState extends State<FilterAppBar> {
               label: Text(
                 filter.fromDate == null && filter.toDate == null
                     ? l10n.exploreEvents_Anytime
-                    : formatEventDateTimeRange(
+                    : formatDateRange(
                         filter.fromDate!,
                         filter.toDate!,
                       ),
