@@ -43,12 +43,13 @@ public class TicketOrderService : ITicketOrderService
             {
                 { "UserId", new AttributeValue { S = userId.ToString() } }
             },
-            //ReturnValues = "ALL_OLD",
+            ReturnValues = "ALL_OLD",
             ExpressionAttributeValues = onlyIfExpired ? new Dictionary<string, AttributeValue>()
             {
                 {":currentTime", new AttributeValue { N = DateTimeOffset.UtcNow.UtcTicks.ToString()}}
             } : null,
             ConditionExpression = onlyIfExpired ? "ExpirationTime < :currentTime" : null,
+            ReturnValuesOnConditionCheckFailure = "ALL_OLD",
         };
 
         DeleteItemResponse? reservedTicketsResponse;
@@ -57,7 +58,7 @@ public class TicketOrderService : ITicketOrderService
         {
             reservedTicketsResponse = await _dynamoDb.DeleteItemAsync(deleteReservedTicketsRequest);
         }
-        catch
+        catch (ConditionalCheckFailedException)
         {
             return new List<ReservedTicketEntity>();
         }
@@ -75,7 +76,7 @@ public class TicketOrderService : ITicketOrderService
 
     public async Task<DateTimeOffset> ReserveTicketsAsync(Guid userId, List<ReservedTicketEntity> reserveTickets)
     {
-        await ResetReservedTicketsForUserAsync(userId);
+        await ResetReservedTicketsForUserAsync(userId, true);
 
         var expirationTime = DateTimeOffset.UtcNow.AddMinutes(10);
         var reservedTicketOrder = new UserReservedTicketOrderEntity()
@@ -119,7 +120,8 @@ public class TicketOrderService : ITicketOrderService
             var ticket = await _dbContext.Tickets
                 .SingleEntityAsync(t => t.Id == reservedTicket.TicketId);
 
-            ticket.RemainingCount = reservedTicket.Count > ticket.Count ? ticket.Count : reservedTicket.Count;
+            var remainingTicketCount = ticket.RemainingCount + reservedTicket.Count;
+            ticket.RemainingCount = remainingTicketCount > ticket.Count ? ticket.Count : remainingTicketCount;
         }
 
         await _dbContext.SaveChangesAsync();
