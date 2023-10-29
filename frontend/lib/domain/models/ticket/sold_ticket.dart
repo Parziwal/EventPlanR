@@ -1,4 +1,6 @@
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
+import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sold_ticket.freezed.dart';
@@ -13,4 +15,12 @@ class SoldTicket with _$SoldTicket {
     required CurrencyEnum currency,
     required String ticketName,
   }) = _SoldTicket;
+
+  const SoldTicket._();
+
+  String getUserFullName(BuildContext context) {
+    return context.l10n.localeName == 'hu'
+        ? '$userLastName $userFirstName'
+        : '$userFirstName $userLastName';
+  }
 }

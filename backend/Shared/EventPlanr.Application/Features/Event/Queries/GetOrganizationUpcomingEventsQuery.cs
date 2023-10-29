@@ -5,7 +5,6 @@ using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Application.Security;
-using EventPlanr.Domain.Constants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +37,7 @@ public class GetOrganizationUpcomingEventsQueryHandler : IRequestHandler<GetOrga
         return await _dbContext.Events
             .AsNoTracking()
             .Where(e => e.OrganizationId == _user.OrganizationId)
-            .Where(e => e.IsPublished && e.FromDate >= DateTimeOffset.UtcNow)
+            .Where(e => e.IsPublished && e.ToDate >= DateTimeOffset.UtcNow)
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower())))

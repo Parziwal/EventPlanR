@@ -20,6 +20,7 @@ class OrderDetailsDto {
     required this.total,
     required this.currency,
     required this.soldTickets,
+    required this.created,
   });
   
   factory OrderDetailsDto.fromJson(Map<String, Object?> json) => _$OrderDetailsDtoFromJson(json);
@@ -31,6 +32,7 @@ class OrderDetailsDto {
   final double total;
   final Currency currency;
   final List<SoldTicketDto> soldTickets;
+  final DateTime created;
 
   Map<String, Object?> toJson() => _$OrderDetailsDtoToJson(this);
 }

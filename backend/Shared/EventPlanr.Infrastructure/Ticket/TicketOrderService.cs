@@ -46,7 +46,7 @@ public class TicketOrderService : ITicketOrderService
             ReturnValues = "ALL_OLD",
             ExpressionAttributeValues = onlyIfExpired ? new Dictionary<string, AttributeValue>()
             {
-                {":currentTime", new AttributeValue { N = DateTimeOffset.UtcNow.UtcTicks.ToString()}}
+                {":currentTime", new AttributeValue { N = DateTimeOffset.UtcNow.Ticks.ToString()}}
             } : null,
             ConditionExpression = onlyIfExpired ? "ExpirationTime < :currentTime" : null,
             ReturnValuesOnConditionCheckFailure = "ALL_OLD",
@@ -82,7 +82,7 @@ public class TicketOrderService : ITicketOrderService
         var reservedTicketOrder = new UserReservedTicketOrderEntity()
         {
             UserId = userId,
-            ExpirationTime = expirationTime.UtcTicks,
+            ExpirationTime = expirationTime.Ticks,
             ReservedTickets = reserveTickets,
         };
 
@@ -134,7 +134,7 @@ public class TicketOrderService : ITicketOrderService
         {
             QueueUrl = queueUrl.QueueUrl,
             MessageBody = userId.ToString(),
-            DelaySeconds = 600,
+            DelaySeconds = 605,
         };
 
         await _sqs.SendMessageAsync(sqsRequest);

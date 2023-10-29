@@ -1,6 +1,7 @@
 import 'package:event_planr_app/data/network/event_planr/user_ticket/user_ticket_client.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/event.dart';
+import 'package:event_planr_app/domain/models/event/user_event_filter.dart';
 import 'package:event_planr_app/domain/models/ticket/sold_ticket.dart';
 import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:injectable/injectable.dart';
@@ -12,8 +13,13 @@ class UserTicketRepository {
 
   final UserTicketClient _userTicketClient;
 
-  Future<PaginatedList<Event>> getUserUpcomingEvents() async {
-    final events = await _userTicketClient.getUserticketUpcoming();
+  Future<PaginatedList<Event>> getUserUpcomingEvents(
+    UserEventFilter filter,
+  ) async {
+    final events = await _userTicketClient.getUserticketUpcoming(
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
+    );
 
     return PaginatedList(
       items: events.items
@@ -37,8 +43,13 @@ class UserTicketRepository {
     );
   }
 
-  Future<PaginatedList<Event>> getUserEventInvitations() async {
-    final events = await _userTicketClient.getUserticketInvitation();
+  Future<PaginatedList<Event>> getUserEventInvitations(
+    UserEventFilter filter,
+  ) async {
+    final events = await _userTicketClient.getUserticketInvitation(
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
+    );
 
     return PaginatedList(
       items: events.items
@@ -62,8 +73,13 @@ class UserTicketRepository {
     );
   }
 
-  Future<PaginatedList<Event>> getUserPastEvents() async {
-    final events = await _userTicketClient.getUserticketPast();
+  Future<PaginatedList<Event>> getUserPastEvents(
+    UserEventFilter filter,
+  ) async {
+    final events = await _userTicketClient.getUserticketPast(
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
+    );
 
     return PaginatedList(
       items: events.items

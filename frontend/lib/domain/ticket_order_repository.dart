@@ -6,7 +6,7 @@ import 'package:event_planr_app/data/network/event_planr/models/add_ticket_user_
 import 'package:event_planr_app/data/network/event_planr/models/order_reserved_tickets_command.dart';
 import 'package:event_planr_app/data/network/event_planr/models/reserve_user_tickets_command.dart';
 import 'package:event_planr_app/data/network/event_planr/ticket_order/ticket_order_client.dart';
-import 'package:event_planr_app/domain/models/order/order.dart' as model;
+import 'package:event_planr_app/domain/models/order/order_details.dart';
 import 'package:event_planr_app/domain/models/ticket/add_reserve_ticket.dart';
 import 'package:event_planr_app/domain/models/ticket/create_order.dart';
 import 'package:event_planr_app/domain/models/ticket/sold_ticket.dart';
@@ -44,18 +44,20 @@ class TicketOrderRepository {
     );
   }
 
-  Future<List<model.Order>> getEventOrder(String eventId) async {
+  Future<List<OrderDetails>> getEventOrder(String eventId) async {
     final eventOrder =
         await _ticketOrderClient.getTicketorderEventId(eventId: eventId);
 
     return eventOrder
         .map(
-          (o) => model.Order(
+          (o) => OrderDetails(
+            id: o.id,
             customerFirstName: o.customerFirstName,
             customerLastName: o.customerLastName,
             billingAddress: o.billingAddress.toDomainModel(),
             total: o.total,
             currency: o.currency.toDomainEnum(),
+            created: o.created,
             soldTickets: o.soldTickets
                 .map(
                   (t) => SoldTicket(

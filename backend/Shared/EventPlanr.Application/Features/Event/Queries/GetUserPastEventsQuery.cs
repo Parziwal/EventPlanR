@@ -36,7 +36,7 @@ public class GetUserPastEventsQueryHandler : IRequestHandler<GetUserPastEventsQu
             .IgnoreQueryFilters()
             .Include(e => e.Organization)
             .Where(e => e.Tickets.Any(t => t.SoldTickets.Any(st => st.Order.CustomerUserId == _user.UserId)))
-            .Where(e => e.FromDate < DateTimeOffset.Now)
+            .Where(e => e.ToDate < DateTimeOffset.UtcNow)
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower()))

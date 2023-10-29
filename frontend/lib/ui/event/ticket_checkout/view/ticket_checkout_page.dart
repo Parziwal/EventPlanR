@@ -145,7 +145,7 @@ class _TicketCheckoutPageState extends State<TicketCheckoutPage> {
           ),
         );
       context.go(
-        PagePaths.eventDetails(
+        PagePaths.userEventTickets(
           context.goRouterState.pathParameters['eventId']!,
         ),
       );

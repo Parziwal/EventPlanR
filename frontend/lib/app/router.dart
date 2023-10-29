@@ -23,10 +23,13 @@ import 'package:event_planr_app/ui/event/ticket_checkout/view/ticket_checkout_pa
 import 'package:event_planr_app/ui/event/user_dashboard/view/user_dashboard_page.dart';
 import 'package:event_planr_app/ui/event/user_event_tickets/cubit/user_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/event/user_event_tickets/view/user_event_tickets_page.dart';
+import 'package:event_planr_app/ui/event/user_events/cubit/user_events_cubit.dart';
 import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart';
 import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
+import 'package:event_planr_app/ui/event/user_ticket_order/cubit/user_ticket_order_cubit.dart';
+import 'package:event_planr_app/ui/event/user_ticket_order/view/user_ticket_order_page.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_event/cubit/create_or_edit_event_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_event/view/create_or_edit_event_page.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
@@ -81,6 +84,9 @@ class PagePaths {
       '/exploreEvents/details/$eventId/tickets/checkout';
 
   static String userEventTickets(String eventId) => '/userEvents/$eventId';
+
+  static String userEventTicketOrders(String eventId) =>
+      '/userEvents/$eventId/orders';
 
   static String userOrganizations = '/userOrganizations';
   static String userOrganizationCreate = '/userOrganizations/create';
@@ -187,13 +193,23 @@ final appRouter = GoRouter(
             ),
           ],
         ),
-        BlocRoute<AuthCubit>(
+        BlocRoute<UserEventsCubit>(
           path: PagePaths.userEvents,
           builder: (state) => const UserEventsPage(),
           routes: [
             BlocRoute<UserEventTicketsCubit>(
               path: ':eventId',
               builder: (state) => const UserEventTicketsPage(),
+              init: (cubit, state) =>
+                  cubit.loadUserEventTickets(state.pathParameters['eventId']!),
+              routes: [
+                BlocRoute<UserTicketOrderCubit>(
+                  path: 'orders',
+                  builder: (state) => const UserTicketOrderPage(),
+                  init: (cubit, state) => cubit
+                      .loadUserEventOrders(state.pathParameters['eventId']!),
+                ),
+              ],
             ),
           ],
         ),

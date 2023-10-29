@@ -88,12 +88,14 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
         builderDelegate: PagedChildBuilderDelegate<Event>(
           itemBuilder: (context, item, index) {
             return breakpoints.isMobile
-                ? EventItemCardLandscape(
-                    onPressed: () => context.go(
-                      PagePaths.eventDetails(item.id),
+                ? FittedBox(
+                  child: EventItemCardLandscape(
+                      onPressed: () => context.go(
+                        PagePaths.eventDetails(item.id),
+                      ),
+                      event: item,
                     ),
-                    event: item,
-                  )
+                )
                 : FittedBox(
                     child: EventItemCardPortrait(
                       onPressed: () => context.go(

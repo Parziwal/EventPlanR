@@ -1,9 +1,12 @@
+import 'package:event_planr_app/domain/models/ticket/sold_ticket.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class UserTicketLandscape extends StatelessWidget {
-  const UserTicketLandscape({super.key});
+  const UserTicketLandscape({required this.ticket, super.key});
+
+  final SoldTicket ticket;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +21,8 @@ class UserTicketLandscape extends StatelessWidget {
           child: Row(
             children: [
               PrettyQrView.data(
-                data: 'ticket.id',
+                data: ticket.id,
                 decoration: PrettyQrDecoration(
-                  image: const PrettyQrDecorationImage(
-                    image: AssetImage('assets/icon/icon.png'),
-                  ),
                   shape: PrettyQrRoundedSymbol(
                     color: theme.colorScheme.primary,
                   ),
@@ -34,12 +34,12 @@ class UserTicketLandscape extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Ticket name',
+                    ticket.ticketName,
                     style: theme.textTheme.titleLarge,
                   ),
                   const SizedBox(width: 16),
                   Text(
-                    'User name',
+                    ticket.getUserFullName(context),
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: theme.colorScheme.primary,
                     ),
