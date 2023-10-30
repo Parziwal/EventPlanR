@@ -58,8 +58,9 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
             });
         }
 
+        var expirationTime = await _ticketService.ReserveTicketsAsync(_user.UserId, reservedTickets);
         await _context.SaveChangesAsync();
 
-        return await _ticketService.ReserveTicketsAsync(_user.UserId, reservedTickets);
+        return expirationTime;
     }
 }

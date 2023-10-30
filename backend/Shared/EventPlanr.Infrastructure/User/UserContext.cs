@@ -7,28 +7,28 @@ namespace EventPlanr.Infrastructure.User;
 
 public class UserContext : IUserContext
 {
-    private readonly HttpContext _httpContext;
+    private readonly IHttpContextAccessor _http;
 
     public UserContext(IHttpContextAccessor httpContextAccessor)
     {
-        _httpContext = httpContextAccessor.HttpContext!;
+        _http = httpContextAccessor;
     }
 
-    public bool IsAuthenticated => _httpContext.User?.Identity?.IsAuthenticated ?? false;
+    public bool IsAuthenticated => _http.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
 
-    public Guid UserId => Guid.Parse(_httpContext.User.FindFirstValue("sub"));
+    public Guid UserId => Guid.Parse(_http.HttpContext!.User.FindFirstValue("sub"));
 
-    public string Email => _httpContext.User.FindFirstValue("email");
+    public string Email => _http.HttpContext!.User.FindFirstValue("email");
 
-    public string FirstName => _httpContext.User.FindFirstValue("given_name");
+    public string FirstName => _http.HttpContext!.User.FindFirstValue("given_name");
 
-    public string LastName => _httpContext.User.FindFirstValue("family_name");
+    public string LastName => _http.HttpContext!.User.FindFirstValue("family_name");
 
     public Guid? OrganizationId
     {
         get
         {
-            var organizationId = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "organization_id");
+            var organizationId = _http.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == "organization_id");
 
             if (organizationId != null)
             {
@@ -43,7 +43,7 @@ public class UserContext : IUserContext
     {
         get
         {
-            var organizationPolicies = _httpContext.User.Claims.FirstOrDefault(c => c.Type == "organization_policies");
+            var organizationPolicies = _http.HttpContext!.User.Claims.FirstOrDefault(c => c.Type == "organization_policies");
 
             if (organizationPolicies != null)
             {

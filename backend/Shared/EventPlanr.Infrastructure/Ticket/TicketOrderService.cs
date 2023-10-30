@@ -46,7 +46,7 @@ public class TicketOrderService : ITicketOrderService
             ReturnValues = "ALL_OLD",
             ExpressionAttributeValues = onlyIfExpired ? new Dictionary<string, AttributeValue>()
             {
-                {":currentTime", new AttributeValue { N = DateTimeOffset.UtcNow.Ticks.ToString()}}
+                {":currentTime", new AttributeValue { N = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()}}
             } : null,
             ConditionExpression = onlyIfExpired ? "ExpirationTime < :currentTime" : null,
             ReturnValuesOnConditionCheckFailure = "ALL_OLD",
@@ -76,13 +76,13 @@ public class TicketOrderService : ITicketOrderService
 
     public async Task<DateTimeOffset> ReserveTicketsAsync(Guid userId, List<ReservedTicketEntity> reserveTickets)
     {
-        await ResetReservedTicketsForUserAsync(userId, true);
+        await ResetReservedTicketsForUserAsync(userId);
 
         var expirationTime = DateTimeOffset.UtcNow.AddMinutes(10);
         var reservedTicketOrder = new UserReservedTicketOrderEntity()
         {
             UserId = userId,
-            ExpirationTime = expirationTime.Ticks,
+            ExpirationTime = expirationTime.ToUnixTimeSeconds(),
             ReservedTickets = reserveTickets,
         };
 
