@@ -39,6 +39,11 @@ extension ErrorLocalizationsX on AppLocalizations {
       'km20' => enum_km20,
       'km50' => enum_km50,
       'km100' => enum_km100,
+      'hu' => enum_hu,
+      'en' => enum_en,
+      'light' => enum_light,
+      'dark' => enum_dark,
+      'system' => enum_system,
       _ => enumName,
     };
   }

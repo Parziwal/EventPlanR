@@ -6,6 +6,11 @@ import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
+import 'package:event_planr_app/ui/event/app_settings/view/app_settings_page.dart';
+import 'package:event_planr_app/ui/event/edit_security/cubit/edit_security_cubit.dart';
+import 'package:event_planr_app/ui/event/edit_security/view/edit_security_page.dart';
+import 'package:event_planr_app/ui/event/edit_user/cubit/edit_user_cubit.dart';
+import 'package:event_planr_app/ui/event/edit_user/view/edit_user_page.dart';
 import 'package:event_planr_app/ui/event/event_details/cubit/event_details_cubit.dart';
 import 'package:event_planr_app/ui/event/event_details/view/event_details_page.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
@@ -87,6 +92,10 @@ class PagePaths {
 
   static String userEventTicketOrders(String eventId) =>
       '/userEvents/$eventId/orders';
+
+  static String userProfileEdit = '/userProfile/edit';
+  static String userProfileSecurity = '/userProfile/security';
+  static String userProfileSettings = '/userProfile/settings';
 
   static String userOrganizations = '/userOrganizations';
   static String userOrganizationCreate = '/userOrganizations/create';
@@ -220,6 +229,21 @@ final appRouter = GoRouter(
         BlocRoute<UserProfileCubit>(
           path: PagePaths.userProfile,
           builder: (state) => const UserProfilePage(),
+          routes: [
+            BlocRoute<EditUserCubit>(
+              path: 'edit',
+              builder: (state) => const EditUserPage(),
+              init: (cubit, state) => cubit.loadUserData(),
+            ),
+            BlocRoute<EditSecurityCubit>(
+              path: 'security',
+              builder: (state) => const EditSecurityPage(),
+            ),
+            GoRoute(
+              path: 'settings',
+              builder: (context, state) => const AppSettingsPage(),
+            ),
+          ],
         ),
       ],
     ),

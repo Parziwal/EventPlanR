@@ -70,7 +70,12 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
           : null,
       actions: [
         if (state.user != null)
-          AvatarIcon(altText: state.user!.getUserMonogram(context)),
+          InkWell(
+            onTap: () => context.go(PagePaths.userProfile),
+            child: AvatarIcon(
+              altText: state.user!.getUserMonogram(context),
+            ),
+          ),
         const SizedBox(width: 16),
         IconButton(
           onPressed: () => context.read<EventNavbarCubit>().logout(),
