@@ -33,6 +33,10 @@ module "event_planr_api" {
     "/newspost" = {
       lambda_invoke_arn = module.lambda_apis["news_post_api"].invoke_arn,
       use_authorization = true
+    },
+    "/chatmanager" = {
+      lambda_invoke_arn = module.lambda_apis["chat_manager_api"].invoke_arn,
+      use_authorization = true
     }
   }
 }

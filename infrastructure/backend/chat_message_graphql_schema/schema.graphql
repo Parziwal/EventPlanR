@@ -1,0 +1,25 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Message {
+  ConversationId: ID!
+  CreatedAt: String!
+  Content: String!
+  Sender: String!
+}
+
+type Query {
+  getConversationMessages(ConversationId: ID!): [Message]
+}
+
+type Mutation {
+  createMessage(ConversationId: ID!,  Content: String!): Message
+}
+
+type Subscription {
+  subscribeToNewMessage(ConversationId: ID!): Message
+  @aws_subscribe(mutations:["createMessage"])
+}

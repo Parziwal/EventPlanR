@@ -29,6 +29,23 @@ resource "aws_dynamodb_table" "user_reserved_ticket_order" {
   }
 }
 
+resource "aws_dynamodb_table" "chat_message" {
+  name         = "ChatMessage"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "conversationId"
+  range_key    = "createdAt"
+
+  attribute {
+    name = "conversationId"
+    type = "S"
+  }
+
+  attribute {
+    name = "createdAt"
+    type = "S"
+  }
+}
+
 module "database_initializer_lambda" {
   source = "../modules/lambda-dotnet"
 
@@ -40,7 +57,7 @@ module "database_initializer_lambda" {
     ASPNETCORE_ENVIRONMENT = "Development"
   }
 }
-
+/*
 resource "aws_lambda_invocation" "database_initializer_lambda" {
   function_name = module.database_initializer_lambda.function_name
   input         = ""
@@ -49,7 +66,7 @@ resource "aws_lambda_invocation" "database_initializer_lambda" {
     always_run = "${timestamp()}"
   }
 }
-
+*/
 resource "aws_ssm_parameter" "event_planr_db" {
   name  = "/${var.environment}/event_planr/ConnectionStrings/EventPlanrDb"
   type  = "SecureString"
@@ -66,4 +83,10 @@ resource "aws_ssm_parameter" "user_reserved_ticket_order" {
   name  = "/${var.environment}/event_planr/DynamoDbTableOptions/UserReservedTicketOrderTable"
   type  = "String"
   value = aws_dynamodb_table.user_reserved_ticket_order.name
+}
+
+resource "aws_ssm_parameter" "chat_message" {
+  name  = "/${var.environment}/event_planr/DynamoDbTableOptions/ChatMessageTable"
+  type  = "String"
+  value = aws_dynamodb_table.chat_message.name
 }
