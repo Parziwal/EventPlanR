@@ -7,6 +7,11 @@ public class PaginatedListDto<T>
     public int TotalPages { get; set; }
     public int TotalCount { get; set; }
 
+    public PaginatedListDto()
+    {
+        Items = new List<T>();
+    }
+
     public PaginatedListDto(List<T> items, int count, int pageNumber, int pageSize)
     {
         PageNumber = pageNumber;

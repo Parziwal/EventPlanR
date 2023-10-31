@@ -3,6 +3,7 @@ using Amazon.DynamoDBv2;
 using Amazon.SQS;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Domain.Constants;
+using EventPlanr.Infrastructure.Chat;
 using EventPlanr.Infrastructure.Options;
 using EventPlanr.Infrastructure.Persistance;
 using EventPlanr.Infrastructure.Persistance.Interceptors;
@@ -41,6 +42,7 @@ public static class InfrastructureServiceRegistration
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IUserClaimService, UserClaimService>();
         services.AddTransient<ITicketOrderService, TicketOrderService>();
+        services.AddTransient<IChatService, ChatService>();
 
         if (EnvironmentTypes.IsLocal())
         {

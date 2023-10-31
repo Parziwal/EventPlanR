@@ -12,6 +12,8 @@ public interface IApplicationDbContext
     DbSet<SoldTicketEntity> SoldTickets { get; }
     DbSet<OrderEntity> Orders { get; }
     DbSet<InvitationEntity> Inviations { get; }
+    DbSet<ChatEntity> Chats { get; }
+    DbSet<ChatMemberEntity> ChatMembers { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

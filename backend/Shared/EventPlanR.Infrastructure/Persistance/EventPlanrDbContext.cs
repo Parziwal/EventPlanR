@@ -16,6 +16,8 @@ public class EventPlanrDbContext : DbContext, IApplicationDbContext
     public DbSet<SoldTicketEntity> SoldTickets => Set<SoldTicketEntity>();
     public DbSet<OrderEntity> Orders => Set<OrderEntity>();
     public DbSet<InvitationEntity> Inviations => Set<InvitationEntity>();
+    public DbSet<ChatEntity> Chats => Set<ChatEntity>();
+    public DbSet<ChatMemberEntity> ChatMembers => Set<ChatMemberEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using EventPlanr.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    partial class EventPlanrDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231031224134_AddChatMembers")]
+    partial class AddChatMembers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

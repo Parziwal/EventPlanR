@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using EventPlanr.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    partial class EventPlanrDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231030230128_AddChat")]
+    partial class AddChat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,34 +37,13 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<Guid?>("EventId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("LastMessageDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<List<Guid>>("MemberUserIds")
+                        .IsRequired()
+                        .HasColumnType("uuid[]");
 
                     b.HasKey("Id");
 
                     b.ToTable("chats", (string)null);
-                });
-
-            modelBuilder.Entity("EventPlanr.Domain.Entities.ChatMemberEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ChatId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset>("LastSeen")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("MemberUserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
-
-                    b.ToTable("chat_members", (string)null);
                 });
 
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
@@ -400,17 +382,6 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.ToTable("tickets", (string)null);
                 });
 
-            modelBuilder.Entity("EventPlanr.Domain.Entities.ChatMemberEntity", b =>
-                {
-                    b.HasOne("EventPlanr.Domain.Entities.ChatEntity", "Chat")
-                        .WithMany("ChatMembers")
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Chat");
-                });
-
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
                 {
                     b.HasOne("EventPlanr.Domain.Entities.OrganizationEntity", "Organization")
@@ -537,11 +508,6 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasForeignKey("EventId");
 
                     b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("EventPlanr.Domain.Entities.ChatEntity", b =>
-                {
-                    b.Navigation("ChatMembers");
                 });
 
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
