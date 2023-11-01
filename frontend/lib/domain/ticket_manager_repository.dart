@@ -1,6 +1,6 @@
-import 'package:event_planr_app/data/network/event_planr/models/add_ticket_to_event_command.dart';
-import 'package:event_planr_app/data/network/event_planr/models/edit_ticket_command.dart';
-import 'package:event_planr_app/data/network/event_planr/ticket_manager/ticket_manager_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/add_ticket_to_event_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/edit_ticket_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/ticket_manager/ticket_manager_client.dart';
 import 'package:event_planr_app/domain/models/ticket/add_or_edit_ticket.dart';
 import 'package:event_planr_app/domain/models/ticket/organization_ticket.dart';
 import 'package:event_planr_app/utils/domain_extensions.dart';

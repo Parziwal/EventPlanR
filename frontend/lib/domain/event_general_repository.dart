@@ -1,4 +1,4 @@
-import 'package:event_planr_app/data/network/event_planr/event_general/event_general_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/event_general/event_general_client.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/event.dart';
 import 'package:event_planr_app/domain/models/event/event_category_enum.dart';

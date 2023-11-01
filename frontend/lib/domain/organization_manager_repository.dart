@@ -1,9 +1,9 @@
-import 'package:event_planr_app/data/network/event_planr/models/add_member_to_user_organization_command.dart';
-import 'package:event_planr_app/data/network/event_planr/models/create_organization_command.dart';
-import 'package:event_planr_app/data/network/event_planr/models/edit_organization_member_command.dart';
-import 'package:event_planr_app/data/network/event_planr/models/edit_user_organization_command.dart';
-import 'package:event_planr_app/data/network/event_planr/models/remove_member_from_user_organization_command.dart';
-import 'package:event_planr_app/data/network/event_planr/organization_manager/organization_manager_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/add_member_to_user_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/create_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/edit_organization_member_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/edit_user_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/remove_member_from_user_organization_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/organization_manager/organization_manager_client.dart';
 import 'package:event_planr_app/domain/models/organization/add_or_edit_organization_member.dart';
 import 'package:event_planr_app/domain/models/organization/create_or_edit_organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';

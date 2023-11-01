@@ -1,7 +1,7 @@
 import 'package:event_planr_app/data/disk/persistent_store.dart';
-import 'package:event_planr_app/data/network/event_planr/event_manager/event_manager_client.dart';
-import 'package:event_planr_app/data/network/event_planr/models/create_event_command.dart';
-import 'package:event_planr_app/data/network/event_planr/models/edit_event_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/event_manager/event_manager_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/create_event_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/edit_event_command.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/create_or_edit_event.dart';
 import 'package:event_planr_app/domain/models/event/organization_event.dart';

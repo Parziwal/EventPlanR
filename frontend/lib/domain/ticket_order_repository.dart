@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:event_planr_app/data/disk/persistent_store.dart';
-import 'package:event_planr_app/data/network/event_planr/models/add_reserve_ticket_dto.dart';
-import 'package:event_planr_app/data/network/event_planr/models/add_ticket_user_info_dto.dart';
-import 'package:event_planr_app/data/network/event_planr/models/order_reserved_tickets_command.dart';
-import 'package:event_planr_app/data/network/event_planr/models/reserve_user_tickets_command.dart';
-import 'package:event_planr_app/data/network/event_planr/ticket_order/ticket_order_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/add_reserve_ticket_dto.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/add_ticket_user_info_dto.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/order_reserved_tickets_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/models/reserve_user_tickets_command.dart';
+import 'package:event_planr_app/data/network/event_planr_api/ticket_order/ticket_order_client.dart';
 import 'package:event_planr_app/domain/models/order/order_details.dart';
 import 'package:event_planr_app/domain/models/ticket/add_reserve_ticket.dart';
 import 'package:event_planr_app/domain/models/ticket/create_order.dart';

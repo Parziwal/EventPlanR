@@ -1,4 +1,3 @@
-import 'package:event_planr_app/data/network/event_planr/models/currency.dart';
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

@@ -1,4 +1,4 @@
-import 'package:event_planr_app/data/network/nominatim/nominatim_client.dart';
+import 'package:event_planr_app/data/network/nominatim_api/nominatim_client.dart';
 import 'package:event_planr_app/domain/models/map/map_address.dart';
 import 'package:event_planr_app/domain/models/map/map_location.dart';
 import 'package:injectable/injectable.dart';

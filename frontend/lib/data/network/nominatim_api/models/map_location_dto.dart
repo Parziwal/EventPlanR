@@ -1,4 +1,4 @@
-import 'package:event_planr_app/data/network/nominatim/models/map_address_dto.dart';
+import 'package:event_planr_app/data/network/nominatim_api/models/map_address_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'map_location_dto.freezed.dart';

@@ -1,5 +1,5 @@
 swagger_parser:
-  output_directory: lib/data/network/event_planr
+  output_directory: lib/data/network/event_planr_api
   squash_clients: true
   root_client: false
 
@@ -19,3 +19,5 @@ swagger_parser:
       name: user_ticket
     - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/newspost/swagger/v1/swagger.json
       name: news_post
+    - schema_url: https://oodmn4hc97.execute-api.us-east-1.amazonaws.com/chatmanager/swagger/v1/swagger.json
+      name: chat_manager

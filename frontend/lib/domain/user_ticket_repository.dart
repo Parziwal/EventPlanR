@@ -1,4 +1,4 @@
-import 'package:event_planr_app/data/network/event_planr/user_ticket/user_ticket_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/user_ticket/user_ticket_client.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/event.dart';
 import 'package:event_planr_app/domain/models/event/user_event_filter.dart';

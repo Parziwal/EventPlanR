@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:event_planr_app/data/network/nominatim/models/map_location_dto.dart';
+import 'package:event_planr_app/data/network/nominatim_api/models/map_location_dto.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
