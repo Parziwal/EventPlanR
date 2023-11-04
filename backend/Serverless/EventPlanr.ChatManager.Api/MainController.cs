@@ -29,4 +29,11 @@ public class MainController : ControllerBase
     [HttpPost("direct")]
     public Task<Guid> GetEventNewsPost([FromBody] CreateDirectChatCommand command)
         => _sender.Send(command);
+
+    [HttpPost("setread/{chatId}")]
+    public Task SetChatMessagesRead(Guid chatId)
+        => _sender.Send(new SetChatMessagesReadCommand()
+        {
+            ChatId = chatId,
+        });
 }

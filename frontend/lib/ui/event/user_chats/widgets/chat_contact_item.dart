@@ -73,7 +73,7 @@ class ChatContactItem extends StatelessWidget {
 
     final timeNow = DateTime.now();
     if (dateTime.difference(timeNow) < const Duration(days: 1)) {
-      final hours = dateTime.difference(timeNow).inHours;
+      final hours = timeNow.difference(dateTime).inHours;
       if (hours == 0) {
         return l10n.userChats_Now;
       }

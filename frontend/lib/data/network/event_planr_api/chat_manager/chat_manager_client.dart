@@ -24,4 +24,9 @@ abstract class ChatManagerClient {
   Future<String> postChatmanagerDirect({
     @Body() required CreateDirectChatCommand body,
   });
+
+  @POST('/chatmanager/setread/{chatId}')
+  Future<void> postChatmanagerSetreadChatId({
+    @Path('chatId') required String chatId,
+  });
 }

@@ -116,7 +116,6 @@ class ChatMessageCubit extends Cubit<ChatMessageState> {
   Future<void> close() async {
     await _subscription?.cancel();
     _subscription = null;
-    await _chatRepository.getChatMessages(_chatId);
     await super.close();
   }
 }

@@ -38,6 +38,14 @@ class ChatRepository {
   }
 
   Future<PaginatedList<Chat>> getDirectChats(ChatFilter filter) async {
+    if (_selectedChat != null) {
+      await _chatManagerClient.postChatmanagerSetreadChatId(
+        chatId: _selectedChat!.id,
+      );
+      _selectedChat = null;
+      await _persistentStore.remove('selectedChat');
+    }
+
     final chats = await _chatManagerClient.getChatmanagerDirect(
       pageNumber: filter.pageNumber ?? 1,
       pageSize: filter.pageSize ?? 20,
@@ -111,16 +119,5 @@ class ChatRepository {
             ),
           ),
         );
-  }
-
-  Future<void> _waitUntilDone() async {
-    final completer = Completer();
-    if (_loading) {
-      await Future.delayed(const Duration(milliseconds: 200));
-      return _waitUntilDone();
-    } else {
-      completer.complete();
-    }
-    return completer.future;
   }
 }
