@@ -3,6 +3,11 @@ output "event_planr_api_url" {
   value       = module.event_planr_api.api_gateway_url
 }
 
+output "chat_message_graphql_urls" {
+  description = "Urls of the chat message graphql"
+  value       = aws_appsync_graphql_api.chat_message.uris
+}
+
 output "event_planr_db_url" {
   description = "Url of the event planr database"
   value       = module.event_planr_db.cluster_url

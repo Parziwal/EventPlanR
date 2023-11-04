@@ -7,6 +7,8 @@ import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
 import 'package:event_planr_app/ui/event/app_settings/view/app_settings_page.dart';
+import 'package:event_planr_app/ui/event/chat_message/cubit/chat_message_cubit.dart';
+import 'package:event_planr_app/ui/event/chat_message/view/chat_message_page.dart';
 import 'package:event_planr_app/ui/event/edit_security/cubit/edit_security_cubit.dart';
 import 'package:event_planr_app/ui/event/edit_security/view/edit_security_page.dart';
 import 'package:event_planr_app/ui/event/edit_user/cubit/edit_user_cubit.dart';
@@ -25,12 +27,13 @@ import 'package:event_planr_app/ui/event/organization_details/cubit/organization
 import 'package:event_planr_app/ui/event/organization_details/view/organiation_details_page.dart';
 import 'package:event_planr_app/ui/event/ticket_checkout/cubit/ticket_checkout_cubit.dart';
 import 'package:event_planr_app/ui/event/ticket_checkout/view/ticket_checkout_page.dart';
+import 'package:event_planr_app/ui/event/user_chats/cubit/user_chats_cubit.dart';
+import 'package:event_planr_app/ui/event/user_chats/view/user_chats_page.dart';
 import 'package:event_planr_app/ui/event/user_dashboard/view/user_dashboard_page.dart';
 import 'package:event_planr_app/ui/event/user_event_tickets/cubit/user_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/event/user_event_tickets/view/user_event_tickets_page.dart';
 import 'package:event_planr_app/ui/event/user_events/cubit/user_events_cubit.dart';
 import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart';
-import 'package:event_planr_app/ui/event/user_messages/view/user_messages_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
 import 'package:event_planr_app/ui/event/user_ticket_order/cubit/user_ticket_order_cubit.dart';
@@ -70,7 +73,7 @@ class PagePaths {
   static String userDashboard = '/userDashboard';
   static String exploreEvents = '/exploreEvents';
   static String userEvents = '/userEvents';
-  static String userMessages = '/userMessages';
+  static String userChats = '/userChats';
   static String userProfile = '/userProfile';
 
   static String eventDetails(String eventId) =>
@@ -92,6 +95,8 @@ class PagePaths {
 
   static String userEventTicketOrders(String eventId) =>
       '/userEvents/$eventId/orders';
+
+  static String userChatMessage(String chatId) => '/userChats/$chatId';
 
   static String userProfileEdit = '/userProfile/edit';
   static String userProfileSecurity = '/userProfile/security';
@@ -222,9 +227,17 @@ final appRouter = GoRouter(
             ),
           ],
         ),
-        BlocRoute<AuthCubit>(
-          path: PagePaths.userMessages,
-          builder: (state) => const UserMessagesPage(),
+        BlocRoute<UserChatsCubit>(
+          path: PagePaths.userChats,
+          builder: (state) => const UserChatsPage(),
+          routes: [
+            BlocRoute<ChatMessageCubit>(
+              path: ':chatId',
+              builder: (state) => const ChatMessagePage(),
+              init: (cubit, state) =>
+                  cubit.loadMessages(state.pathParameters['chatId']!),
+            ),
+          ],
         ),
         BlocRoute<UserProfileCubit>(
           path: PagePaths.userProfile,

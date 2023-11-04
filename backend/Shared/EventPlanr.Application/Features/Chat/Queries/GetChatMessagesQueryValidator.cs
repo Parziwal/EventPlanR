@@ -8,5 +8,7 @@ public class GetChatMessagesQueryValidator : AbstractValidator<GetChatMessagesQu
     {
         RuleFor(x => x.ChatId)
             .NotEmpty();
+        RuleFor(x => x.UserId)
+            .NotEmpty();
     }
 }

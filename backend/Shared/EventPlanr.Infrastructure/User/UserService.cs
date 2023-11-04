@@ -33,7 +33,7 @@ public class UserService : IUserService
         };
         var userResponse = await _cognitoClient.ListUsersAsync(getUserWithEmailRequest);
 
-        if (userResponse.Users.Count == 0)
+        if (userResponse.Users.Count == 0 || userResponse.Users.First().UserStatus != UserStatusType.CONFIRMED)
         {
             return null;
         }
@@ -53,13 +53,12 @@ public class UserService : IUserService
         };
         var userResponse = await _cognitoClient.ListUsersAsync(getUserWithEmailRequest);
         
-        if (userResponse.Users.Count == 0)
+        if (userResponse.Users.Count == 0 || userResponse.Users.First().UserStatus != UserStatusType.CONFIRMED)
         {
             throw new EntityNotFoundException("UserEntity");
         }
 
         var user = userResponse.Users.First();
-
         return new UserEntity() {
             Id = new Guid(user.Attributes.Single(a => a.Name == "sub").Value),
             FirstName = user.Attributes.Single(a => a.Name == "given_name").Value,

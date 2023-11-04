@@ -1,5 +1,4 @@
 import 'package:event_planr_app/l10n/l10n.dart';
-import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/event/edit_user/cubit/edit_user_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ Future<void> showConfirmEmailChangeModal(BuildContext context) {
 }
 
 class _ConfirmEmailChangeForm extends StatefulWidget {
-  const _ConfirmEmailChangeForm({this.disabled = false, super.key});
+  const _ConfirmEmailChangeForm({this.disabled = false});
 
   final bool disabled;
 

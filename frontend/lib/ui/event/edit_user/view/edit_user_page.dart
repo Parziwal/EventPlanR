@@ -1,7 +1,7 @@
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/event/edit_user/cubit/edit_user_cubit.dart';
-import 'package:event_planr_app/ui/event/edit_user/widgets/confirm_email_change.dart';
+import 'package:event_planr_app/ui/event/edit_user/widgets/confirm_email_change_modal.dart';
 import 'package:event_planr_app/ui/event/edit_user/widgets/edit_user_form.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';

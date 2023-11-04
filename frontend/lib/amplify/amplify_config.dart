@@ -25,6 +25,12 @@ const amplifyConfig = '''
   "api": {
     "plugins": {
       "awsAPIPlugin": {
+        "chat_message": {
+          "endpointType": "GraphQL",
+          "endpoint": "${Env.chatMessageGraphqlUrl}",
+          "region": "us-east-1",
+          "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+        }
       }
     }
   }

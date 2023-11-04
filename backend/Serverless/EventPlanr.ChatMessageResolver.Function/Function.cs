@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using EventPlanr.LambdaBase;
 using EventPlanr.ChatMessageResolver.Function.Models;
 using System.Text.Json;
+using MediatR;
+using EventPlanr.Application.Features.Chat.Queries;
+using EventPlanr.Application.Features.Chat.Commands;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
@@ -18,25 +21,25 @@ public class Function
         services.AddLambdaFunctionServices();
         _serviceProvider = services.BuildServiceProvider();
     }
-    public object FunctionHandler(ChatMessageRequest request, ILambdaContext context)
+    public async Task<object> FunctionHandler(ChatMessageRequest request, ILambdaContext context)
     {
         context.Logger.Log(JsonSerializer.Serialize(request));
 
+        var sender = _serviceProvider.GetRequiredService<ISender>();
+
         return request.Field switch
         {
-            "getConversationMessages" => new {
-                ConversationId = request.Arguments.ConversationId,
-                Content = "Test",
-                CreatedAt = DateTime.UtcNow.ToString(),
-                Sender = "Test",
-            },
-            "createMessage" => new
+            "getChatMessages" => await sender.Send(new GetChatMessagesQuery()
             {
-                ConversationId = request.Arguments.ConversationId,
+                ChatId = request.Arguments.ChatId,
+                UserId = request.UserId,
+            }),
+            "createMessage" => await sender.Send(new CreateChatMessageCommand()
+            {
+                ChatId = request.Arguments.ChatId,
+                UserId = request.UserId,
                 Content = request.Arguments.Content!,
-                CreatedAt = DateTime.UtcNow,
-                Sender = "Test",
-            },
+            }),
             _ => new object(),
         };
     }

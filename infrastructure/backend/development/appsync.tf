@@ -70,7 +70,7 @@ module "chat_message_resolver_lambda" {
 resource "aws_appsync_resolver" "chat_message_query" {
   api_id      = aws_appsync_graphql_api.chat_message.id
   type        = "Query"
-  field       = "getConversationMessages"
+  field       = "getChatMessages"
   data_source = aws_appsync_datasource.chat_message.name
 
   code = file("../chat_message_graphql_schema/resolver.js")

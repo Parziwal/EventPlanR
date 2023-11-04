@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using EventPlanr.Application.Models.User;
 using EventPlanr.Domain.Entities;
 
 namespace EventPlanr.Application.Models.Chat;
 public class ChatMessageDto
 {
     public Guid ChatId { get; set; }
-    public Guid SenderId { get; set; }
+    public UserDto Sender { get; set; } = null!;
     public string Content { get; set; } = null!;
     public DateTimeOffset CreatedAt { get; set; }
 
@@ -13,7 +14,8 @@ public class ChatMessageDto
     {
         public Mapping()
         {
-            CreateMap<ChatMessageEntity, ChatMessageDto>();
+            CreateMap<ChatMessageEntity, ChatMessageDto>()
+                .ForMember(dest => dest.Sender, opt => opt.MapFrom(src => new UserDto() { Id = src.SenderId }));
         }
     }
 }

@@ -136,8 +136,8 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                   DrawerTile(
                     icon: const Icon(Icons.message),
                     label: Text(l10n.navbar_UserMessages),
-                    onTap: () => context.go(PagePaths.userMessages),
-                    selected: location == PagePaths.userMessages,
+                    onTap: () => context.go(PagePaths.userChats),
+                    selected: location == PagePaths.userChats,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.event_note_outlined),

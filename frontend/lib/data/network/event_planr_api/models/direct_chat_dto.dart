@@ -10,6 +10,8 @@ part 'direct_chat_dto.g.dart';
 class DirectChatDto {
   const DirectChatDto({
     required this.id,
+    required this.lastMessageDate,
+    required this.haveUnreadMessages,
     required this.contactFirstName,
     required this.contactLastName,
     this.profileImageUrl,
@@ -18,6 +20,8 @@ class DirectChatDto {
   factory DirectChatDto.fromJson(Map<String, Object?> json) => _$DirectChatDtoFromJson(json);
   
   final String id;
+  final DateTime lastMessageDate;
+  final bool haveUnreadMessages;
   final String contactFirstName;
   final String contactLastName;
   final String? profileImageUrl;

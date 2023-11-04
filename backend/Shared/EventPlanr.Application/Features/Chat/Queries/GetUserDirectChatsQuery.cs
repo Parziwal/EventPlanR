@@ -5,6 +5,7 @@ using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Chat.Queries;
 
@@ -29,8 +30,10 @@ public class GetUserDirectChatsQueryHandler : IRequestHandler<GetUserDirectChats
     public async Task<PaginatedListDto<DirectChatDto>> Handle(GetUserDirectChatsQuery request, CancellationToken cancellationToken)
     {
         var chats = await _dbContext.Chats
+            .AsNoTracking()
+            .Include(c => c.ChatMembers)
             .Where(c => c.EventId == null)
-            .Where(c => c.ChatMembers.Any(cm => cm.Id == _user.UserId))
+            .Where(c => c.ChatMembers.Any(cm => cm.MemberUserId == _user.UserId))
             .ToPaginatedListAsync(request);
 
 

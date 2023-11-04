@@ -77,7 +77,7 @@ public class TicketOrderService : ITicketOrderService
     public async Task<DateTimeOffset> ReserveTicketsAsync(Guid userId, List<ReservedTicketEntity> reserveTickets)
     {
         await ResetReservedTicketsForUserAsync(userId);
-
+        
         var expirationTime = DateTimeOffset.UtcNow.AddMinutes(10);
         var reservedTicketOrder = new UserReservedTicketOrderEntity()
         {

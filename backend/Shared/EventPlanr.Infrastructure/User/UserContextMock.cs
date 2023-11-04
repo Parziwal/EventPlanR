@@ -7,7 +7,7 @@ public class UserContextMock : IUserContext
 {
     public bool IsAuthenticated => true;
 
-    public Guid UserId => new Guid("a5b10234-d908-47ca-91b3-5b877ca761a2");
+    public Guid UserId => new Guid("b21f187d-4726-41b3-b950-5c599b1b6a6c");
 
     public string Email => "test.elek@email.hu";
 

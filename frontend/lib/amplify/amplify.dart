@@ -5,8 +5,7 @@ import 'package:event_planr_app/amplify/amplify_config.dart';
 
 Future<void> configureAmplify() async {
   try {
-    await Amplify.addPlugin(AmplifyAuthCognito());
-    await Amplify.addPlugin(AmplifyAPI());
+    await Amplify.addPlugins([AmplifyAuthCognito(), AmplifyAPI()]);
     await Amplify.configure(amplifyConfig);
   } on Exception catch (e) {
     safePrint('An error occurred configuring Amplify: $e');

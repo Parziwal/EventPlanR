@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
-public class ChatMemberEntityConfiguration : IEntityTypeConfiguration<ChatMemberEntity>
+public class ChatMemberConfiguration : IEntityTypeConfiguration<ChatMemberEntity>
 {
     public void Configure(EntityTypeBuilder<ChatMemberEntity> builder)
     {

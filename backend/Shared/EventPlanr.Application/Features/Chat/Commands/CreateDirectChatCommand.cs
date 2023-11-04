@@ -3,6 +3,7 @@ using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Chat.Commands;
 
@@ -29,9 +30,20 @@ public class CreateDirectChatCommandHandler : IRequestHandler<CreateDirectChatCo
     {
         var contactUserId = await _userService.GetUserIdByEmail(request.UserEmail) ?? throw new EntityNotFoundException();
 
+        var chatExists = await _dbContext.Chats
+            .SingleOrDefaultAsync(c => c.ChatMembers.Count == 2
+            && ((c.ChatMembers[0].MemberUserId == _user.UserId && c.ChatMembers[1].MemberUserId == contactUserId)
+            || (c.ChatMembers[1].MemberUserId == _user.UserId && c.ChatMembers[0].MemberUserId == contactUserId)));
+
+        if (chatExists != null)
+        {
+            throw new DomainException();
+        }
+
         var timeNow = DateTimeOffset.UtcNow;
         var chat = new ChatEntity()
         {
+            LastMessageDate = timeNow,
             ChatMembers = new List<ChatMemberEntity> { 
                 new ChatMemberEntity()
                 { 

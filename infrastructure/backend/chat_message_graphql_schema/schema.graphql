@@ -5,21 +5,28 @@ schema {
 }
 
 type Message {
-  ConversationId: ID!
+  ChatId: ID!
   CreatedAt: String!
   Content: String!
-  Sender: String!
+  Sender: Sender!
+}
+
+type Sender {
+  Id: ID!
+  FirstName: String!,
+  LastName: String!,
+  ProfileImageUrl: String
 }
 
 type Query {
-  getConversationMessages(ConversationId: ID!): [Message]
+  getChatMessages(ChatId: ID!): [Message]
 }
 
 type Mutation {
-  createMessage(ConversationId: ID!,  Content: String!): Message
+  createMessage(ChatId: ID!,  Content: String!): Message
 }
 
 type Subscription {
-  subscribeToNewMessage(ConversationId: ID!): Message
+  subscribeToNewMessage(ChatId: ID!): Message
   @aws_subscribe(mutations:["createMessage"])
 }

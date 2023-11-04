@@ -32,16 +32,16 @@ resource "aws_dynamodb_table" "user_reserved_ticket_order" {
 resource "aws_dynamodb_table" "chat_message" {
   name         = "ChatMessage"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "conversationId"
-  range_key    = "createdAt"
+  hash_key     = "ChatId"
+  range_key    = "CreatedAt"
 
   attribute {
-    name = "conversationId"
+    name = "ChatId"
     type = "S"
   }
 
   attribute {
-    name = "createdAt"
+    name = "CreatedAt"
     type = "S"
   }
 }
@@ -57,7 +57,7 @@ module "database_initializer_lambda" {
     ASPNETCORE_ENVIRONMENT = "Development"
   }
 }
-/*
+
 resource "aws_lambda_invocation" "database_initializer_lambda" {
   function_name = module.database_initializer_lambda.function_name
   input         = ""
@@ -66,7 +66,7 @@ resource "aws_lambda_invocation" "database_initializer_lambda" {
     always_run = "${timestamp()}"
   }
 }
-*/
+
 resource "aws_ssm_parameter" "event_planr_db" {
   name  = "/${var.environment}/event_planr/ConnectionStrings/EventPlanrDb"
   type  = "SecureString"

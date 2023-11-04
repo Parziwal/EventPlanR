@@ -8,6 +8,7 @@ abstract class Env {
   static const cognitoPoolId = String.fromEnvironment('COGNITO_POOL_ID');
   static const cognitoPoolClientId =
       String.fromEnvironment('COGNITO_POOL_CLIENT_ID');
-  static const chatGraphqlUrl = String.fromEnvironment('CHAT_GRAPHQL_URL');
+  static const chatMessageGraphqlUrl =
+      String.fromEnvironment('CHAT_MESSAGE_GRAPHQL_URL');
   static const nominatimApiUrl = String.fromEnvironment('NOMINATIM_API_URL');
 }

@@ -10,17 +10,21 @@ class EventScaffold extends StatelessWidget {
     this.title,
     this.appBar,
     this.body,
-    this.mobileActions,
-    this.mobileBottomSheet,
     this.tabBar,
+    this.mobileActions,
+    this.mobileFloatingButton,
+    this.mobileBottomSheet,
+    this.desktopActions,
   });
 
   final String? title;
   final PreferredSizeWidget? appBar;
   final Widget? body;
-  final List<Widget>? mobileActions;
-  final Widget? mobileBottomSheet;
   final TabBar? tabBar;
+  final List<Widget>? mobileActions;
+  final FloatingActionButton? mobileFloatingButton;
+  final Widget? mobileBottomSheet;
+  final List<Widget>? desktopActions;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +38,11 @@ class EventScaffold extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (breakpoints.isDesktop) _desktopTabBar(context),
+          if (breakpoints.largerThan(MOBILE)) _desktopActions(),
           if (body != null) Expanded(child: body!),
         ],
       ),
+      floatingActionButton: breakpoints.isMobile ? mobileFloatingButton : null,
     );
   }
 
@@ -68,6 +74,28 @@ class EventScaffold extends StatelessWidget {
         margin: const EdgeInsets.only(top: 16),
         clipBehavior: Clip.hardEdge,
         child: tabBar ?? Container(),
+      ),
+    );
+  }
+
+  Widget _desktopActions() {
+    if (desktopActions == null) {
+      return Container();
+    }
+
+    return MaxWidthBox(
+      maxWidth: 1000,
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          primary: true,
+          child: Row(
+            children: [
+              ...?desktopActions,
+            ],
+          ),
+        ),
       ),
     );
   }

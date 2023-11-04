@@ -17,7 +17,7 @@ class EventBottomNavbar extends StatelessWidget {
     final showBottomNavbar = location == PagePaths.userDashboard ||
         location == PagePaths.exploreEvents ||
         location == PagePaths.userEvents ||
-        location == PagePaths.userMessages ||
+        location == PagePaths.userChats ||
         location == PagePaths.userProfile;
 
     return Scaffold(
@@ -66,7 +66,7 @@ class EventBottomNavbar extends StatelessWidget {
       return 1;
     } else if (location.startsWith(PagePaths.userEvents)) {
       return 2;
-    } else if (location.startsWith(PagePaths.userMessages)) {
+    } else if (location.startsWith(PagePaths.userChats)) {
       return 3;
     } else if (location.startsWith(PagePaths.userProfile)) {
       return 4;
@@ -83,7 +83,7 @@ class EventBottomNavbar extends StatelessWidget {
       case 2:
         context.go(PagePaths.userEvents);
       case 3:
-        context.go(PagePaths.userMessages);
+        context.go(PagePaths.userChats);
       case 4:
         context.go(PagePaths.userProfile);
     }

@@ -142,3 +142,27 @@ resource "aws_iam_role_policy" "reserved_ticket_order_expiration_queue_access" {
   role   = aws_iam_role.lambda_role.id
   policy = data.aws_iam_policy_document.reserved_ticket_order_expiration_queue_access.json
 }
+
+data "aws_iam_policy_document" "chat_message_table_access" {
+  statement {
+    actions = [
+      "dynamodb:BatchGetItem",
+      "dynamodb:GetItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:BatchWriteItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+    ]
+    resources = [
+      aws_dynamodb_table.chat_message.arn
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "chat_message_table_access" {
+  name   = "chat_message_table_access"
+  role   = aws_iam_role.lambda_role.id
+  policy = data.aws_iam_policy_document.chat_message_table_access.json
+}
