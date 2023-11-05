@@ -9,6 +9,7 @@ public class OrganizationEventDto
     public string Name { get; set; } = null!;
     public string? CoverImageUrl { get; set; }
     public DateTimeOffset FromDate { get; set; }
+    public Guid ChatId { get; set; }
 
     private class Mapping : Profile
     {

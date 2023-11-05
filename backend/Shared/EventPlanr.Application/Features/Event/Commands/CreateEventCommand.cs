@@ -38,6 +38,7 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Gui
 
     public async Task<Guid> Handle(CreateEventCommand request, CancellationToken cancellationToken)
     {
+        var timeNow = DateTimeOffset.UtcNow;
         var createdEvent = new EventEntity()
         {
             Name = request.Name,
@@ -62,6 +63,10 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Gui
             IsPrivate = request.IsPrivate,
             IsPublished = false,
             OrganizationId = (Guid)_user.OrganizationId!,
+            Chat = new ChatEntity()
+            {
+                LastMessageDate = timeNow,
+            }
         };
 
         _dbContext.Events.Add(createdEvent);

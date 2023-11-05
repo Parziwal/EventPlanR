@@ -31,6 +31,7 @@ public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand>
             .Include(e => e.Tickets)
             .Include(e => e.NewsPosts)
             .Include(e => e.Invitations)
+            .Include(e => e.Chat)
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
         if (eventEntity.IsPublished && eventEntity.ToDate > DateTime.UtcNow)

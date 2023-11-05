@@ -14,5 +14,6 @@ public static class OrganizationPolicies
     public const string NewsPostView = "news-post.view";
     public const string NewsPostManage = "news-post.manage";
 
+    public const string EventChat = "event-chat";
     public const string UserCheckIn = "user-check-in";
 }

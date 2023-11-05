@@ -77,8 +77,10 @@ class OrganizeDrawer extends StatelessWidget {
                   DrawerTile(
                     icon: const Icon(Icons.chat),
                     label: Text(l10n.organizeNavbar_Chat),
-                    onTap: () {},
-                    selected: false,
+                    onTap: () => context
+                        .go(PagePaths.organizationEventChat(event.chatId)),
+                    selected: location ==
+                        PagePaths.organizationEventChat(event.chatId),
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.fact_check),

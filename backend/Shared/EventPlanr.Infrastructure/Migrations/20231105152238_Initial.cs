@@ -17,6 +17,18 @@ namespace EventPlanr.Infrastructure.Migrations
                 .Annotation("Npgsql:PostgresExtension:postgis", ",,");
 
             migrationBuilder.CreateTable(
+                name: "chats",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    LastMessageDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_chats", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "orders",
                 columns: table => new
                 {
@@ -62,6 +74,26 @@ namespace EventPlanr.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "chat_members",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    MemberUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LastSeen = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_chat_members", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_chat_members_chats_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "chats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "events",
                 columns: table => new
                 {
@@ -82,6 +114,7 @@ namespace EventPlanr.Infrastructure.Migrations
                     IsPrivate = table.Column<bool>(type: "boolean", nullable: false),
                     IsPublished = table.Column<bool>(type: "boolean", nullable: false),
                     OrganizationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -92,6 +125,12 @@ namespace EventPlanr.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_events_chats_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "chats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_events_organizations_OrganizationId",
                         column: x => x.OrganizationId,
@@ -129,6 +168,7 @@ namespace EventPlanr.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Text = table.Column<string>(type: "text", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -206,6 +246,17 @@ namespace EventPlanr.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_chat_members_ChatId",
+                table: "chat_members",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_events_ChatId",
+                table: "events",
+                column: "ChatId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_events_OrganizationId",
                 table: "events",
                 column: "OrganizationId");
@@ -240,6 +291,9 @@ namespace EventPlanr.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "chat_members");
+
+            migrationBuilder.DropTable(
                 name: "invitations");
 
             migrationBuilder.DropTable(
@@ -256,6 +310,9 @@ namespace EventPlanr.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "events");
+
+            migrationBuilder.DropTable(
+                name: "chats");
 
             migrationBuilder.DropTable(
                 name: "organizations");

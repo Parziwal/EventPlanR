@@ -175,7 +175,6 @@
   "userChats_AddChat": "Add chat",
   "userChats_Email": "Email",
   "userChats_ChatCreated": "Chat created",
-  "userChats_Message": "Message",
   "userChats_Now": "Now",
   "userChats_HourAge": "{hour} hour ago",
   "@userChats_HourAge": {
@@ -185,6 +184,8 @@
       }
     }
   },
+  "chatMessage_Message": "Message",
+  "chatMessage_Chat": "Chat",
   "userProfile": "Profile",
   "userProfile_EditProfile": "Edit profile",
   "userProfile_Notifications": "Notifications",

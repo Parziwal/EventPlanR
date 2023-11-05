@@ -2,7 +2,6 @@ using Amazon.Lambda.Core;
 using Microsoft.Extensions.DependencyInjection;
 using EventPlanr.LambdaBase;
 using EventPlanr.ChatMessageResolver.Function.Models;
-using System.Text.Json;
 using MediatR;
 using EventPlanr.Application.Features.Chat.Queries;
 using EventPlanr.Application.Features.Chat.Commands;
@@ -23,8 +22,6 @@ public class Function
     }
     public async Task<object> FunctionHandler(ChatMessageRequest request, ILambdaContext context)
     {
-        context.Logger.Log(JsonSerializer.Serialize(request));
-
         var sender = _serviceProvider.GetRequiredService<ISender>();
 
         return request.Field switch

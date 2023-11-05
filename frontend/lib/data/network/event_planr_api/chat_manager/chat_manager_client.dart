@@ -7,6 +7,7 @@ import 'package:retrofit/retrofit.dart';
 
 import '../models/create_direct_chat_command.dart';
 import '../models/direct_chat_dto_paginated_list_dto.dart';
+import '../models/event_chat_dto_paginated_list_dto.dart';
 
 part 'chat_manager_client.g.dart';
 
@@ -23,6 +24,12 @@ abstract class ChatManagerClient {
   @POST('/chatmanager/direct')
   Future<String> postChatmanagerDirect({
     @Body() required CreateDirectChatCommand body,
+  });
+
+  @GET('/chatmanager/event')
+  Future<EventChatDtoPaginatedListDto> getChatmanagerEvent({
+    @Query('PageNumber') int? pageNumber,
+    @Query('PageSize') int? pageSize,
   });
 
   @POST('/chatmanager/setread/{chatId}')

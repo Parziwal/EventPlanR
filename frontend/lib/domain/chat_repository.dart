@@ -72,6 +72,40 @@ class ChatRepository {
     );
   }
 
+  Future<PaginatedList<Chat>> getEventsChats(ChatFilter filter) async {
+    if (_selectedChat != null) {
+      await _chatManagerClient.postChatmanagerSetreadChatId(
+        chatId: _selectedChat!.id,
+      );
+      _selectedChat = null;
+      await _persistentStore.remove('selectedChat');
+    }
+
+    final chats = await _chatManagerClient.getChatmanagerEvent(
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
+    );
+
+    return PaginatedList(
+      items: chats.items
+          .map(
+            (c) => Chat(
+          id: c.id,
+          lastMessageDate: c.lastMessageDate,
+          haveUnreadMessage: c.haveUnreadMessages,
+          eventName: c.eventName,
+          profileImageUrl: c.profileImageUrl,
+        ),
+      )
+          .toList(),
+      pageNumber: chats.pageNumber,
+      totalPages: chats.totalPages,
+      totalCount: chats.totalCount,
+      hasPreviousPage: chats.hasPreviousPage,
+      hasNextPage: chats.hasNextPage,
+    );
+  }
+
   Future<String> createDirectChat(String contactEmail) async {
     return _chatManagerClient.postChatmanagerDirect(
       body: CreateDirectChatCommand(userEmail: contactEmail),

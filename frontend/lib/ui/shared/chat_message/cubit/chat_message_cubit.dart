@@ -25,10 +25,11 @@ class ChatMessageCubit extends Cubit<ChatMessageState> {
   final AuthRepository _authRepository;
   final ChatRepository _chatRepository;
   StreamSubscription<Message>? _subscription;
-  late final String _chatId;
 
-  Future<void> loadMessages(String chatId) async {
-    _chatId = chatId;
+  Future<void> loadMessages(
+    String chatId, {
+    bool isOrganizationView = false,
+  }) async {
     try {
       emit(state.copyWith(status: ChatMessageStatus.loading));
       final user = await _authRepository.user;
@@ -39,11 +40,15 @@ class ChatMessageCubit extends Cubit<ChatMessageState> {
       emit(
         state.copyWith(
           chat: chat,
-          user: User(
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-          ),
+          user: isOrganizationView
+              ? User(
+                  id: user.organizationId!,
+                )
+              : User(
+                  id: user.id,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                ),
           messages: messages
               .map(
                 (m) => TextMessage(

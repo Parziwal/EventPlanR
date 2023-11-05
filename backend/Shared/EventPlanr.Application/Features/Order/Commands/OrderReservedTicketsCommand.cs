@@ -7,6 +7,7 @@ using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Order.Commands;
 
@@ -21,13 +22,16 @@ public class OrderReservedTicketsCommand : IRequest<Guid>
 
 public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedTicketsCommand, Guid>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IApplicationDbContext _dbContext;
     private readonly ITicketOrderService _ticketService;
     private readonly IUserContext _user;
 
-    public OrderReservedTicketsCommandHandler(IApplicationDbContext context, ITicketOrderService ticketService, IUserContext user)
+    public OrderReservedTicketsCommandHandler(
+        IApplicationDbContext dbContext,
+        ITicketOrderService ticketService,
+        IUserContext user)
     {
-        _context = context;
+        _dbContext = dbContext;
         _ticketService = ticketService;
         _user = user;
     }
@@ -70,8 +74,22 @@ public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedT
             }).ToList(),
         };
 
-        _context.Orders.Add(order);
-        await _context.SaveChangesAsync();
+        _dbContext.Orders.Add(order);
+
+        var ticketIds = reservedTickets.Select(rt => rt.TicketId).ToList();
+        var events = await _dbContext.Events
+            .Include(e => e.Chat)
+            .Where(e => e.Tickets.Any(t => ticketIds.Contains(t.Id)))
+            .Where(e => e.Chat.ChatMembers.All(c => c.MemberUserId != _user.UserId))
+            .ToListAsync();
+
+        events.ForEach(e => e.Chat.ChatMembers.Add(new ChatMemberEntity()
+        {
+            LastSeen = DateTimeOffset.UtcNow,
+            MemberUserId = _user.UserId
+        }));
+
+        await _dbContext.SaveChangesAsync();
 
         return order.Id;
     }

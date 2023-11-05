@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using EventPlanr.Domain.Entities;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
+using System.Reflection.Metadata;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 
@@ -55,6 +56,11 @@ public class EventConfiguration : IEntityTypeConfiguration<EventEntity>
             .WithMany(o => o.Events)
             .HasForeignKey(e => e.OrganizationId)
             .IsRequired(false);
+
+        builder.HasOne(e => e.Chat)
+            .WithOne(c => c.Event)
+            .HasForeignKey<EventEntity>(e => e.ChatId)
+            .IsRequired();
 
         builder.HasQueryFilter(x => x.IsDeleted == false);
     }

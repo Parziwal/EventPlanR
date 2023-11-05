@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using EventPlanr.Application.Models.Common;
-using EventPlanr.Domain.Common;
-using EventPlanr.Domain.Entities;
-
-namespace EventPlanr.Application.Models.Chat;
+﻿namespace EventPlanr.Application.Models.Chat;
 
 public class DirectChatDto
 {

@@ -19,7 +19,7 @@ public class MainController : ControllerBase
     }
 
     [HttpGet("direct")]
-    public Task<PaginatedListDto<DirectChatDto>> GetUserDirectChatsQuery([FromQuery] PageDto page)
+    public Task<PaginatedListDto<DirectChatDto>> GetUserDirectChats([FromQuery] PageDto page)
         => _sender.Send(new GetUserDirectChatsQuery()
         {
             PageNumber = page.PageNumber,
@@ -27,8 +27,16 @@ public class MainController : ControllerBase
         });
 
     [HttpPost("direct")]
-    public Task<Guid> GetEventNewsPost([FromBody] CreateDirectChatCommand command)
+    public Task<Guid> CreateDirectChat([FromBody] CreateDirectChatCommand command)
         => _sender.Send(command);
+
+    [HttpGet("event")]
+    public Task<PaginatedListDto<EventChatDto>> GetUserEventChats([FromQuery] PageDto page)
+        => _sender.Send(new GetUserEventChatsQuery()
+        {
+            PageNumber = page.PageNumber,
+            PageSize = page.PageSize,
+        });
 
     [HttpPost("setread/{chatId}")]
     public Task SetChatMessagesRead(Guid chatId)

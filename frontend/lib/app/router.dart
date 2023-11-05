@@ -7,8 +7,6 @@ import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
 import 'package:event_planr_app/ui/event/app_settings/view/app_settings_page.dart';
-import 'package:event_planr_app/ui/event/chat_message/cubit/chat_message_cubit.dart';
-import 'package:event_planr_app/ui/event/chat_message/view/chat_message_page.dart';
 import 'package:event_planr_app/ui/event/edit_security/cubit/edit_security_cubit.dart';
 import 'package:event_planr_app/ui/event/edit_security/view/edit_security_page.dart';
 import 'package:event_planr_app/ui/event/edit_user/cubit/edit_user_cubit.dart';
@@ -17,6 +15,7 @@ import 'package:event_planr_app/ui/event/event_details/cubit/event_details_cubit
 import 'package:event_planr_app/ui/event/event_details/view/event_details_page.dart';
 import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
+import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/event_news/cubit/event_news_cubit.dart';
 import 'package:event_planr_app/ui/event/event_news/view/event_news_page.dart';
 import 'package:event_planr_app/ui/event/event_tickets/cubit/event_tickets_cubit.dart';
@@ -54,10 +53,13 @@ import 'package:event_planr_app/ui/organize/organization_events/cubit/organizati
 import 'package:event_planr_app/ui/organize/organization_events/view/organization_events_page.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_navbar.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/cubit/user_organization_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/view/user_organization_details_page.dart';
 import 'package:event_planr_app/ui/organize/user_organizations/cubit/user_organizations_cubit.dart';
 import 'package:event_planr_app/ui/organize/user_organizations/view/user_organizations_page.dart';
+import 'package:event_planr_app/ui/shared/chat_message/cubit/chat_message_cubit.dart';
+import 'package:event_planr_app/ui/shared/chat_message/view/chat_message_page.dart';
 import 'package:event_planr_app/utils/bloc_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,6 +128,9 @@ class PagePaths {
 
   static String organizationEventNews(String eventId) =>
       '/organizationEventNews/$eventId';
+
+  static String organizationEventChat(String chatId) =>
+      '/organizationEventChat/$chatId';
 }
 
 final appRouter = GoRouter(
@@ -233,7 +238,12 @@ final appRouter = GoRouter(
           routes: [
             BlocRoute<ChatMessageCubit>(
               path: ':chatId',
-              builder: (state) => const ChatMessagePage(),
+              builder: (state) => ChatMessagePage(
+                frame: (title, child) => EventScaffold(
+                  title: title,
+                  body: child,
+                ),
+              ),
               init: (cubit, state) =>
                   cubit.loadMessages(state.pathParameters['chatId']!),
             ),
@@ -341,6 +351,19 @@ final appRouter = GoRouter(
         BlocRoute<OrganizationEventNewsCubit>(
           path: PagePaths.organizationEventNews(':eventId'),
           builder: (state) => const OrganizationEventNewsPage(),
+        ),
+        BlocRoute<ChatMessageCubit>(
+          path: PagePaths.organizationEventChat(':chatId'),
+          builder: (state) => ChatMessagePage(
+            frame: (title, child) => OrganizeScaffold(
+              title: title,
+              body: child,
+            ),
+          ),
+          init: (cubit, state) => cubit.loadMessages(
+            state.pathParameters['chatId']!,
+            isOrganizationView: true,
+          ),
         ),
       ],
     ),

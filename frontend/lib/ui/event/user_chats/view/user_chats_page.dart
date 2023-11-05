@@ -132,7 +132,7 @@ class _UserChatsPageState extends State<UserChatsPage>
       case 0:
         context.read<UserChatsCubit>().getDirectChats(pageNumber);
       case 1:
-        context.read<UserChatsCubit>().getDirectChats(pageNumber);
+        context.read<UserChatsCubit>().getEventChats(pageNumber);
     }
   }
 

@@ -9,6 +9,7 @@ class OrganizationEvent with _$OrganizationEvent {
     required String id,
     required String name,
     required DateTime fromDate,
+    required String chatId,
     String? coverImageUrl,
   }) = _OrganizationEvent;
 

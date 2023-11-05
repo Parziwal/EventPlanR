@@ -50,6 +50,7 @@ class EventManagerRepository {
               name: e.name,
               coverImageUrl: e.coverImageUrl,
               fromDate: e.fromDate,
+              chatId: e.chatId,
             ),
           )
           .toList(),
@@ -78,6 +79,7 @@ class EventManagerRepository {
               name: e.name,
               coverImageUrl: e.coverImageUrl,
               fromDate: e.fromDate,
+              chatId: e.chatId,
             ),
           )
           .toList(),
@@ -106,6 +108,7 @@ class EventManagerRepository {
               name: e.name,
               coverImageUrl: e.coverImageUrl,
               fromDate: e.fromDate,
+              chatId: e.chatId,
             ),
           )
           .toList(),

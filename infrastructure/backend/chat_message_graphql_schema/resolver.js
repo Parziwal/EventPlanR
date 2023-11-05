@@ -3,7 +3,11 @@ import { util } from '@aws-appsync/utils';
 export function request(ctx) {
   return {
     operation: "Invoke",
-    payload: { Field: ctx.info.fieldName, Arguments: ctx.args,  UserId: ctx.identity.username },
+    payload: { 
+      Field: ctx.info.fieldName,
+      Arguments: ctx.args,
+      UserId: ctx.identity.username
+    }
   };
 }
 

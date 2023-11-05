@@ -32,10 +32,10 @@ public class GetUserDirectChatsQueryHandler : IRequestHandler<GetUserDirectChats
         var chats = await _dbContext.Chats
             .AsNoTracking()
             .Include(c => c.ChatMembers)
-            .Where(c => c.EventId == null)
+            .Where(c => c.Event == null)
             .Where(c => c.ChatMembers.Any(cm => cm.MemberUserId == _user.UserId))
+            .OrderByDescending(c => c.LastMessageDate)
             .ToPaginatedListAsync(request);
-
 
         var contacts = new List<UserEntity>();
         foreach (var chat in chats.Items) {

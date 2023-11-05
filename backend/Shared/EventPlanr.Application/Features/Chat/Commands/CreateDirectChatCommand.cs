@@ -28,12 +28,13 @@ public class CreateDirectChatCommandHandler : IRequestHandler<CreateDirectChatCo
 
     public async Task<Guid> Handle(CreateDirectChatCommand request, CancellationToken cancellationToken)
     {
-        var contactUserId = await _userService.GetUserIdByEmail(request.UserEmail) ?? throw new EntityNotFoundException();
+        var contactUserId = await _userService.GetUserIdByEmail(request.UserEmail)
+            ?? throw new EntityNotFoundException();
 
         var chatExists = await _dbContext.Chats
-            .SingleOrDefaultAsync(c => c.ChatMembers.Count == 2
-            && ((c.ChatMembers[0].MemberUserId == _user.UserId && c.ChatMembers[1].MemberUserId == contactUserId)
-            || (c.ChatMembers[1].MemberUserId == _user.UserId && c.ChatMembers[0].MemberUserId == contactUserId)));
+            .Where(c => c.Event == null)
+            .SingleOrDefaultAsync(c => c.ChatMembers.Any(cm => cm.MemberUserId == _user.UserId)
+                && c.ChatMembers.Any(cm => cm.MemberUserId == contactUserId));
 
         if (chatExists != null)
         {

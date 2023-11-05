@@ -14,8 +14,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    [Migration("20231030230128_AddChat")]
-    partial class AddChat
+    [Migration("20231105152238_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,16 +34,34 @@ namespace EventPlanr.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("EventId")
-                        .HasColumnType("uuid");
-
-                    b.Property<List<Guid>>("MemberUserIds")
-                        .IsRequired()
-                        .HasColumnType("uuid[]");
+                    b.Property<DateTimeOffset>("LastMessageDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.ToTable("chats", (string)null);
+                });
+
+            modelBuilder.Entity("EventPlanr.Domain.Entities.ChatMemberEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("LastSeen")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MemberUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("chat_members", (string)null);
                 });
 
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
@@ -54,6 +72,9 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<int>("Category")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid");
 
                     b.Property<Point>("Coordinate")
                         .IsRequired()
@@ -112,6 +133,9 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasColumnType("character varying(64)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatId")
+                        .IsUnique();
 
                     b.HasIndex("OrganizationId");
 
@@ -382,8 +406,25 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.ToTable("tickets", (string)null);
                 });
 
+            modelBuilder.Entity("EventPlanr.Domain.Entities.ChatMemberEntity", b =>
+                {
+                    b.HasOne("EventPlanr.Domain.Entities.ChatEntity", "Chat")
+                        .WithMany("ChatMembers")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+                });
+
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
                 {
+                    b.HasOne("EventPlanr.Domain.Entities.ChatEntity", "Chat")
+                        .WithOne("Event")
+                        .HasForeignKey("EventPlanr.Domain.Entities.EventEntity", "ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EventPlanr.Domain.Entities.OrganizationEntity", "Organization")
                         .WithMany("Events")
                         .HasForeignKey("OrganizationId");
@@ -423,6 +464,8 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("Chat");
 
                     b.Navigation("Organization");
                 });
@@ -506,6 +549,13 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("Tickets")
                         .HasForeignKey("EventId");
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("EventPlanr.Domain.Entities.ChatEntity", b =>
+                {
+                    b.Navigation("ChatMembers");
 
                     b.Navigation("Event");
                 });

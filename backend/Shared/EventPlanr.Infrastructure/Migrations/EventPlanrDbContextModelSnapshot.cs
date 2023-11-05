@@ -31,9 +31,6 @@ namespace EventPlanr.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("EventId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTimeOffset>("LastMessageDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -72,6 +69,9 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<int>("Category")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid");
 
                     b.Property<Point>("Coordinate")
                         .IsRequired()
@@ -130,6 +130,9 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasColumnType("character varying(64)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatId")
+                        .IsUnique();
 
                     b.HasIndex("OrganizationId");
 
@@ -413,6 +416,12 @@ namespace EventPlanr.Infrastructure.Migrations
 
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>
                 {
+                    b.HasOne("EventPlanr.Domain.Entities.ChatEntity", "Chat")
+                        .WithOne("Event")
+                        .HasForeignKey("EventPlanr.Domain.Entities.EventEntity", "ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EventPlanr.Domain.Entities.OrganizationEntity", "Organization")
                         .WithMany("Events")
                         .HasForeignKey("OrganizationId");
@@ -452,6 +461,8 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("Chat");
 
                     b.Navigation("Organization");
                 });
@@ -542,6 +553,8 @@ namespace EventPlanr.Infrastructure.Migrations
             modelBuilder.Entity("EventPlanr.Domain.Entities.ChatEntity", b =>
                 {
                     b.Navigation("ChatMembers");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("EventPlanr.Domain.Entities.EventEntity", b =>

@@ -49,6 +49,35 @@ class UserChatsCubit extends Cubit<UserChatsState> {
     emit(state.copyWith(status: UserChatsStatus.idle));
   }
 
+  Future<void> getEventChats(int pageNumber) async {
+    try {
+      emit(
+        state.copyWith(
+          status: UserChatsStatus.loading,
+          chats: pageNumber == 1 ? null : state.chats,
+        ),
+      );
+      final chats = await _chatRepository
+          .getEventsChats(ChatFilter(pageSize: 20, pageNumber: pageNumber));
+      emit(
+        state.copyWith(
+          chats:
+          pageNumber == 1 ? chats.items : [...state.chats!, ...chats.items],
+          pageNumber: chats.hasNextPage ? pageNumber + 1 : null,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: UserChatsStatus.error,
+          errorCode: e.toString(),
+        ),
+      );
+    }
+
+    emit(state.copyWith(status: UserChatsStatus.idle));
+  }
+
   Future<void> createDirectChat(String email) async {
     try {
       emit(state.copyWith(status: UserChatsStatus.loading));

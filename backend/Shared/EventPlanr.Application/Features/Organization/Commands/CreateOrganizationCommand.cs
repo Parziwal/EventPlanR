@@ -54,6 +54,7 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
                 OrganizationPolicies.EventTicketManage,
                 OrganizationPolicies.NewsPostView,
                 OrganizationPolicies.NewsPostManage,
+                OrganizationPolicies.EventChat,
                 OrganizationPolicies.UserCheckIn,
             }
         };
