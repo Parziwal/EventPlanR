@@ -155,11 +155,6 @@ class EventDetailsPage extends StatelessWidget {
             ),
             child: Text(l10n.eventDetails_BuyTicket),
           ),
-          const SizedBox(width: 16),
-          IconButton.filled(
-            onPressed: () {},
-            icon: const Icon(Icons.bookmark),
-          ),
         ],
       ],
     );
@@ -229,11 +224,6 @@ class EventDetailsPage extends StatelessWidget {
               eventDetails.organization.name,
               style: theme.textTheme.titleMedium,
             ),
-          ),
-          const SizedBox(width: 8),
-          OutlinedButton(
-            onPressed: () {},
-            child: Text(l10n.eventDetails_Follow),
           ),
         ],
       ),

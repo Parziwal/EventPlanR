@@ -117,12 +117,6 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                 padding: EdgeInsets.zero,
                 children: [
                   DrawerTile(
-                    icon: const Icon(Icons.home),
-                    label: Text(l10n.navbar_UserDashboard),
-                    onTap: () => context.go(PagePaths.userDashboard),
-                    selected: location == PagePaths.userDashboard,
-                  ),
-                  DrawerTile(
                     icon: const Icon(Icons.search),
                     label: Text(l10n.navbar_ExploreEvents),
                     onTap: () => context.go(PagePaths.exploreEvents),

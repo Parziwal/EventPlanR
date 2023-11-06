@@ -57,18 +57,6 @@ class OrganizationDetailsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Center(
-              child: FilledButton(
-                onPressed: () {},
-                style: FilledButton.styleFrom(
-                  textStyle: theme.textTheme.titleMedium,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
-                ),
-                child: Text(l10n.organizationDetails_Follow),
-              ),
-            ),
-            const SizedBox(height: 16),
             Text(
               l10n.organizationDetails_Description,
               style: theme.textTheme.titleLarge,

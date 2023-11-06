@@ -28,20 +28,8 @@ class EventItemCardPortrait extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Stack(
-                children: [
-                  ImageWrapper(
-                    imageUrl: event.coverImageUrl,
-                  ),
-                  Positioned(
-                    bottom: 4,
-                    right: 4,
-                    child: IconButton.filled(
-                      icon: const Icon(Icons.bookmark_add_outlined),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
+              ImageWrapper(
+                imageUrl: event.coverImageUrl,
               ),
               Padding(
                 padding: const EdgeInsets.all(16),

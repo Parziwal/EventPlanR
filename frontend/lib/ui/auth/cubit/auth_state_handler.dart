@@ -12,7 +12,7 @@ void authStateHandler(BuildContext context, AuthState state) {
 
   switch (state) {
     case Success():
-      context.go(PagePaths.userDashboard);
+      context.go(PagePaths.exploreEvents);
     case ConfirmSignUp():
       context.push(PagePaths.confirmSignUp);
     case ConfirmForgotPassword():

@@ -28,7 +28,6 @@ import 'package:event_planr_app/ui/event/ticket_checkout/cubit/ticket_checkout_c
 import 'package:event_planr_app/ui/event/ticket_checkout/view/ticket_checkout_page.dart';
 import 'package:event_planr_app/ui/event/user_chats/cubit/user_chats_cubit.dart';
 import 'package:event_planr_app/ui/event/user_chats/view/user_chats_page.dart';
-import 'package:event_planr_app/ui/event/user_dashboard/view/user_dashboard_page.dart';
 import 'package:event_planr_app/ui/event/user_event_tickets/cubit/user_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/event/user_event_tickets/view/user_event_tickets_page.dart';
 import 'package:event_planr_app/ui/event/user_events/cubit/user_events_cubit.dart';
@@ -72,7 +71,6 @@ class PagePaths {
   static String confirmSignUp = '/auth/confirmSignUp';
   static String confirmForgotPassword = '/auth/confirmForgotPassword';
 
-  static String userDashboard = '/userDashboard';
   static String exploreEvents = '/exploreEvents';
   static String userEvents = '/userEvents';
   static String userChats = '/userChats';
@@ -134,7 +132,7 @@ class PagePaths {
 }
 
 final appRouter = GoRouter(
-  initialLocation: PagePaths.userDashboard,
+  initialLocation: PagePaths.exploreEvents,
   routes: [
     BlocRoute<AuthCubit>(
       path: PagePaths.signIn,
@@ -170,10 +168,6 @@ final appRouter = GoRouter(
         );
       },
       routes: [
-        BlocRoute<AuthCubit>(
-          path: PagePaths.userDashboard,
-          builder: (_) => const UserDashboardPage(),
-        ),
         BlocRoute<ExploreEventsCubit>(
           path: PagePaths.exploreEvents,
           builder: (state) => const ExploreEventsPage(),

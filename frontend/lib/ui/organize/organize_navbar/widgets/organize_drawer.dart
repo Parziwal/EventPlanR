@@ -108,7 +108,7 @@ class OrganizeDrawer extends StatelessWidget {
                 DrawerTile(
                   icon: const Icon(Icons.arrow_back_ios),
                   label: Text(l10n.organizeNavbar_BackToMain),
-                  onTap: () => context.go(PagePaths.userDashboard),
+                  onTap: () => context.go(PagePaths.exploreEvents),
                 ),
               ],
             ),

@@ -14,7 +14,7 @@ class EventBottomNavbar extends StatelessWidget {
     final l10n = context.l10n;
     final theme = context.theme;
     final location = context.goRouterState.uri.toString();
-    final showBottomNavbar = location == PagePaths.userDashboard ||
+    final showBottomNavbar =
         location == PagePaths.exploreEvents ||
         location == PagePaths.userEvents ||
         location == PagePaths.userChats ||
@@ -25,10 +25,6 @@ class EventBottomNavbar extends StatelessWidget {
       bottomNavigationBar: showBottomNavbar
           ? NavigationBar(
               destinations: [
-                NavigationDestination(
-                  icon: const Icon(Icons.home),
-                  label: l10n.navbar_UserDashboard,
-                ),
                 NavigationDestination(
                   icon: const Icon(Icons.search),
                   label: l10n.navbar_ExploreEvents,
@@ -60,16 +56,14 @@ class EventBottomNavbar extends StatelessWidget {
   int _calculateSelectedIndex(BuildContext context) {
     final location = context.goRouterState.matchedLocation;
 
-    if (location.startsWith(PagePaths.userDashboard)) {
+    if (location.startsWith(PagePaths.exploreEvents)) {
       return 0;
-    } else if (location.startsWith(PagePaths.exploreEvents)) {
-      return 1;
     } else if (location.startsWith(PagePaths.userEvents)) {
-      return 2;
+      return 1;
     } else if (location.startsWith(PagePaths.userChats)) {
-      return 3;
+      return 2;
     } else if (location.startsWith(PagePaths.userProfile)) {
-      return 4;
+      return 3;
     }
     return 0;
   }
@@ -77,14 +71,12 @@ class EventBottomNavbar extends StatelessWidget {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        context.go(PagePaths.userDashboard);
-      case 1:
         context.go(PagePaths.exploreEvents);
-      case 2:
+      case 1:
         context.go(PagePaths.userEvents);
-      case 3:
+      case 2:
         context.go(PagePaths.userChats);
-      case 4:
+      case 3:
         context.go(PagePaths.userProfile);
     }
   }
