@@ -42,8 +42,11 @@ public class CreateChatMessageCommandHandler : IRequestHandler<CreateChatMessage
     public async Task<ChatMessageDto> Handle(CreateChatMessageCommand request, CancellationToken cancellationToken)
     {
         var chat = await _dbContext.Chats
+            .AsNoTracking()
+            .Include(e => e.Event)
             .SingleEntityAsync(c => c.Id == request.ChatId);
         var chatMember = await _dbContext.ChatMembers
+            .AsNoTracking()
             .SingleOrDefaultAsync(cm => cm.ChatId == request.ChatId && cm.MemberUserId == request.UserId);
 
         var userClaims = await _userClaimService.GetUserClaimAsync(request.UserId);
@@ -63,7 +66,8 @@ public class CreateChatMessageCommandHandler : IRequestHandler<CreateChatMessage
             ChatId = request.ChatId,
             Content = request.Content,
             CreatedAt = timeNow,
-            SenderId = userClaims.CurrentOrganizationId ?? request.UserId,
+            SenderId = chat.Event != null && userClaims.CurrentOrganizationId != null
+                ? userClaims.CurrentOrganizationId.Value : request.UserId,
         };
 
         await _chatService.AddMessageToChat(message);
@@ -73,8 +77,27 @@ public class CreateChatMessageCommandHandler : IRequestHandler<CreateChatMessage
         await _dbContext.SaveChangesAsync();
 
         var mappedMessage = _mapper.Map<ChatMessageDto>(message);
-        var sender = await _userService.GetUserById(mappedMessage.Sender.Id);
-        mappedMessage.Sender = _mapper.Map<UserDto>(sender);
+        if (chat.Event != null && userClaims.CurrentOrganizationId != null)
+        {
+            var organization = await _dbContext.Organizations
+                .AsNoTracking()
+                .SingleEntityAsync(o => o.Id == userClaims.CurrentOrganizationId);
+
+            var sender = await _userService.GetUserById(mappedMessage.Sender.Id);
+            mappedMessage.Sender = new UserDto()
+            {
+                Id = organization.Id,
+                FirstName = organization.Name,
+                LastName = "",
+                ProfileImageUrl = organization.ProfileImageUrl,
+            };
+        }
+        else
+        {
+            var sender = await _userService.GetUserById(mappedMessage.Sender.Id);
+            mappedMessage.Sender = _mapper.Map<UserDto>(sender);
+        }
+
         return mappedMessage;
     }
 }

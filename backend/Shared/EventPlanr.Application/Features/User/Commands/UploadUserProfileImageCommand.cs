@@ -32,7 +32,7 @@ public class UploadUserProfileImageCommandHandler : IRequestHandler<UploadUserPr
 
         var imageUrl = await _imageService.UploadImage(request.Image);
 
-        if (user.Picture != null)
+        if (user!.Picture != null)
         {
             await _imageService.DeleteImage(user.Picture.Split('/').Last());
         }

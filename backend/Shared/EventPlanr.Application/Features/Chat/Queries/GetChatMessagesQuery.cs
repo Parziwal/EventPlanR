@@ -72,7 +72,10 @@ public class GetChatMessagesQueryHandler : IRequestHandler<GetChatMessagesQuery,
         foreach (var memberId in memberIds)
         {
             var contact = await _userService.GetUserById(memberId);
-            contacts.Add(contact.Id, _mapper.Map<UserDto>(contact));
+            if (contact != null)
+            {
+                contacts.Add(contact.Id, _mapper.Map<UserDto>(contact));
+            }
         }
 
         var mappedMessages = _mapper.Map<List<ChatMessageDto>>(messages);
@@ -88,6 +91,7 @@ public class GetChatMessagesQueryHandler : IRequestHandler<GetChatMessagesQuery,
                 {
                     Id = d.Sender.Id,
                     FirstName = organization!.Name,
+                    LastName = "",
                     ProfileImageUrl = organization!.ProfileImageUrl,
                 };
             }

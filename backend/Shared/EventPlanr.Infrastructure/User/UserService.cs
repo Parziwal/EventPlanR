@@ -41,7 +41,7 @@ public class UserService : IUserService
         return new Guid(userResponse.Users.First().Attributes.First().Value);
     }
 
-    public async Task<UserEntity> GetUserById(Guid userId)
+    public async Task<UserEntity?> GetUserById(Guid userId)
     {
         var getUserWithEmailRequest = new ListUsersRequest
         {
@@ -54,7 +54,7 @@ public class UserService : IUserService
         
         if (userResponse.Users.Count == 0 || userResponse.Users.First().UserStatus != UserStatusType.CONFIRMED)
         {
-            throw new EntityNotFoundException("UserEntity");
+            return null;
         }
 
         var user = userResponse.Users.First();

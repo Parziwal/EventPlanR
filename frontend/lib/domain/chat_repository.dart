@@ -131,7 +131,9 @@ class ChatRepository {
               id: m.sender.id,
               firstName: m.sender.firstName,
               lastName: m.sender.lastName,
-              profileImageUrl: m.sender.profileImageUrl,
+              profileImageUrl: m.sender.profileImageUrl != null &&
+                  m.sender.profileImageUrl!.length > 1
+                  ? m.sender.profileImageUrl : null,
             ),
           ),
         )
@@ -155,7 +157,9 @@ class ChatRepository {
               id: m.sender.id,
               firstName: m.sender.firstName,
               lastName: m.sender.lastName,
-              profileImageUrl: m.sender.profileImageUrl,
+              profileImageUrl: m.sender.profileImageUrl != null &&
+                  m.sender.profileImageUrl!.length > 1
+                  ? m.sender.profileImageUrl : null,
             ),
           ),
         );

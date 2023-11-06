@@ -79,15 +79,22 @@ public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedT
         var ticketIds = reservedTickets.Select(rt => rt.TicketId).ToList();
         var events = await _dbContext.Events
             .Include(e => e.Chat)
+                .ThenInclude(c => c.ChatMembers)
             .Where(e => e.Tickets.Any(t => ticketIds.Contains(t.Id)))
             .Where(e => e.Chat.ChatMembers.All(c => c.MemberUserId != _user.UserId))
             .ToListAsync();
 
-        events.ForEach(e => e.Chat.ChatMembers.Add(new ChatMemberEntity()
+        events.ForEach(e =>
         {
-            LastSeen = DateTimeOffset.UtcNow,
-            MemberUserId = _user.UserId
-        }));
+            if (e.Chat.ChatMembers.All(cm => cm.MemberUserId != _user.UserId))
+            {
+                e.Chat.ChatMembers.Add(new ChatMemberEntity()
+                {
+                    LastSeen = DateTimeOffset.UtcNow,
+                    MemberUserId = _user.UserId
+                });
+            }
+        });
 
         await _dbContext.SaveChangesAsync();
 

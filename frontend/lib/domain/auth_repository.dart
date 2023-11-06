@@ -161,7 +161,9 @@ class AuthRepository {
   }
 
   Future<void> signOut() async {
-    await Amplify.Auth.signOut();
+    await Amplify.Auth.signOut(
+      options: const SignOutOptions(globalSignOut: true),
+    );
     _userEmail = null;
   }
 

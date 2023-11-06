@@ -5,6 +5,6 @@ namespace EventPlanr.Application.Contracts;
 public interface IUserService
 {
     public Task<Guid?> GetUserIdByEmail(string email);
-    public Task<UserEntity> GetUserById(Guid userId);
+    public Task<UserEntity?> GetUserById(Guid userId);
     Task SetUserProfilePicture(string userName, string imageUrl);
 }

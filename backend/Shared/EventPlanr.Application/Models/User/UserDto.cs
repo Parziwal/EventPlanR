@@ -15,7 +15,8 @@ public class UserDto
     {
         public Mapping()
         {
-            CreateMap<UserEntity, UserDto>();
+            CreateMap<UserEntity, UserDto>()
+                .ForMember(dest => dest.ProfileImageUrl, opt => opt.MapFrom(src => src.Picture));
         }
     }
 }
