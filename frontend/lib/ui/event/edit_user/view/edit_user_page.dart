@@ -4,6 +4,7 @@ import 'package:event_planr_app/ui/event/edit_user/cubit/edit_user_cubit.dart';
 import 'package:event_planr_app/ui/event/edit_user/widgets/confirm_email_change_modal.dart';
 import 'package:event_planr_app/ui/event/edit_user/widgets/edit_user_form.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
+import 'package:event_planr_app/ui/shared/widgets/image_picker_item.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,10 +26,20 @@ class EditUserPage extends StatelessWidget {
           padding: const EdgeInsets.all(32),
           child: MaxWidthBox(
             maxWidth: 600,
-            child: EditUserForm(
-              key: ValueKey(state.status),
-              disabled: state.status == EditUserStatus.loading,
-              user: state.user,
+            child: Column(
+              children: [
+                ImagePickerItem(
+                  imagePicked: (file) =>
+                      context.read<EditUserCubit>().uploadProfileImage(file),
+                  imageUrl: state.user?.picture,
+                ),
+                const SizedBox(height: 16),
+                EditUserForm(
+                  key: ValueKey(state.status),
+                  disabled: state.status == EditUserStatus.loading,
+                  user: state.user,
+                ),
+              ],
             ),
           ),
         ),

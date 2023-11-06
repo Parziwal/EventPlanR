@@ -1,6 +1,11 @@
 part of 'user_organization_details_cubit.dart';
 
-enum UserOrganizationDetailsStatus { idle, loading, error, organizationDeleted }
+enum UserOrganizationDetailsStatus {
+  idle,
+  loading,
+  error,
+  organizationDeleted,
+}
 
 @freezed
 class UserOrganizationDetailsState with _$UserOrganizationDetailsState {

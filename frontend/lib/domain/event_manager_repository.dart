@@ -2,25 +2,31 @@ import 'package:event_planr_app/data/disk/persistent_store.dart';
 import 'package:event_planr_app/data/network/event_planr_api/event_manager/event_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/create_event_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/edit_event_command.dart';
+import 'package:event_planr_app/data/network/image_upload/image_upload_client.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/event/create_or_edit_event.dart';
 import 'package:event_planr_app/domain/models/event/organization_event.dart';
 import 'package:event_planr_app/domain/models/event/organization_event_details.dart';
 import 'package:event_planr_app/domain/models/event/organization_event_filter.dart';
 import 'package:event_planr_app/utils/domain_extensions.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:universal_io/io.dart';
 
 @singleton
 class EventManagerRepository {
   EventManagerRepository({
     required EventManagerClient eventManagerClient,
     required PersistentStore persistentStore,
+    required ImageUploadClient imageUploadClient,
   })  : _persistentStore = persistentStore,
-        _eventManagerClient = eventManagerClient;
+        _eventManagerClient = eventManagerClient,
+        _imageUploadClient = imageUploadClient;
 
   final EventManagerClient _eventManagerClient;
   final PersistentStore _persistentStore;
+  final ImageUploadClient _imageUploadClient;
   OrganizationEvent? _selectedEvent;
 
   Future<void> setSelectedEvent(OrganizationEvent event) async {
@@ -201,5 +207,15 @@ class EventManagerRepository {
         eventId: eventId,
       );
     }
+  }
+
+  Future<String> uploadEventCoverImage({
+    required String eventId,
+    required XFile image,
+  }) async {
+    return _imageUploadClient.uploadEventCoverImage(
+      image: image,
+      eventId: eventId,
+    );
   }
 }

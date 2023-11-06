@@ -1,7 +1,9 @@
 using EventPlanr.Application.Features.Chat.Commands;
 using EventPlanr.Application.Features.Chat.Queries;
+using EventPlanr.Application.Features.User.Commands;
 using EventPlanr.Application.Models.Chat;
 using EventPlanr.Application.Models.Pagination;
+using EventPlanr.LambdaBase.Image;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,4 +46,17 @@ public class MainController : ControllerBase
         {
             ChatId = chatId,
         });
+
+    [HttpPost("profileimage")]
+    public async Task<string> UploadUserProfileImage([FromForm] ImageUploadDto profileImage)
+    {
+        using var ms = new MemoryStream();
+        profileImage.ImageFile.CopyTo(ms);
+        var fileBytes = ms.ToArray();
+
+        return await _sender.Send(new UploadUserProfileImageCommand()
+        {
+            Image = fileBytes,
+        });
+    }
 }

@@ -1,10 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/domain/models/organization/add_or_edit_organization_member.dart';
 import 'package:event_planr_app/domain/models/organization/user_organization_details.dart';
 import 'package:event_planr_app/domain/organization_manager_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:universal_io/io.dart';
 
 part 'user_organization_details_state.dart';
 
@@ -99,5 +103,28 @@ class UserOrganizationDetailsCubit extends Cubit<UserOrganizationDetailsState> {
         ),
       );
     }
+  }
+
+  Future<void> uploadOrganizationProfileImage(XFile image) async {
+    try {
+      emit(state.copyWith(status: UserOrganizationDetailsStatus.loading));
+      final imageUrl = await _organizationManagerRepository
+          .uploadOrganizationProfileImage(image);
+      emit(
+        state.copyWith(
+          organizationDetails:
+              state.organizationDetails!.copyWith(profileImageUrl: imageUrl),
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: UserOrganizationDetailsStatus.error,
+          errorCode: e.toString(),
+        ),
+      );
+    }
+
+    emit(state.copyWith(status: UserOrganizationDetailsStatus.idle));
   }
 }

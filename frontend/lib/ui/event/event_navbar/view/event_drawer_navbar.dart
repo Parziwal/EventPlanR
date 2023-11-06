@@ -73,6 +73,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
           InkWell(
             onTap: () => context.go(PagePaths.userProfile),
             child: AvatarIcon(
+              imageUrl: state.user!.picture,
               altText: state.user!.getUserMonogram(context),
             ),
           ),

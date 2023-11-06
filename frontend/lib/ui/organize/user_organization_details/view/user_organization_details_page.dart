@@ -7,6 +7,7 @@ import 'package:event_planr_app/ui/organize/user_organization_details/cubit/user
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/add_or_edit_member_dialog.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/organization_member_item.dart';
 import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
+import 'package:event_planr_app/ui/shared/widgets/image_picker_item.dart';
 import 'package:event_planr_app/ui/shared/widgets/image_wrapper.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
@@ -101,7 +102,12 @@ class UserOrganizationDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageWrapper(imageUrl: organizationDetails.profileImageUrl),
+            ImagePickerItem(
+              imagePicked: (file) => context
+                  .read<UserOrganizationDetailsCubit>()
+                  .uploadOrganizationProfileImage(file),
+              imageUrl: organizationDetails.profileImageUrl,
+            ),
             const SizedBox(height: 16),
             Text(
               organizationDetails.name,

@@ -1,4 +1,5 @@
 ﻿using EventPlanr.Application.Contracts;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Text.Json;
@@ -15,6 +16,8 @@ public class UserContext : IUserContext
     }
 
     public bool IsAuthenticated => _http.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
+    
+    public string AccessToken => _http.HttpContext!.Request.Headers["Authorization"]!.ToString().Replace("Bearer ", "");
 
     public Guid UserId => Guid.Parse(_http.HttpContext!.User.FindFirstValue("sub"));
 

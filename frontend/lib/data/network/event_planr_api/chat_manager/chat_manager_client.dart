@@ -2,6 +2,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -35,5 +37,11 @@ abstract class ChatManagerClient {
   @POST('/chatmanager/setread/{chatId}')
   Future<void> postChatmanagerSetreadChatId({
     @Path('chatId') required String chatId,
+  });
+
+  @MultiPart()
+  @POST('/chatmanager/profileimage')
+  Future<String> postChatmanagerProfileimage({
+    @Part(name: 'ImageFile') File? imageFile,
   });
 }

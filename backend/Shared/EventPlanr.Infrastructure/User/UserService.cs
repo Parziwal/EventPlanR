@@ -47,7 +47,6 @@ public class UserService : IUserService
         {
 
             UserPoolId = _cognitoUserPoolOptions.UserPoolId,
-            AttributesToGet = new List<string> { "sub", "email", "given_name", "family_name" },
             Filter = $"\"sub\"=\"{userId}\"",
             Limit = 1,
         };
@@ -64,6 +63,25 @@ public class UserService : IUserService
             FirstName = user.Attributes.Single(a => a.Name == "given_name").Value,
             LastName = user.Attributes.Single(a => a.Name == "family_name").Value,
             Email = user.Attributes.Single(a => a.Name == "email").Value,
+            Picture = user.Attributes.SingleOrDefault(a => a.Name == "picture")?.Value,
         };
+    }
+
+    public async Task SetUserProfilePicture(string userName, string imageUrl)
+    {
+        var updateUserPictureRequest = new AdminUpdateUserAttributesRequest
+        {
+            UserPoolId = _cognitoUserPoolOptions.UserPoolId,
+            Username = userName,
+            UserAttributes = new List<AttributeType>()
+            {
+                new AttributeType()
+                {
+                    Name = "picture",
+                    Value = imageUrl,
+                },
+            },
+        };
+        await _cognitoClient.AdminUpdateUserAttributesAsync(updateUserPictureRequest);
     }
 }

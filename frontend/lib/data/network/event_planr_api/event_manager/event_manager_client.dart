@@ -2,6 +2,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -66,5 +68,12 @@ abstract class EventManagerClient {
   @PUT('/eventmanager/unpublish/{eventId}')
   Future<void> putEventmanagerUnpublishEventId({
     @Path('eventId') required String eventId,
+  });
+
+  @MultiPart()
+  @POST('/eventmanager/coverimage/{eventId}')
+  Future<String> postEventmanagerCoverimageEventId({
+    @Path('eventId') required String eventId,
+    @Part(name: 'ImageFile') File? imageFile,
   });
 }

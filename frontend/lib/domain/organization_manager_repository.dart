@@ -1,23 +1,31 @@
+import 'dart:typed_data';
+
 import 'package:event_planr_app/data/network/event_planr_api/models/add_member_to_user_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/create_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/edit_organization_member_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/edit_user_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/remove_member_from_user_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/organization_manager/organization_manager_client.dart';
+import 'package:event_planr_app/data/network/image_upload/image_upload_client.dart';
 import 'package:event_planr_app/domain/models/organization/add_or_edit_organization_member.dart';
 import 'package:event_planr_app/domain/models/organization/create_or_edit_organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/models/organization/user_organization_details.dart';
 import 'package:event_planr_app/domain/models/user/organization_member.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:universal_io/io.dart';
 
 @singleton
 class OrganizationManagerRepository {
   const OrganizationManagerRepository({
     required OrganizationManagerClient organizationManagerClient,
-  }) : _organizationManagerClient = organizationManagerClient;
+    required ImageUploadClient imageUploadClient,
+  })  : _organizationManagerClient = organizationManagerClient,
+        _imageUploadClient = imageUploadClient;
 
   final OrganizationManagerClient _organizationManagerClient;
+  final ImageUploadClient _imageUploadClient;
 
   Future<List<Organization>> getUserOrganizations() async {
     final organizations =
@@ -128,5 +136,9 @@ class OrganizationManagerRepository {
         memberUserId: memberUserId,
       ),
     );
+  }
+
+  Future<String> uploadOrganizationProfileImage(XFile image) async {
+    return _imageUploadClient.uploadOrganizationProfileImage(image);
   }
 }

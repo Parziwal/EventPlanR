@@ -2,7 +2,8 @@
 
 public interface IUserContext
 {
-    public bool IsAuthenticated { get;}
+    public bool IsAuthenticated { get; }
+    public string AccessToken { get; }
     public Guid UserId { get; }
     public string Email { get; }
     public string FirstName { get; }

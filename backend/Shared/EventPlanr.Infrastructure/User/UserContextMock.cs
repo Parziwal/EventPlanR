@@ -7,6 +7,8 @@ public class UserContextMock : IUserContext
 {
     public bool IsAuthenticated => true;
 
+    public string AccessToken => "Bearer token";
+
     public Guid UserId => new Guid("b21f187d-4726-41b3-b950-5c599b1b6a6c");
 
     public string Email => "test.elek@email.hu";

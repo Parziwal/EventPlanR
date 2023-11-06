@@ -4,13 +4,16 @@ import 'package:event_planr_app/data/disk/persistent_store.dart';
 import 'package:event_planr_app/data/network/chat_message_graphql/chat_message_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/chat_manager/chat_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/create_direct_chat_command.dart';
+import 'package:event_planr_app/data/network/image_upload/image_upload_client.dart';
 import 'package:event_planr_app/domain/models/chat/chat.dart';
 import 'package:event_planr_app/domain/models/chat/chat_filter.dart';
 import 'package:event_planr_app/domain/models/chat/chat_message.dart';
 import 'package:event_planr_app/domain/models/chat/create_chat_message.dart';
 import 'package:event_planr_app/domain/models/chat/sender.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:universal_io/io.dart';
 
 @singleton
 class ChatRepository {
@@ -18,13 +21,16 @@ class ChatRepository {
     required ChatManagerClient chatManagerClient,
     required ChatMessageClient chatMessageClient,
     required PersistentStore persistentStore,
+    required ImageUploadClient imageUploadClient,
   })  : _chatManagerClient = chatManagerClient,
         _chatMessageClient = chatMessageClient,
-        _persistentStore = persistentStore;
+        _persistentStore = persistentStore,
+        _imageUploadClient = imageUploadClient;
 
   final ChatManagerClient _chatManagerClient;
   final ChatMessageClient _chatMessageClient;
   final PersistentStore _persistentStore;
+  final ImageUploadClient _imageUploadClient;
   Chat? _selectedChat;
 
   Future<void> setSelectedChat(Chat chat) async {
@@ -90,13 +96,13 @@ class ChatRepository {
       items: chats.items
           .map(
             (c) => Chat(
-          id: c.id,
-          lastMessageDate: c.lastMessageDate,
-          haveUnreadMessage: c.haveUnreadMessages,
-          eventName: c.eventName,
-          profileImageUrl: c.profileImageUrl,
-        ),
-      )
+              id: c.id,
+              lastMessageDate: c.lastMessageDate,
+              haveUnreadMessage: c.haveUnreadMessages,
+              eventName: c.eventName,
+              profileImageUrl: c.profileImageUrl,
+            ),
+          )
           .toList(),
       pageNumber: chats.pageNumber,
       totalPages: chats.totalPages,
@@ -153,5 +159,9 @@ class ChatRepository {
             ),
           ),
         );
+  }
+
+  Future<String> uploadUserProfileImage(XFile image) async {
+    return _imageUploadClient.uploadUserProfileImage(image);
   }
 }

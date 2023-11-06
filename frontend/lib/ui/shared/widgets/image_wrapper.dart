@@ -20,6 +20,7 @@ class ImageWrapper extends StatelessWidget {
       child: imageUrl != null
           ? Image.network(
               imageUrl!,
+
               fit: BoxFit.cover,
             )
           : Container(

@@ -83,7 +83,8 @@ resource "aws_iam_role_policy" "lambda_logging" {
 data "aws_iam_policy_document" "cognito_list_users_access" {
   statement {
     actions = [
-      "cognito-idp:ListUsers"
+      "cognito-idp:ListUsers",
+      "cognito-idp:AdminUpdateUserAttributes",
     ]
     resources = [
       module.event_planr_auth.user_pool_arn
@@ -165,4 +166,23 @@ resource "aws_iam_role_policy" "chat_message_table_access" {
   name   = "chat_message_table_access"
   role   = aws_iam_role.lambda_role.id
   policy = data.aws_iam_policy_document.chat_message_table_access.json
+}
+
+data "aws_iam_policy_document" "event_planr_images_bucket_access" {
+  statement {
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject",
+    ]
+    resources = [
+      "${aws_s3_bucket.event_planr_images.arn}/*"
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "event_planr_images_bucket_access" {
+  name   = "event_planr_images_bucket_access"
+  role   = aws_iam_role.lambda_role.id
+  policy = data.aws_iam_policy_document.event_planr_images_bucket_access.json
 }

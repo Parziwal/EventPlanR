@@ -1,9 +1,11 @@
 ﻿using Amazon.CognitoIdentityProvider;
 using Amazon.DynamoDBv2;
+using Amazon.S3;
 using Amazon.SQS;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Infrastructure.Chat;
+using EventPlanr.Infrastructure.Image;
 using EventPlanr.Infrastructure.Options;
 using EventPlanr.Infrastructure.Persistance;
 using EventPlanr.Infrastructure.Persistance.Interceptors;
@@ -34,6 +36,7 @@ public static class InfrastructureServiceRegistration
 
         services.AddScoped<IAmazonDynamoDB, AmazonDynamoDBClient>();
         services.AddScoped<IAmazonSQS, AmazonSQSClient>();
+        services.AddScoped<IAmazonS3, AmazonS3Client>();
         services.AddScoped<IAmazonCognitoIdentityProvider, AmazonCognitoIdentityProviderClient>();
 
         services.AddHttpContextAccessor();
@@ -43,6 +46,7 @@ public static class InfrastructureServiceRegistration
         services.AddTransient<IUserClaimService, UserClaimService>();
         services.AddTransient<ITicketOrderService, TicketOrderService>();
         services.AddTransient<IChatService, ChatService>();
+        services.AddTransient<IImageService, ImageService>();
 
         if (EnvironmentTypes.IsLocal())
         {

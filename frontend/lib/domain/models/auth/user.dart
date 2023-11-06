@@ -20,6 +20,7 @@ class User with _$User {
     String? organizationId,
     @JsonKey(name: 'organization_policies')
     List<String>? organizationPolicies,
+    String? picture,
   }) = _User;
 
   const User._();

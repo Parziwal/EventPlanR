@@ -72,7 +72,10 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
           : null,
       actions: [
         if (state.user != null)
-          AvatarIcon(altText: state.user!.getUserMonogram(context)),
+          AvatarIcon(
+            imageUrl: state.user!.picture,
+            altText: state.user!.getUserMonogram(context),
+          ),
         const SizedBox(width: 16),
         IconButton(
           onPressed: () => context.read<OrganizeNavbarCubit>().logout(),

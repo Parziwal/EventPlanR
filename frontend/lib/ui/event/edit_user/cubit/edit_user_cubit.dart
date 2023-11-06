@@ -1,10 +1,14 @@
+import 'package:event_planr_app/data/network/event_planr_api/chat_manager/chat_manager_client.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
+import 'package:event_planr_app/domain/chat_repository.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
 import 'package:event_planr_app/domain/models/auth/edit_user.dart';
 import 'package:event_planr_app/domain/models/auth/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:universal_io/io.dart';
 
 part 'edit_user_state.dart';
 
@@ -12,11 +16,15 @@ part 'edit_user_cubit.freezed.dart';
 
 @injectable
 class EditUserCubit extends Cubit<EditUserState> {
-  EditUserCubit({required AuthRepository authRepository})
-      : _authRepository = authRepository,
+  EditUserCubit({
+    required AuthRepository authRepository,
+    required ChatRepository chatRepository,
+  })  : _authRepository = authRepository,
+        _chatRepository = chatRepository,
         super(const EditUserState(status: EditUserStatus.idle));
 
   final AuthRepository _authRepository;
+  final ChatRepository _chatRepository;
 
   Future<void> loadUserData() async {
     emit(state.copyWith(status: EditUserStatus.loading));
@@ -81,6 +89,28 @@ class EditUserCubit extends Cubit<EditUserState> {
       emit(state.copyWith(status: EditUserStatus.loading));
       await _authRepository.resendEmailVerificationCode();
       emit(state.copyWith(status: EditUserStatus.codeResended));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: EditUserStatus.error,
+          errorCode: e.toString(),
+        ),
+      );
+    }
+
+    emit(state.copyWith(status: EditUserStatus.idle));
+  }
+
+  Future<void> uploadProfileImage(XFile image) async {
+    if (state.user == null) {
+      return;
+    }
+
+    try {
+      emit(state.copyWith(status: EditUserStatus.loading));
+      final imageUrl = await _chatRepository.uploadUserProfileImage(image);
+      await _authRepository.refreshToken();
+      emit(state.copyWith(user: state.user!.copyWith(picture: imageUrl)));
     } catch (e) {
       emit(
         state.copyWith(

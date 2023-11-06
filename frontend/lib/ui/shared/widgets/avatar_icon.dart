@@ -16,7 +16,8 @@ class AvatarIcon extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 1,
         child: CircleAvatar(
-          foregroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
+          foregroundImage: imageUrl != null && imageUrl!.isNotEmpty
+              ? NetworkImage(imageUrl!) : null,
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: FittedBox(

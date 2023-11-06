@@ -2,6 +2,7 @@ using EventPlanr.Application.Features.Event.Commands;
 using EventPlanr.Application.Features.Event.Queries;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
+using EventPlanr.LambdaBase.Image;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,4 +70,18 @@ public class MainController : ControllerBase
         {
             EventId = eventId,
         });
+
+    [HttpPost("coverimage/{eventId}")]
+    public async Task<string> UploadEventCoverImage(Guid eventId, [FromForm] ImageUploadDto eventImage)
+    {
+        using var ms = new MemoryStream();
+        eventImage.ImageFile.CopyTo(ms);
+        var fileBytes = ms.ToArray();
+
+        return await _sender.Send(new UploadEventCoverImageCommand()
+        {
+            EventId = eventId,
+            Image = fileBytes,
+        });
+    }
 }

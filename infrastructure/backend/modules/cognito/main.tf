@@ -60,6 +60,14 @@ resource "aws_cognito_user_pool" "this" {
     }
   }
 
+  schema {
+    name                     = "picture"
+    attribute_data_type      = "String"
+    developer_only_attribute = false
+    mutable                  = true
+    required                 = true
+  }
+
   tags = var.tags
 }
 

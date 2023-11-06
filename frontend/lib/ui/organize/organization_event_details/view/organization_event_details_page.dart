@@ -1,14 +1,12 @@
 import 'package:event_planr_app/app/router.dart';
-import 'package:event_planr_app/domain/models/event/organization_event.dart';
 import 'package:event_planr_app/domain/models/event/organization_event_details.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/cubit/organization_event_details_cubit.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
 import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
-import 'package:event_planr_app/ui/shared/widgets/image_wrapper.dart';
+import 'package:event_planr_app/ui/shared/widgets/image_picker_item.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';
 import 'package:event_planr_app/ui/shared/widgets/static_map.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
@@ -130,7 +128,12 @@ class OrganizationEventDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageWrapper(imageUrl: eventDetails.coverImageUrl),
+            ImagePickerItem(
+              imagePicked: (file) => context
+                  .read<OrganizationEventDetailsCubit>()
+                  .uploadEventCoverImage(file),
+              imageUrl: eventDetails.coverImageUrl,
+            ),
             const SizedBox(height: 16),
             Text(
               eventDetails.name,

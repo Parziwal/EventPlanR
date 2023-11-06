@@ -1,6 +1,7 @@
 using EventPlanr.Application.Features.Organization.Commands;
 using EventPlanr.Application.Features.Organization.Queries;
 using EventPlanr.Application.Models.Organization;
+using EventPlanr.LambdaBase.Image;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,4 +61,17 @@ public class MainController : ControllerBase
     [HttpDelete("member")]
     public Task RemoveMemberFromCurrentOrganization([FromBody] RemoveMemberFromUserOrganizationCommand command)
         => _sender.Send(command);
+
+    [HttpPost("profileimage")]
+    public async Task<string> UploadOrganizationProfileImage([FromForm] ImageUploadDto profileImage)
+    {
+        using var ms = new MemoryStream();
+        profileImage.ImageFile.CopyTo(ms);
+        var fileBytes = ms.ToArray();
+
+        return await _sender.Send(new UploadOrganizationProfileImageCommand()
+        {
+            Image = fileBytes,
+        });
+    }
 }

@@ -44,8 +44,12 @@ class AuthRepository {
     final session = await cognitoPlugin.fetchAuthSession();
     final claimsJson =
         session.userPoolTokensResult.value.idToken.claims.toJson();
-    claimsJson['organization_policies'] =
-        jsonDecode(claimsJson['organization_policies']! as String);
+
+    if (claimsJson['organization_policies'] != null) {
+      claimsJson['organization_policies'] =
+          jsonDecode(claimsJson['organization_policies']! as String);
+    }
+
     return User.fromJson(claimsJson);
   }
 
@@ -87,6 +91,7 @@ class AuthRepository {
         AuthUserAttributeKey.email: credential.email,
         AuthUserAttributeKey.givenName: credential.firstName,
         AuthUserAttributeKey.familyName: credential.lastName,
+        AuthUserAttributeKey.picture: '',
       };
 
       await Amplify.Auth.signUp(

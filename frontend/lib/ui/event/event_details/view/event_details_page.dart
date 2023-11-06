@@ -68,7 +68,7 @@ class EventDetailsPage extends StatelessWidget {
         maxWidth: 800,
         child: Column(
           children: [
-            const ImageWrapper(),
+            ImageWrapper(imageUrl: eventDetails.coverImageUrl),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
