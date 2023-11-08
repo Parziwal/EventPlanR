@@ -16,10 +16,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => injector<AppCubit>()
-        ..loadAppSettings(
-
-        ),
+      create: (context) => injector<AppCubit>()..loadAppSettings(),
       child: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) => MaterialApp.router(
           title: Env.appName,
@@ -44,7 +41,10 @@ class App extends StatelessWidget {
               const Breakpoint(start: 0, end: 500, name: MOBILE),
               const Breakpoint(start: 501, end: 1000, name: TABLET),
               const Breakpoint(
-                  start: 1001, end: double.infinity, name: DESKTOP),
+                start: 1001,
+                end: double.infinity,
+                name: DESKTOP,
+              ),
             ],
           ),
         ),

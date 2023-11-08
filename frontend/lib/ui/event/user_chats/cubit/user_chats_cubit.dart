@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:event_planr_app/domain/chat_repository.dart';
 import 'package:event_planr_app/domain/models/chat/chat.dart';
 import 'package:event_planr_app/domain/models/chat/chat_filter.dart';
@@ -62,7 +60,7 @@ class UserChatsCubit extends Cubit<UserChatsState> {
       emit(
         state.copyWith(
           chats:
-          pageNumber == 1 ? chats.items : [...state.chats!, ...chats.items],
+              pageNumber == 1 ? chats.items : [...state.chats!, ...chats.items],
           pageNumber: chats.hasNextPage ? pageNumber + 1 : null,
         ),
       );

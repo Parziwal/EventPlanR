@@ -104,22 +104,20 @@ class _UserChatsPageState extends State<UserChatsPage>
       ),
       body: BlocListener<UserChatsCubit, UserChatsState>(
         listener: _stateListener,
-        child: Center(
-          child: MaxWidthBox(
-            maxWidth: 1000,
-            child: PagedGridView(
-              pagingController: _pagingController,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 500,
-                mainAxisExtent: 100,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-              ),
-              padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
-              builderDelegate: PagedChildBuilderDelegate<Chat>(
-                itemBuilder: (context, item, index) =>
-                    ChatContactItem(chat: item),
-              ),
+        child: MaxWidthBox(
+          maxWidth: 1000,
+          child: PagedGridView(
+            pagingController: _pagingController,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 500,
+              mainAxisExtent: 100,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+            ),
+            padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
+            builderDelegate: PagedChildBuilderDelegate<Chat>(
+              itemBuilder: (context, item, index) =>
+                  ChatContactItem(chat: item),
             ),
           ),
         ),

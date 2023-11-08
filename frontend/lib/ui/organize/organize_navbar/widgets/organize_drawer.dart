@@ -57,8 +57,11 @@ class OrganizeDrawer extends StatelessWidget {
                   DrawerTile(
                     icon: const Icon(Icons.shopping_cart),
                     label: Text(l10n.organizeNavbar_Order),
-                    onTap: () {},
-                    selected: false,
+                    onTap: () => context.go(
+                      PagePaths.organizationEventOrders(event.id),
+                    ),
+                    selected:
+                        location == PagePaths.organizationEventOrders(event.id),
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.post_add),

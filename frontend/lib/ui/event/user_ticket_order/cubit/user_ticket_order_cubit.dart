@@ -20,7 +20,7 @@ class UserTicketOrderCubit extends Cubit<UserTicketOrderState> {
   Future<void> loadUserEventOrders(String eventId) async {
     try {
       emit(state.copyWith(status: UserTicketOrderStatus.loading));
-      final orders = await _ticketOrderRepository.getEventOrder(
+      final orders = await _ticketOrderRepository.getUserEventOrder(
         eventId,
       );
       emit(state.copyWith(orders: orders));

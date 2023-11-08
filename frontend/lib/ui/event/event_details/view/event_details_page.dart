@@ -165,10 +165,12 @@ class EventDetailsPage extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.calendar_today),
         title: Text(
-          formatEventDetailsDateRange(eventDetails.fromDate, eventDetails.toDate),
+          formatEventDetailsDateRange(
+              eventDetails.fromDate, eventDetails.toDate),
         ),
         subtitle: Text(
-          formatEventDetailsTimeRange(eventDetails.fromDate, eventDetails.toDate),
+          formatEventDetailsTimeRange(
+              eventDetails.fromDate, eventDetails.toDate),
         ),
       ),
       ListTile(

@@ -46,6 +46,10 @@ import 'package:event_planr_app/ui/organize/organization_event_details/cubit/org
 import 'package:event_planr_app/ui/organize/organization_event_details/view/organization_event_details_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_news/cubit/organization_event_news_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_news/view/organization_event_news_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_order_details/cubit/organization_event_order_details_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_order_details/view/organization_event_order_details_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_orders/cubit/organization_event_orders_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_orders/view/organization_event_orders_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/cubit/organization_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/view/organization_event_tickets_page.dart';
 import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
@@ -129,6 +133,12 @@ class PagePaths {
 
   static String organizationEventChat(String chatId) =>
       '/organizationEventChat/$chatId';
+
+  static String organizationEventOrders(String eventId) =>
+      '/organizationEventOrders/$eventId';
+
+  static String organizationEventOrderDetails(String eventId, String orderId) =>
+      '/organizationEventOrders/$eventId/details/$orderId';
 }
 
 final appRouter = GoRouter(
@@ -358,6 +368,18 @@ final appRouter = GoRouter(
             state.pathParameters['chatId']!,
             isOrganizationView: true,
           ),
+        ),
+        BlocRoute<OrganizationEventOrdersCubit>(
+          path: PagePaths.organizationEventOrders(':eventId'),
+          builder: (state) => const OrganizationEventOrdersPage(),
+          routes: [
+            BlocRoute<OrganizationEventOrderDetailsCubit>(
+              path: 'details/:orderId',
+              builder: (state) => const OrganizationEventOrderDetailsPage(),
+              init: (cubit, state) =>
+                  cubit.loadEventOrderDetails(state.pathParameters['orderId']!),
+            ),
+          ],
         ),
       ],
     ),

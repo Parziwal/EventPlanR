@@ -353,5 +353,19 @@
         "type": "String"
       }
     }
-  }
+  },
+  "organizationEventOrders": "Orders",
+  "organizationEventOrders_Tickets": "Tickets",
+  "organizationEventOrders_Total": "Total",
+  "organizationEventOrderDetails": "Order details",
+  "organizationEventOrderDetails_Created": "Created",
+  "organizationEventOrderDetails_CustomerName": "Customer name",
+  "organizationEventOrderDetails_BillingAddress": "Billing address",
+  "organizationEventOrderDetails_Country": "Country",
+  "organizationEventOrderDetails_ZipCode": "Zip code",
+  "organizationEventOrderDetails_City": "City",
+  "organizationEventOrderDetails_AddressLine": "Address line",
+  "organizationEventOrderDetails_Tickets": "Tickets",
+  "organizationEventOrderDetails_Username": "Username",
+  "organizationEventOrderDetails_Total": "Total"
 }

@@ -6,7 +6,10 @@ import 'package:event_planr_app/data/network/event_planr_api/models/add_ticket_u
 import 'package:event_planr_app/data/network/event_planr_api/models/order_reserved_tickets_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/reserve_user_tickets_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/ticket_order/ticket_order_client.dart';
+import 'package:event_planr_app/domain/models/common/paginated_list.dart';
+import 'package:event_planr_app/domain/models/order/event_order.dart';
 import 'package:event_planr_app/domain/models/order/order_details.dart';
+import 'package:event_planr_app/domain/models/order/organization_event_orders_filter.dart';
 import 'package:event_planr_app/domain/models/ticket/add_reserve_ticket.dart';
 import 'package:event_planr_app/domain/models/ticket/create_order.dart';
 import 'package:event_planr_app/domain/models/ticket/sold_ticket.dart';
@@ -44,7 +47,7 @@ class TicketOrderRepository {
     );
   }
 
-  Future<List<OrderDetails>> getEventOrder(String eventId) async {
+  Future<List<OrderDetails>> getUserEventOrder(String eventId) async {
     final eventOrder =
         await _ticketOrderClient.getTicketorderEventId(eventId: eventId);
 
@@ -116,5 +119,64 @@ class TicketOrderRepository {
 
     await _persistentStore.remove('reservedTickets');
     await _persistentStore.remove('reservedTicketsExpiration');
+  }
+
+  Future<PaginatedList<EventOrder>> getOrganizationEventOrders(
+    OrganizationEventOrdersFilter filter,
+  ) async {
+    final orders = await _ticketOrderClient.getTicketorderOrganizationEventId(
+      eventId: filter.eventId,
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
+    );
+
+    return PaginatedList(
+      items: orders.items
+          .map(
+            (o) => EventOrder(
+              id: o.id,
+              customerFirstName: o.customerFirstName,
+              customerLastName: o.customerLastName,
+              total: o.total,
+              currency: o.currency.toDomainEnum(),
+              ticketCount: o.ticketCount,
+            ),
+          )
+          .toList(),
+      pageNumber: orders.pageNumber,
+      totalPages: orders.totalPages,
+      totalCount: orders.totalCount,
+      hasPreviousPage: orders.hasPreviousPage,
+      hasNextPage: orders.hasNextPage,
+    );
+  }
+
+  Future<OrderDetails> getOrganizationEventOrderDetails(String orderId) async {
+    final order =
+        await _ticketOrderClient.getTicketorderOrganizationOrderOrderId(
+      orderId: orderId,
+    );
+
+    return OrderDetails(
+      id: order.id,
+      customerFirstName: order.customerFirstName,
+      customerLastName: order.customerLastName,
+      billingAddress: order.billingAddress.toDomainModel(),
+      total: order.total,
+      currency: order.currency.toDomainEnum(),
+      soldTickets: order.soldTickets
+          .map(
+            (t) => SoldTicket(
+              id: t.id,
+              userFirstName: t.userFirstName,
+              userLastName: t.userLastName,
+              price: t.price,
+              currency: t.currency.toDomainEnum(),
+              ticketName: t.ticketName,
+            ),
+          )
+          .toList(),
+      created: order.created,
+    );
   }
 }
