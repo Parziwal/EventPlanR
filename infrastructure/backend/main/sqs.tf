@@ -1,7 +1,7 @@
 module "reserved_ticket_order_expiration" {
   source = "../modules/lambda-dotnet"
 
-  function_name = "${var.environment}_reserved_ticket_order_expiration_function"
+  function_name = "${local.environment}_reserved_ticket_order_expiration_function"
   role_arn      = aws_iam_role.lambda_role.arn
   handler       = "EventPlanr.ReservedTicketOrderExpiration.Function::EventPlanr.ReservedTicketOrderExpiration.Function.Function::FunctionHandler"
   source_dir    = "../../../backend/Serverless/EventPlanr.ReservedTicketOrderExpiration.Function/bin/Release/net6.0/publish"
@@ -24,7 +24,7 @@ resource "aws_lambda_event_source_mapping" "event_source_mapping" {
 }
 
 resource "aws_ssm_parameter" "reserved_ticket_order_expiration_queue" {
-  name  = "/${var.environment}/event_planr/SqsQueueOptions/ReservedTicketOrderExpirationQueueName"
+  name  = "/${local.environment}/event_planr/SqsQueueOptions/ReservedTicketOrderExpirationQueueName"
   type  = "String"
   value = aws_sqs_queue.reserved_ticket_order_expiration_queue.name
 }

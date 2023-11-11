@@ -18,7 +18,7 @@ module "lambda_apis" {
   source   = "../modules/lambda-dotnet"
   for_each = local.lambdas
 
-  function_name = "${var.environment}_${each.key}"
+  function_name = "${local.environment}_${each.key}"
   role_arn      = aws_iam_role.lambda_role.arn
   handler       = each.value
   source_dir    = replace(local.lambda_source_dir, "{LAMBDA_FOLDER}", each.value)

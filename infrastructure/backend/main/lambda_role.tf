@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "read_parameter_store" {
       "ssm:GetParametersByPath",
     ]
     resources = [
-      "arn:aws:ssm:${var.region}:${data.aws_caller_identity.default.account_id}:parameter/${var.environment}/event_planr*"
+      "arn:aws:ssm:${local.workspace.region}:${data.aws_caller_identity.default.account_id}:parameter/${local.environment}/event_planr*"
     ]
   }
 }

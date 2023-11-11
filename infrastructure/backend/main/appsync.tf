@@ -34,7 +34,7 @@ resource "aws_iam_role_policy" "chat_message_resolver_lambda_access" {
 
 resource "aws_appsync_graphql_api" "chat_message" {
   authentication_type = "AMAZON_COGNITO_USER_POOLS"
-  name                = "${var.environment}_chat_message"
+  name                = "${local.environment}_chat_message"
 
   schema = file("../chat_message_graphql_schema/schema.graphql")
 
@@ -46,7 +46,7 @@ resource "aws_appsync_graphql_api" "chat_message" {
 
 resource "aws_appsync_datasource" "chat_message" {
   api_id           = aws_appsync_graphql_api.chat_message.id
-  name             = "${var.environment}_chat_message"
+  name             = "${local.environment}_chat_message"
   service_role_arn = aws_iam_role.appsync_role.arn
   type             = "AWS_LAMBDA"
 
@@ -58,7 +58,7 @@ resource "aws_appsync_datasource" "chat_message" {
 module "chat_message_resolver_lambda" {
   source = "../modules/lambda-dotnet"
 
-  function_name = "${var.environment}_chat_message_resolver_function"
+  function_name = "${local.environment}_chat_message_resolver_function"
   role_arn      = aws_iam_role.lambda_role.arn
   handler       = "EventPlanr.ChatMessageResolver.Function::EventPlanr.ChatMessageResolver.Function.Function::FunctionHandler"
   source_dir    = "../../../backend/Serverless/EventPlanr.ChatMessageResolver.Function/bin/Release/net6.0/publish"

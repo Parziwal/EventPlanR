@@ -1,7 +1,14 @@
 resource "aws_s3_bucket" "event_planr_images" {
-  bucket        = "${var.environment}-event-planr-images-bucket"
+  bucket = "${local.environment}-event-planr-images-bucket"
 
   force_destroy = true
+}
+
+resource "aws_s3_bucket_public_access_block" "event_planr_images" {
+  bucket = aws_s3_bucket.event_planr_images.id
+
+  block_public_policy = false
+  block_public_acls   = false
 }
 
 resource "aws_s3_bucket_policy" "event_planr_images" {
@@ -36,7 +43,7 @@ resource "aws_s3_bucket_cors_configuration" "event_planr_images" {
 }
 
 resource "aws_ssm_parameter" "event_planr_images" {
-  name  = "/${var.environment}/event_planr/S3BucketOptions/EventPlanrImagesBucket"
+  name  = "/${local.environment}/event_planr/S3BucketOptions/EventPlanrImagesBucket"
   type  = "String"
   value = aws_s3_bucket.event_planr_images.id
 }
