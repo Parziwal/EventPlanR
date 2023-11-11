@@ -1,0 +1,35 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    paths:
+        - frontend/**
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.13.0'
+  WORKING_DIRECTORY: 'frontend'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2.8.0
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install Dependencies
+        run: flutter pub get
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+
+      - name: Run build runner
+        run: dart run build_runner build
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+
+      - name: Analyze project source
+        run: flutter analyze --fatal-infos
+        working-directory: ${{ env.WORKING_DIRECTORY }}
