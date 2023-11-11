@@ -36,12 +36,18 @@ import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.d
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
 import 'package:event_planr_app/ui/event/user_ticket_order/cubit/user_ticket_order_cubit.dart';
 import 'package:event_planr_app/ui/event/user_ticket_order/view/user_ticket_order_page.dart';
+import 'package:event_planr_app/ui/organize/check_in_ticket_scanner/cubit/check_in_ticket_scanner_cubit.dart';
+import 'package:event_planr_app/ui/organize/check_in_ticket_scanner/view/check_in_ticket_scanner_page.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_event/cubit/create_or_edit_event_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_event/view/create_or_edit_event_page.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/cubit/create_or_edit_organization_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_organization/view/create_or_edit_organization_page.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_ticket/cubit/create_or_edit_ticket_cubit.dart';
 import 'package:event_planr_app/ui/organize/create_or_edit_ticket/view/create_or_edit_ticket_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_check_in/cubit/organization_event_check_in_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_check_in/view/organization_event_check_in_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_check_in_details/cubit/organization_event_check_in_details_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_check_in_details/view/organization_event_check_in_details_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/cubit/organization_event_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/view/organization_event_details_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_news/cubit/organization_event_news_cubit.dart';
@@ -139,6 +145,18 @@ class PagePaths {
 
   static String organizationEventOrderDetails(String eventId, String orderId) =>
       '/organizationEventOrders/$eventId/details/$orderId';
+
+  static String organizationEventCheckIn(String eventId) =>
+      '/organizationEventCheckIn/$eventId';
+
+  static String organizationEventCheckInDetails(
+    String eventId,
+    String soldTicketId,
+  ) =>
+      '/organizationEventCheckIn/$eventId/details/$soldTicketId';
+
+  static String organizationEventCheckInScanner(String eventId) =>
+      '/organizationEventCheckIn/$eventId/scanner';
 }
 
 final appRouter = GoRouter(
@@ -378,6 +396,23 @@ final appRouter = GoRouter(
               builder: (state) => const OrganizationEventOrderDetailsPage(),
               init: (cubit, state) =>
                   cubit.loadEventOrderDetails(state.pathParameters['orderId']!),
+            ),
+          ],
+        ),
+        BlocRoute<OrganizationEventCheckInCubit>(
+          path: PagePaths.organizationEventCheckIn(':eventId'),
+          builder: (state) => const OrganizationEventCheckInPage(),
+          routes: [
+            BlocRoute<OrganizationEventCheckInDetailsCubit>(
+              path: 'details/:soldTicketId',
+              builder: (state) => const OrganizationEventCheckInDetailsPage(),
+              init: (cubit, state) => cubit.loadCheckInTicketDetails(
+                state.pathParameters['soldTicketId']!,
+              ),
+            ),
+            BlocRoute<CheckInTicketScannerCubit>(
+              path: 'scanner',
+              builder: (state) => const CheckInTicketScannerPage(),
             ),
           ],
         ),

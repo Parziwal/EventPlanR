@@ -6,8 +6,12 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../models/add_ticket_to_event_command.dart';
+import '../models/check_in_ticket_details_dto.dart';
+import '../models/check_in_ticket_dto.dart';
+import '../models/check_in_ticket_dto_paginated_list_dto.dart';
 import '../models/edit_ticket_command.dart';
 import '../models/organization_ticket_dto.dart';
+import '../models/ticket_check_in_command.dart';
 
 part 'ticket_manager_client.g.dart';
 
@@ -35,6 +39,24 @@ abstract class TicketManagerClient {
   @DELETE('/ticketmanager/{ticketId}')
   Future<void> deleteTicketmanagerTicketId({
     @Path('ticketId') required String ticketId,
+  });
+
+  @GET('/ticketmanager/event/checkin/{eventId}')
+  Future<CheckInTicketDtoPaginatedListDto> getTicketmanagerEventCheckinEventId({
+    @Path('eventId') required String eventId,
+    @Query('PageNumber') int? pageNumber,
+    @Query('PageSize') int? pageSize,
+  });
+
+  @GET('/ticketmanager/checkin/{soldTicketId}')
+  Future<CheckInTicketDetailsDto> getTicketmanagerCheckinSoldTicketId({
+    @Path('soldTicketId') required String soldTicketId,
+  });
+
+  @POST('/ticketmanager/checkin/{soldTicketId}')
+  Future<CheckInTicketDto> postTicketmanagerCheckinSoldTicketId({
+    @Path('soldTicketId') required String soldTicketId,
+    @Body() required TicketCheckInCommand body,
   });
 
   @POST('/ticketmanager/refund/{soldTicketId}')

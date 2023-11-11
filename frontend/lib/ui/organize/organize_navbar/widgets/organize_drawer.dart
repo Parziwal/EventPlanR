@@ -88,8 +88,10 @@ class OrganizeDrawer extends StatelessWidget {
                   DrawerTile(
                     icon: const Icon(Icons.fact_check),
                     label: Text(l10n.organizeNavbar_CheckIn),
-                    onTap: () {},
-                    selected: false,
+                    onTap: () => context
+                        .go(PagePaths.organizationEventCheckIn(event.id)),
+                    selected: location ==
+                        PagePaths.organizationEventCheckIn(event.id),
                   ),
                   const Divider(),
                 ],

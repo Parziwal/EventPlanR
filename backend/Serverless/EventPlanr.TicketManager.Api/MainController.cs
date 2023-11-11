@@ -1,5 +1,6 @@
 using EventPlanr.Application.Features.Ticket.Commands;
 using EventPlanr.Application.Features.Ticket.Queries;
+using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Application.Models.Ticket;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,29 @@ public class MainController : ControllerBase
         {
             TicketId = ticketId,
         });
+
+    [HttpGet("event/checkin/{eventId}")]
+    public Task<PaginatedListDto<CheckInTicketDto>> GetOrganizationEvenCheckInTickets(Guid eventId, [FromQuery] PageDto page)
+        => _sender.Send(new GetOrganizationEvenCheckInTicketsQuery()
+        {
+            EventId = eventId,
+            PageNumber = page.PageNumber,
+            PageSize = page.PageSize,
+        });
+
+    [HttpGet("checkin/{soldTicketId}")]
+    public Task<CheckInTicketDetailsDto> GetCheckInTicketDetails(Guid soldTicketId)
+        => _sender.Send(new GetCheckInTicketDetailsQuery()
+        {
+            SoldTicketId = soldTicketId,
+        });
+
+    [HttpPost("checkin/{soldTicketId}")]
+    public Task<CheckInTicketDto> TicketCheckIn(Guid soldTicketId, TicketCheckInCommand command)
+    {
+        command.SoldTicketId = soldTicketId;
+        return _sender.Send(command);
+    }
 
     [HttpPost("refund/{soldTicketId}")]
     public Task RefundTicket(Guid soldTicketId)

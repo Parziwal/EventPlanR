@@ -39,6 +39,12 @@ public class ImageService : IImageService
 
     public async Task DeleteImage(string imageFileName)
     {
-        await _bucket.DeleteObjectAsync(_bucketOptions.EventPlanrImagesBucket, imageFileName);
+        var deleteImageRequest = new DeleteObjectRequest
+        {
+            BucketName = _bucketOptions.EventPlanrImagesBucket,
+            Key = imageFileName,
+        };
+
+        await _bucket.DeleteObjectAsync(deleteImageRequest);
     }
 }

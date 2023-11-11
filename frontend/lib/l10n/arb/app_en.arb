@@ -367,5 +367,19 @@
   "organizationEventOrderDetails_AddressLine": "Address line",
   "organizationEventOrderDetails_Tickets": "Tickets",
   "organizationEventOrderDetails_Username": "Username",
-  "organizationEventOrderDetails_Total": "Total"
+  "organizationEventOrderDetails_Total": "Total",
+  "organizationEventCheckIn": "Check in",
+  "organizationEventCheckInDetails": "Ticket details",
+  "organizationEventCheckInDetails_Username": "Username",
+  "organizationEventCheckInDetails_Ticket": "Ticket",
+  "organizationEventCheckInDetails_OrderNumber": "Order number",
+  "organizationEventCheckInDetails_Date": "Date",
+  "organizationEventCheckInDetails_Price": "Price",
+  "organizationEventCheckInDetails_CheckedIn": "Checked in",
+  "organizationEventCheckInDetails_NotCheckedIn": "Not checked in",
+  "organizationEventCheckInDetails_CheckIn": "Check in",
+  "organizationEventCheckInDetails_CheckOut": "Check out",
+  "organizationEventCheckInDetails_UserCheckedIn": "User checked in",
+  "organizationEventCheckInDetails_UserCheckedOut": "User checked out",
+  "checkInTicketScanner": "Check in ticket"
 }
