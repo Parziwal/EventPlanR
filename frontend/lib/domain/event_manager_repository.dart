@@ -12,7 +12,6 @@ import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:universal_io/io.dart';
 
 @singleton
 class EventManagerRepository {

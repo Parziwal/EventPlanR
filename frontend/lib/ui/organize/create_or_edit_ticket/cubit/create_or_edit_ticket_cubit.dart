@@ -23,7 +23,6 @@ class CreateOrEditTicketCubit extends Cubit<CreateOrEditTicketState> {
   final TicketManagerRepository _ticketManagerRepository;
 
   void loadTicketForEdit(OrganizationTicket ticket) {
-    print(ticket);
     emit(
       state.copyWith(
         edit: true,
@@ -39,7 +38,7 @@ class CreateOrEditTicketCubit extends Cubit<CreateOrEditTicketState> {
       emit(state.copyWith(status: CreateOrEditTicketStatus.loading));
       await _ticketManagerRepository.addOrEditEventTicket(ticket);
       emit(
-        state.copyWith(status: CreateOrEditTicketStatus.ticketSubmitted)
+        state.copyWith(status: CreateOrEditTicketStatus.ticketSubmitted),
       );
     } catch (e) {
       emit(

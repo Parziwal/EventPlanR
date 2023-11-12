@@ -1,6 +1,5 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/ticket/check_in_ticket.dart';
-import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organization_event_check_in/cubit/organization_event_check_in_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';

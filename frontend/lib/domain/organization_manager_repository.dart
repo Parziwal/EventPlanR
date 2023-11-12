@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:event_planr_app/data/network/event_planr_api/models/add_member_to_user_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/create_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/edit_organization_member_command.dart';
@@ -14,7 +12,6 @@ import 'package:event_planr_app/domain/models/organization/user_organization_det
 import 'package:event_planr_app/domain/models/user/organization_member.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
-import 'package:universal_io/io.dart';
 
 @singleton
 class OrganizationManagerRepository {

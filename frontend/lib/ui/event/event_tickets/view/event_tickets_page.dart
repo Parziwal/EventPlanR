@@ -130,7 +130,7 @@ class EventTicketsPage extends StatelessWidget {
             maxWidth: 600,
             child: Column(
               children: [
-                ...state.tickets!.map(
+                ...state.tickets.map(
                   (t) => TicketItem(
                     ticket: t,
                   ),

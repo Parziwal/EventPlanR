@@ -82,8 +82,6 @@ resource "aws_cognito_user_pool_client" "mobile" {
 }
 
 resource "aws_lambda_permission" "allow_execution_from_cognito" {
-  count = var.pre_token_generation_lambda != null ? 1 : 0
-
   statement_id  = "allow_execution_from_cognito"
   action        = "lambda:InvokeFunction"
   function_name = split(":", var.pre_token_generation_lambda)[6]

@@ -44,7 +44,6 @@ class OrganizeDrawer extends StatelessWidget {
                     icon: const Icon(Icons.stacked_line_chart),
                     label: Text(l10n.organizeNavbar_Statistics),
                     onTap: () {},
-                    selected: false,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.credit_card),
@@ -75,7 +74,6 @@ class OrganizeDrawer extends StatelessWidget {
                     icon: const Icon(Icons.insert_invitation),
                     label: Text(l10n.organizeNavbar_Invite),
                     onTap: () {},
-                    selected: false,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.chat),

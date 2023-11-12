@@ -1,5 +1,4 @@
 import 'package:event_planr_app/domain/models/event/currency_enum.dart';
-import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';
 import 'package:event_planr_app/ui/event/explore_events/cubit/explore_events_cubit.dart';
@@ -57,12 +56,12 @@ class _EventCurrencyPickerModal extends StatelessWidget {
             children: [
               ...CurrencyEnum.values.map(
                 (c) => ListTile(
-                  onTap: () => context
-                      .read<ExploreEventsCubit>()
-                      .filterEvents(state.filter.copyWith(
-                        currency: c,
-                        pageNumber: 1,
-                      )),
+                  onTap: () => context.read<ExploreEventsCubit>().filterEvents(
+                        state.filter.copyWith(
+                          currency: c,
+                          pageNumber: 1,
+                        ),
+                      ),
                   title: Text(
                     l10n.translateEnums(c.name),
                   ),

@@ -1,4 +1,3 @@
-import 'package:event_planr_app/data/network/event_planr_api/chat_manager/chat_manager_client.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/domain/chat_repository.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
-import 'package:universal_io/io.dart';
 
 part 'edit_user_state.dart';
 

@@ -46,13 +46,3 @@ resource "aws_dynamodb_table" "chat_message" {
   }
 }
 
-resource "aws_lambda_invocation" "database_initializer_lambda" {
-  function_name = module.database_initializer_lambda.function_name
-  input         = ""
-
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-
-  depends_on = [module.event_planr_db]
-}
