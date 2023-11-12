@@ -59,6 +59,7 @@ jobs:
       uses: actions/github-script@v6
       env:
         PLAN: "${{ steps.plan.outputs.stdout }}"
+        PLAN_ERROR: "${{ steps.plan.outputs.stderr }}"
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
@@ -91,6 +92,14 @@ jobs:
           ${process.env.PLAN}
           \`\`\`
 
+          </details>
+          
+          <details><summary>Show Error</summary>
+
+          \`\`\`terraform\n
+          ${process.env.PLAN_ERROR}
+          \`\`\`
+
           </details>`;
 
           if (botComment) {
@@ -108,3 +117,7 @@ jobs:
               body: output
             })
           }
+
+    - name: Terraform Status
+      if: steps.plan.outcome == 'failure' || steps.validate.outcome == 'failure' || steps.init.outcome == 'failure' || steps.fmt.outcome == 'failure'
+      run: exit 1
