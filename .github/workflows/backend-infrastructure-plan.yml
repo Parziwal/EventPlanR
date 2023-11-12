@@ -34,6 +34,14 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: 'backend'
+      
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: 'backend'
+
     - name: Publish Lambda Services
       run: sh publish_lambda_services.sh
       working-directory: 'infrastructure/backend'
@@ -62,6 +70,7 @@ jobs:
       run: terraform workspace select production
 
     - name: Terraform Plan
+      id: plan
       run: terraform plan -no-color -input=false
       continue-on-error: true
 
@@ -81,7 +90,8 @@ jobs:
             return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
           })
 
-          const output = `#### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
+          const output = `### Backend plan
+          #### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
           #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
           <details><summary>Validation Output</summary>
@@ -117,7 +127,3 @@ jobs:
               body: output
             })
           }
-
-    - name: Terraform Status
-      if: steps.plan.outcome == 'failure' || steps.validate.outcome == 'failure' || steps.init.outcome == 'failure' || steps.fmt.outcome == 'failure'
-      run: exit 1

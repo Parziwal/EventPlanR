@@ -51,6 +51,7 @@ jobs:
       run: terraform workspace select production
 
     - name: Terraform Plan
+      id: plan
       run: terraform plan -no-color -input=false
       continue-on-error: true
 
@@ -70,7 +71,8 @@ jobs:
             return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
           })
 
-          const output = `#### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
+          const output = `### Frontend plan
+          #### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
           #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
           <details><summary>Validation Output</summary>

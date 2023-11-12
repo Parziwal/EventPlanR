@@ -1,4 +1,4 @@
-name: Frontend CI
+name: Frontend Analyze
 
 on:
   pull_request:
@@ -9,11 +9,13 @@ on:
 
 env:
   FLUTTER_VERSION: '3.13.0'
-  WORKING_DIRECTORY: 'frontend'
 
 jobs:
-  build:
+  analyze:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'frontend'
 
     steps:
       - uses: actions/checkout@v4
@@ -24,12 +26,9 @@ jobs:
 
       - name: Install Dependencies
         run: flutter pub get
-        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Run build runner
         run: dart run build_runner build
-        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Analyze project source
         run: flutter analyze --fatal-infos
-        working-directory: ${{ env.WORKING_DIRECTORY }}
