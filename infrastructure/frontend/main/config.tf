@@ -27,11 +27,11 @@ provider "aws" {
 locals {
   env_vars = {
     development = {
-      region = "us-east-1"
+      region  = "us-east-1"
       project = "event_planr"
     }
     production = {
-      region = "us-east-1"
+      region  = "us-east-1"
       project = "event_planr"
     }
   }
