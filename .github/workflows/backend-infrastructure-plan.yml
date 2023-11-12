@@ -88,10 +88,10 @@ jobs:
             issue_number: context.issue.number,
           })
           const botComment = comments.find(comment => {
-            return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
+            return comment.user.type === 'Bot' && comment.body.includes('Backend Terraform Plan')
           })
 
-          const output = `### Backend plan
+          const output = `### Backend Terraform Plan
           #### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
           #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
