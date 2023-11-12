@@ -54,5 +54,5 @@ resource "aws_lambda_invocation" "database_initializer_lambda" {
     always_run = "${timestamp()}"
   }
 
-  depends_on = [ module.event_planr_db ]
+  depends_on = [module.event_planr_db]
 }
