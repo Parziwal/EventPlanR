@@ -6,7 +6,6 @@ variable "user_pool_name" {
 variable "pre_token_generation_lambda" {
   description = "Arn of the lambda which customize identity token claims before token generation"
   type        = string
-  default     = null
 }
 
 variable "test_client" {
