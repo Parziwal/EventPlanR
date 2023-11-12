@@ -22,9 +22,3 @@ resource "aws_lambda_event_source_mapping" "event_source_mapping" {
   enabled          = true
   batch_size       = 1
 }
-
-resource "aws_ssm_parameter" "reserved_ticket_order_expiration_queue" {
-  name  = "/${local.environment}/event_planr/SqsQueueOptions/ReservedTicketOrderExpirationQueueName"
-  type  = "String"
-  value = aws_sqs_queue.reserved_ticket_order_expiration_queue.name
-}

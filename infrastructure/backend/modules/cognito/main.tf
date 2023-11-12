@@ -81,6 +81,17 @@ resource "aws_cognito_user_pool_client" "mobile" {
   explicit_auth_flows           = ["ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_SRP_AUTH"]
 }
 
+resource "aws_lambda_permission" "allow_execution_from_cognito" {
+  count = var.pre_token_generation_lambda != null ? 1 : 0
+
+  statement_id  = "allow_execution_from_cognito"
+  action        = "lambda:InvokeFunction"
+  function_name = split(":", var.pre_token_generation_lambda)[6]
+  principal     = "cognito-idp.amazonaws.com"
+
+  source_arn = aws_cognito_user_pool.this.arn
+}
+
 resource "aws_cognito_user_pool_domain" "test" {
   count = var.test_client ? 1 : 0
 

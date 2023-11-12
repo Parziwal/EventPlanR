@@ -41,9 +41,3 @@ resource "aws_s3_bucket_cors_configuration" "event_planr_images" {
     allowed_origins = ["*"]
   }
 }
-
-resource "aws_ssm_parameter" "event_planr_images" {
-  name  = "/${local.environment}/event_planr/S3BucketOptions/EventPlanrImagesBucket"
-  type  = "String"
-  value = aws_s3_bucket.event_planr_images.id
-}
