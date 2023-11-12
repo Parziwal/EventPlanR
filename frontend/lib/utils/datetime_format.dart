@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 String formatEventDateTimeRange(DateTime from, DateTime to) {

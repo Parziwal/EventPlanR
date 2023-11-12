@@ -1,7 +1,5 @@
-import 'package:event_planr_app/ui/event/event_tickets/cubit/event_tickets_cubit.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuantitySelector extends StatefulWidget {
   const QuantitySelector({

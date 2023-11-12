@@ -1,6 +1,5 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/event/event_details.dart';
-import 'package:event_planr_app/env/env.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
@@ -166,11 +165,15 @@ class EventDetailsPage extends StatelessWidget {
         leading: const Icon(Icons.calendar_today),
         title: Text(
           formatEventDetailsDateRange(
-              eventDetails.fromDate, eventDetails.toDate),
+            eventDetails.fromDate,
+            eventDetails.toDate,
+          ),
         ),
         subtitle: Text(
           formatEventDetailsTimeRange(
-              eventDetails.fromDate, eventDetails.toDate),
+            eventDetails.fromDate,
+            eventDetails.toDate,
+          ),
         ),
       ),
       ListTile(
@@ -201,7 +204,6 @@ class EventDetailsPage extends StatelessWidget {
   }
 
   Widget _organization(BuildContext context, EventDetails eventDetails) {
-    final l10n = context.l10n;
     final theme = context.theme;
 
     return InkWell(

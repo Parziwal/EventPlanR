@@ -1,4 +1,3 @@
-import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_distance_enum.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';

@@ -1,5 +1,4 @@
 import 'package:event_planr_app/domain/models/news_post/news_post.dart';
-import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:event_planr_app/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ class NewsPostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = context.theme;
 
     return Card(

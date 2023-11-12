@@ -43,7 +43,10 @@ public class GetUserDirectChatsQueryHandler : IRequestHandler<GetUserDirectChats
                 .Single(cm => cm.MemberUserId != _user.UserId)
                 .MemberUserId;
             var contact = await _userService.GetUserById(contactUserId);
-            contacts.Add(contact);
+            if (contact != null)
+            {
+                contacts.Add(contact);
+            }
         }
 
         return new PaginatedListDto<DirectChatDto>

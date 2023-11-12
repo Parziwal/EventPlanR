@@ -1,14 +1,13 @@
 import 'package:event_planr_app/domain/models/news_post/create_news_post.dart';
-import 'package:event_planr_app/domain/models/news_post/organization_news_post.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post_filter.dart';
+import 'package:event_planr_app/domain/models/news_post/organization_news_post.dart';
 import 'package:event_planr_app/domain/news_post_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'organization_event_news_state.dart';
-
 part 'organization_event_news_cubit.freezed.dart';
+part 'organization_event_news_state.dart';
 
 @injectable
 class OrganizationEventNewsCubit extends Cubit<OrganizationEventNewsState> {

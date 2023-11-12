@@ -38,7 +38,7 @@ class OrganizationEventDetailsPage extends StatelessWidget {
               onTap: () =>
                   context.read<OrganizationEventDetailsCubit>().publishEvent(),
               child: Text(
-                eventDetails != null && eventDetails!.isPublished
+                eventDetails != null && eventDetails.isPublished
                     ? l10n.organizationEventDetails_UnPublishEvent
                     : l10n.organizationEventDetails_PublishEvent,
               ),
@@ -64,7 +64,7 @@ class OrganizationEventDetailsPage extends StatelessWidget {
               context.read<OrganizationEventDetailsCubit>().publishEvent(),
           icon: const Icon(Icons.publish),
           label: Text(
-            eventDetails != null && eventDetails!.isPublished
+            eventDetails != null && eventDetails.isPublished
                 ? l10n.organizationEventDetails_UnPublishEvent
                 : l10n.organizationEventDetails_PublishEvent,
           ),

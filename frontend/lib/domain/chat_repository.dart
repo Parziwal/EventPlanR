@@ -13,7 +13,6 @@ import 'package:event_planr_app/domain/models/chat/sender.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
-import 'package:universal_io/io.dart';
 
 @singleton
 class ChatRepository {

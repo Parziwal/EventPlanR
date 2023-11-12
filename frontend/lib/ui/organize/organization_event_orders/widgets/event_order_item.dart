@@ -4,7 +4,6 @@ import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';
 import 'package:event_planr_app/ui/shared/widgets/label.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
-import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

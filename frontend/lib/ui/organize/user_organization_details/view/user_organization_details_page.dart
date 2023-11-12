@@ -8,7 +8,6 @@ import 'package:event_planr_app/ui/organize/user_organization_details/widgets/ad
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/organization_member_item.dart';
 import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
 import 'package:event_planr_app/ui/shared/widgets/image_picker_item.dart';
-import 'package:event_planr_app/ui/shared/widgets/image_wrapper.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
