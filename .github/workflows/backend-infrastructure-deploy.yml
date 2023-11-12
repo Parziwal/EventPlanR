@@ -1,0 +1,62 @@
+name: Backend Infrastructure Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+        - backend/**
+        - infrastructure/backend/**
+  workflow_dispatch:
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  TERRAFORM_VERSION: '1.5.6'
+  DOTNET_VERSION: '6.0.x'
+
+jobs:
+  deploy-backend:
+    name: Deploy backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'infrastructure/backend/main'
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Publish Lambda Services
+      run: sh publish_lambda_services.sh
+      working-directory: 'infrastructure/backend'
+
+    - name: Use Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt -check
+
+    - name: Terraform Init
+      id: init
+      run: terraform init
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
+
+    - name: Terraform Workspace
+      run: terraform workspace select production
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false
