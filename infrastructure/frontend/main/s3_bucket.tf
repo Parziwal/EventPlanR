@@ -3,7 +3,16 @@ resource "aws_s3_bucket" "event_planr_frontend" {
   force_destroy = true
 }
 
+resource "aws_s3_bucket_ownership_controls" "event_planr_frontend" {
+  bucket = aws_s3_bucket.event_planr_frontend.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_acl" "event_planr_frontend" {
+  depends_on = [aws_s3_bucket_ownership_controls.event_planr_frontend]
+
   bucket = aws_s3_bucket.event_planr_frontend.id
   acl    = "private"
 }

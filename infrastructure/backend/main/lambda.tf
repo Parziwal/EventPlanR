@@ -7,7 +7,7 @@ module "lambda_apis" {
   handler       = each.value
   source_dir    = replace(local.workspace.lambda_source_dir, "{LAMBDA_FOLDER}", each.value)
   environment_varibles = {
-    ASPNETCORE_ENVIRONMENT = local.workspace.aspnetcore_environmnet
+    ASPNETCORE_ENVIRONMENT = local.workspace.aspnetcore_environment
   }
 }
 
@@ -17,9 +17,9 @@ module "pre_token_generation_lambda" {
   function_name = "${local.environment}_pre_token_generation_function"
   role_arn      = aws_iam_role.lambda_role.arn
   handler       = "EventPlanr.PreTokenGeneration.Function::EventPlanr.PreTokenGeneration.Function.Function::FunctionHandler"
-  source_dir    = "../../../backend/Serverless/EventPlanr.PreTokenGeneration.Function/bin/Release/net6.0/publish"
+  source_dir    = replace(local.workspace.lambda_source_dir, "{LAMBDA_FOLDER}", "EventPlanr.PreTokenGeneration.Function")
   environment_varibles = {
-    ASPNETCORE_ENVIRONMENT = "Development"
+    ASPNETCORE_ENVIRONMENT = local.workspace.aspnetcore_environment
   }
 }
 
@@ -29,8 +29,8 @@ module "database_initializer_lambda" {
   function_name = "${local.environment}_database_initializer_function"
   role_arn      = aws_iam_role.lambda_role.arn
   handler       = "EventPlanr.DatabaseInitializer.Function::EventPlanr.DatabaseInitializer.Function.Function::FunctionHandler"
-  source_dir    = "../../../backend/Serverless/EventPlanr.DatabaseInitializer.Function/bin/Release/net6.0/publish"
+  source_dir    = replace(local.workspace.lambda_source_dir, "{LAMBDA_FOLDER}", "EventPlanr.DatabaseInitializer.Function")
   environment_varibles = {
-    ASPNETCORE_ENVIRONMENT = "Development"
+    ASPNETCORE_ENVIRONMENT = local.workspace.aspnetcore_environment
   }
 }

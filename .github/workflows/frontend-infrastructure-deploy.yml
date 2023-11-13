@@ -49,6 +49,7 @@ jobs:
       run: terraform apply -auto-approve -input=false
 
   app-upload:
+    name: Frontend app upload
     needs: deploy-frontend
     runs-on: ubuntu-latest
     defaults:
@@ -72,7 +73,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
       - uses: dkershner6/aws-ssm-getparameters-action@v1
@@ -99,19 +100,25 @@ jobs:
       - name: Create web build
         run: flutter build web --target lib/main_production.dart --dart-define-from-file .env.prod --output web_build
 
-      - name: Create app build
-        run: flutter build apk --target lib/main_production.dart --dart-define-from-file .env.prod --output android_build
-
-      - uses: shallwefootball/s3-upload-action@master
+      - name: Download Android keystore
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.0.3
         with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ env.FRONTEND_BUCKET }}
-          source_dir: 'web_build'
+          fileName: upload-keystore.jks
+          encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
-      - uses: shallwefootball/s3-upload-action@master
-        with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ env.FRONTEND_BUCKET }}
-          source_dir: 'android_build'
+      - name: Create key.properties
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+
+      - name: Create android app build
+        run: flutter build apk --target lib/main_production.dart --flavor production --dart-define-from-file .env.prod
+
+      - name: Upload web build
+        run: aws s3 cp web_build s3://$FRONTEND_BUCKET/ --recursive
+
+      - name: Upload android app build
+        run: aws s3 cp build/app/outputs/flutter-apk/app-production-release.apk s3://$FRONTEND_BUCKET

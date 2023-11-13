@@ -30,7 +30,7 @@ locals {
       region                 = "us-east-1"
       project                = "event_planr"
       lambda_source_dir      = "../../../backend/Serverless/{LAMBDA_FOLDER}/bin/Release/net6.0/publish"
-      aspnetcore_environmnet = "Development"
+      aspnetcore_environment = "Development"
       lambdas = {
         event_general_api        = "EventPlanr.EventGeneral.Api",
         event_manager_api        = "EventPlanr.EventManager.Api",
@@ -46,7 +46,7 @@ locals {
       region                 = "us-east-1"
       project                = "event_planr"
       lambda_source_dir      = "../../../backend/Serverless/{LAMBDA_FOLDER}/bin/Release/net6.0/publish"
-      aspnetcore_environmnet = "Production"
+      aspnetcore_environment = "Production"
       lambdas = {
         event_general_api        = "EventPlanr.EventGeneral.Api",
         event_manager_api        = "EventPlanr.EventManager.Api",

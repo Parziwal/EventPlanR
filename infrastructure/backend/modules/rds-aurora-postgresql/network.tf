@@ -53,7 +53,7 @@ resource "aws_subnet" "this" {
 }
 
 resource "aws_db_subnet_group" "this" {
-  name       = "main"
+  name       = "${var.database_name}_subnet"
   subnet_ids = aws_subnet.this.*.id
 
   tags = var.tags

@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "appsync_assume_role" {
 }
 
 resource "aws_iam_role" "appsync_role" {
-  name               = "appsync_role"
+  name               = "${local.environment}_appsync_role"
   assume_role_policy = data.aws_iam_policy_document.appsync_assume_role.json
 }
 

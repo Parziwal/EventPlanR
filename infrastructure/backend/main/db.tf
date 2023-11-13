@@ -8,7 +8,7 @@ module "event_planr_db" {
 }
 
 resource "aws_dynamodb_table" "user_claim" {
-  name         = "UserClaim"
+  name         = "${local.environment}_UserClaim"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "UserId"
 
@@ -19,7 +19,7 @@ resource "aws_dynamodb_table" "user_claim" {
 }
 
 resource "aws_dynamodb_table" "user_reserved_ticket_order" {
-  name         = "UserReservedTicketOrder"
+  name         = "${local.environment}_UserReservedTicketOrder"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "UserId"
 
@@ -30,7 +30,7 @@ resource "aws_dynamodb_table" "user_reserved_ticket_order" {
 }
 
 resource "aws_dynamodb_table" "chat_message" {
-  name         = "ChatMessage"
+  name         = "${local.environment}_ChatMessage"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "ChatId"
   range_key    = "CreatedAt"
@@ -46,3 +46,13 @@ resource "aws_dynamodb_table" "chat_message" {
   }
 }
 
+resource "aws_lambda_invocation" "database_initializer_lambda" {
+  function_name = module.database_initializer_lambda.function_name
+  input         = ""
+
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+
+  depends_on = [module.event_planr_db]
+}

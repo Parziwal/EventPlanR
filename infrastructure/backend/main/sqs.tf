@@ -11,7 +11,7 @@ module "reserved_ticket_order_expiration" {
 }
 
 resource "aws_sqs_queue" "reserved_ticket_order_expiration_queue" {
-  name                      = "reserved_ticket_order_expiration_queue"
+  name                      = "${local.environment}_reserved_ticket_order_expiration_queue"
   message_retention_seconds = 1200
   receive_wait_time_seconds = 10
 }
