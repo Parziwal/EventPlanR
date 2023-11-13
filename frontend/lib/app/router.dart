@@ -5,6 +5,7 @@ import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
+import 'package:event_planr_app/ui/auth/view/confirm_sign_in_with_new_password_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
 import 'package:event_planr_app/ui/event/app_settings/view/app_settings_page.dart';
 import 'package:event_planr_app/ui/event/edit_security/cubit/edit_security_cubit.dart';
@@ -79,6 +80,7 @@ class PagePaths {
   static String signUp = '/auth/signUp';
   static String forgotPassword = '/auth/forgotPassword';
   static String confirmSignUp = '/auth/confirmSignUp';
+  static String confirmSignUpWithPassword = '/auth/confirmSignUpWithPassword';
   static String confirmForgotPassword = '/auth/confirmForgotPassword';
 
   static String exploreEvents = '/exploreEvents';
@@ -179,6 +181,10 @@ final appRouter = GoRouter(
     BlocRoute<AuthCubit>(
       path: PagePaths.confirmSignUp,
       builder: (_) => const ConfirmSignUpPage(),
+    ),
+    BlocRoute<AuthCubit>(
+      path: PagePaths.confirmSignUpWithPassword,
+      builder: (_) => const ConfirmSignInWithNewPasswordPage(),
     ),
     BlocRoute<AuthCubit>(
       path: PagePaths.confirmForgotPassword,

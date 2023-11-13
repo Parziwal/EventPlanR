@@ -7,6 +7,8 @@ extension ErrorLocalizationsX on AppLocalizations {
       'AuthCodeMismatchException' => auth_CodeMismatchException,
       'AuthWrongCredentialsException' => auth_WrongCredentialsException,
       'AuthSignUpNotConfirmedException' => auth_SignUpNotConfirmedException,
+      'AuthSignInNotConfirmedWithNewPasswordException' =>
+        auth_SignInNotConfirmedWithNewPasswordException,
       'AuthInvalidPasswordException' => auth_InvalidPasswordException,
       _ => unknownException,
     };

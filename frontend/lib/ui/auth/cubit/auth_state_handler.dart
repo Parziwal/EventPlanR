@@ -15,6 +15,8 @@ void authStateHandler(BuildContext context, AuthState state) {
       context.go(PagePaths.exploreEvents);
     case ConfirmSignUp():
       context.push(PagePaths.confirmSignUp);
+    case ConfirmSignInWithNewPassword():
+      context.push(PagePaths.confirmSignUpWithPassword);
     case ConfirmForgotPassword():
       context.push(PagePaths.confirmForgotPassword);
     case CodeResended():

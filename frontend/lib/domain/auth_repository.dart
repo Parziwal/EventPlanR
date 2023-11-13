@@ -6,10 +6,12 @@ import 'package:event_planr_app/domain/exceptions/auth/auth_code_mismatch_except
 import 'package:event_planr_app/domain/exceptions/auth/auth_email_already_taken_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_invalid_password_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
+import 'package:event_planr_app/domain/exceptions/auth/auth_sign_in_not_confirmed_with_new_password_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_wrong_credentials_exception.dart';
 import 'package:event_planr_app/domain/exceptions/common/unknown_exception.dart'
     as common;
 import 'package:event_planr_app/domain/models/auth/change_password.dart';
+import 'package:event_planr_app/domain/models/auth/confirm_sign_in_credential.dart';
 import 'package:event_planr_app/domain/models/auth/edit_user.dart';
 import 'package:event_planr_app/domain/models/auth/user.dart';
 import 'package:event_planr_app/domain/models/auth/user_forgot_password_credential.dart';
@@ -49,6 +51,9 @@ class AuthRepository {
       claimsJson['organization_policies'] =
           jsonDecode(claimsJson['organization_policies']! as String);
     }
+    if (claimsJson['picture'] == '-') {
+      claimsJson['picture'] = null;
+    }
 
     return User.fromJson(claimsJson);
   }
@@ -69,6 +74,9 @@ class AuthRepository {
 
       if (result.nextStep.signInStep == AuthSignInStep.confirmSignUp) {
         throw AuthSignUpNotConfirmedException();
+      } else if (result.nextStep.signInStep ==
+          AuthSignInStep.confirmSignInWithNewPassword) {
+        throw AuthSignInNotConfirmedWithNewPasswordException();
       }
 
       if (kDebugMode) {
@@ -91,7 +99,7 @@ class AuthRepository {
         AuthUserAttributeKey.email: credential.email,
         AuthUserAttributeKey.givenName: credential.firstName,
         AuthUserAttributeKey.familyName: credential.lastName,
-        AuthUserAttributeKey.picture: '',
+        AuthUserAttributeKey.picture: '-',
       };
 
       await Amplify.Auth.signUp(
@@ -119,6 +127,29 @@ class AuthRepository {
       throw AuthCodeMismatchException();
     } on AuthException catch (e) {
       safePrint('Error confirming user: ${e.runtimeType}');
+      throw common.UnknownException();
+    }
+  }
+
+  Future<void> confirmSignInWithNewPassword(
+    ConfirmSignInCredential credential,
+  ) async {
+    try {
+      final userAttributes = {
+        CognitoUserAttributeKey.givenName: credential.firstName,
+        CognitoUserAttributeKey.familyName: credential.lastName,
+        CognitoUserAttributeKey.picture: '-',
+      };
+
+      await Amplify.Auth.confirmSignIn(
+        confirmationValue: credential.password,
+        options: ConfirmSignInOptions(
+          pluginOptions:
+              CognitoConfirmSignInPluginOptions(userAttributes: userAttributes),
+        ),
+      );
+    } on AuthException catch (e) {
+      safePrint('Error signing up user: ${e.message}');
       throw common.UnknownException();
     }
   }
