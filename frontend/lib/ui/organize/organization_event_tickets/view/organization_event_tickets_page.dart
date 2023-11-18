@@ -4,7 +4,7 @@ import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/cubit/organization_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/widgets/ticket_item.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';

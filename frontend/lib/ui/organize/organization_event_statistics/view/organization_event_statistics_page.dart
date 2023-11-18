@@ -5,7 +5,7 @@ import 'package:event_planr_app/ui/organize/organization_event_statistics/cubit/
 import 'package:event_planr_app/ui/organize/organization_event_statistics/widgets/check_in_ticket_diagram.dart';
 import 'package:event_planr_app/ui/organize/organization_event_statistics/widgets/percentage_data_item.dart';
 import 'package:event_planr_app/ui/organize/organization_event_statistics/widgets/sold_ticket_diagram.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/ui/shared/widgets/label.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';

@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class EventNavbar extends StatelessWidget {
-  const EventNavbar({required this.child, super.key});
+  const EventNavbar({
+    required this.child,
+    required this.desktopTitle,
+    super.key,
+  });
 
   final Widget child;
+  final String desktopTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +27,7 @@ class EventNavbar extends StatelessWidget {
         Condition.largerThan(
           name: MOBILE,
           value: EventDrawerNavbar(
+            desktopTitle: desktopTitle,
             child: child,
           ),
         ),

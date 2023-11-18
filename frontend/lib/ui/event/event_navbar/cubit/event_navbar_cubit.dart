@@ -20,12 +20,6 @@ class EventNavbarCubit extends Cubit<EventNavbarState> {
     emit(state.copyWith(user: user));
   }
 
-  Future<void> changeDesktopTitle(String? title) async {
-    if (title != null) {
-      emit(state.copyWith(desktopTitle: title));
-    }
-  }
-
   Future<void> logout() async {
     await _authRepository.signOut();
     emit(state.copyWith(status: EventNavbarStatus.loggedOut));

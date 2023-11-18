@@ -3,7 +3,7 @@ import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/ui/organize/user_organizations/cubit/user_organizations_cubit.dart';
 import 'package:event_planr_app/ui/organize/user_organizations/widgets/organization_item.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';

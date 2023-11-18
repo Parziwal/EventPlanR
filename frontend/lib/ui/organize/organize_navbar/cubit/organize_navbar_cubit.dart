@@ -27,12 +27,6 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
   final OrganizationManagerRepository _organizationManagerRepository;
   final EventManagerRepository _eventManagerRepository;
 
-  void changeTitle(String? title) {
-    if (title != null) {
-      emit(state.copyWith(desktopTitle: title));
-    }
-  }
-
   Future<void> loadUserData() async {
     final user = await _authRepository.user;
     final selectedEvent = _eventManagerRepository.getSelectedEvent();

@@ -10,9 +10,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class EventDrawerNavbar extends StatefulWidget {
-  const EventDrawerNavbar({required this.child, super.key});
+  const EventDrawerNavbar({
+    required this.child,
+    required this.desktopTitle,
+    super.key,
+  });
 
   final Widget child;
+  final String desktopTitle;
 
   @override
   State<EventDrawerNavbar> createState() => _EventDrawerNavbarState();
@@ -53,7 +58,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
     final breakpoints = context.breakpoints;
     final state = context.watch<EventNavbarCubit>().state;
     final title =
-        state.desktopTitle.isNotEmpty ? ' - ${state.desktopTitle}' : '';
+        widget.desktopTitle.isNotEmpty ? ' - ${widget.desktopTitle}' : '';
 
     return AppBar(
       title: Text('${Env.appName}$title'),

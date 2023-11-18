@@ -2,7 +2,7 @@ import 'package:event_planr_app/domain/models/order/event_order.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organization_event_orders/cubit/organization_event_orders_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_orders/widgets/event_order_item.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

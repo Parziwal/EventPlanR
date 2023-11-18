@@ -1,7 +1,6 @@
-import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.dart';
+import 'package:event_planr_app/ui/event/event_navbar/view/event_navbar.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class EventScaffold extends StatelessWidget {
@@ -29,20 +28,22 @@ class EventScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final breakpoints = context.breakpoints;
-    context.read<EventNavbarCubit>().changeDesktopTitle(title);
 
-    return Scaffold(
-      appBar: _appBar(context),
-      bottomSheet: breakpoints.isMobile ? mobileBottomSheet : null,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (breakpoints.isDesktop) _desktopTabBar(context),
-          if (breakpoints.largerThan(MOBILE)) _desktopActions(),
-          if (body != null) Expanded(child: body!),
-        ],
+    return EventNavbar(
+      desktopTitle: title ?? '',
+      child: Scaffold(
+        appBar: _appBar(context),
+        bottomSheet: breakpoints.isMobile ? mobileBottomSheet : null,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (breakpoints.isDesktop) _desktopTabBar(context),
+            if (breakpoints.largerThan(MOBILE)) _desktopActions(),
+            if (body != null) Expanded(child: body!),
+          ],
+        ),
+        floatingActionButton: breakpoints.isMobile ? mobileFloatingButton : null,
       ),
-      floatingActionButton: breakpoints.isMobile ? mobileFloatingButton : null,
     );
   }
 

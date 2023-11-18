@@ -2,7 +2,7 @@ import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/organization/user_organization_details.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/cubit/user_organization_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/add_or_edit_member_dialog.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/organization_member_item.dart';
