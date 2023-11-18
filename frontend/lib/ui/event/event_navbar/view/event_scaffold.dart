@@ -79,7 +79,7 @@ class EventScaffold extends StatelessWidget {
   }
 
   Widget _desktopActions() {
-    if (desktopActions == null) {
+    if (desktopActions == null || desktopActions!.isEmpty) {
       return Container();
     }
 

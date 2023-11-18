@@ -2,6 +2,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:event_planr_app/data/network/event_planr_api/chat_manager/chat_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/event_general/event_general_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/event_invitation/event_invitation_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/event_manager/event_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/news_post/news_post_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/organization_manager/organization_manager_client.dart';
@@ -80,6 +81,11 @@ abstract class NetworkModule {
   @singleton
   ChatManagerClient getChatManagerClient(Dio dio) {
     return ChatManagerClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  }
+
+  @singleton
+  EventInvitationClient getEventInvitationClient(Dio dio) {
+    return EventInvitationClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
   }
 
   @singleton

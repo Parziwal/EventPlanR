@@ -9,6 +9,7 @@ import 'package:retrofit/retrofit.dart';
 
 import '../models/create_event_command.dart';
 import '../models/edit_event_command.dart';
+import '../models/event_statistics_dto.dart';
 import '../models/organization_event_details_dto.dart';
 import '../models/organization_event_dto_paginated_list_dto.dart';
 
@@ -75,5 +76,10 @@ abstract class EventManagerClient {
   Future<String> postEventmanagerCoverimageEventId({
     @Path('eventId') required String eventId,
     @Part(name: 'ImageFile') File? imageFile,
+  });
+
+  @GET('/eventmanager/statistics/{eventId}')
+  Future<EventStatisticsDto> getEventmanagerStatisticsEventId({
+    @Path('eventId') required String eventId,
   });
 }

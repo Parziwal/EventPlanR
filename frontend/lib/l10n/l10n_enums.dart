@@ -44,6 +44,9 @@ extension ErrorLocalizationsX on AppLocalizations {
       'light' => enum_light,
       'dark' => enum_dark,
       'system' => enum_system,
+      'accept' => enum_Accept,
+      'deny' => enum_Deny,
+      'pending' => enum_Pending,
       _ => enumName,
     };
   }

@@ -47,6 +47,7 @@ public class TicketCheckInCommandHandler : IRequestHandler<TicketCheckInCommand,
         }
 
         soldTicket.IsCheckedIn = request.CheckIn;
+        soldTicket.CheckInDate = request.CheckIn ? DateTimeOffset.UtcNow : null;
         await _dbContext.SaveChangesAsync();
 
         return _mapper.Map<CheckInTicketDto>(soldTicket);

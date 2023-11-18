@@ -5,8 +5,8 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_code_mismatch_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_email_already_taken_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_invalid_password_exception.dart';
-import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_sign_in_not_confirmed_with_new_password_exception.dart';
+import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_wrong_credentials_exception.dart';
 import 'package:event_planr_app/domain/exceptions/common/unknown_exception.dart'
     as common;

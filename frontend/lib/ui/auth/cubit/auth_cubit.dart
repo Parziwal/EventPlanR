@@ -1,6 +1,6 @@
 import 'package:event_planr_app/domain/auth_repository.dart';
-import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_sign_in_not_confirmed_with_new_password_exception.dart';
+import 'package:event_planr_app/domain/exceptions/auth/auth_sign_up_not_confirmed_exception.dart';
 import 'package:event_planr_app/domain/models/auth/confirm_sign_in_credential.dart';
 import 'package:event_planr_app/domain/models/auth/user_forgot_password_credential.dart';
 import 'package:event_planr_app/domain/models/auth/user_sign_in_credential.dart';
@@ -9,9 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'auth_state.dart';
-
 part 'auth_cubit.freezed.dart';
+part 'auth_state.dart';
 
 @injectable
 class AuthCubit extends Cubit<AuthState> {

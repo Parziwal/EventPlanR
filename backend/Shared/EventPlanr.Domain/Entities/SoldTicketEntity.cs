@@ -13,4 +13,5 @@ public class SoldTicketEntity : BaseEntity
     public OrderEntity Order { get; set; } = null!;
     public bool IsRefunded { get; set; }
     public bool IsCheckedIn { get; set; }
+    public DateTimeOffset? CheckInDate { get; set; }
 }

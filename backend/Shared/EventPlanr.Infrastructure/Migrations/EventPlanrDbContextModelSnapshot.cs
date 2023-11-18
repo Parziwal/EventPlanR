@@ -171,8 +171,8 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -310,6 +310,9 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CheckInDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsCheckedIn")
                         .HasColumnType("boolean");

@@ -31,6 +31,14 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
                 entry.State = EntityState.Modified;
                 entry.Entity.IsDeleted = true;
                 entry.Entity.DeletedAt = DateTimeOffset.UtcNow;
+
+                entry.References
+                    .Where(r => r.TargetEntry != null && r.TargetEntry.Metadata.IsOwned())
+                    .ToList()
+                    .ForEach(r =>
+                    {
+                        r.TargetEntry!.State = EntityState.Unchanged;
+                    });
             }
         }
     }

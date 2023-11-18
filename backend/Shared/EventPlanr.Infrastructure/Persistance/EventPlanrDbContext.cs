@@ -15,7 +15,7 @@ public class EventPlanrDbContext : DbContext, IApplicationDbContext
     public DbSet<TicketEntity> Tickets => Set<TicketEntity>();
     public DbSet<SoldTicketEntity> SoldTickets => Set<SoldTicketEntity>();
     public DbSet<OrderEntity> Orders => Set<OrderEntity>();
-    public DbSet<InvitationEntity> Inviations => Set<InvitationEntity>();
+    public DbSet<InvitationEntity> Invitations => Set<InvitationEntity>();
     public DbSet<ChatEntity> Chats => Set<ChatEntity>();
     public DbSet<ChatMemberEntity> ChatMembers => Set<ChatMemberEntity>();
 

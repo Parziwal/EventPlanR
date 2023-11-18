@@ -144,7 +144,7 @@ namespace EventPlanr.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserEmail = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -227,7 +227,8 @@ namespace EventPlanr.Infrastructure.Migrations
                     TicketId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsRefunded = table.Column<bool>(type: "boolean", nullable: false),
-                    IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false)
+                    IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false),
+                    CheckInDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

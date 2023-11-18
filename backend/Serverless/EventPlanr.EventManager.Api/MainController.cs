@@ -84,4 +84,11 @@ public class MainController : ControllerBase
             Image = fileBytes,
         });
     }
+
+    [HttpGet("statistics/{eventId}")]
+    public Task<EventStatisticsDto> GetEventStatistics(Guid eventId)
+        => _sender.Send(new GetOrganizationEventStatisticsQuery()
+        {
+            EventId = eventId
+        });
 }

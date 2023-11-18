@@ -11,7 +11,7 @@ public interface IApplicationDbContext
     DbSet<TicketEntity> Tickets { get; }
     DbSet<SoldTicketEntity> SoldTickets { get; }
     DbSet<OrderEntity> Orders { get; }
-    DbSet<InvitationEntity> Inviations { get; }
+    DbSet<InvitationEntity> Invitations { get; }
     DbSet<ChatEntity> Chats { get; }
     DbSet<ChatMemberEntity> ChatMembers { get; }
 
