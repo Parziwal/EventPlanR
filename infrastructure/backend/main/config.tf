@@ -27,9 +27,9 @@ provider "aws" {
 locals {
   env_vars = {
     default = {
-      region = "us-east-1"
-      project                = "event_planr"
-      lambda_source_dir      = "../../../backend/Serverless/{LAMBDA_FOLDER}/bin/Release/net6.0/publish"
+      region            = "us-east-1"
+      project           = "event_planr"
+      lambda_source_dir = "../../../backend/Serverless/{LAMBDA_FOLDER}/bin/Release/net6.0/publish"
       lambdas = {
         event_general_api        = "EventPlanr.EventGeneral.Api",
         event_manager_api        = "EventPlanr.EventManager.Api",
@@ -44,14 +44,14 @@ locals {
     }
     development = {
       aspnetcore_environment = "Development"
-      
+
     }
     production = {
       aspnetcore_environment = "Production"
     }
   }
   environment = contains(keys(local.env_vars), terraform.workspace) ? terraform.workspace : "development"
-  workspace   = merge(local.env_vars["default"], local.env_vars[local.environment]) 
+  workspace   = merge(local.env_vars["default"], local.env_vars[local.environment])
 }
 
 data "aws_caller_identity" "default" {}
