@@ -52,6 +52,9 @@
   "enum_light": "Light",
   "enum_dark": "Dark",
   "enum_system": "System",
+  "enum_Accept": "Accepted",
+  "enum_Deny": "Denied",
+  "enum_Pending": "Pending",
   "auth_SignIn": "Sign In",
   "auth_SignUp": "Sign Up",
   "auth_Email": "Email",
@@ -383,5 +386,29 @@
   "organizationEventCheckInDetails_CheckOut": "Check out",
   "organizationEventCheckInDetails_UserCheckedIn": "User checked in",
   "organizationEventCheckInDetails_UserCheckedOut": "User checked out",
-  "checkInTicketScanner": "Check in ticket"
+  "checkInTicketScanner": "Check in ticket",
+  "organizationEventInvitation": "Invitations",
+  "organizationEventInvitation_Status": "Status",
+  "organizationEventInvitation_Created": "Created",
+  "organizationEventInvitation_CreatedBy": "Created by",
+  "organizationEventInvitation_CreateInvitation": "Create invitation",
+  "organizationEventInvitation_Email": "Email",
+  "organizationEventInvitation_InvitationCreated": "Invitation created",
+  "organizationEventInvitation_InvitationDeleted": "Invitation deleted",
+  "userInvitation": "Invitation",
+  "userInvitation_EventName": "Event name",
+  "userInvitation_OrganizationName": "Organization name",
+  "userInvitation_Status": "Status",
+  "userInvitation_Accept": "Accept",
+  "userInvitation_Deny": "Deny",
+  "userInvitation_AreYouSureYouWantToInvitation": "Are you sure you want to {status} the invitation?",
+  "@userInvitation_AreYouSureYouWantToInvitation": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "userInvitation_InvitationAccepted": "Invitation accepted",
+  "userInvitation_InvitationDenied": "Invitation denied"
 }

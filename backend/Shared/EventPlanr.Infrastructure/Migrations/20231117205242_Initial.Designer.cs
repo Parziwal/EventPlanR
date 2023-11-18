@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    [Migration("20231105152238_Initial")]
+    [Migration("20231117205242_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -174,8 +174,8 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

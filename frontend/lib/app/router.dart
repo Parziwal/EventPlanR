@@ -4,8 +4,8 @@ import 'package:event_planr_app/domain/models/ticket/organization_ticket.dart';
 import 'package:event_planr_app/ui/auth/cubit/auth_cubit.dart';
 import 'package:event_planr_app/ui/auth/view/auth_tab_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_forgot_password_page.dart';
-import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
 import 'package:event_planr_app/ui/auth/view/confirm_sign_in_with_new_password_page.dart';
+import 'package:event_planr_app/ui/auth/view/confirm_sign_up_page.dart';
 import 'package:event_planr_app/ui/auth/view/forgot_password_page.dart';
 import 'package:event_planr_app/ui/event/app_settings/view/app_settings_page.dart';
 import 'package:event_planr_app/ui/event/edit_security/cubit/edit_security_cubit.dart';
@@ -33,6 +33,8 @@ import 'package:event_planr_app/ui/event/user_event_tickets/cubit/user_event_tic
 import 'package:event_planr_app/ui/event/user_event_tickets/view/user_event_tickets_page.dart';
 import 'package:event_planr_app/ui/event/user_events/cubit/user_events_cubit.dart';
 import 'package:event_planr_app/ui/event/user_events/view/user_events_page.dart';
+import 'package:event_planr_app/ui/event/user_invitation/cubit/user_invitation_cubit.dart';
+import 'package:event_planr_app/ui/event/user_invitation/view/user_invitation_page.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/event/user_profile/view/user_profile_page.dart';
 import 'package:event_planr_app/ui/event/user_ticket_order/cubit/user_ticket_order_cubit.dart';
@@ -51,12 +53,16 @@ import 'package:event_planr_app/ui/organize/organization_event_check_in_details/
 import 'package:event_planr_app/ui/organize/organization_event_check_in_details/view/organization_event_check_in_details_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/cubit/organization_event_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/view/organization_event_details_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_invitation/cubit/organization_event_invitation_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_invitation/view/organization_event_invitation_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_news/cubit/organization_event_news_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_news/view/organization_event_news_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_order_details/cubit/organization_event_order_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_order_details/view/organization_event_order_details_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_orders/cubit/organization_event_orders_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_orders/view/organization_event_orders_page.dart';
+import 'package:event_planr_app/ui/organize/organization_event_statistics/cubit/organization_event_statistics_cubit.dart';
+import 'package:event_planr_app/ui/organize/organization_event_statistics/view/organization_event_statistics_page.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/cubit/organization_event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_tickets/view/organization_event_tickets_page.dart';
 import 'package:event_planr_app/ui/organize/organization_events/cubit/organization_events_cubit.dart';
@@ -103,10 +109,13 @@ class PagePaths {
   static String eventTicketCheckout(String eventId) =>
       '/exploreEvents/details/$eventId/tickets/checkout';
 
-  static String userEventTickets(String eventId) => '/userEvents/$eventId';
+  static String userEventTickets(String eventId) => '/userEvents/$eventId/tickets';
 
   static String userEventTicketOrders(String eventId) =>
-      '/userEvents/$eventId/orders';
+      '/userEvents/$eventId/tickets/orders';
+
+  static String userEventInvitation(String eventId) =>
+      '/userEvents/$eventId/invitation';
 
   static String userChatMessage(String chatId) => '/userChats/$chatId';
 
@@ -159,6 +168,12 @@ class PagePaths {
 
   static String organizationEventCheckInScanner(String eventId) =>
       '/organizationEventCheckIn/$eventId/scanner';
+
+  static String organizationEventInvitation(String eventId) =>
+      '/organizationEventInvitation/$eventId';
+
+  static String organizationEventStatistics(String eventId) =>
+      '/organizationEventStatistics/$eventId';
 }
 
 final appRouter = GoRouter(
@@ -245,7 +260,7 @@ final appRouter = GoRouter(
           builder: (state) => const UserEventsPage(),
           routes: [
             BlocRoute<UserEventTicketsCubit>(
-              path: ':eventId',
+              path: ':eventId/tickets',
               builder: (state) => const UserEventTicketsPage(),
               init: (cubit, state) =>
                   cubit.loadUserEventTickets(state.pathParameters['eventId']!),
@@ -257,6 +272,12 @@ final appRouter = GoRouter(
                       .loadUserEventOrders(state.pathParameters['eventId']!),
                 ),
               ],
+            ),
+            BlocRoute<UserInvitationCubit>(
+              path: ':eventId/invitation',
+              builder: (state) => const UserInvitationPage(),
+              init: (cubit, state) =>
+                  cubit.loadInvitation(state.pathParameters['eventId']!),
             ),
           ],
         ),
@@ -421,6 +442,14 @@ final appRouter = GoRouter(
               builder: (state) => const CheckInTicketScannerPage(),
             ),
           ],
+        ),
+        BlocRoute<OrganizationEventInvitationCubit>(
+          path: PagePaths.organizationEventInvitation(':eventId'),
+          builder: (state) => const OrganizationEventInvitationPage(),
+        ),
+        BlocRoute<OrganizationEventStatisticsCubit>(
+          path: PagePaths.organizationEventStatistics(':eventId'),
+          builder: (state) => const OrganizationEventStatisticsPage(),
         ),
       ],
     ),

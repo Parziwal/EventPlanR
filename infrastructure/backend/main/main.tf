@@ -37,6 +37,10 @@ module "event_planr_api" {
     "/chatmanager" = {
       lambda_invoke_arn = module.lambda_apis["chat_manager_api"].invoke_arn,
       use_authorization = true
+    },
+    "/eventinvitation" = {
+      lambda_invoke_arn = module.lambda_apis["event_invitation_api"].invoke_arn,
+      use_authorization = true
     }
   }
 }

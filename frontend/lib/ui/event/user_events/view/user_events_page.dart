@@ -96,16 +96,12 @@ class _UserEventsPageState extends State<UserEventsPage>
           itemBuilder: (context, item, index) {
             return breakpoints.isMobile
                 ? EventItemCardLandscape(
-                    onPressed: () => context.go(
-                      PagePaths.userEventTickets(item.id),
-                    ),
+                    onPressed: () => _eventItemPressed(item),
                     event: item,
                   )
                 : FittedBox(
                     child: EventItemCardPortrait(
-                      onPressed: () => context.go(
-                        PagePaths.userEventTickets(item.id),
-                      ),
+                      onPressed: () => _eventItemPressed(item),
                       event: item,
                     ),
                   );
@@ -123,6 +119,17 @@ class _UserEventsPageState extends State<UserEventsPage>
         context.read<UserEventsCubit>().getUserEventInvitations(pageNumber);
       case 2:
         context.read<UserEventsCubit>().getUserPastEvents(pageNumber);
+    }
+  }
+
+  void _eventItemPressed(Event event) {
+    switch (_tabController.index) {
+      case 0:
+        context.go(PagePaths.userEventTickets(event.id));
+      case 1:
+        context.go(PagePaths.userEventInvitation(event.id));
+      case 2:
+      context.go(PagePaths.userEventTickets(event.id));
     }
   }
 }

@@ -26,11 +26,10 @@ provider "aws" {
 
 locals {
   env_vars = {
-    development = {
-      region                 = "us-east-1"
+    default = {
+      region = "us-east-1"
       project                = "event_planr"
       lambda_source_dir      = "../../../backend/Serverless/{LAMBDA_FOLDER}/bin/Release/net6.0/publish"
-      aspnetcore_environment = "Development"
       lambdas = {
         event_general_api        = "EventPlanr.EventGeneral.Api",
         event_manager_api        = "EventPlanr.EventManager.Api",
@@ -40,27 +39,19 @@ locals {
         user_ticket_api          = "EventPlanr.UserTicket.Api",
         news_post_api            = "EventPlanr.NewsPost.Api",
         chat_manager_api         = "EventPlanr.ChatManager.Api",
+        event_invitation_api     = "EventPlanr.EventInvitation.Api",
       }
     }
+    development = {
+      aspnetcore_environment = "Development"
+      
+    }
     production = {
-      region                 = "us-east-1"
-      project                = "event_planr"
-      lambda_source_dir      = "../../../backend/Serverless/{LAMBDA_FOLDER}/bin/Release/net6.0/publish"
       aspnetcore_environment = "Production"
-      lambdas = {
-        event_general_api        = "EventPlanr.EventGeneral.Api",
-        event_manager_api        = "EventPlanr.EventManager.Api",
-        organization_manager_api = "EventPlanr.OrganizationManager.Api",
-        ticket_manager_api       = "EventPlanr.TicketManager.Api",
-        ticket_order_api         = "EventPlanr.TicketOrder.Api",
-        user_ticket_api          = "EventPlanr.UserTicket.Api",
-        news_post_api            = "EventPlanr.NewsPost.Api",
-        chat_manager_api         = "EventPlanr.ChatManager.Api",
-      }
     }
   }
   environment = contains(keys(local.env_vars), terraform.workspace) ? terraform.workspace : "development"
-  workspace   = local.env_vars[local.environment]
+  workspace   = merge(local.env_vars["default"], local.env_vars[local.environment]) 
 }
 
 data "aws_caller_identity" "default" {}
