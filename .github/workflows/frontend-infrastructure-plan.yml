@@ -42,13 +42,13 @@ jobs:
       run: terraform init
       continue-on-error: true
 
+    - name: Terraform Workspace
+      run: terraform workspace select production
+
     - name: Terraform Validate
       id: validate
       run: terraform validate -no-color
       continue-on-error: true
-
-    - name: Terraform Workspace
-      run: terraform workspace select production
 
     - name: Terraform Plan
       id: plan
