@@ -1,8 +1,5 @@
 import 'package:event_planr_app/domain/event_manager_repository.dart';
-import 'package:event_planr_app/domain/models/common/chart_spot.dart';
-import 'package:event_planr_app/domain/models/event/currency_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_statistics.dart';
-import 'package:event_planr_app/domain/models/ticket/ticket_statistics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';

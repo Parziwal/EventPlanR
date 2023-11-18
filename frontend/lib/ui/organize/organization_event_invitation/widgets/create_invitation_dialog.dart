@@ -32,10 +32,8 @@ Future<void> showCreateInvitationDialog(BuildContext context) {
 class _CreateInvitationDialog extends StatefulWidget {
   const _CreateInvitationDialog({
     required this.submit,
-    this.disabled = false,
   });
 
-  final bool disabled;
   final void Function(String userEmail) submit;
 
   @override
@@ -86,7 +84,7 @@ class _CreateInvitationDialogState extends State<_CreateInvitationDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FilledButton(
-                    onPressed: !widget.disabled ? _submit : null,
+                    onPressed: _submit,
                     style: FilledButton.styleFrom(
                       textStyle: theme.textTheme.titleMedium,
                       padding: const EdgeInsets.symmetric(
@@ -98,7 +96,7 @@ class _CreateInvitationDialogState extends State<_CreateInvitationDialog> {
                   ),
                   const SizedBox(width: 16),
                   OutlinedButton(
-                    onPressed: !widget.disabled ? () => context.pop() : null,
+                    onPressed: () => context.pop(),
                     style: FilledButton.styleFrom(
                       textStyle: theme.textTheme.titleMedium,
                       padding: const EdgeInsets.symmetric(
@@ -129,7 +127,6 @@ class _CreateInvitationDialogState extends State<_CreateInvitationDialog> {
 
     return FormBuilderTextField(
       name: 'email',
-      enabled: !widget.disabled,
       decoration: InputDecoration(
         hintText: l10n.organizationEventInvitation_Email,
         filled: true,
