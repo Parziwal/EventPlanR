@@ -109,7 +109,8 @@ class PagePaths {
   static String eventTicketCheckout(String eventId) =>
       '/exploreEvents/details/$eventId/tickets/checkout';
 
-  static String userEventTickets(String eventId) => '/userEvents/$eventId/tickets';
+  static String userEventTickets(String eventId) =>
+      '/userEvents/$eventId/tickets';
 
   static String userEventTicketOrders(String eventId) =>
       '/userEvents/$eventId/tickets/orders';
@@ -450,6 +451,8 @@ final appRouter = GoRouter(
         BlocRoute<OrganizationEventStatisticsCubit>(
           path: PagePaths.organizationEventStatistics(':eventId'),
           builder: (state) => const OrganizationEventStatisticsPage(),
+          init: (cubit, state) =>
+              cubit.loadEventStatistics(state.pathParameters['eventId']!),
         ),
       ],
     ),

@@ -311,6 +311,9 @@ namespace EventPlanr.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTimeOffset?>("CheckInDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsCheckedIn")
                         .HasColumnType("boolean");
 

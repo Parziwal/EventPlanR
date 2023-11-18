@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    [Migration("20231117205242_Initial")]
+    [Migration("20231118102349_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -313,6 +313,9 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CheckInDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsCheckedIn")
                         .HasColumnType("boolean");

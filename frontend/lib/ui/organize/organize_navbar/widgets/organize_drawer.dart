@@ -43,7 +43,10 @@ class OrganizeDrawer extends StatelessWidget {
                   DrawerTile(
                     icon: const Icon(Icons.stacked_line_chart),
                     label: Text(l10n.organizeNavbar_Statistics),
-                    onTap: () {},
+                    onTap: () => context
+                        .go(PagePaths.organizationEventStatistics(event.id)),
+                    selected: location ==
+                        PagePaths.organizationEventStatistics(event.id),
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.credit_card),

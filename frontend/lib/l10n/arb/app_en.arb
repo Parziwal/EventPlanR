@@ -410,5 +410,20 @@
     }
   },
   "userInvitation_InvitationAccepted": "Invitation accepted",
-  "userInvitation_InvitationDenied": "Invitation denied"
+  "userInvitation_InvitationDenied": "Invitation denied",
+  "eventStatistics": "Statistics",
+  "eventStatistics_TotalIncome": "Total income",
+  "eventStatistics_SoldTicketsTotalAvailable": "Sold tickets / Total available",
+  "eventStatistics_TicketsSold": "Tickets sold",
+  "eventStatistics_CheckedInTicketsTotalAvailable": "Checked in tickets / Total available",
+  "eventStatistics_TicketsCheckedIn": "Tickets checked in",
+  "eventStatistics_Invitations": "Invitations",
+  "eventStatistics_AcceptedInvitations": "Accepted invitations",
+  "eventStatistics_DeniedInvitations": "Denied invitations",
+  "eventStatistics_PendingInvitations": "Pending invitations",
+  "eventStatistics_SoldTickets": "Sold tickets",
+  "eventStatistics_CheckIns": "Check ins",
+  "eventStatistics_PerDay": "Per day",
+  "eventStatistics_PerMonth": "Per month",
+  "eventStatistics_PerHour": "Per hour"
 }

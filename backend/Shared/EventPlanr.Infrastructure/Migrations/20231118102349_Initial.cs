@@ -227,7 +227,8 @@ namespace EventPlanr.Infrastructure.Migrations
                     TicketId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsRefunded = table.Column<bool>(type: "boolean", nullable: false),
-                    IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false)
+                    IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false),
+                    CheckInDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
