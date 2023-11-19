@@ -1,5 +1,6 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/event/organization_event.dart';
+import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
@@ -15,6 +16,7 @@ class OrganizationEventItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = context.theme;
 
     return InkWell(
@@ -43,7 +45,7 @@ class OrganizationEventItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    DateFormat.yMMMEd().format(event.fromDate),
+                    DateFormat.yMMMEd(l10n.localeName).format(event.fromDate),
                     style: theme.textTheme.titleSmall!
                         .copyWith(color: theme.colorScheme.secondary),
                     overflow: TextOverflow.ellipsis,

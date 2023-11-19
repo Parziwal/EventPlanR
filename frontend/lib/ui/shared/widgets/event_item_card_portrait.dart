@@ -45,6 +45,7 @@ class EventItemCardPortrait extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       formatEventDateTimeRange(
+                        context,
                         event.fromDate,
                         event.toDate,
                       ),

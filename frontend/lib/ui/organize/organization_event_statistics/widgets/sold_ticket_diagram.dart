@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 // ignore_for_file: prefer_const_declarations
 
-class SoldTicketDiagram extends StatelessWidget {
+class SoldTicketDiagram extends StatefulWidget {
   const SoldTicketDiagram({
     required this.chartSpots,
     required this.perMonth,
@@ -17,6 +17,11 @@ class SoldTicketDiagram extends StatelessWidget {
   final List<ChartSpot> chartSpots;
   final bool perMonth;
 
+  @override
+  State<SoldTicketDiagram> createState() => _SoldTicketDiagramState();
+}
+
+class _SoldTicketDiagramState extends State<SoldTicketDiagram> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -47,6 +52,7 @@ class SoldTicketDiagram extends StatelessWidget {
   }
 
   LineChartData _mainData(BuildContext context) {
+    final l10n = context.l10n;
     final theme = context.theme;
     final showSideTiles = false;
 
@@ -98,7 +104,7 @@ class SoldTicketDiagram extends StatelessWidget {
         touchTooltipData: LineTouchTooltipData(
           getTooltipItems: (touchedSpots) => [
             LineTooltipItem(
-              'Datetime: ${DateFormat.Md().format(
+              'Datetime: ${DateFormat.Md(l10n.localeName).format(
                 _flSpotToDateTime(touchedSpots.first.x),
               )}'
               ' Count: ${touchedSpots.first.y}',
@@ -110,7 +116,7 @@ class SoldTicketDiagram extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: [
-            ...chartSpots.map(
+            ...widget.chartSpots.map(
               (spot) => FlSpot(
                 _dateTimeToFlSpot(spot.dateTime),
                 spot.count.toDouble(),
@@ -133,13 +139,14 @@ class SoldTicketDiagram extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
+    final l10n = context.l10n;
 
     final dateTime = _flSpotToDateTime(value);
     String sideTitle;
-    if (perMonth) {
-      sideTitle = DateFormat.MMM().format(dateTime);
+    if (widget.perMonth) {
+      sideTitle = DateFormat.MMM(l10n.localeName).format(dateTime);
     } else {
-      sideTitle = DateFormat.Md().format(dateTime);
+      sideTitle = DateFormat.Md(l10n.localeName).format(dateTime);
     }
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -158,7 +165,7 @@ class SoldTicketDiagram extends StatelessWidget {
   }
 
   DateTime _flSpotToDateTime(double value) {
-    if (perMonth) {
+    if (widget.perMonth) {
       return DateTime(
         value ~/ 100,
         (value % 100).toInt(),
@@ -173,7 +180,7 @@ class SoldTicketDiagram extends StatelessWidget {
   }
 
   double _dateTimeToFlSpot(DateTime dateTime) {
-    if (perMonth) {
+    if (widget.perMonth) {
       return (dateTime.month * 100 + dateTime.month).toDouble();
     } else {
       return (dateTime.year * 10000 + dateTime.month * 100 + dateTime.day)

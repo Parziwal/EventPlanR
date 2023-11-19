@@ -154,12 +154,14 @@ class OrganizationEventDetailsPage extends StatelessWidget {
               leading: const Icon(Icons.calendar_today),
               title: Text(
                 formatEventDetailsDateRange(
+                  context,
                   eventDetails.fromDate,
                   eventDetails.toDate,
                 ),
               ),
               subtitle: Text(
                 formatEventDetailsTimeRange(
+                  context,
                   eventDetails.fromDate,
                   eventDetails.toDate,
                 ),
@@ -203,14 +205,16 @@ class OrganizationEventDetailsPage extends StatelessWidget {
             Text(
               l10n.organizationEventDetails_Created(
                 eventDetails.createdBy ?? '-',
-                DateFormat.yMMMMEEEEd().format(eventDetails.created),
+                DateFormat.yMMMMEEEEd(l10n.localeName)
+                    .format(eventDetails.created),
               ),
               style: theme.textTheme.titleMedium,
             ),
             Text(
               l10n.organizationEventDetails_LastModified(
                 eventDetails.lastModifiedBy ?? '-',
-                DateFormat.yMMMMEEEEd().format(eventDetails.lastModified),
+                DateFormat.yMMMMEEEEd(l10n.localeName)
+                    .format(eventDetails.lastModified),
               ),
               style: theme.textTheme.titleMedium,
             ),

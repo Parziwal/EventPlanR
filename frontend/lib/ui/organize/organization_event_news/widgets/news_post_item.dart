@@ -40,7 +40,7 @@ class NewsPostItem extends StatelessWidget {
                   Text(
                     '${l10n.organizationEventNews_Created} '
                     '${newsPost.createdBy ?? '-'}, '
-                    '${formatDateTime(newsPost.created)}',
+                    '${formatDateTime(context, newsPost.created)}',
                     style: theme.textTheme.labelMedium,
                   ),
                 ],

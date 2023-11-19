@@ -30,7 +30,7 @@ class NewsPostItem extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              formatDateTime(newsPost.lastModified),
+              formatDateTime(context, newsPost.lastModified),
               style: theme.textTheme.labelMedium,
             ),
           ],

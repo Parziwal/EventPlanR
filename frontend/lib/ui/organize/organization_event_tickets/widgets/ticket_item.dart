@@ -42,9 +42,9 @@ class TicketItem extends StatelessWidget {
                     '${l10n.translateEnums(ticket.currency.name)}'),
                 const SizedBox(height: 16),
                 Text('${l10n.organizationEventTickets_SaleStarts} '
-                    '${formatDateTime(ticket.saleStarts)}'),
+                    '${formatDateTime(context, ticket.saleStarts)}'),
                 Text('${l10n.organizationEventTickets_SaleEnds} '
-                    '${formatDateTime(ticket.saleEnds)}'),
+                    '${formatDateTime(context, ticket.saleEnds)}'),
                 const SizedBox(height: 16),
                 Text('${l10n.organizationEventTickets_Description} '
                     '${ticket.description ?? '-'}'),
@@ -52,13 +52,13 @@ class TicketItem extends StatelessWidget {
                 Text(
                   '${l10n.organizationEventTickets_Created} '
                   '${ticket.createdBy ?? '-'}, '
-                  '${formatDateTime(ticket.created)}',
+                  '${formatDateTime(context, ticket.created)}',
                   style: theme.textTheme.labelMedium,
                 ),
                 Text(
                   '${l10n.organizationEventTickets_LastModified} '
                   '${ticket.lastModifiedBy ?? '-'}, '
-                  '${formatDateTime(ticket.lastModified)}',
+                  '${formatDateTime(context, ticket.lastModified)}',
                   style: theme.textTheme.labelMedium,
                 ),
               ],

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Models.User;
-using EventPlanr.Application.Security;
 using MediatR;
 
 namespace EventPlanr.Application.Features.User.Queries;

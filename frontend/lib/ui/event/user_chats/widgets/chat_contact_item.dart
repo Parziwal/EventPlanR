@@ -80,7 +80,7 @@ class ChatContactItem extends StatelessWidget {
       return l10n.userChats_HourAge(hours.toString());
     }
 
-    return '${DateFormat.yMd().format(dateTime)}, '
-        '${DateFormat.jm().format(dateTime)}';
+    return '${DateFormat.yMd(l10n.localeName).format(dateTime)}, '
+        '${DateFormat.jm(l10n.localeName).format(dateTime)}';
   }
 }

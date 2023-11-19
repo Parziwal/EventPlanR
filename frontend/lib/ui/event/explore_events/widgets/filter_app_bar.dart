@@ -90,20 +90,20 @@ class _FilterAppBarState extends State<FilterAppBar> {
             _debounceSearch = Timer(const Duration(milliseconds: 500), () {
               if (eventView) {
                 context.read<ExploreEventsCubit>().filterEvents(
-                  context
-                      .read<ExploreEventsCubit>()
-                      .state
-                      .eventFilter
-                      .copyWith(searchTerm: value, pageNumber: 1),
-                );
+                      context
+                          .read<ExploreEventsCubit>()
+                          .state
+                          .eventFilter
+                          .copyWith(searchTerm: value, pageNumber: 1),
+                    );
               } else {
                 context.read<ExploreEventsCubit>().filterOrganizations(
-                  context
-                      .read<ExploreEventsCubit>()
-                      .state
-                      .organizationFilter
-                      .copyWith(searchTerm: value, pageNumber: 1),
-                );
+                      context
+                          .read<ExploreEventsCubit>()
+                          .state
+                          .organizationFilter
+                          .copyWith(searchTerm: value, pageNumber: 1),
+                    );
               }
             });
           },
@@ -163,6 +163,7 @@ class _FilterAppBarState extends State<FilterAppBar> {
                 filter.fromDate == null && filter.toDate == null
                     ? l10n.exploreEvents_Anytime
                     : formatDateRange(
+                        context,
                         filter.fromDate!,
                         filter.toDate!,
                       ),

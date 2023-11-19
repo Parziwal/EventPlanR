@@ -164,12 +164,14 @@ class EventDetailsPage extends StatelessWidget {
         leading: const Icon(Icons.calendar_today),
         title: Text(
           formatEventDetailsDateRange(
+            context,
             eventDetails.fromDate,
             eventDetails.toDate,
           ),
         ),
         subtitle: Text(
           formatEventDetailsTimeRange(
+            context,
             eventDetails.fromDate,
             eventDetails.toDate,
           ),
@@ -264,7 +266,9 @@ class EventDetailsPage extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          DateFormat.MMMMEEEEd().format(eventDetails.latestNews!.lastModified),
+          DateFormat.MMMMEEEEd(
+            l10n.localeName,
+          ).format(eventDetails.latestNews!.lastModified),
           style: theme.textTheme.labelMedium,
         ),
         const Divider(),
