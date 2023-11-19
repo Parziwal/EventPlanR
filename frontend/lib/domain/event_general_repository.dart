@@ -5,7 +5,6 @@ import 'package:event_planr_app/domain/models/event/event_category_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_details.dart';
 import 'package:event_planr_app/domain/models/event/event_distance_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_filter.dart';
-import 'package:event_planr_app/domain/models/event/organization_event_filter.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post_filter.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
