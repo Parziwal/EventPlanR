@@ -58,6 +58,7 @@ class _EventNewsPageState extends State<EventNewsPage> {
 
     return EventScaffold(
       title: l10n.eventNews,
+      allowAnonymous: true,
       body: PagedListView(
         pagingController: _pagingController,
         padding: const EdgeInsets.only(top: 8, left: 32, right: 32),

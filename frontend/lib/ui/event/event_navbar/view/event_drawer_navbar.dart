@@ -56,6 +56,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
 
   AppBar _appBar() {
     final breakpoints = context.breakpoints;
+    final l10n = context.l10n;
     final state = context.watch<EventNavbarCubit>().state;
     final title =
         widget.desktopTitle.isNotEmpty ? ' - ${widget.desktopTitle}' : '';
@@ -74,14 +75,20 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
             )
           : null,
       actions: [
-        if (state.user != null)
+        if (state.user != null) ...[
           InkWell(
-            onTap: () => context.go(PagePaths.userProfile),
+            onTap: () => context.go(PagePaths.userProfileEdit),
             child: AvatarIcon(
               imageUrl: state.user!.picture,
               altText: state.user!.getUserMonogram(context),
             ),
           ),
+        ] else ...[
+          FilledButton(
+            onPressed: () => context.go(PagePaths.signIn),
+            child: Text(l10n.eventNavbar_SignIn),
+          ),
+        ],
         const SizedBox(width: 16),
         IconButton(
           onPressed: () => context.read<EventNavbarCubit>().logout(),
@@ -123,27 +130,47 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                 children: [
                   DrawerTile(
                     icon: const Icon(Icons.search),
-                    label: Text(l10n.navbar_ExploreEvents),
+                    label: Text(l10n.eventNavbar_ExploreEvents),
                     onTap: () => context.go(PagePaths.exploreEvents),
                     selected: location == PagePaths.exploreEvents,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.event),
-                    label: Text(l10n.navbar_UserEvents),
+                    label: Text(l10n.eventNavbar_UserEvents),
                     onTap: () => context.go(PagePaths.userEvents),
                     selected: location == PagePaths.userEvents,
                   ),
                   DrawerTile(
                     icon: const Icon(Icons.message),
-                    label: Text(l10n.navbar_UserMessages),
+                    label: Text(l10n.eventNavbar_UserMessages),
                     onTap: () => context.go(PagePaths.userChats),
                     selected: location == PagePaths.userChats,
                   ),
-                  DrawerTile(
-                    icon: const Icon(Icons.event_note_outlined),
-                    label: Text(l10n.navbar_ManageEvents),
-                    onTap: () => context.go(PagePaths.userOrganizations),
-                  ),
+                  if (context.read<EventNavbarCubit>().state.user != null) ...[
+                    DrawerTile(
+                      icon: const Icon(Icons.person_outline),
+                      label: Text(l10n.userProfile_EditProfile),
+                      onTap: () => context.go(PagePaths.userProfileEdit),
+                      selected: location == PagePaths.userProfileEdit,
+                    ),
+                    DrawerTile(
+                      icon: const Icon(Icons.security_outlined),
+                      label: Text(l10n.userProfile_Security),
+                      onTap: () => context.go(PagePaths.userProfileSecurity),
+                      selected: location == PagePaths.userProfileSecurity,
+                    ),
+                    DrawerTile(
+                      icon: const Icon(Icons.settings),
+                      label: Text(l10n.userProfile_Settings),
+                      onTap: () => context.go(PagePaths.userProfileSettings),
+                      selected: location == PagePaths.userProfileSettings,
+                    ),
+                    DrawerTile(
+                      icon: const Icon(Icons.event_note_outlined),
+                      label: Text(l10n.eventNavbar_ManageEvents),
+                      onTap: () => context.go(PagePaths.userOrganizations),
+                    ),
+                  ],
                 ],
               ),
             ),

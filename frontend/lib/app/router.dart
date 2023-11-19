@@ -117,7 +117,13 @@ Future<String?> _appRouterRedirect(
   GoRouterState state,
 ) async {
   final isAuthenticated = await injector<AuthRepository>().isUserSignedIn;
-  if (!isAuthenticated && !state.matchedLocation.startsWith('/auth')) {
+
+  if (!isAuthenticated &&
+      !state.matchedLocation.startsWith('/auth') &&
+      (!state.matchedLocation.startsWith(PagePaths.exploreEvents)) &&
+      state.matchedLocation != PagePaths.userEvents &&
+      state.matchedLocation != PagePaths.userChats &&
+      state.matchedLocation != PagePaths.userProfile) {
     return PagePaths.signIn;
   }
   return null;

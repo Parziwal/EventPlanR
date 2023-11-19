@@ -45,12 +45,6 @@ class UserProfilePage extends StatelessWidget {
               ),
               const Divider(),
               ListTile(
-                title: Text(l10n.userProfile_Notifications),
-                leading: const Icon(Icons.notifications_outlined),
-                trailing: const Icon(Icons.arrow_forward_ios),
-              ),
-              const Divider(),
-              ListTile(
                 onTap: () => context.go(PagePaths.userProfileSettings),
                 title: Text(l10n.userProfile_Settings),
                 leading: const Icon(Icons.settings),
@@ -63,7 +57,8 @@ class UserProfilePage extends StatelessWidget {
                 leading: const Icon(Icons.event_note_outlined),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
-              if (breakpoints.isMobile)
+              if (breakpoints.isMobile) ...[
+                const Divider(),
                 ListTile(
                   title: Text(l10n.userProfile_Logout),
                   leading: const Icon(Icons.logout_outlined),
@@ -71,6 +66,7 @@ class UserProfilePage extends StatelessWidget {
                   iconColor: theme.colorScheme.error,
                   onTap: () => _logout(context),
                 ),
+              ],
             ],
           ),
         ),

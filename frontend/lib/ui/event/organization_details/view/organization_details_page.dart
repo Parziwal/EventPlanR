@@ -19,6 +19,7 @@ class OrganizationDetailsPage extends StatelessWidget {
 
     return EventScaffold(
       title: l10n.organizationDetails,
+      allowAnonymous: true,
       body: BlocConsumer<OrganizationDetailsCubit, OrganizationDetailsState>(
         listener: _stateListener,
         builder: (context, state) {

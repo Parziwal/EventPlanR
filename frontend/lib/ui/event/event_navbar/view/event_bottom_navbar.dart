@@ -27,19 +27,19 @@ class EventBottomNavbar extends StatelessWidget {
               destinations: [
                 NavigationDestination(
                   icon: const Icon(Icons.search),
-                  label: l10n.navbar_ExploreEvents,
+                  label: l10n.eventNavbar_ExploreEvents,
                 ),
                 NavigationDestination(
                   icon: const Icon(Icons.event),
-                  label: l10n.navbar_UserEvents,
+                  label: l10n.eventNavbar_UserEvents,
                 ),
                 NavigationDestination(
                   icon: const Icon(Icons.message),
-                  label: l10n.navbar_UserMessages,
+                  label: l10n.eventNavbar_UserMessages,
                 ),
                 NavigationDestination(
                   icon: const Icon(Icons.person),
-                  label: l10n.navbar_UserProfile,
+                  label: l10n.eventNavbar_UserProfile,
                 ),
               ],
               labelBehavior:

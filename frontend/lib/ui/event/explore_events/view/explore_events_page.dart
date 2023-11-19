@@ -70,6 +70,7 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
 
     return EventScaffold(
       title: l10n.exploreEvents,
+      allowAnonymous: true,
       appBar: const FilterAppBar(),
       body: PagedGridView<int, Event>(
         showNoMoreItemsIndicatorAsGridChild: false,

@@ -77,9 +77,12 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
           : null,
       actions: [
         if (state.user != null)
-          AvatarIcon(
-            imageUrl: state.user!.picture,
-            altText: state.user!.getUserMonogram(context),
+          InkWell(
+            onTap: () => context.go(PagePaths.userProfileEdit),
+            child: AvatarIcon(
+              imageUrl: state.user!.picture,
+              altText: state.user!.getUserMonogram(context),
+            ),
           ),
         const SizedBox(width: 16),
         IconButton(
