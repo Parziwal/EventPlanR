@@ -76,7 +76,7 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
             )
           : null,
       actions: [
-        if (state.user != null)
+        if (state.user != null) ...[
           InkWell(
             onTap: () => context.go(PagePaths.userProfileEdit),
             child: AvatarIcon(
@@ -84,11 +84,12 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
               altText: state.user!.getUserMonogram(context),
             ),
           ),
-        const SizedBox(width: 16),
-        IconButton(
-          onPressed: () => context.read<OrganizeNavbarCubit>().logout(),
-          icon: const Icon(Icons.logout),
-        ),
+          const SizedBox(width: 16),
+          IconButton(
+            onPressed: () => context.read<OrganizeNavbarCubit>().logout(),
+            icon: const Icon(Icons.logout),
+          ),
+        ],
         const SizedBox(width: 8),
       ],
     );

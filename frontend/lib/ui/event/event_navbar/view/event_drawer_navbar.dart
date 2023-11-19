@@ -85,17 +85,17 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
               altText: state.user!.getUserMonogram(context),
             ),
           ),
+          const SizedBox(width: 16),
+          IconButton(
+            onPressed: () => context.read<EventNavbarCubit>().logout(),
+            icon: const Icon(Icons.logout),
+          ),
         ] else ...[
           FilledButton(
             onPressed: () => context.go(PagePaths.signIn),
             child: Text(l10n.eventNavbar_SignIn),
           ),
         ],
-        const SizedBox(width: 16),
-        IconButton(
-          onPressed: () => context.read<EventNavbarCubit>().logout(),
-          icon: const Icon(Icons.logout),
-        ),
         const SizedBox(width: 8),
       ],
     );

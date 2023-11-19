@@ -3,10 +3,13 @@ import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/ui/auth/auth_router.dart';
 import 'package:event_planr_app/ui/event/event_router.dart';
 import 'package:event_planr_app/ui/organize/organize_router.dart';
+import 'package:event_planr_app/ui/shared/page_not_found/view/page_not_found_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PagePaths {
+  static String notFound = '/not-found';
+
   static String signIn = '/auth/signIn';
   static String signUp = '/auth/signUp';
   static String forgotPassword = '/auth/forgotPassword';
@@ -110,6 +113,7 @@ final appRouter = GoRouter(
     organizeRouter,
   ],
   redirect: _appRouterRedirect,
+  errorBuilder: (context, state) => const PageNotFoundPage(),
 );
 
 Future<String?> _appRouterRedirect(
@@ -126,5 +130,6 @@ Future<String?> _appRouterRedirect(
       state.matchedLocation != PagePaths.userProfile) {
     return PagePaths.signIn;
   }
+
   return null;
 }

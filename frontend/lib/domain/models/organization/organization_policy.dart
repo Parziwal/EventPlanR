@@ -7,5 +7,9 @@ abstract class OrganizationPolicy {
   static String eventTicketManage = 'event-ticket.manage';
   static String newsPostView = 'news-post.view';
   static String newsPostManage = 'news-post.manage';
+  static String invitationView = 'invitation.view';
+  static String invitationManage = 'invitation.manage';
+  static String eventStatistics = 'event-statistics';
+  static String eventChat = 'event-chat';
   static String userCheckIn = 'user-check-in';
 }

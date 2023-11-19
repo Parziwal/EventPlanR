@@ -1,9 +1,11 @@
 import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/event/organization_event_details.dart';
+import 'package:event_planr_app/domain/models/organization/organization_policy.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/organization_event_details/cubit/organization_event_details_cubit.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
 import 'package:event_planr_app/ui/shared/widgets/image_picker_item.dart';
@@ -28,9 +30,13 @@ class OrganizationEventDetailsPage extends StatelessWidget {
     final goRouterState = context.goRouterState;
     final eventDetails =
         context.watch<OrganizationEventDetailsCubit>().state.eventDetails;
+    final user = context.watch<OrganizeNavbarCubit>().state.user;
 
     return OrganizeScaffold(
       title: l10n.organizationEventDetails,
+      showActions: user != null &&
+          user.organizationPolicies
+              .contains(OrganizationPolicy.organizationEventManage),
       mobileActions: [
         PopupMenuButton(
           itemBuilder: (context) => [
