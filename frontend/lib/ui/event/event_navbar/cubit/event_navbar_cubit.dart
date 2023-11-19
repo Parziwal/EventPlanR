@@ -16,13 +16,9 @@ class EventNavbarCubit extends Cubit<EventNavbarState> {
   final AuthRepository _authRepository;
 
   Future<void> loadUserData() async {
-    final user = await _authRepository.user;
-    emit(state.copyWith(user: user));
-  }
-
-  Future<void> changeDesktopTitle(String? title) async {
-    if (title != null) {
-      emit(state.copyWith(desktopTitle: title));
+    if (await _authRepository.isUserSignedIn) {
+      final user = await _authRepository.user;
+      emit(state.copyWith(user: user));
     }
   }
 

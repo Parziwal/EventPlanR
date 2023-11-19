@@ -29,6 +29,7 @@ class EventDetailsPage extends StatelessWidget {
 
     return EventScaffold(
       title: l10n.eventDetails,
+      allowAnonymous: true,
       mobileActions: [
         IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark)),
       ],

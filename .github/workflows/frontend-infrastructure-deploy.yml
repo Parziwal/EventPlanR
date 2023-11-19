@@ -84,7 +84,8 @@ jobs:
                 /production/event_planr/cognitoPoolClientId = COGNITO_POOL_CLIENT_ID,
                 /production/event_planr/chatMessageGraphqlUrl = CHAT_MESSAGE_GRAPHQL_URL,
                 /production/event_planr/nominatimApiUrl = NOMINATIM_API_URL,
-                /production/event_planr/frontendBucket = FRONTEND_BUCKET"
+                /production/event_planr/frontendBucket = FRONTEND_BUCKET,
+                /production/event_planr/androidApkUrl = ANDROID_APK_URL"
             withDecryption: "true"
 
       - name: Create .env file

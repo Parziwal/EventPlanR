@@ -1,9 +1,11 @@
 import 'package:event_planr_app/domain/models/invitation/event_invitation.dart';
+import 'package:event_planr_app/domain/models/organization/organization_policy.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organization_event_invitation/cubit/organization_event_invitation_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_invitation/widgets/create_invitation_dialog.dart';
 import 'package:event_planr_app/ui/organize/organization_event_invitation/widgets/invitation_item.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,9 +62,13 @@ class _OrganizationEventInvitationPageState
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
+    final user = context.watch<OrganizeNavbarCubit>().state.user;
 
     return OrganizeScaffold(
       title: l10n.organizationEventInvitation,
+      showActions: user != null &&
+          user.organizationPolicies
+              .contains(OrganizationPolicy.invitationManage),
       mobileFloatingButton: FloatingActionButton(
         onPressed: () => showCreateInvitationDialog(context),
         child: const Icon(Icons.add),

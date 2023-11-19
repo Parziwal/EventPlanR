@@ -1,8 +1,7 @@
-import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_navbar.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_drawer.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/max_width_box.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
@@ -16,6 +15,7 @@ class OrganizeScaffold extends StatelessWidget {
     this.mobileActions,
     this.mobileFloatingButton,
     this.desktopActions,
+    this.showActions = true,
   });
 
   final String? title;
@@ -25,24 +25,29 @@ class OrganizeScaffold extends StatelessWidget {
   final List<Widget>? mobileActions;
   final FloatingActionButton? mobileFloatingButton;
   final List<Widget>? desktopActions;
+  final bool showActions;
 
   @override
   Widget build(BuildContext context) {
-    context.read<OrganizeNavbarCubit>().changeTitle(title);
     final breakpoints = context.breakpoints;
 
-    return Scaffold(
-      appBar: _appBar(context),
-      drawer: breakpoints.isMobile ? const OrganizeDrawer() : null,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (breakpoints.isDesktop) _desktopTabBar(context),
-          if (breakpoints.largerThan(MOBILE)) _desktopActions(),
-          if (body != null) Expanded(child: body!),
-        ],
+    return OrganizeNavbar(
+      desktopTitle: title ?? '',
+      child: Scaffold(
+        appBar: _appBar(context),
+        drawer: breakpoints.isMobile ? const OrganizeDrawer() : null,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (breakpoints.isDesktop) _desktopTabBar(context),
+            if (breakpoints.largerThan(MOBILE) && showActions)
+              _desktopActions(),
+            if (body != null) Expanded(child: body!),
+          ],
+        ),
+        floatingActionButton:
+            breakpoints.isMobile && showActions ? mobileFloatingButton : null,
       ),
-      floatingActionButton: breakpoints.isMobile ? mobileFloatingButton : null,
     );
   }
 
@@ -54,7 +59,7 @@ class OrganizeScaffold extends StatelessWidget {
     } else if (breakpoints.isMobile) {
       return AppBar(
         title: title != null ? Text(title!) : null,
-        actions: mobileActions,
+        actions: showActions ? mobileActions : null,
         bottom: tabBar,
         elevation: 5,
       );

@@ -10,9 +10,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class OrganizeNavbar extends StatefulWidget {
-  const OrganizeNavbar({required this.child, super.key});
+  const OrganizeNavbar({
+    required this.child,
+    required this.desktopTitle,
+    super.key,
+  });
 
   final Widget child;
+  final String desktopTitle;
 
   @override
   State<OrganizeNavbar> createState() => _OrganizeNavbarState();
@@ -55,7 +60,7 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
 
     final state = context.watch<OrganizeNavbarCubit>().state;
     final title =
-        state.desktopTitle.isNotEmpty ? ' - ${state.desktopTitle}' : '';
+        widget.desktopTitle.isNotEmpty ? ' - ${widget.desktopTitle}' : '';
 
     return AppBar(
       title: Text('${l10n.organizeNavbar_EventManager}$title'),
@@ -71,16 +76,20 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
             )
           : null,
       actions: [
-        if (state.user != null)
-          AvatarIcon(
-            imageUrl: state.user!.picture,
-            altText: state.user!.getUserMonogram(context),
+        if (state.user != null) ...[
+          InkWell(
+            onTap: () => context.go(PagePaths.userProfileEdit),
+            child: AvatarIcon(
+              imageUrl: state.user!.picture,
+              altText: state.user!.getUserMonogram(context),
+            ),
           ),
-        const SizedBox(width: 16),
-        IconButton(
-          onPressed: () => context.read<OrganizeNavbarCubit>().logout(),
-          icon: const Icon(Icons.logout),
-        ),
+          const SizedBox(width: 16),
+          IconButton(
+            onPressed: () => context.read<OrganizeNavbarCubit>().logout(),
+            icon: const Icon(Icons.logout),
+          ),
+        ],
         const SizedBox(width: 8),
       ],
     );

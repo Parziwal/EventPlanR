@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:event_planr_app/data/disk/persistent_store.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_code_mismatch_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_email_already_taken_exception.dart';
 import 'package:event_planr_app/domain/exceptions/auth/auth_invalid_password_exception.dart';
@@ -22,6 +23,10 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class AuthRepository {
+  AuthRepository({required PersistentStore persistentStore})
+      : _persistentStore = persistentStore;
+
+  final PersistentStore _persistentStore;
   String? _userEmail;
 
   Future<bool> get isUserSignedIn async {
@@ -195,6 +200,7 @@ class AuthRepository {
     await Amplify.Auth.signOut(
       options: const SignOutOptions(globalSignOut: true),
     );
+    await _persistentStore.clear();
     _userEmail = null;
   }
 

@@ -58,4 +58,8 @@ class PersistentStore {
   Future<void> remove(String key) {
     return _sharedPreferences.remove(key);
   }
+
+  Future<void> clear() async {
+    await _sharedPreferences.clear();
+  }
 }

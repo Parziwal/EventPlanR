@@ -23,7 +23,7 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    final l10 = context.l10n;
+    final l10n = context.l10n;
     final theme = context.theme;
 
     return FormBuilder(
@@ -41,14 +41,23 @@ class _SignInFormState extends State<SignInForm> {
               textStyle: theme.textTheme.titleMedium,
               padding: const EdgeInsets.all(16),
             ),
-            child: Text(l10.auth_SignIn),
+            child: Text(l10n.auth_SignIn),
           ),
           const SizedBox(height: 16),
           TextButton(
             onPressed: widget.disabled
                 ? null
                 : () => context.push(PagePaths.forgotPassword),
-            child: Text(l10.auth_ForgotYourPassword),
+            child: Text(l10n.auth_ForgotYourPassword),
+          ),
+          TextButton(
+            onPressed: widget.disabled
+                ? null
+                : () => context.go(PagePaths.exploreEvents),
+            style: TextButton.styleFrom(
+              foregroundColor: theme.colorScheme.onSurface,
+            ),
+            child: Text(l10n.auth_ContinueWithoutLogin),
           ),
         ],
       ),

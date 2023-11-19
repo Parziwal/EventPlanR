@@ -19,7 +19,8 @@ class User with _$User {
     @JsonKey(name: 'organization_id')
     String? organizationId,
     @JsonKey(name: 'organization_policies')
-    List<String>? organizationPolicies,
+    @Default([])
+    List<String> organizationPolicies,
     String? picture,
   }) = _User;
 

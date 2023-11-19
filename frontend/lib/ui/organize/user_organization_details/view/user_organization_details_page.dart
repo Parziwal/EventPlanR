@@ -1,8 +1,10 @@
 import 'package:event_planr_app/app/router.dart';
+import 'package:event_planr_app/domain/models/organization/organization_policy.dart';
 import 'package:event_planr_app/domain/models/organization/user_organization_details.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
-import 'package:event_planr_app/ui/organize/organize_navbar/widgets/organize_scaffold.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/cubit/user_organization_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/add_or_edit_member_dialog.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/organization_member_item.dart';
@@ -22,9 +24,13 @@ class UserOrganizationDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
+    final user = context.watch<OrganizeNavbarCubit>().state.user;
 
     return OrganizeScaffold(
       title: l10n.userOrganizationDetails,
+      showActions: user != null &&
+          user.organizationPolicies
+              .contains(OrganizationPolicy.organizationEventManage),
       mobileActions: [
         IconButton(
           onPressed: () => context.go(PagePaths.userOrganizationEdit),

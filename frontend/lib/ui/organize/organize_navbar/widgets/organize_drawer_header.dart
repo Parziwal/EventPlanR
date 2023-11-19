@@ -1,4 +1,5 @@
 import 'package:event_planr_app/app/router.dart';
+import 'package:event_planr_app/domain/models/organization/organization_policy.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
@@ -23,8 +24,14 @@ class OrganizeDrawerHeader extends StatelessWidget {
           );
         }
 
+        final user = context.watch<OrganizeNavbarCubit>().state.user;
+
         return InkWell(
-          onTap: () => context.go(PagePaths.userOrganizationDetails),
+          onTap: user != null &&
+                  user.organizationPolicies
+                      .contains(OrganizationPolicy.organizationView)
+              ? () => context.go(PagePaths.userOrganizationDetails)
+              : null,
           child: DrawerHeader(
             margin: EdgeInsets.zero,
             child: Row(

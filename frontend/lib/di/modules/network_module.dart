@@ -24,7 +24,9 @@ abstract class NetworkModule {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           options.contentType = Headers.jsonContentType;
-          options.headers['Authorization'] = await authRepository.bearerToken;
+          if (await authRepository.isUserSignedIn) {
+            options.headers['Authorization'] = await authRepository.bearerToken;
+          }
           return handler.next(options);
         },
         onError: (e, handler) {
