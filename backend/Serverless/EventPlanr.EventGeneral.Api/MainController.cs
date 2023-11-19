@@ -61,4 +61,8 @@ public class MainController : ControllerBase
         {
             OrganizationId = organizationId,
         });
+
+    [HttpGet("organization/events")]
+    public Task<PaginatedListDto<EventDto>> GetOrganizationEvents([FromQuery] GetOrganizationPublicEventsQuery query)
+        => _sender.Send(query);
 }

@@ -1,26 +1,27 @@
 import 'package:event_planr_app/app/router.dart';
-import 'package:event_planr_app/domain/models/event/event.dart';
+import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/explore_events/cubit/explore_events_cubit.dart';
 import 'package:event_planr_app/ui/event/explore_events/widgets/filter_app_bar.dart';
-import 'package:event_planr_app/ui/shared/widgets/event_item_card_landscape.dart';
-import 'package:event_planr_app/ui/shared/widgets/event_item_card_portrait.dart';
+import 'package:event_planr_app/ui/shared/widgets/organization_item_card_landscape.dart';
+import 'package:event_planr_app/ui/shared/widgets/organization_item_card_portrait.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class ExploreEventsPage extends StatefulWidget {
-  const ExploreEventsPage({super.key});
+class ExploreOrganizationsPage extends StatefulWidget {
+  const ExploreOrganizationsPage({super.key});
 
   @override
-  State<ExploreEventsPage> createState() => _ExploreEventsPageState();
+  State<ExploreOrganizationsPage> createState() =>
+      _ExploreOrganizationsPageState();
 }
 
-class _ExploreEventsPageState extends State<ExploreEventsPage> {
-  final PagingController<int, Event> _pagingController =
+class _ExploreOrganizationsPageState extends State<ExploreOrganizationsPage> {
+  final PagingController<int, Organization> _pagingController =
       PagingController(firstPageKey: 1);
   bool initialized = false;
 
@@ -34,11 +35,11 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
     initialized = true;
 
     _pagingController.addPageRequestListener(
-      (pageKey) => context.read<ExploreEventsCubit>().filterEvents(
+      (pageKey) => context.read<ExploreEventsCubit>().filterOrganizations(
             context
                 .read<ExploreEventsCubit>()
                 .state
-                .eventFilter
+                .organizationFilter
                 .copyWith(pageNumber: pageKey),
           ),
     );
@@ -47,7 +48,7 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
       _pagingController.value = PagingState(
         nextPageKey: state.eventFilter.pageNumber,
         error: state.errorCode,
-        itemList: state.events,
+        itemList: state.organizations,
       );
     });
   }
@@ -71,8 +72,8 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
     return EventScaffold(
       title: l10n.exploreEvents,
       allowAnonymous: true,
-      appBar: const FilterAppBar(),
-      body: PagedGridView<int, Event>(
+      appBar: const FilterAppBar(height: 65),
+      body: PagedGridView<int, Organization>(
         pagingController: _pagingController,
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: breakpoints.isMobile ? 500 : 400,
@@ -84,23 +85,23 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
           right: 16,
           top: 8,
         ),
-        builderDelegate: PagedChildBuilderDelegate<Event>(
+        builderDelegate: PagedChildBuilderDelegate<Organization>(
           itemBuilder: (context, item, index) {
             return breakpoints.isMobile
                 ? FittedBox(
-                    child: EventItemCardLandscape(
+                    child: OrganizationItemCardLandscape(
                       onPressed: () => context.go(
-                        PagePaths.eventDetails(item.id),
+                        PagePaths.organizationDetails(item.id),
                       ),
-                      event: item,
+                      organization: item,
                     ),
                   )
                 : FittedBox(
-                    child: EventItemCardPortrait(
+                    child: OrganizationItemCardPortrait(
                       onPressed: () => context.go(
-                        PagePaths.eventDetails(item.id),
+                        PagePaths.organizationDetails(item.id),
                       ),
-                      event: item,
+                      organization: item,
                     ),
                   );
           },

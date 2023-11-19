@@ -5,11 +5,11 @@ import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.d
 import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
 import 'package:event_planr_app/ui/shared/widgets/drawer_tile.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
+import 'package:event_planr_app/utils/url_launcher.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EventDrawerNavbar extends StatefulWidget {
   const EventDrawerNavbar({
@@ -176,11 +176,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                   ],
                   if (kIsWeb)
                     InkWell(
-                      onTap: () => launchUrl(
-                        Uri.parse(
-                          Env.androidApkUrl,
-                        ),
-                      ),
+                      onTap: UrlLauncherUtils.downloadAndroidApk,
                       child: Center(
                         child: Text(
                           'Download mobile app',

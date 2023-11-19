@@ -29,8 +29,11 @@ Future<void> showOrderPickerModal(BuildContext context) {
         value: exploreCubit,
         child: const Dialog(
           clipBehavior: Clip.hardEdge,
-          child: _EventOrderPickerModal(
-            isMobile: false,
+          child: SizedBox(
+            width: 600,
+            child: _EventOrderPickerModal(
+              isMobile: false,
+            ),
           ),
         ),
       ),
@@ -61,7 +64,7 @@ class _EventOrderPickerModal extends StatelessWidget {
                     ListTile(
                       onTap: () =>
                           context.read<ExploreEventsCubit>().filterEvents(
-                                state.filter.copyWith(
+                                state.eventFilter.copyWith(
                                   orderBy: orderBy,
                                   orderDirection: OrderDirectionEnum.ascending,
                                   pageNumber: 1,
@@ -75,8 +78,8 @@ class _EventOrderPickerModal extends StatelessWidget {
                           const Icon(Icons.arrow_upward),
                         ],
                       ),
-                      trailing: state.filter.orderBy == orderBy &&
-                              state.filter.orderDirection ==
+                      trailing: state.eventFilter.orderBy == orderBy &&
+                              state.eventFilter.orderDirection ==
                                   OrderDirectionEnum.ascending
                           ? const Icon(Icons.check)
                           : null,
@@ -84,7 +87,7 @@ class _EventOrderPickerModal extends StatelessWidget {
                     ListTile(
                       onTap: () =>
                           context.read<ExploreEventsCubit>().filterEvents(
-                                state.filter.copyWith(
+                                state.eventFilter.copyWith(
                                   orderBy: orderBy,
                                   orderDirection: OrderDirectionEnum.descending,
                                 ),
@@ -97,8 +100,8 @@ class _EventOrderPickerModal extends StatelessWidget {
                           const Icon(Icons.arrow_downward),
                         ],
                       ),
-                      trailing: state.filter.orderBy == orderBy &&
-                              state.filter.orderDirection ==
+                      trailing: state.eventFilter.orderBy == orderBy &&
+                              state.eventFilter.orderDirection ==
                                   OrderDirectionEnum.descending
                           ? const Icon(Icons.check)
                           : null,
@@ -134,7 +137,11 @@ class _EventOrderPickerModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           orderBy: EventOrderByEnum.fromDate,
                           orderDirection: OrderDirectionEnum.descending,
                           pageNumber: 1,
@@ -188,7 +195,11 @@ class _EventOrderPickerModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           orderBy: EventOrderByEnum.fromDate,
                           orderDirection: OrderDirectionEnum.descending,
                           pageNumber: 1,

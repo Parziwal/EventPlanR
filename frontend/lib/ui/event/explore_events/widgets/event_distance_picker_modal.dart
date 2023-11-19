@@ -28,8 +28,11 @@ Future<void> showDistancePickerModal(BuildContext context) {
         value: exploreCubit,
         child: const Dialog(
           clipBehavior: Clip.hardEdge,
-          child: _EventDistancePickerModal(
-            isMobile: false,
+          child: SizedBox(
+            width: 600,
+            child: _EventDistancePickerModal(
+              isMobile: false,
+            ),
           ),
         ),
       ),
@@ -57,7 +60,7 @@ class _EventDistancePickerModal extends StatelessWidget {
               ...EventDistanceEnum.values.map(
                 (d) => ListTile(
                   onTap: () => context.read<ExploreEventsCubit>().filterEvents(
-                        state.filter.copyWith(
+                        state.eventFilter.copyWith(
                           distance: d,
                           pageNumber: 1,
                         ),
@@ -65,7 +68,7 @@ class _EventDistancePickerModal extends StatelessWidget {
                   title: Text(
                     l10n.translateEnums(d.name),
                   ),
-                  trailing: state.filter.distance == d
+                  trailing: state.eventFilter.distance == d
                       ? const Icon(Icons.check)
                       : null,
                 ),
@@ -98,7 +101,11 @@ class _EventDistancePickerModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           distance: EventDistanceEnum.km10,
                           pageNumber: 1,
                         ),
@@ -151,7 +158,11 @@ class _EventDistancePickerModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           distance: EventDistanceEnum.km10,
                           pageNumber: 1,
                         ),

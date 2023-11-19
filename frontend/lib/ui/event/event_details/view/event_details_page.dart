@@ -12,6 +12,7 @@ import 'package:event_planr_app/ui/shared/widgets/static_map.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:event_planr_app/utils/datetime_format.dart';
 import 'package:event_planr_app/utils/domain_extensions.dart';
+import 'package:event_planr_app/utils/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -30,9 +31,6 @@ class EventDetailsPage extends StatelessWidget {
     return EventScaffold(
       title: l10n.eventDetails,
       allowAnonymous: true,
-      mobileActions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark)),
-      ],
       mobileBottomSheet: Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -71,7 +69,7 @@ class EventDetailsPage extends StatelessWidget {
             ImageWrapper(imageUrl: eventDetails.coverImageUrl),
             const SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -87,7 +85,7 @@ class EventDetailsPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 80),
           ],
         ),
       ),
@@ -181,11 +179,21 @@ class EventDetailsPage extends StatelessWidget {
         leading: const Icon(Icons.location_on_outlined),
         title: Text(eventDetails.venue),
         subtitle: Text(eventDetails.address.formatToString()),
+        onTap: () => UrlLauncherUtils.openMap(
+          eventDetails.coordinates.latitude,
+          eventDetails.coordinates.longitude,
+        ),
       ),
       const SizedBox(height: 16),
       SizedBox(
         height: 300,
-        child: StaticMap(location: eventDetails.coordinates),
+        child: StaticMap(
+          location: eventDetails.coordinates,
+          onTap: (_) => UrlLauncherUtils.openMap(
+            eventDetails.coordinates.latitude,
+            eventDetails.coordinates.longitude,
+          ),
+        ),
       ),
     ];
   }

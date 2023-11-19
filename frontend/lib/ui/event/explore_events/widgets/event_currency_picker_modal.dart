@@ -28,8 +28,11 @@ Future<void> showCurrencyPickerModal(BuildContext context) {
         value: exploreCubit,
         child: const Dialog(
           clipBehavior: Clip.hardEdge,
-          child: _EventCurrencyPickerModal(
-            isMobile: false,
+          child: SizedBox(
+            width: 600,
+            child: _EventCurrencyPickerModal(
+              isMobile: false,
+            ),
           ),
         ),
       ),
@@ -57,7 +60,7 @@ class _EventCurrencyPickerModal extends StatelessWidget {
               ...CurrencyEnum.values.map(
                 (c) => ListTile(
                   onTap: () => context.read<ExploreEventsCubit>().filterEvents(
-                        state.filter.copyWith(
+                        state.eventFilter.copyWith(
                           currency: c,
                           pageNumber: 1,
                         ),
@@ -65,7 +68,7 @@ class _EventCurrencyPickerModal extends StatelessWidget {
                   title: Text(
                     l10n.translateEnums(c.name),
                   ),
-                  trailing: state.filter.currency == c
+                  trailing: state.eventFilter.currency == c
                       ? const Icon(Icons.check)
                       : null,
                 ),
@@ -98,7 +101,11 @@ class _EventCurrencyPickerModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           currency: null,
                           pageNumber: 1,
                         ),
@@ -151,7 +158,11 @@ class _EventCurrencyPickerModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           currency: null,
                           pageNumber: 1,
                         ),

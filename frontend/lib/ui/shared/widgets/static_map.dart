@@ -4,9 +4,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 class StaticMap extends StatelessWidget {
-  const StaticMap({required this.location, super.key});
+  const StaticMap({
+    required this.location,
+    this.onTap,
+    super.key,
+  });
 
   final LatLng location;
+  final void Function(LatLng)? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +23,7 @@ class StaticMap extends StatelessWidget {
           enableScrollWheel: false,
           flags: InteractiveFlag.none,
         ),
+        onTap: onTap != null ? (_, location) => onTap!(location) : null,
       ),
       children: [
         const GoogleTileLayer(),

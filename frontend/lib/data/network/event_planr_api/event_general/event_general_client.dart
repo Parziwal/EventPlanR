@@ -67,4 +67,11 @@ abstract class EventGeneralClient {
   Future<OrganizationDetailsDto> getEventgeneralOrganizationOrganizationId({
     @Path('organizationId') required String organizationId,
   });
+
+  @GET('/eventgeneral/organization/events')
+  Future<EventDtoPaginatedListDto> getEventgeneralOrganizationEvents({
+    @Query('OrganizationId') String? organizationId,
+    @Query('PageNumber') int? pageNumber,
+    @Query('PageSize') int? pageSize,
+  });
 }

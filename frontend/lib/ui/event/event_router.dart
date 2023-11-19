@@ -14,7 +14,7 @@ import 'package:event_planr_app/ui/event/event_news/view/event_news_page.dart';
 import 'package:event_planr_app/ui/event/event_tickets/cubit/event_tickets_cubit.dart';
 import 'package:event_planr_app/ui/event/event_tickets/view/event_tickets_page.dart';
 import 'package:event_planr_app/ui/event/explore_events/cubit/explore_events_cubit.dart';
-import 'package:event_planr_app/ui/event/explore_events/view/explore_events_page.dart';
+import 'package:event_planr_app/ui/event/explore_events/view/explore_page.dart';
 import 'package:event_planr_app/ui/event/organization_details/cubit/organization_details_cubit.dart';
 import 'package:event_planr_app/ui/event/organization_details/view/organization_details_page.dart';
 import 'package:event_planr_app/ui/event/ticket_checkout/cubit/ticket_checkout_cubit.dart';
@@ -48,10 +48,10 @@ final eventRouter = ShellRoute(
   routes: [
     BlocRoute<ExploreEventsCubit>(
       path: PagePaths.exploreEvents,
-      builder: (state) => const ExploreEventsPage(),
+      builder: (state) => const ExplorePage(),
       routes: [
         BlocRoute<EventDetailsCubit>(
-          path: 'details/:eventId',
+          path: 'eventDetails/:eventId',
           builder: (state) => const EventDetailsPage(),
           init: (cubit, state) =>
               cubit.loadEventDetails(state.pathParameters['eventId']!),
@@ -81,6 +81,13 @@ final eventRouter = ShellRoute(
               ],
             ),
           ],
+        ),
+        BlocRoute<OrganizationDetailsCubit>(
+          path: 'organizationDetails/:organizationId',
+          builder: (state) => const OrganizationDetailsPage(),
+          init: (cubit, state) => cubit.loadOrganizationDetails(
+            state.pathParameters['organizationId']!,
+          ),
         ),
       ],
     ),

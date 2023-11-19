@@ -9,6 +9,8 @@ import 'package:event_planr_app/domain/models/news_post/news_post.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post_filter.dart';
 import 'package:event_planr_app/domain/models/organization/organization.dart';
 import 'package:event_planr_app/domain/models/organization/organization_details.dart';
+import 'package:event_planr_app/domain/models/organization/organization_filter.dart';
+import 'package:event_planr_app/domain/models/organization/organization_public_event_filter.dart';
 import 'package:event_planr_app/domain/models/ticket/ticket.dart';
 import 'package:event_planr_app/utils/domain_extensions.dart';
 import 'package:injectable/injectable.dart';
@@ -103,10 +105,12 @@ class EventGeneralRepository {
   }
 
   Future<PaginatedList<Organization>> getOrganizations(
-    String? searchTerm,
+    OrganizationFilter filter,
   ) async {
     final organizations = await _eventGeneralClient.getEventgeneralOrganization(
-      searchTerm: searchTerm,
+      searchTerm: filter.searchTerm,
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
     );
 
     return PaginatedList<Organization>(
@@ -116,6 +120,7 @@ class EventGeneralRepository {
               id: o.id,
               name: o.name,
               profileImageUrl: o.profileImageUrl,
+              eventCount: o.eventCount,
             ),
           )
           .toList(),
@@ -188,6 +193,37 @@ class EventGeneralRepository {
       totalCount: news.totalCount,
       hasPreviousPage: news.hasPreviousPage,
       hasNextPage: news.hasNextPage,
+    );
+  }
+
+  Future<PaginatedList<Event>> getOrganizationEvents(
+    OrganizationPublicEventFilter filter,
+  ) async {
+    final events = await _eventGeneralClient.getEventgeneralOrganizationEvents(
+      organizationId: filter.organizationId,
+      pageNumber: filter.pageNumber ?? 1,
+      pageSize: filter.pageSize ?? 20,
+    );
+
+    return PaginatedList<Event>(
+      items: events.items
+          .map(
+            (e) => Event(
+              id: e.id,
+              name: e.name,
+              coverImageUrl: e.coverImageUrl,
+              venue: e.venue,
+              organizationName: e.organizationName,
+              fromDate: e.fromDate,
+              toDate: e.toDate,
+            ),
+          )
+          .toList(),
+      pageNumber: events.pageNumber,
+      totalPages: events.totalPages,
+      totalCount: events.totalCount,
+      hasPreviousPage: events.hasPreviousPage,
+      hasNextPage: events.hasNextPage,
     );
   }
 }

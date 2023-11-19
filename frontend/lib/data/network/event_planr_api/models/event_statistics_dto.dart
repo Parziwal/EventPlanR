@@ -4,8 +4,8 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
+import 'chart_spot_dto.dart';
 import 'currency.dart';
-import 'ticket_chart_spot_dto.dart';
 import 'ticket_statistics_dto.dart';
 
 part 'event_statistics_dto.g.dart';
@@ -35,12 +35,12 @@ class EventStatisticsDto {
   final Currency currency;
   final int totalTicketCount;
   final int soldTicketCount;
-  final List<TicketChartSpotDto> soldTicketsPerDay;
-  final List<TicketChartSpotDto> soldTicketsPerMonth;
+  final List<ChartSpotDto> soldTicketsPerDay;
+  final List<ChartSpotDto> soldTicketsPerMonth;
   final List<TicketStatisticsDto> ticketStatistics;
   final int totalCheckInCount;
-  final List<TicketChartSpotDto> checkInsPerHour;
-  final List<TicketChartSpotDto> checkInsPerDay;
+  final List<ChartSpotDto> checkInsPerHour;
+  final List<ChartSpotDto> checkInsPerDay;
   final int totalInvitationCount;
   final int acceptedInvitationCount;
   final int deniedInvitationCount;

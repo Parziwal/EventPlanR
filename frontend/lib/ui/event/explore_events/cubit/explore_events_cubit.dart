@@ -5,6 +5,8 @@ import 'package:event_planr_app/domain/models/event/event.dart';
 import 'package:event_planr_app/domain/models/event/event_distance_enum.dart';
 import 'package:event_planr_app/domain/models/event/event_filter.dart';
 import 'package:event_planr_app/domain/models/event/event_order_by_enum.dart';
+import 'package:event_planr_app/domain/models/organization/organization.dart';
+import 'package:event_planr_app/domain/models/organization/organization_filter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -23,72 +25,126 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
         _mapRepository = mapRepository,
         super(
           const ExploreEventsState(
-            status: ExploreEventsStatus.idle,
-            filter: EventFilter(
+            eventFilter: EventFilter(
               orderBy: EventOrderByEnum.fromDate,
               orderDirection: OrderDirectionEnum.descending,
               distance: EventDistanceEnum.km10,
               pageNumber: 1,
               pageSize: 20,
             ),
+            organizationFilter: OrganizationFilter(pageNumber: 1, pageSize: 20),
           ),
         );
 
   final EventGeneralRepository _eventGeneralRepository;
   final MapRepository _mapRepository;
 
-  Future<void> filterEvents(EventFilter filter) async {
+  Future<void> filterEvents(EventFilter eventFilter) async {
     try {
-      final events = await _eventGeneralRepository.getFilteredEvents(filter);
+      if (state.events != null) {
+        emit(
+          state.copyWith(
+            events: eventFilter.pageNumber == 1 ? null : state.events,
+            eventFilter: eventFilter,
+          ),
+        );
+      }
+      final events =
+          await _eventGeneralRepository.getFilteredEvents(eventFilter);
       emit(
         state.copyWith(
-          events: filter.pageNumber == 1
+          events: eventFilter.pageNumber == 1
               ? events.items
-              : [...state.events, ...events.items],
-          filter: filter.copyWith(
-            pageNumber: events.hasNextPage ? filter.pageNumber! + 1 : null,
+              : [...?state.events, ...events.items],
+          eventFilter: eventFilter.copyWith(
+            pageNumber: events.hasNextPage ? eventFilter.pageNumber! + 1 : null,
           ),
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          status: ExploreEventsStatus.error,
           errorCode: e.toString(),
         ),
       );
     }
-
-    emit(state.copyWith(status: ExploreEventsStatus.idle));
   }
 
-  Future<void> getLocationAddress(LatLng location) async {
+  Future<void> filterOrganizations(
+    OrganizationFilter organizationFilter,
+  ) async {
     try {
+      emit(
+        state.copyWith(
+          organizations:
+              organizationFilter.pageNumber == 1 ? null : state.organizations,
+          organizationFilter: organizationFilter,
+        ),
+      );
+      final organizations =
+          await _eventGeneralRepository.getOrganizations(organizationFilter);
+      emit(
+        state.copyWith(
+          organizations: organizationFilter.pageNumber == 1
+              ? organizations.items
+              : [...?state.organizations, ...organizations.items],
+          organizationFilter: organizationFilter.copyWith(
+            pageNumber: organizations.hasNextPage
+                ? organizationFilter.pageNumber! + 1
+                : null,
+          ),
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          errorCode: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> setLocationAddress(LatLng location) async {
+    try {
+      emit(
+        state.copyWith(
+          events: null,
+        ),
+      );
       final locationDetails = await _mapRepository.reverseSearch(
         location.latitude,
         location.longitude,
       );
       emit(
         state.copyWith(
-          filter: state.filter.copyWith(
+          eventFilter: state.eventFilter.copyWith(
             locationName: '${locationDetails.address.country}, '
                 '${locationDetails.address.city}, '
                 '${locationDetails.address.road}',
             latitude: location.latitude,
             longitude: location.longitude,
+            pageNumber: 1,
           ),
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
-          status: ExploreEventsStatus.error,
           errorCode: e.toString(),
         ),
       );
     }
 
-    emit(state.copyWith(status: ExploreEventsStatus.idle));
-    await filterEvents(state.filter);
+    await filterEvents(state.eventFilter);
+  }
+
+  void changeView() {
+    emit(
+      state.copyWith(
+        eventView: !state.eventView,
+        eventFilter: state.eventFilter.copyWith(searchTerm: null),
+        organizationFilter: state.organizationFilter.copyWith(searchTerm: null),
+      ),
+    );
   }
 }

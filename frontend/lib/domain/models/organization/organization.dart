@@ -8,5 +8,6 @@ class Organization with _$Organization {
     required String id,
     required String name,
     String? profileImageUrl,
+    int? eventCount,
   }) = _Organization;
 }

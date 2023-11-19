@@ -63,7 +63,7 @@ class _FilterModal extends StatelessWidget {
     final filter = context
         .watch<ExploreEventsCubit>()
         .state
-        .filter;
+        .eventFilter;
 
     return Wrap(
       children: [
@@ -145,7 +145,7 @@ class _FilterModal extends StatelessWidget {
                     if (location != null) {
                       context
                           .read<ExploreEventsCubit>()
-                          .getLocationAddress(location);
+                          .setLocationAddress(location);
                     }
                   });
                 },
