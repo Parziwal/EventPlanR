@@ -11,4 +11,5 @@ abstract class Env {
   static const chatMessageGraphqlUrl =
       String.fromEnvironment('CHAT_MESSAGE_GRAPHQL_URL');
   static const nominatimApiUrl = String.fromEnvironment('NOMINATIM_API_URL');
+  static const androidApkUrl = String.fromEnvironment('ANDROID_APK_URL');
 }

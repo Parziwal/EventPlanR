@@ -5,9 +5,11 @@ import 'package:event_planr_app/ui/event/event_navbar/cubit/event_navbar_cubit.d
 import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
 import 'package:event_planr_app/ui/shared/widgets/drawer_tile.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventDrawerNavbar extends StatefulWidget {
   const EventDrawerNavbar({
@@ -101,6 +103,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
 
   Widget _drawer() {
     final l10n = context.l10n;
+    final theme = context.theme;
     final location = context.goRouterState.matchedLocation;
 
     return AnimatedSize(
@@ -171,6 +174,22 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                       onTap: () => context.go(PagePaths.userOrganizations),
                     ),
                   ],
+                  if (kIsWeb)
+                    InkWell(
+                      onTap: () => launchUrl(
+                        Uri.parse(
+                          Env.androidApkUrl,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Download mobile app',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: theme.colorScheme.secondary,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
