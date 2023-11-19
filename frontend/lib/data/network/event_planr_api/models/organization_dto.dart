@@ -11,6 +11,7 @@ class OrganizationDto {
   const OrganizationDto({
     required this.id,
     required this.name,
+    required this.eventCount,
     this.profileImageUrl,
   });
   
@@ -19,6 +20,7 @@ class OrganizationDto {
   final String id;
   final String name;
   final String? profileImageUrl;
+  final int eventCount;
 
   Map<String, Object?> toJson() => _$OrganizationDtoToJson(this);
 }

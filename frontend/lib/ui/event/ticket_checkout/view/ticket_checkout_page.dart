@@ -94,7 +94,7 @@ class _TicketCheckoutPageState extends State<TicketCheckoutPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(32),
+              padding: const EdgeInsets.all(16),
               child: MaxWidthBox(
                 maxWidth: 600,
                 child: BlocConsumer<TicketCheckoutCubit, TicketCheckoutState>(

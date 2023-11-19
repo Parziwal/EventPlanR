@@ -1,17 +1,13 @@
 part of 'explore_events_cubit.dart';
 
-enum ExploreEventsStatus {
-  idle,
-  error,
-}
-
 @freezed
 class ExploreEventsState with _$ExploreEventsState {
   const factory ExploreEventsState({
-    required ExploreEventsStatus status,
-    required EventFilter filter,
-    @Default([])
-    List<Event> events,
+    required EventFilter eventFilter,
+    required OrganizationFilter organizationFilter,
+    @Default(true) bool eventView,
+    List<Event>? events,
+    List<Organization>? organizations,
     String? errorCode,
   }) = _ExploreEventsState;
 }

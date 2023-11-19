@@ -19,10 +19,12 @@ import 'package:responsive_framework/max_width_box.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
 class FilterAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const FilterAppBar({super.key});
+  const FilterAppBar({this.height = 120, super.key});
+
+  final double height;
 
   @override
-  Size get preferredSize => const Size.fromHeight(120);
+  Size get preferredSize => Size.fromHeight(height);
 
   @override
   State<FilterAppBar> createState() => _FilterAppBarState();
@@ -39,11 +41,13 @@ class _FilterAppBarState extends State<FilterAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    final eventView = context.watch<ExploreEventsCubit>().state.eventView;
+
     return SafeArea(
       child: Column(
         children: [
           SizedBox(height: 65, child: _searchBar(context)),
-          SizedBox(height: 55, child: _filterOptions(context)),
+          if (eventView) SizedBox(height: 55, child: _filterOptions(context)),
         ],
       ),
     );
@@ -52,6 +56,7 @@ class _FilterAppBarState extends State<FilterAppBar> {
   Widget _searchBar(BuildContext context) {
     final l10n = context.l10n;
     final theme = context.theme;
+    final eventView = context.watch<ExploreEventsCubit>().state.eventView;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -65,13 +70,15 @@ class _FilterAppBarState extends State<FilterAppBar> {
           leading: const Icon(Icons.search),
           trailing: [
             IconButton(
-              icon: const Icon(Icons.tune),
+              icon: const Icon(Icons.swap_horiz),
               onPressed: () {
-                showFilterModal(context);
+                context.read<ExploreEventsCubit>().changeView();
               },
             ),
           ],
-          hintText: l10n.exploreEvents,
+          hintText: eventView
+              ? l10n.exploreEvents
+              : l10n.exploreEvents_ExploreOrganizations,
           hintStyle: MaterialStateProperty.all(
             TextStyle(color: theme.colorScheme.outline),
           ),
@@ -81,13 +88,23 @@ class _FilterAppBarState extends State<FilterAppBar> {
           onChanged: (value) {
             if (_debounceSearch?.isActive ?? false) _debounceSearch?.cancel();
             _debounceSearch = Timer(const Duration(milliseconds: 500), () {
-              context.read<ExploreEventsCubit>().filterEvents(
-                    context
-                        .read<ExploreEventsCubit>()
-                        .state
-                        .filter
-                        .copyWith(searchTerm: value),
-                  );
+              if (eventView) {
+                context.read<ExploreEventsCubit>().filterEvents(
+                  context
+                      .read<ExploreEventsCubit>()
+                      .state
+                      .eventFilter
+                      .copyWith(searchTerm: value, pageNumber: 1),
+                );
+              } else {
+                context.read<ExploreEventsCubit>().filterOrganizations(
+                  context
+                      .read<ExploreEventsCubit>()
+                      .state
+                      .organizationFilter
+                      .copyWith(searchTerm: value, pageNumber: 1),
+                );
+              }
             });
           },
         ),
@@ -98,7 +115,7 @@ class _FilterAppBarState extends State<FilterAppBar> {
   Widget _filterOptions(BuildContext context) {
     final l10n = context.l10n;
     final breakpoints = context.breakpoints;
-    final filter = context.watch<ExploreEventsCubit>().state.filter;
+    final filter = context.watch<ExploreEventsCubit>().state.eventFilter;
 
     return Scrollbar(
       thickness: breakpoints.largerThan(MOBILE) ? null : 0,
@@ -112,6 +129,11 @@ class _FilterAppBarState extends State<FilterAppBar> {
         child: Wrap(
           spacing: 5,
           children: [
+            FilledButton.icon(
+              onPressed: () => showFilterModal(context),
+              icon: const Icon(Icons.tune),
+              label: Text(l10n.filter),
+            ),
             FilledButton.icon(
               onPressed: () => showOrderPickerModal(context),
               icon: const Icon(Icons.sort),
@@ -152,7 +174,7 @@ class _FilterAppBarState extends State<FilterAppBar> {
                   if (location != null) {
                     context
                         .read<ExploreEventsCubit>()
-                        .getLocationAddress(location);
+                        .setLocationAddress(location);
                   }
                 });
               },

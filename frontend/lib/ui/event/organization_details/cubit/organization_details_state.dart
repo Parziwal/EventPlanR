@@ -7,6 +7,8 @@ class OrganizationDetailsState with _$OrganizationDetailsState {
   const factory OrganizationDetailsState({
     required OrganizationDetailsStatus status,
     OrganizationDetails? organizationDetails,
+    List<Event>? events,
+    int? pageNumber,
     String? errorCode,
   }) = _OrganizationDetailsState;
 }

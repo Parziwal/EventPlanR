@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> showDateTimeRangePickerModal(BuildContext context) async {
-  final filter = context.read<ExploreEventsCubit>().state.filter;
+  final filter = context.read<ExploreEventsCubit>().state.eventFilter;
   final picked = await showDateRangePicker(
     context: context,
     firstDate: DateTime(DateTime.now().year - 5),
@@ -15,23 +15,23 @@ Future<void> showDateTimeRangePickerModal(BuildContext context) async {
       end: filter.toDate != null
           ? filter.toDate!
           : DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().day + 10,
-      ),
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day + 10,
+            ),
     ),
   );
 
   if (picked != null && context.mounted) {
-    final filter = context.read<ExploreEventsCubit>().state.filter;
+    final filter = context.read<ExploreEventsCubit>().state.eventFilter;
     unawaited(
       context.read<ExploreEventsCubit>().filterEvents(
-        filter.copyWith(
-          fromDate: picked.start,
-          toDate: picked.end,
-          pageNumber: 1,
-        ),
-      ),
+            filter.copyWith(
+              fromDate: picked.start,
+              toDate: picked.end,
+              pageNumber: 1,
+            ),
+          ),
     );
   }
 }

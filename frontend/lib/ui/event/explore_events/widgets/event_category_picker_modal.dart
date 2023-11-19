@@ -28,8 +28,11 @@ Future<void> showCategoryPickerModal(BuildContext context) {
         value: exploreCubit,
         child: const Dialog(
           clipBehavior: Clip.hardEdge,
-          child: _EventCategoryPickerModal(
-            isMobile: false,
+          child: SizedBox(
+            width: 600,
+            child: _EventCategoryPickerModal(
+              isMobile: false,
+            ),
           ),
         ),
       ),
@@ -57,7 +60,7 @@ class _EventCategoryPickerModal extends StatelessWidget {
               ...EventCategoryEnum.values.map(
                 (ec) => ListTile(
                   onTap: () => context.read<ExploreEventsCubit>().filterEvents(
-                        state.filter.copyWith(
+                        state.eventFilter.copyWith(
                           category: ec,
                           pageNumber: 1,
                         ),
@@ -65,7 +68,7 @@ class _EventCategoryPickerModal extends StatelessWidget {
                   title: Text(
                     l10n.translateEnums(ec.name),
                   ),
-                  trailing: state.filter.category == ec
+                  trailing: state.eventFilter.category == ec
                       ? const Icon(Icons.check)
                       : null,
                 ),
@@ -98,7 +101,11 @@ class _EventCategoryPickerModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           category: null,
                           pageNumber: 1,
                         ),
@@ -151,7 +158,11 @@ class _EventCategoryPickerModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                    context.read<ExploreEventsCubit>().state.filter.copyWith(
+                    context
+                        .read<ExploreEventsCubit>()
+                        .state
+                        .eventFilter
+                        .copyWith(
                           category: null,
                           pageNumber: 1,
                         ),

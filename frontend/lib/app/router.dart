@@ -23,19 +23,22 @@ class PagePaths {
   static String userProfile = '/userProfile';
 
   static String eventDetails(String eventId) =>
-      '/exploreEvents/details/$eventId';
+      '/exploreEvents/eventDetails/$eventId';
+
+  static String organizationDetails(String organizationId) =>
+      '/exploreEvents/organizationDetails/$organizationId';
 
   static String eventOrganization(String eventId, String organizationId) =>
-      '/exploreEvents/details/$eventId/organization/$organizationId';
+      '/exploreEvents/eventDetails/$eventId/organization/$organizationId';
 
   static String eventNews(String eventId) =>
-      '/exploreEvents/details/$eventId/news';
+      '/exploreEvents/eventDetails/$eventId/news';
 
   static String eventTickets(String eventId) =>
-      '/exploreEvents/details/$eventId/tickets';
+      '/exploreEvents/eventDetails/$eventId/tickets';
 
   static String eventTicketCheckout(String eventId) =>
-      '/exploreEvents/details/$eventId/tickets/checkout';
+      '/exploreEvents/eventDetails/$eventId/tickets/checkout';
 
   static String userEventTickets(String eventId) =>
       '/userEvents/$eventId/tickets';
