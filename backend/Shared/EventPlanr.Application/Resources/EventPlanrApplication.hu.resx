@@ -97,7 +97,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Test" xml:space="preserve">
-    <value>Tesztssss</value>
+  <data name="ChatEntity_NotFound" xml:space="preserve">
+    <value>Csevegés nem taláható</value>
+  </data>
+  <data name="ChatMemberEntity_NotFound" xml:space="preserve">
+    <value>Csevegési fél nem található</value>
+  </data>
+  <data name="EventEntity_NotFound" xml:space="preserve">
+    <value>Esemény nem található</value>
+  </data>
+  <data name="InvitationEntity_NotFound" xml:space="preserve">
+    <value>Meghívás nem található</value>
+  </data>
+  <data name="NewsPost_NotFound" xml:space="preserve">
+    <value>Hír nem található</value>
+  </data>
+  <data name="OrderEntity_NotFound" xml:space="preserve">
+    <value>Rendelés nem található</value>
+  </data>
+  <data name="OrganizationEntity_NotFound" xml:space="preserve">
+    <value>Szervezet nem található</value>
+  </data>
+  <data name="SoldTicketEntity_NotFound" xml:space="preserve">
+    <value>Jegy nem található</value>
+  </data>
+  <data name="TicketEntity_NotFound" xml:space="preserve">
+    <value>Jegy nem található</value>
+  </data>
+  <data name="UserEntity_NotFound" xml:space="preserve">
+    <value>Felhasználó nem található</value>
+  </data>
+  <data name="ForbiddenException" xml:space="preserve">
+    <value>Nincs engedélyed</value>
+  </data>
+  <data name="ChatAlreadyExists" xml:space="preserve">
+    <value>Csevegés már létezik</value>
+  </data>
+  <data name="PublishedLiveEventCannotBeDeleted" xml:space="preserve">
+    <value>A közzétett élő esemény nem törölhető</value>
+  </data>
+  <data name="InProgressEventCannotBeEdited" xml:space="preserve">
+    <value>Folyamatban lévő esemény nem szerkeszthető</value>
+  </data>
+  <data name="PublicEventWithoutTicketsCannotBePublished" xml:space="preserve">
+    <value>Publikus esemény jegy nélkül nem tehető közzé</value>
+  </data>
+  <data name="PastEventCannotBePublished" xml:space="preserve">
+    <value>Múltbéli esemény nem tehető közzé</value>
+  </data>
+  <data name="EventWithUnrefundedOrdersCannotBeDeleted" xml:space="preserve">
+    <value>Esemény nem visszatérített jegyekkel nem törölhető</value>
+  </data>
+  <data name="PastEventCannotBeUnPublished" xml:space="preserve">
+    <value>Múltbéli esemény közzététele nem vonható vissza</value>
+  </data>
+  <data name="PastEventInvitationStatusCannotBeChanged" xml:space="preserve">
+    <value>Múltbéli eseményhez tartozó meghívó státusza nem módosítható</value>
+  </data>
+  <data name="UserAlreadyInvited" xml:space="preserve">
+    <value>A felhasználó már meghívásra került</value>
+  </data>
+  <data name="TicketUserInfoCountNotMatchWithReservedTicketCount" xml:space="preserve">
+    <value>A felhasználói jegyinformációk száma nem egyezik meg a lefoglalt jegyek számával</value>
+  </data>
+  <data name="TicketNotOnSale" xml:space="preserve">
+    <value>A jegy nem eladó</value>
+  </data>
+  <data name="NotEnoughTicket" xml:space="preserve">
+    <value>Nincs elég jegy</value>
+  </data>
+  <data name="OrganizationWithUpcomingEventCannotBeDeleted" xml:space="preserve">
+    <value>Aktív eseményekkel rendelkező szervezet nem törölhető</value>
+  </data>
+  <data name="UserNotBelongToOrganization" xml:space="preserve">
+    <value>A felhasználó nem tartozik a szervezethez</value>
+  </data>
+  <data name="TicketSaleDatesMustBeBeforeEventToDate" xml:space="preserve">
+    <value>A jegy eladási időszaka az esemény vége előtt kell legyen</value>
+  </data>
+  <data name="TicketTypeHasNoRefundedTickets" xml:space="preserve">
+    <value>A jegy típusnak vannak vissza nem térített jegyei</value>
+  </data>
+  <data name="UserAlreadyCheckedIn" xml:space="preserve">
+    <value>A felhasználó már beléptetésre került</value>
   </data>
 </root>

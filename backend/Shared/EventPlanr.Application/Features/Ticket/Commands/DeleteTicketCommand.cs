@@ -33,7 +33,7 @@ public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand>
 
         if (ticket.RemainingCount != ticket.Count)
         {
-            throw new DomainException("Ticket type has no refunded tickets");
+            throw new DomainException("TicketTypeHasNoRefundedTickets");
         }
 
         ticket.SoldTickets.Clear();

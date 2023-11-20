@@ -36,7 +36,7 @@ public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand>
 
         if (eventEntity.IsPublished && eventEntity.ToDate > DateTime.UtcNow)
         {
-            throw new DomainException("PublishedEventCannotBeDeletedException");
+            throw new DomainException("PublishedLiveEventCannotBeDeleted");
         }
 
         _dbContext.Events.Remove(eventEntity);

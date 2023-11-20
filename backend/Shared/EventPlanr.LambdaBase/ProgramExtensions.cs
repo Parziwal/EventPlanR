@@ -7,9 +7,10 @@ using EventPlanr.Infrastructure;
 using EventPlanr.LambdaBase.ExceptionHandling;
 using EventPlanr.LambdaBase.Swagger;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Options;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using EventPlanr.Application.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace EventPlanr.LambdaBase;
 
@@ -70,6 +71,13 @@ public static class ProgramExtensions
         app.UseSwagger();
         app.MapControllers();
         app.UseRequestLocalization();
+
+        using (var serviceScope = app.Services.CreateScope())
+        {
+            var services = serviceScope.ServiceProvider;
+            var localizer = services.GetRequiredService<IStringLocalizer<EventPlanrApplication>>();
+            LocalizerManager.SetLocalizer(localizer);
+        }
 
         return app;
     }

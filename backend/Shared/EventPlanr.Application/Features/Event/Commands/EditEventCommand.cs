@@ -45,7 +45,7 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
 
         if (eventEntity.IsPublished && eventEntity.FromDate <= DateTimeOffset.UtcNow)
         {
-            throw new DomainException("LiveEventCannotBeEditedException");
+            throw new DomainException("InProgressEventCannotBeEdited");
         }
 
         eventEntity.Description = request.Description;

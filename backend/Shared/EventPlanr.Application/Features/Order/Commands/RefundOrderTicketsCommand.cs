@@ -37,7 +37,7 @@ public class RefundOrderCommandHandler : IRequestHandler<RefundOrderTicketsComma
             && (order.SoldTickets.First().Ticket.Event.OrganizationId != _user.OrganizationId
             || !_user.OrganizationPolicies.Contains(OrganizationPolicies.EventTicketManage)))
         {
-            throw new ForbiddenException("User don't have permission");
+            throw new ForbiddenException();
         }
 
         foreach (var soldTicket in order.SoldTickets)

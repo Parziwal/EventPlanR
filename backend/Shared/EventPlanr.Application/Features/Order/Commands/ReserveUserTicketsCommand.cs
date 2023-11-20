@@ -40,12 +40,12 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
             var timeNow = DateTimeOffset.UtcNow;
             if (ticket.SaleStarts > timeNow || ticket.SaleEnds < timeNow)
             {
-                throw new DomainException("TicketNotOnSaleException");
+                throw new DomainException("TicketNotOnSale");
             }
 
             if (ticket.RemainingCount < reserveTicket.Count)
             {
-                throw new DomainException("NotEnoughTicketException");
+                throw new DomainException("NotEnoughTicket");
             }
 
             ticket.RemainingCount -= reserveTicket.Count;

@@ -41,7 +41,7 @@ public class EditTicketCommandHandler : IRequestHandler<EditTicketCommand>
 
         if (ticket.Event.ToDate < request.SaleEnds)
         {
-            throw new DomainException("TicketSaleDatesMustBeBeforeEventDateException");
+            throw new DomainException("TicketSaleDatesMustBeBeforeEventToDate");
         }
 
         ticket.Price = request.Price;

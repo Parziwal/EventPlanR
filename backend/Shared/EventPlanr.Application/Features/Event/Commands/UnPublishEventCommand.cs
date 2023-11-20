@@ -34,12 +34,12 @@ public class UnPublishEventCommandHandler : IRequestHandler<UnPublishEventComman
 
         if (eventEntity.Tickets.Any(t => t.Count != t.RemainingCount))
         {
-            throw new DomainException("Event with unrefunded orders cannot be deleted");
+            throw new DomainException("EventWithUnrefundedOrdersCannotBeDeleted");
         }
 
         if (eventEntity.ToDate < DateTime.UtcNow)
         {
-            throw new DomainException("Past event cannot be unpublished");
+            throw new DomainException("PastEventCannotBePublished");
         }
 
         eventEntity.IsPublished = false;

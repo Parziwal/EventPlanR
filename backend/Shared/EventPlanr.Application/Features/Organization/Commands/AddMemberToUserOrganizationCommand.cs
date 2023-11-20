@@ -37,7 +37,7 @@ public class AddMemberToUserOrganizationCommandHandler : IRequestHandler<AddMemb
     public async Task Handle(AddMemberToUserOrganizationCommand request, CancellationToken cancellationToken)
     {
         var memberUserId = await _userService.GetUserIdByEmail(request.MemberUserEmail)
-            ?? throw new EntityNotFoundException("UserEntity");
+            ?? throw new EntityNotFoundException("UserEntity_NotFound");
 
         var organization = await _dbContext.Organizations
             .SingleEntityAsync(o => o.Id == _user.OrganizationId);

@@ -1,11 +1,13 @@
-﻿namespace EventPlanr.Application.Exceptions;
+﻿using EventPlanr.Application.Resources;
+
+namespace EventPlanr.Application.Exceptions;
 
 public class EntityNotFoundException : Exception
 {
     public EntityNotFoundException()
     {
     }
-    public EntityNotFoundException(string errorCode) : base(errorCode)
+    public EntityNotFoundException(string errorCode) : base(LocalizerManager.Localizer[errorCode])
     {
     }
 }

@@ -40,7 +40,7 @@ public class AddTicketToEventCommandHandler : IRequestHandler<AddTicketToEventCo
 
         if (eventEntity.ToDate < request.SaleEnds)
         {
-            throw new DomainException("TicketSaleDatesMustBeBeforeEventDateException");
+            throw new DomainException("TicketSaleDatesMustBeBeforeEventToDate");
         }
 
         var ticket = new TicketEntity()

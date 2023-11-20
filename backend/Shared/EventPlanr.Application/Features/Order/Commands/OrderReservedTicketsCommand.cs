@@ -47,7 +47,7 @@ public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedT
                 .Count();
             if (ticketInfoCount != reservedTicket.Count)
             {
-                throw new DomainException("TicketUserInfoNotMatchException");
+                throw new DomainException("TicketUserInfoCountNotMatchWithReservedTicketCount");
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Exceptions;
+using EventPlanr.Application.Resources;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Entities;
 using MediatR;
@@ -29,7 +30,7 @@ public class CreateDirectChatCommandHandler : IRequestHandler<CreateDirectChatCo
     public async Task<Guid> Handle(CreateDirectChatCommand request, CancellationToken cancellationToken)
     {
         var contactUserId = await _userService.GetUserIdByEmail(request.UserEmail)
-            ?? throw new EntityNotFoundException();
+            ?? throw new EntityNotFoundException("UserEntity_NotFound");
 
         var chatExists = await _dbContext.Chats
             .Where(c => c.Event == null)
@@ -38,7 +39,7 @@ public class CreateDirectChatCommandHandler : IRequestHandler<CreateDirectChatCo
 
         if (chatExists != null)
         {
-            throw new DomainException();
+            throw new DomainException("ChatAlreadyExists");
         }
 
         var timeNow = DateTimeOffset.UtcNow;

@@ -37,7 +37,7 @@ public class RefundTicketCommandHandler : IRequestHandler<RefundTicketCommand>
             && (ticket.Ticket.Event.OrganizationId != _user.OrganizationId
             || !_user.OrganizationPolicies.Contains(OrganizationPolicies.EventTicketManage)))
         {
-            throw new ForbiddenException("User don't have permission");
+            throw new ForbiddenException();
         }
 
         ticket.IsRefunded = true;

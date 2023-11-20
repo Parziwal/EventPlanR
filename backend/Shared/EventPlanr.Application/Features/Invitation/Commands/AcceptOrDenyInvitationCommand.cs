@@ -36,7 +36,7 @@ public class AcceptOrDenyInvitationCommandHandler : IRequestHandler<AcceptOrDeny
 
         if (invitation.Event.ToDate < DateTimeOffset.UtcNow)
         {
-            throw new DomainException();
+            throw new DomainException("PastEventInvitationStatusCannotBeChanged");
         }
 
         invitation.UserId = _user.UserId;

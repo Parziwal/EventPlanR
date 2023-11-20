@@ -35,7 +35,7 @@ public class SetUserOrganizationCommandHandler : IRequestHandler<SetUserOrganiza
 
         if (!organization.MemberUserIds.Contains(_userContext.UserId))
         {
-            throw new ForbiddenException("UserNotBelongToOrganizationException");
+            throw new ForbiddenException();
         }
 
         await _userClaimService.SetUserCurrentOrganization(_userContext.UserId, organization.Id);

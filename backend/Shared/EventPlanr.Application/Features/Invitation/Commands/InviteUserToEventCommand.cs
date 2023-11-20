@@ -41,7 +41,7 @@ public class InviteUserToEventCommandHandler : IRequestHandler<InviteUserToEvent
 
         if (eventEntity.Invitations.Any(i => i.UserEmail == request.UserEmail))
         {
-            throw new DomainException();
+            throw new DomainException("UserAlreadyInvited");
         }
 
         var userId = await _userService.GetUserIdByEmail(request.UserEmail);
