@@ -55,7 +55,8 @@ class OrganizeDrawer extends StatelessWidget {
                           PagePaths.organizationEventStatistics(event.id),
                     ),
                   if (user.organizationPolicies
-                      .contains(OrganizationPolicy.eventTicketView))
+                          .contains(OrganizationPolicy.eventTicketView) &&
+                      !event.isPrivate)
                     DrawerTile(
                       icon: const Icon(Icons.credit_card),
                       label: Text(l10n.organizeNavbar_Ticket),
@@ -65,7 +66,8 @@ class OrganizeDrawer extends StatelessWidget {
                           PagePaths.organizationEventTickets(event.id),
                     ),
                   if (user.organizationPolicies
-                      .contains(OrganizationPolicy.eventTicketView))
+                          .contains(OrganizationPolicy.orderView) &&
+                      !event.isPrivate)
                     DrawerTile(
                       icon: const Icon(Icons.shopping_cart),
                       label: Text(l10n.organizeNavbar_Order),

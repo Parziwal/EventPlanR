@@ -39,17 +39,17 @@ public class InviteUserToEventCommandHandler : IRequestHandler<InviteUserToEvent
             .Include(e => e.Invitations)
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (eventEntity.Invitations.Any(i => i.UserEmail == request.UserEmail))
+        var userId = await _userService.GetUserIdByEmail(request.UserEmail)
+            ?? throw new DomainException("UserEntity_NotFound");
+
+        if (eventEntity.Invitations.Any(i => i.UserId == userId))
         {
             throw new DomainException("UserAlreadyInvited");
         }
 
-        var userId = await _userService.GetUserIdByEmail(request.UserEmail);
-
         var invitation = new InvitationEntity()
         { 
             UserId = userId,
-            UserEmail = request.UserEmail,
             Event = eventEntity,
             Status = InvitationStatus.Pending,
         };

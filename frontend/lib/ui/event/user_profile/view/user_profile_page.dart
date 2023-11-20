@@ -4,6 +4,8 @@ import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/user_profile/cubit/user_profile_cubit.dart';
 import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
+import 'package:event_planr_app/utils/url_launcher.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -67,6 +69,21 @@ class UserProfilePage extends StatelessWidget {
                   onTap: () => _logout(context),
                 ),
               ],
+              if (kIsWeb)
+                SizedBox(
+                  height: 50,
+                  child: InkWell(
+                    onTap: UrlLauncherUtils.downloadAndroidApk,
+                    child: Center(
+                      child: Text(
+                        l10n.downloadMobileApp,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: theme.colorScheme.secondary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

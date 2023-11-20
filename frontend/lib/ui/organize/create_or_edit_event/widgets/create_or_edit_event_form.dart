@@ -351,7 +351,7 @@ class _CreateOrEditEventFormState extends State<CreateOrEditEventForm> {
 
     return FormBuilderDropdown(
       name: 'currency',
-      enabled: !widget.disabled,
+      enabled: !widget.disabled && !_edit,
       items: CurrencyEnum.values
           .map(
             (c) => DropdownMenuItem(
@@ -381,7 +381,7 @@ class _CreateOrEditEventFormState extends State<CreateOrEditEventForm> {
         l10n.createOrEditEvent_IsPrivate,
         style: theme.textTheme.titleMedium,
       ),
-      enabled: !widget.disabled,
+      enabled: !widget.disabled && !_edit,
     );
   }
 }

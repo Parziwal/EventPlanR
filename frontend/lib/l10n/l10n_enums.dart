@@ -30,6 +30,7 @@ extension ErrorLocalizationsX on AppLocalizations {
       'user-check-in' => enum_UserCheckIn,
       'invitation.view' => enum_InvitationView,
       'invitation.manage' => enum_InvitationManage,
+      'order.view' => enum_OrderView,
       'event-statistics' => enum_EventStatistics,
       'event-chat' => enum_EventChat,
       'ascending' => enum_Ascending,

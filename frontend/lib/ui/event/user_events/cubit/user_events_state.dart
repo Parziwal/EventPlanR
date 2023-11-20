@@ -6,8 +6,7 @@ enum UserEventsStatus { idle, error }
 class UserEventsState with _$UserEventsState {
   const factory UserEventsState({
     required UserEventsStatus status,
-    @Default([])
-    List<Event> events,
+    List<Event>? events,
     int? pageNumber,
     Exception? exception,
   }) = _UserEventsState;

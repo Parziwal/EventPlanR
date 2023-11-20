@@ -6,7 +6,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'address_dto.dart';
 import 'coordinate_dto.dart';
-import 'currency.dart';
 import 'event_category.dart';
 
 part 'edit_event_command.g.dart';
@@ -20,7 +19,6 @@ class EditEventCommand {
     required this.venue,
     required this.address,
     required this.coordinate,
-    required this.currency,
     this.description,
   });
   
@@ -33,7 +31,6 @@ class EditEventCommand {
   final String venue;
   final AddressDto address;
   final CoordinateDto coordinate;
-  final Currency currency;
 
   Map<String, Object?> toJson() => _$EditEventCommandToJson(this);
 }

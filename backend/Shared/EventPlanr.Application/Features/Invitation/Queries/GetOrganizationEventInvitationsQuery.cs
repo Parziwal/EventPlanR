@@ -45,27 +45,17 @@ public class GetOrganizationEventInvitationsQueryHandler : IRequestHandler<GetOr
         var users = new Dictionary<Guid, UserEntity>();
         foreach (var invitation in invitations.Items)
         {
-            if (invitation.UserId != null)
-            {
-                var user = await _userService.GetUserById(invitation.UserId.Value);
-                users.Add(user!.Id, user);
-            }
+            var user = await _userService.GetUserById(invitation.UserId);
+            users.Add(user!.Id, user);
         }
 
         return new PaginatedListDto<EventInvitationDto>() {
             Items = invitations.Items.Select(i =>
             {
                 var mappedInvitation = _mapper.Map<EventInvitationDto>(i);
-                if (i.UserId != null)
-                {
-                    var user = users[i.UserId.Value];
-                    mappedInvitation.UserFirstName = user.FirstName;
-                    mappedInvitation.UserLastName = user.LastName;
-                }
-                else
-                {
-                    mappedInvitation.UserFirstName = i.UserEmail;
-                }
+                var user = users[i.UserId];
+                mappedInvitation.UserFirstName = user.FirstName;
+                mappedInvitation.UserLastName = user.LastName;
 
                 return mappedInvitation;
             }).ToList(),

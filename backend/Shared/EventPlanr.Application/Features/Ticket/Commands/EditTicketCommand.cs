@@ -39,6 +39,8 @@ public class EditTicketCommandHandler : IRequestHandler<EditTicketCommand>
             .Include(t => t.SoldTickets)
             .SingleEntityAsync(t => t.Id == request.TicketId && t.Event.OrganizationId == _user.OrganizationId);
 
+
+
         if (ticket.Event.ToDate < request.SaleEnds)
         {
             throw new DomainException("TicketSaleDatesMustBeBeforeEventToDate");

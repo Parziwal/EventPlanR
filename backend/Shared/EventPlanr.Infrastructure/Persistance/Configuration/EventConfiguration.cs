@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using EventPlanr.Domain.Entities;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
-using System.Reflection.Metadata;
 
 namespace EventPlanr.Infrastructure.Persistance.Configuration;
 

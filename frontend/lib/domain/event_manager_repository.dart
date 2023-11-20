@@ -59,6 +59,7 @@ class EventManagerRepository {
               coverImageUrl: e.coverImageUrl,
               fromDate: e.fromDate,
               chatId: e.chatId,
+              isPrivate: e.isPrivate,
             ),
           )
           .toList(),
@@ -88,6 +89,7 @@ class EventManagerRepository {
               coverImageUrl: e.coverImageUrl,
               fromDate: e.fromDate,
               chatId: e.chatId,
+              isPrivate: e.isPrivate,
             ),
           )
           .toList(),
@@ -117,6 +119,7 @@ class EventManagerRepository {
               coverImageUrl: e.coverImageUrl,
               fromDate: e.fromDate,
               chatId: e.chatId,
+              isPrivate: e.isPrivate,
             ),
           )
           .toList(),
@@ -170,7 +173,6 @@ class EventManagerRepository {
           venue: event.venue,
           address: event.address.toNetworkModel(),
           coordinate: event.coordinates.toNetworkModel(),
-          currency: event.currency.toNetworkEnum(),
         ),
       );
       return event.id!;
@@ -185,7 +187,7 @@ class EventManagerRepository {
           venue: event.venue,
           address: event.address.toNetworkModel(),
           coordinate: event.coordinates.toNetworkModel(),
-          currency: event.currency.toNetworkEnum(),
+          currency: event.currency!.toNetworkEnum(),
           isPrivate: event.isPrivate!,
         ),
       );

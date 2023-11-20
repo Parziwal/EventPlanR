@@ -179,7 +179,7 @@ class _EventDrawerNavbarState extends State<EventDrawerNavbar> {
                       onTap: UrlLauncherUtils.downloadAndroidApk,
                       child: Center(
                         child: Text(
-                          'Download mobile app',
+                          l10n.downloadMobileApp,
                           style: theme.textTheme.titleSmall?.copyWith(
                             color: theme.colorScheme.secondary,
                           ),

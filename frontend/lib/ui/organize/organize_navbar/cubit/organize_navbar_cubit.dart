@@ -40,7 +40,12 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
     try {
       final organization =
           await _organizationManagerRepository.getUserCurrentOrganization();
-      emit(state.copyWith(organization: organization));
+      emit(
+        state.copyWith(
+          organization: organization,
+          event: null,
+        ),
+      );
     } on Exception catch (e) {
       emit(
         state.copyWith(

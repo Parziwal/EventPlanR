@@ -48,11 +48,4 @@ public class MainController : ControllerBase
         {
             OrderId = orderId,
         });
-
-    [HttpPost("organization/order/refund/{orderId}")]
-    public Task RefundOrderTickets(Guid orderId)
-        => _sender.Send(new RefundOrderTicketsCommand()
-        {
-            OrderId = orderId,
-        });
 }

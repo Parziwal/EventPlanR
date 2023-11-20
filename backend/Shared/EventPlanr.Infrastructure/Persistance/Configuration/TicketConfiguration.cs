@@ -32,8 +32,8 @@ public class TicketConfiguration : IEntityTypeConfiguration<TicketEntity>
         builder.HasOne(t => t.Event)
             .WithMany(e => e.Tickets)
             .HasForeignKey(t => t.EventId)
-            .IsRequired(false);
+            .IsRequired();
 
-        builder.HasQueryFilter(x => x.IsDeleted == false);
+        builder.HasQueryFilter(x => x.IsDeleted == false && x.Id != x.Event.InvitationTicketId);
     }
 }

@@ -1,3 +1,4 @@
+import 'package:event_planr_app/data/disk/persistent_store.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/add_member_to_user_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/create_organization_command.dart';
 import 'package:event_planr_app/data/network/event_planr_api/models/edit_organization_member_command.dart';
@@ -18,11 +19,14 @@ class OrganizationManagerRepository {
   const OrganizationManagerRepository({
     required OrganizationManagerClient organizationManagerClient,
     required ImageUploadClient imageUploadClient,
+    required PersistentStore persistentStore,
   })  : _organizationManagerClient = organizationManagerClient,
-        _imageUploadClient = imageUploadClient;
+        _imageUploadClient = imageUploadClient,
+        _persistentStore = persistentStore;
 
   final OrganizationManagerClient _organizationManagerClient;
   final ImageUploadClient _imageUploadClient;
+  final PersistentStore _persistentStore;
 
   Future<List<Organization>> getUserOrganizations() async {
     final organizations =
@@ -80,6 +84,7 @@ class OrganizationManagerRepository {
     await _organizationManagerClient.postOrganizationmanagerSetOrganizationId(
       organizationId: organizationId,
     );
+    await _persistentStore.remove('selectedEvent');
   }
 
   Future<void> createOrEditOrganization(

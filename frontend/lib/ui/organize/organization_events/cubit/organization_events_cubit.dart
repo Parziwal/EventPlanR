@@ -24,6 +24,11 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
     int pageNumber,
   ) async {
     try {
+      emit(
+        state.copyWith(
+          events: pageNumber == 1 ? null : state.events,
+        ),
+      );
       final events =
           await _eventManagerRepository.getOrganizationUpcomingEvents(
         OrganizationEventFilter(
@@ -35,7 +40,7 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         state.copyWith(
           events: pageNumber == 1
               ? events.items
-              : [...state.events, ...events.items],
+              : [...?state.events, ...events.items],
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
@@ -54,6 +59,11 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
     int pageNumber,
   ) async {
     try {
+      emit(
+        state.copyWith(
+          events: pageNumber == 1 ? null : state.events,
+        ),
+      );
       final events = await _eventManagerRepository.getOrganizationDraftEvents(
         OrganizationEventFilter(
           pageNumber: pageNumber,
@@ -64,7 +74,7 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         state.copyWith(
           events: pageNumber == 1
               ? events.items
-              : [...state.events, ...events.items],
+              : [...?state.events, ...events.items],
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
@@ -83,6 +93,11 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
     int pageNumber,
   ) async {
     try {
+      emit(
+        state.copyWith(
+          events: pageNumber == 1 ? null : state.events,
+        ),
+      );
       final events = await _eventManagerRepository.getOrganizationPastEvents(
         OrganizationEventFilter(
           pageNumber: pageNumber,
@@ -93,7 +108,7 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
         state.copyWith(
           events: pageNumber == 1
               ? events.items
-              : [...state.events, ...events.items],
+              : [...?state.events, ...events.items],
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );

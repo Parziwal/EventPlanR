@@ -37,7 +37,7 @@ locals {
         ticket_manager_api       = "EventPlanr.TicketManager.Api",
         ticket_order_api         = "EventPlanr.TicketOrder.Api",
         user_ticket_api          = "EventPlanr.UserTicket.Api",
-        news_post_api            = "EventPlanr.NewsPost.Api",
+        news_post_manager_api    = "EventPlanr.NewsPostManager.Api",
         chat_manager_api         = "EventPlanr.ChatManager.Api",
         event_invitation_api     = "EventPlanr.EventInvitation.Api",
       }

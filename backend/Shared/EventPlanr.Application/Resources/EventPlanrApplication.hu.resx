@@ -145,8 +145,8 @@
   <data name="PastEventCannotBePublished" xml:space="preserve">
     <value>Múltbéli esemény nem tehető közzé</value>
   </data>
-  <data name="EventWithUnrefundedOrdersCannotBeDeleted" xml:space="preserve">
-    <value>Esemény nem visszatérített jegyekkel nem törölhető</value>
+  <data name="EventWithActiveOrdersCannotBeDeleted" xml:space="preserve">
+    <value>Aktív rendelésekkel rendelkező esemény  nem törölhető</value>
   </data>
   <data name="PastEventCannotBeUnPublished" xml:space="preserve">
     <value>Múltbéli esemény közzététele nem vonható vissza</value>
@@ -175,10 +175,22 @@
   <data name="TicketSaleDatesMustBeBeforeEventToDate" xml:space="preserve">
     <value>A jegy eladási időszaka az esemény vége előtt kell legyen</value>
   </data>
-  <data name="TicketTypeHasNoRefundedTickets" xml:space="preserve">
-    <value>A jegy típusnak vannak vissza nem térített jegyei</value>
+  <data name="TicketTypeHasSoldTickets" xml:space="preserve">
+    <value>A jegy típusnak vannak eladott jegyei</value>
   </data>
   <data name="UserAlreadyCheckedIn" xml:space="preserve">
     <value>A felhasználó már beléptetésre került</value>
+  </data>
+  <data name="UserAlreadyAddedToTheOrganization" xml:space="preserve">
+    <value>A felhasználó már hozzá lett adva a szervezethez</value>
+  </data>
+  <data name="PrivateEventCannotBePublished" xml:space="preserve">
+    <value>Privát esemény nem publikálható</value>
+  </data>
+  <data name="PrivateEventCannotBeUnPublished" xml:space="preserve">
+    <value>Privát esemény közzététele nem visszavonható</value>
+  </data>
+  <data name="PrivateEventHasNoTicketOptions" xml:space="preserve">
+    <value>Privát eseményhez nem tartoznak jegyek</value>
   </data>
 </root>

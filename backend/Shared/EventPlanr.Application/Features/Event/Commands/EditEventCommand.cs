@@ -24,7 +24,6 @@ public class EditEventCommand : IRequest
     public string Venue { get; set; } = null!;
     public AddressDto Address { get; set; } = null!;
     public CoordinateDto Coordinate { get; set; } = null!;
-    public Currency Currency { get; set; }
 }
 
 public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
@@ -65,7 +64,6 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
             X = request.Coordinate.Latitude,
             Y = request.Coordinate.Longitude,
         });
-        eventEntity.Currency = request.Currency;
 
         await _dbContext.SaveChangesAsync();
     }

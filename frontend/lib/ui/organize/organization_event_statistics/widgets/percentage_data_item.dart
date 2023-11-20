@@ -41,7 +41,9 @@ class PercentageDataItem extends StatelessWidget {
               right: 0,
               child: Center(
                 child: Text(
-                  totalCount == 0 ? '0 %' : '${count / totalCount * 100} %',
+                  totalCount == 0
+                      ? '0 %'
+                      : '${(count / totalCount * 100).toStringAsFixed(2)} %',
                   style: style,
                 ),
               ),

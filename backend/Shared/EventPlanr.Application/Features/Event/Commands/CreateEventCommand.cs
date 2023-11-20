@@ -61,15 +61,29 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Gui
             }),
             Currency = request.Currency,
             IsPrivate = request.IsPrivate,
-            IsPublished = false,
+            IsPublished = request.IsPrivate,
             OrganizationId = (Guid)_user.OrganizationId!,
             Chat = new ChatEntity()
             {
                 LastMessageDate = timeNow,
-            }
+            },
+        };
+        var invitationTicket = new TicketEntity()
+        {
+            Name = "INVITATION_TICKET",
+            Price = 0,
+            Count = 0,
+            RemainingCount = 0,
+            SaleStarts = timeNow,
+            SaleEnds = timeNow,
+            Event = createdEvent,
         };
 
         _dbContext.Events.Add(createdEvent);
+        _dbContext.Tickets.Add(invitationTicket);
+        await _dbContext.SaveChangesAsync();
+
+        createdEvent.InvitationTicketId = invitationTicket.Id;
         await _dbContext.SaveChangesAsync();
 
         return createdEvent.Id;

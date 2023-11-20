@@ -35,7 +35,7 @@ public class GetUserEventInvitationQueryHandler : IRequestHandler<GetUserEventIn
         var invitation = await _dbContext.Invitations
             .Include(i => i.Event)
             .Include(i => i.Event.Organization)
-            .SingleEntityAsync(i => i.EventId == request.EventId && (i.UserId == _user.UserId || i.UserEmail == i.UserEmail));
+            .SingleEntityAsync(i => i.EventId == request.EventId && (i.UserId == _user.UserId));
 
         return _mapper.Map<UserInvitationDto>(invitation);
     }

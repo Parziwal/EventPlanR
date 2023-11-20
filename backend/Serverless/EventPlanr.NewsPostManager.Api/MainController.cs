@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EventPlanr.UserTicket.Api;
 
 [ApiController]
-[Route("newspost")]
+[Route("newspostmanager")]
 public class MainController : ControllerBase
 {
     private readonly ISender _sender;

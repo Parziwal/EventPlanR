@@ -13,8 +13,7 @@ public class InvitationConfiguration : IEntityTypeConfiguration<InvitationEntity
 
         builder.Property(i => i.Id)
             .HasValueGenerator<GuidValueGenerator>();
-        builder.Property(i => i.UserEmail)
-            .HasMaxLength(128)
+        builder.Property(i => i.UserId)
             .IsRequired();
         builder.Property(i => i.Status)
             .IsRequired();
@@ -22,6 +21,6 @@ public class InvitationConfiguration : IEntityTypeConfiguration<InvitationEntity
         builder.HasOne(i => i.Event)
             .WithMany(e => e.Invitations)
             .HasForeignKey(i => i.EventId)
-            .IsRequired(false);
+            .IsRequired();
     }
 }

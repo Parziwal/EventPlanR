@@ -1,6 +1,8 @@
+import 'package:event_planr_app/domain/models/organization/organization_policy.dart';
 import 'package:event_planr_app/domain/models/user/organization_member.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/cubit/user_organization_details_cubit.dart';
 import 'package:event_planr_app/ui/organize/user_organization_details/widgets/add_or_edit_member_dialog.dart';
 import 'package:event_planr_app/ui/shared/widgets/avatar_icon.dart';
@@ -16,6 +18,7 @@ class OrganizationMemberItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final user = context.watch<OrganizeNavbarCubit>().state.user;
 
     return Card(
       child: Padding(
@@ -40,20 +43,24 @@ class OrganizationMemberItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  IconButton(
-                    onPressed: () =>
-                        showAddOrEditMemberDialog(context, member: member),
-                    icon: const Icon(Icons.edit),
-                  ),
-                  IconButton(
-                    onPressed: () => _removeMember(context),
-                    icon: const Icon(Icons.delete),
-                  ),
+                  if (user!.organizationPolicies
+                      .contains(OrganizationPolicy.organizationManage)) ...[
+                    IconButton(
+                      onPressed: () =>
+                          showAddOrEditMemberDialog(context, member: member),
+                      icon: const Icon(Icons.edit),
+                    ),
+                    IconButton(
+                      onPressed: () => _removeMember(context),
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ],
                 ],
               ),
             ),
             Text(
-              'Permissions: ${member.organizationPolicies.map(
+              '${l10n.organizationDetails_Permissions}: '
+              '${member.organizationPolicies.map(
                     l10n.translateEnums,
                   ).join(', ')}',
             ),

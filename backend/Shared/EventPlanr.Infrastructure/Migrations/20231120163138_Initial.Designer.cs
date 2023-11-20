@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    [Migration("20231118102349_Initial")]
+    [Migration("20231120163138_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -101,6 +101,9 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("FromDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("InvitationTicketId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -169,12 +172,7 @@ namespace EventPlanr.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -318,9 +316,6 @@ namespace EventPlanr.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsCheckedIn")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsRefunded")
                         .HasColumnType("boolean");
 
                     b.Property<Guid>("OrderId")

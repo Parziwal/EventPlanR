@@ -115,6 +115,7 @@ namespace EventPlanr.Infrastructure.Migrations
                     IsPublished = table.Column<bool>(type: "boolean", nullable: false),
                     OrganizationId = table.Column<Guid>(type: "uuid", nullable: false),
                     ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitationTicketId = table.Column<Guid>(type: "uuid", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -143,8 +144,7 @@ namespace EventPlanr.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserEmail = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -226,7 +226,6 @@ namespace EventPlanr.Infrastructure.Migrations
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     TicketId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsRefunded = table.Column<bool>(type: "boolean", nullable: false),
                     IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false),
                     CheckInDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },

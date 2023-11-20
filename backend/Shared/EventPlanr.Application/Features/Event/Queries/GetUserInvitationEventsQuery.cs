@@ -34,7 +34,7 @@ public class GetUserInvitationEventsQueryHandler : IRequestHandler<GetUserInvita
         return await _dbContext.Events
             .AsNoTracking()
             .Include(e => e.Organization)
-            .Where(e => e.Invitations.Any(i => i.UserEmail == _user.Email))
+            .Where(e => e.Invitations.Any(i => i.UserId == _user.UserId))
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower()))

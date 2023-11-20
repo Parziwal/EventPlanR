@@ -27,6 +27,7 @@ class OrganizationEventStatisticsCubit
       emit(state.copyWith(status: OrganizationEventStatisticsStatus.loading));
       final eventStatistics =
           await _eventManagerRepository.getEventStatistics(eventId);
+      print(eventStatistics);
       emit(state.copyWith(eventStatistics: eventStatistics));
     } on Exception catch (e) {
       emit(

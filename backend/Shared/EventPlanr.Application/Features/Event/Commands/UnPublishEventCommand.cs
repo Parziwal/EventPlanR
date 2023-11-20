@@ -32,14 +32,19 @@ public class UnPublishEventCommandHandler : IRequestHandler<UnPublishEventComman
                 .ThenInclude(t => t.SoldTickets)
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (eventEntity.Tickets.Any(t => t.Count != t.RemainingCount))
+        if (eventEntity.IsPrivate)
         {
-            throw new DomainException("EventWithUnrefundedOrdersCannotBeDeleted");
+            throw new DomainException("PrivateEventCannotBeUnPublished");
+        }
+
+        if (eventEntity.Tickets.SelectMany(t => t.SoldTickets).Any())
+        {
+            throw new DomainException("EventWithActiveOrdersCannotBeDeleted");
         }
 
         if (eventEntity.ToDate < DateTime.UtcNow)
         {
-            throw new DomainException("PastEventCannotBePublished");
+            throw new DomainException("PastEventCannotBeUnPublished");
         }
 
         eventEntity.IsPublished = false;

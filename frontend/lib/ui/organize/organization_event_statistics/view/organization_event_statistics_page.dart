@@ -5,6 +5,7 @@ import 'package:event_planr_app/ui/organize/organization_event_statistics/cubit/
 import 'package:event_planr_app/ui/organize/organization_event_statistics/widgets/check_in_ticket_diagram.dart';
 import 'package:event_planr_app/ui/organize/organization_event_statistics/widgets/percentage_data_item.dart';
 import 'package:event_planr_app/ui/organize/organization_event_statistics/widgets/sold_ticket_diagram.dart';
+import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/view/organize_scaffold.dart';
 import 'package:event_planr_app/ui/shared/widgets/label.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';
@@ -56,6 +57,7 @@ class _OrganizationEventStatisticsPageState
   Widget _mainContent(BuildContext context, EventStatistics eventStatistics) {
     final l10n = context.l10n;
     final theme = context.theme;
+    final event = context.watch<OrganizeNavbarCubit>().state.event;
 
     return MaxWidthBox(
       maxWidth: 800,
@@ -63,6 +65,7 @@ class _OrganizationEventStatisticsPageState
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            if (event != null && !event.isPrivate) ...[
             Label(
               label: l10n.eventStatistics_TotalIncome,
               value: '${eventStatistics.totalIncome} '
@@ -72,6 +75,7 @@ class _OrganizationEventStatisticsPageState
             const SizedBox(height: 16),
             _soldTicketStatistics(context, eventStatistics),
             const SizedBox(height: 8),
+            ],
             _checkInStatistics(context, eventStatistics),
             const SizedBox(height: 16),
             _invitationStatistics(context, eventStatistics),

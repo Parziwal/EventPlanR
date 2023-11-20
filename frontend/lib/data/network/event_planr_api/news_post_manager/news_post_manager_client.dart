@@ -8,27 +8,27 @@ import 'package:retrofit/retrofit.dart';
 import '../models/create_news_post_command.dart';
 import '../models/organization_news_post_dto_paginated_list_dto.dart';
 
-part 'news_post_client.g.dart';
+part 'news_post_manager_client.g.dart';
 
 @RestApi()
-abstract class NewsPostClient {
-  factory NewsPostClient(Dio dio, {String? baseUrl}) = _NewsPostClient;
+abstract class NewsPostManagerClient {
+  factory NewsPostManagerClient(Dio dio, {String? baseUrl}) = _NewsPostManagerClient;
 
-  @GET('/newspost/{eventId}')
-  Future<OrganizationNewsPostDtoPaginatedListDto> getNewspostEventId({
+  @GET('/newspostmanager/{eventId}')
+  Future<OrganizationNewsPostDtoPaginatedListDto> getNewspostmanagerEventId({
     @Path('eventId') required String eventId,
     @Query('PageNumber') int? pageNumber,
     @Query('PageSize') int? pageSize,
   });
 
-  @POST('/newspost/{eventId}')
-  Future<String> postNewspostEventId({
+  @POST('/newspostmanager/{eventId}')
+  Future<String> postNewspostmanagerEventId({
     @Path('eventId') required String eventId,
     @Body() required CreateNewsPostCommand body,
   });
 
-  @DELETE('/newspost/{newsPostId}')
-  Future<void> deleteNewspostNewsPostId({
+  @DELETE('/newspostmanager/{newsPostId}')
+  Future<void> deleteNewspostmanagerNewsPostId({
     @Path('newsPostId') required String newsPostId,
   });
 }

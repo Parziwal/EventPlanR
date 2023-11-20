@@ -42,9 +42,4 @@ abstract class TicketOrderClient {
   Future<OrderDetailsDto> getTicketorderOrganizationOrderOrderId({
     @Path('orderId') required String orderId,
   });
-
-  @POST('/ticketorder/organization/order/refund/{orderId}')
-  Future<void> postTicketorderOrganizationOrderRefundOrderId({
-    @Path('orderId') required String orderId,
-  });
 }

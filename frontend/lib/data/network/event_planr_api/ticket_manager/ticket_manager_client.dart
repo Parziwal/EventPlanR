@@ -58,9 +58,4 @@ abstract class TicketManagerClient {
     @Path('soldTicketId') required String soldTicketId,
     @Body() required TicketCheckInCommand body,
   });
-
-  @POST('/ticketmanager/refund/{soldTicketId}')
-  Future<void> postTicketmanagerRefundSoldTicketId({
-    @Path('soldTicketId') required String soldTicketId,
-  });
 }

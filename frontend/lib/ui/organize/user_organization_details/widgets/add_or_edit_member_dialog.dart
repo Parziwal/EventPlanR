@@ -34,8 +34,11 @@ Future<void> showAddOrEditMemberDialog(
               builder: (context, state) => _AddOrEditMemberDialog(
                 disabled: state.status == UserOrganizationDetailsStatus.loading,
                 member: member,
-                submit:
-                    userOrganizationDetailsCubit.addOrEditOrganizationMember,
+                submit: (member) {
+                  userOrganizationDetailsCubit
+                      .addOrEditOrganizationMember(member);
+                  context.pop();
+                },
               ),
             ),
           ),
@@ -242,6 +245,36 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
           value: OrganizationPolicy.newsPostManage,
           child: Text(
             l10n.translateEnums(OrganizationPolicy.newsPostManage),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.invitationView,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.invitationView),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.invitationManage,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.invitationManage),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.eventStatistics,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.eventStatistics),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.orderView,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.orderView),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.eventChat,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.eventChat),
           ),
         ),
         FormBuilderFieldOption(

@@ -3,6 +3,7 @@ using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
+using EventPlanr.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,12 +32,11 @@ public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand>
             .Include(t => t.SoldTickets)
             .SingleEntityAsync(t => t.Id == request.TicketId && t.Event.OrganizationId == _user.OrganizationId);
 
-        if (ticket.RemainingCount != ticket.Count)
+        if (ticket.SoldTickets.Count != 0)
         {
-            throw new DomainException("TicketTypeHasNoRefundedTickets");
+            throw new DomainException("TicketTypeHasSoldTickets");
         }
 
-        ticket.SoldTickets.Clear();
         _dbContext.Tickets.Remove(ticket);
         await _dbContext.SaveChangesAsync();
     }

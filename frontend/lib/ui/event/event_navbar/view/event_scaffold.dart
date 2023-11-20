@@ -75,6 +75,7 @@ class EventScaffold extends StatelessWidget {
             Text(
               l10n.eventNavbar_SignInForMore,
               style: theme.textTheme.headlineMedium,
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
             FilledButton(
