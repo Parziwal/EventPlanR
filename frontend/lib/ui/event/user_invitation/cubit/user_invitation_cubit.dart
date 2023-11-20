@@ -25,11 +25,11 @@ class UserInvitationCubit extends Cubit<UserInvitationState> {
       final invitation =
           await _eventInvitationRepository.getUserEventInvitation(eventId);
       emit(state.copyWith(invitation: invitation));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserInvitationStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -61,11 +61,11 @@ class UserInvitationCubit extends Cubit<UserInvitationState> {
           ),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserInvitationStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

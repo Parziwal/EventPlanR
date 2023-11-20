@@ -19,5 +19,5 @@ sealed class AuthState with _$AuthState {
 
   const factory AuthState.signInNext() = SignInNext;
 
-  const factory AuthState.error(String errorCode) = Error;
+  const factory AuthState.error(Exception exception) = Error;
 }

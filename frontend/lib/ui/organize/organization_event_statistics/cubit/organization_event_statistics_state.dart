@@ -7,6 +7,6 @@ class OrganizationEventStatisticsState with _$OrganizationEventStatisticsState {
   const factory OrganizationEventStatisticsState({
     required OrganizationEventStatisticsStatus status,
     EventStatistics? eventStatistics,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationEventStatisticsState;
 }

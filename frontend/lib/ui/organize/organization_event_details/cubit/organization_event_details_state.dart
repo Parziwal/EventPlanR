@@ -13,6 +13,6 @@ class OrganizationEventDetailsState with _$OrganizationEventDetailsState {
   const factory OrganizationEventDetailsState({
     required OrganizationEventDetailsStatus status,
     OrganizationEventDetails? eventDetails,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationEventDetailsState;
 }

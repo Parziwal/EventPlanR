@@ -13,6 +13,6 @@ class UserInvitationState with _$UserInvitationState {
   const factory UserInvitationState({
     required UserInvitationStatus status,
     UserInvitation? invitation,
-    String? errorCode,
+    Exception? exception,
   }) = _UserInvitationState;
 }

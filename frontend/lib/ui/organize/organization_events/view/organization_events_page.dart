@@ -46,7 +46,7 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
     context.watch<OrganizationEventsCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
         nextPageKey: state.pageNumber,
-        error: state.errorCode,
+        error: state.exception,
         itemList: state.events,
       );
     });

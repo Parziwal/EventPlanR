@@ -13,6 +13,8 @@
   "pick": "Kiválaszt",
   "pageNotFound": "Az oldal nem található",
   "events": "Események",
+  "validationException": "Validációs hiba",
+  "forbiddenException": "Nincs engedélyed",
   "enum_OrganizationView": "Szervezet megnézése",
   "enum_OrganizationManage": "Szervezet kezelése",
   "enum_OrganizationEventView": "Esemény megnézése",
@@ -92,7 +94,7 @@
   "auth_SignInNotConfirmedWithNewPasswordException": "A bejelentkezés nincs megerősítve",
   "eventNavbar_ExploreEvents": "Felfedezés",
   "eventNavbar_UserEvents": "Esemény",
-  "eventNavbar_UserMessages": "Üzenet",
+  "eventNavbar_UserMessages": "Csevegés",
   "eventNavbar_UserProfile": "Profil",
   "eventNavbar_ManageEvents": "Események kezelése",
   "eventNavbar_SignIn": "Bejelentkezés",
@@ -195,7 +197,7 @@
       }
     }
   },
-  "chatMessage_Message": "Üzenet",
+  "chatMessage_Message": "Csevegés",
   "chatMessage_Chat": "Csevegés",
   "userProfile": "Profil",
   "userProfile_EditProfile": "Profil szerkesztése",

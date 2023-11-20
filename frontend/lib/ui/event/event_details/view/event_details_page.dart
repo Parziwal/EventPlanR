@@ -105,7 +105,7 @@ class EventDetailsPage extends StatelessWidget {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.translateError(state.errorCode!),
+              l10n.translateError(state.exception!),
               style: TextStyle(color: theme.colorScheme.onError),
             ),
             backgroundColor: theme.colorScheme.error,

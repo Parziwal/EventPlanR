@@ -11,6 +11,6 @@ class CheckInTicketScannerState with _$CheckInTicketScannerState {
   const factory CheckInTicketScannerState({
     required CheckInTicketScannerStatus status,
     CheckInTicket? checkedTicket,
-    String? errorCode,
+    Exception? exception,
   }) = _CheckInTicketScannerState;
 }

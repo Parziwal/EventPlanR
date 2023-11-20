@@ -42,11 +42,11 @@ class OrganizationEventNewsCubit extends Cubit<OrganizationEventNewsState> {
           pageNumber: newsPosts.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventNewsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -61,11 +61,11 @@ class OrganizationEventNewsCubit extends Cubit<OrganizationEventNewsState> {
           status: OrganizationEventNewsStatus.newsCreated,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventNewsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -81,11 +81,11 @@ class OrganizationEventNewsCubit extends Cubit<OrganizationEventNewsState> {
     try {
       await _newsPostRepository.deleteNewsPost(newsId);
       emit(state.copyWith(status: OrganizationEventNewsStatus.newsDeleted));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventNewsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

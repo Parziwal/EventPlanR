@@ -42,11 +42,11 @@ class EventNewsCubit extends Cubit<EventNewsState> {
           pageNumber: newsPosts.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EventNewsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

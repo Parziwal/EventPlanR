@@ -40,11 +40,11 @@ class CreateOrEditTicketCubit extends Cubit<CreateOrEditTicketState> {
       emit(
         state.copyWith(status: CreateOrEditTicketStatus.ticketSubmitted),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: CreateOrEditTicketStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

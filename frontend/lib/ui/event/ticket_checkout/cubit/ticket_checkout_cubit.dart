@@ -35,11 +35,11 @@ class TicketCheckoutCubit extends Cubit<TicketCheckoutState> {
       emit(state.copyWith(status: TicketCheckoutStatus.loading));
       await _ticketOrderRepository.orderReservedTickets(order);
       emit(state.copyWith(status: TicketCheckoutStatus.ticketsOrdered));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: TicketCheckoutStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

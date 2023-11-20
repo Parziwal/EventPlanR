@@ -27,11 +27,11 @@ class EventDetailsCubit extends Cubit<EventDetailsState> {
           eventDetails: eventDetails,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EventDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

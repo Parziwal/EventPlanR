@@ -29,11 +29,11 @@ class OrganizationDetailsCubit extends Cubit<OrganizationDetailsState> {
       final organization =
           await _eventGeneralRepository.getOrganizationDetails(organizationId);
       emit(state.copyWith(organizationDetails: organization));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -66,10 +66,10 @@ class OrganizationDetailsCubit extends Cubit<OrganizationDetailsState> {
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

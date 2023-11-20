@@ -13,6 +13,6 @@ class OrganizationEventCheckInDetailsState
   const factory OrganizationEventCheckInDetailsState({
     required OrganizationEventCheckInDetailsStatus status,
     CheckInTicketDetails? checkInTicketDetails,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationEventCheckInDetailsState;
 }

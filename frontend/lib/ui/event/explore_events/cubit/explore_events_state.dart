@@ -8,6 +8,6 @@ class ExploreEventsState with _$ExploreEventsState {
     @Default(true) bool eventView,
     List<Event>? events,
     List<Organization>? organizations,
-    String? errorCode,
+    Exception? exception,
   }) = _ExploreEventsState;
 }

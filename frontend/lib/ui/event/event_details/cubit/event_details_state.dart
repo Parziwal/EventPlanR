@@ -11,6 +11,6 @@ class EventDetailsState with _$EventDetailsState {
   const factory EventDetailsState({
     required EventDetailsStatus status,
     EventDetails? eventDetails,
-    String? errorCode,
+    Exception? exception,
   }) = _EventDetailsState;
 }

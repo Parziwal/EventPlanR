@@ -35,11 +35,11 @@ class UserOrganizationsCubit extends Cubit<UserOrganizationsState> {
           organizations: organizations,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserOrganizationsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -55,11 +55,11 @@ class UserOrganizationsCubit extends Cubit<UserOrganizationsState> {
           status: UserOrganizationsStatus.organizationChanged,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserOrganizationsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

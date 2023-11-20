@@ -11,6 +11,6 @@ enum EditSecurityStatus {
 class EditSecurityState with _$EditSecurityState {
   const factory EditSecurityState({
     required EditSecurityStatus status,
-    String? errorCode,
+    Exception? exception,
   }) = _EditSecurityState;
 }

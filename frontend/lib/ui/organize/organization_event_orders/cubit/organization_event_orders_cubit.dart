@@ -43,10 +43,10 @@ class OrganizationEventOrdersCubit extends Cubit<OrganizationEventOrdersState> {
           pageNumber: orders.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

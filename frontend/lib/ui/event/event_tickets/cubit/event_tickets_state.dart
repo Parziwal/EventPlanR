@@ -18,6 +18,6 @@ class EventTicketsState with _$EventTicketsState {
     List<Ticket> tickets,
     @Default([])
     List<AddReserveTicket> reservedTickets,
-    String? errorCode,
+    Exception? exception,
   }) = _EventTicketsState;
 }

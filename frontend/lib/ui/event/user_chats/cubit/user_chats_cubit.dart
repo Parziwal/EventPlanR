@@ -35,11 +35,11 @@ class UserChatsCubit extends Cubit<UserChatsState> {
           pageNumber: chats.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserChatsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -64,11 +64,11 @@ class UserChatsCubit extends Cubit<UserChatsState> {
           pageNumber: chats.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserChatsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -85,11 +85,11 @@ class UserChatsCubit extends Cubit<UserChatsState> {
           status: UserChatsStatus.chatCreated,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserChatsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

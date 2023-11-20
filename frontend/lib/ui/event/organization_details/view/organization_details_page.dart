@@ -51,7 +51,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage> {
     context.watch<OrganizationDetailsCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
         nextPageKey: state.pageNumber,
-        error: state.errorCode,
+        error: state.exception,
         itemList: state.events,
       );
     });
@@ -185,7 +185,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage> {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.translateError(state.errorCode!),
+              l10n.translateError(state.exception!),
               style: TextStyle(color: theme.colorScheme.onError),
             ),
             backgroundColor: theme.colorScheme.error,

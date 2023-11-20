@@ -34,11 +34,11 @@ class OrganizationEventDetailsCubit
           eventDetails: eventDetails,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -61,11 +61,11 @@ class OrganizationEventDetailsCubit
               .copyWith(isPublished: !state.eventDetails!.isPublished),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -83,11 +83,11 @@ class OrganizationEventDetailsCubit
           status: OrganizationEventDetailsStatus.eventDeleted,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -109,11 +109,11 @@ class OrganizationEventDetailsCubit
           eventDetails: state.eventDetails!.copyWith(coverImageUrl: imageUrl),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:event_planr_app/data/network/event_planr_api/chat_manager/chat_manager_client.dart';
@@ -11,6 +13,10 @@ import 'package:event_planr_app/data/network/event_planr_api/ticket_order/ticket
 import 'package:event_planr_app/data/network/event_planr_api/user_ticket/user_ticket_client.dart';
 import 'package:event_planr_app/data/network/nominatim_api/nominatim_client.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
+import 'package:event_planr_app/domain/exceptions/common/domain_exception.dart';
+import 'package:event_planr_app/domain/exceptions/common/entity_not_found_exception.dart';
+import 'package:event_planr_app/domain/exceptions/common/forbidden_exception.dart';
+import 'package:event_planr_app/domain/exceptions/common/validation_exception.dart';
 import 'package:event_planr_app/env/env.dart';
 import 'package:injectable/injectable.dart';
 
@@ -30,14 +36,32 @@ abstract class NetworkModule {
           return handler.next(options);
         },
         onError: (e, handler) {
-          if (e.response?.statusCode == 400) {
-
-          } else if (e.response?.statusCode == 403) {
-            
-          } else if (e.response?.statusCode == 404) {
-
-          }
           safePrint(e.response);
+
+          final responseData =
+              jsonDecode(e.response?.data as String) as Map<String, dynamic>;
+          if (responseData['instance'] == 'EntityNotFoundException') {
+            return handler.next(
+              DomainException(
+                title: responseData['title'] as String,
+              ),
+            );
+          } else if (responseData['instance'] == 'ValidationException') {
+            return handler.next(
+              ValidationException(),
+            );
+          } else if (responseData['instance'] == 'ForbiddenException') {
+            return handler.next(
+              ForbiddenException(),
+            );
+          } else if (responseData['instance'] == 'EntityNotFoundException') {
+            return handler.next(
+              EntityNotFoundException(
+                title: responseData['title'] as String,
+              ),
+            );
+          }
+
           return handler.next(e);
         },
       ),

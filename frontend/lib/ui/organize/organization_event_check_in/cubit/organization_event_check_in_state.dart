@@ -4,7 +4,7 @@ part of 'organization_event_check_in_cubit.dart';
 class OrganizationEventCheckInState with _$OrganizationEventCheckInState {
   const factory OrganizationEventCheckInState({
     List<CheckInTicket>? soldTickets,
-    String? errorCode,
+    Exception? exception,
     int? pageNumber,
 }) = _OrganizationEventCheckInState;
 }

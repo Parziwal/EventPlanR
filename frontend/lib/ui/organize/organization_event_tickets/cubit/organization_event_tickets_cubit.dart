@@ -34,11 +34,11 @@ class OrganizationEventTicketsCubit
           tickets: tickets,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventTicketsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -47,11 +47,11 @@ class OrganizationEventTicketsCubit
   Future<void> deleteTicket(String ticketId) async {
     try {
       await _ticketManagerRepository.deleteTicket(ticketId);
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventTicketsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

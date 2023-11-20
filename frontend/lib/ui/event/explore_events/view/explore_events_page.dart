@@ -46,7 +46,7 @@ class _ExploreEventsPageState extends State<ExploreEventsPage> {
     context.watch<ExploreEventsCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
         nextPageKey: state.eventFilter.pageNumber,
-        error: state.errorCode,
+        error: state.exception,
         itemList: state.events,
       );
     });

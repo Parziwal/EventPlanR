@@ -15,6 +15,6 @@ class CreateOrEditEventState with _$CreateOrEditEventState {
     @Default(false) bool edit,
     MapLocation? location,
     OrganizationEventDetails? eventDetails,
-    String? errorCode,
+    Exception? exception,
   }) = _CreateEventState;
 }

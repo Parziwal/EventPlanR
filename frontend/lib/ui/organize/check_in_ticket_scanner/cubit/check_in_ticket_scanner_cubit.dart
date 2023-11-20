@@ -33,11 +33,11 @@ class CheckInTicketScannerCubit extends Cubit<CheckInTicketScannerState> {
           checkedTicket: newTicket,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: CheckInTicketScannerStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

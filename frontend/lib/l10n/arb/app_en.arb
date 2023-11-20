@@ -13,6 +13,8 @@
   "pick": "Pick",
   "pageNotFound": "Page not found",
   "events": "Events",
+  "validationException": "Validation error",
+  "forbiddenException": "You don't have permission",
   "enum_OrganizationView": "Organization view",
   "enum_OrganizationManage": "Organization manage",
   "enum_OrganizationEventView": "Event view",

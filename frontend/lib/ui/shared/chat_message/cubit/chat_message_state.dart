@@ -15,6 +15,6 @@ class ChatMessageState with _$ChatMessageState {
     List<Message> messages,
     @Default(User(id: ''))
     User user,
-    String? errorCode,
+    Exception? exception,
   }) = _ChatMessageState;
 }

@@ -8,6 +8,6 @@ class UserTicketOrderState with _$UserTicketOrderState {
     required UserTicketOrderStatus status,
     @Default([])
     List<OrderDetails> orders,
-    String? errorCode,
+    Exception? exception,
   }) = _UserTicketOrderState;
 }

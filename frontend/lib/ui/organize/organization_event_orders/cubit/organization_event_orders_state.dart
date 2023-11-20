@@ -5,6 +5,6 @@ class OrganizationEventOrdersState with _$OrganizationEventOrdersState {
   const factory OrganizationEventOrdersState({
     List<EventOrder>? eventOrders,
     int? pageNumber,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationEventOrdersState;
 }

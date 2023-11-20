@@ -7,6 +7,6 @@ class UserOrganizationsState with _$UserOrganizationsState {
   const factory UserOrganizationsState({
     required UserOrganizationsStatus status,
     List<Organization>? organizations,
-    String? errorCode,
+    Exception? exception,
   }) = _UserOrganizationsState;
 }

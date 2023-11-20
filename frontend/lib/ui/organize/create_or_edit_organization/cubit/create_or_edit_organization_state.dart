@@ -13,6 +13,6 @@ class CreateOrEditOrganizationState with _$CreateOrEditOrganizationState {
     required CreateOrEditOrganizationStatus status,
     @Default(false) bool edit,
     OrganizationDetails? organizationDetails,
-    String? errorCode,
+    Exception? exception,
   }) = _CreateOrEditOrganizationState;
 }

@@ -28,11 +28,11 @@ class OrganizationEventOrderDetailsCubit
       final order = await _ticketOrderRepository
           .getOrganizationEventOrderDetails(orderId);
       emit(state.copyWith(orderDetails: order));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventOrderDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
