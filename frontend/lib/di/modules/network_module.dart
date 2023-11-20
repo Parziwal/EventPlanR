@@ -12,6 +12,7 @@ import 'package:event_planr_app/data/network/event_planr_api/ticket_manager/tick
 import 'package:event_planr_app/data/network/event_planr_api/ticket_order/ticket_order_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/user_ticket/user_ticket_client.dart';
 import 'package:event_planr_app/data/network/nominatim_api/nominatim_client.dart';
+import 'package:event_planr_app/domain/app_settings_repository.dart';
 import 'package:event_planr_app/domain/auth_repository.dart';
 import 'package:event_planr_app/domain/exceptions/common/domain_exception.dart';
 import 'package:event_planr_app/domain/exceptions/common/entity_not_found_exception.dart';
@@ -23,7 +24,10 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class NetworkModule {
   @singleton
-  Dio getDio(AuthRepository authRepository) {
+  Dio getDio(
+    AuthRepository authRepository,
+    AppSettingsRepository appSettingsRepository,
+  ) {
     final dio = Dio();
     dio.interceptors.add(LogInterceptor());
     dio.interceptors.add(
@@ -33,6 +37,8 @@ abstract class NetworkModule {
           if (await authRepository.isUserSignedIn) {
             options.headers['Authorization'] = await authRepository.bearerToken;
           }
+          final local = appSettingsRepository.getLanguage();
+          options.headers['Accept-Language'] = local.languageCode;
           return handler.next(options);
         },
         onError: (e, handler) {
