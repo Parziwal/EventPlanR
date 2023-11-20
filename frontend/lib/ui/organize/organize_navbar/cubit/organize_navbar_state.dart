@@ -12,6 +12,6 @@ class OrganizeNavbarState with _$OrganizeNavbarState {
     Organization? organization,
     OrganizationEvent? event,
     User? user,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizeNavbarState;
 }

@@ -7,6 +7,10 @@ using EventPlanr.Infrastructure;
 using EventPlanr.LambdaBase.ExceptionHandling;
 using EventPlanr.LambdaBase.Swagger;
 using System.Text.Json.Serialization;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using EventPlanr.Application.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace EventPlanr.LambdaBase;
 
@@ -45,6 +49,19 @@ public static class ProgramExtensions
         builder.Services.AddCustomExceptionHandling();
         builder.Services.AddSwagger();
 
+        builder.Services.AddLocalization();
+        builder.Services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("en"),
+                new CultureInfo("hu")
+            };
+            options.DefaultRequestCulture = new RequestCulture("en");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+        });
+
         return builder;
     }
 
@@ -53,6 +70,14 @@ public static class ProgramExtensions
         app.UseCustomExceptionHandling();
         app.UseSwagger();
         app.MapControllers();
+        app.UseRequestLocalization();
+
+        using (var serviceScope = app.Services.CreateScope())
+        {
+            var services = serviceScope.ServiceProvider;
+            var localizer = services.GetRequiredService<IStringLocalizer<EventPlanrApplication>>();
+            LocalizerManager.SetLocalizer(localizer);
+        }
 
         return app;
     }

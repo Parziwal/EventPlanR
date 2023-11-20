@@ -33,11 +33,11 @@ class EventTicketsCubit extends Cubit<EventTicketsState> {
           currency: tickets.isNotEmpty ? tickets.first.currency : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EventTicketsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -100,11 +100,11 @@ class EventTicketsCubit extends Cubit<EventTicketsState> {
       emit(state.copyWith(status: EventTicketsStatus.loading));
       await _ticketOrderRepository.reserveTickets(state.reservedTickets);
       emit(state.copyWith(status: EventTicketsStatus.ticketsReserved));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EventTicketsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
           reservedTickets: [],
           totalPrice: 0,
         ),

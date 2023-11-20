@@ -42,7 +42,7 @@ class _OrganizationEventOrdersPageState
     context.watch<OrganizationEventOrdersCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
         nextPageKey: state.pageNumber,
-        error: state.errorCode,
+        error: state.exception,
         itemList: state.eventOrders,
       );
     });

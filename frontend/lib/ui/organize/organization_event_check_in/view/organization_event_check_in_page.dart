@@ -44,7 +44,7 @@ class _OrganizationEventCheckInPageState
     context.watch<OrganizationEventCheckInCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
         nextPageKey: state.pageNumber,
-        error: state.errorCode,
+        error: state.exception,
         itemList: state.soldTickets,
       );
     });

@@ -8,6 +8,6 @@ class UserEventTicketsState with _$UserEventTicketsState {
     required UserEventTicketsStatus status,
     @Default([])
     List<SoldTicket> soldTickets,
-    String? errorCode,
+    Exception? exception,
   }) = _UserEventTicketsState;
 }

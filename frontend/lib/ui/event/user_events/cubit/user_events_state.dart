@@ -9,6 +9,6 @@ class UserEventsState with _$UserEventsState {
     @Default([])
     List<Event> events,
     int? pageNumber,
-    String? errorCode,
+    Exception? exception,
   }) = _UserEventsState;
 }

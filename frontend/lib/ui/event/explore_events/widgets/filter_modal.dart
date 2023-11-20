@@ -120,6 +120,7 @@ class _FilterModal extends StatelessWidget {
                   filter.fromDate == null && filter.toDate == null
                       ? l10n.exploreEvents_Anytime
                       : formatDateRange(
+                    context,
                     filter.fromDate!,
                     filter.toDate!,
                   ),

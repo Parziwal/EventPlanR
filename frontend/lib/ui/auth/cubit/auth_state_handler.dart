@@ -33,13 +33,13 @@ void authStateHandler(BuildContext context, AuthState state) {
         );
     case SignInNext():
       context.go(PagePaths.signIn);
-    case Error(:final errorCode):
+    case Error(:final exception):
       context.scaffoldMessenger
         ..hideCurrentSnackBar()
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.translateError(errorCode),
+              l10n.translateError(exception),
               style: TextStyle(color: theme.colorScheme.onError),
             ),
             backgroundColor: theme.colorScheme.error,

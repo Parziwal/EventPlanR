@@ -13,6 +13,6 @@ class UserChatsState with _$UserChatsState {
     required UserChatsStatus status,
     List<Chat>? chats,
     int? pageNumber,
-    String? errorCode,
+    Exception? exception,
   }) = _UserChatsState;
 }

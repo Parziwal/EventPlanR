@@ -11,7 +11,7 @@ class OrganizationEventInvitationState with _$OrganizationEventInvitationState {
   const factory OrganizationEventInvitationState({
     required OrganizationEventInvitationStatus status,
     List<EventInvitation>? invitations,
-    String? errorCode,
+    Exception? exception,
     int? pageNumber,
     String? eventId,
   }) = _OrganizationEventInvitationState;

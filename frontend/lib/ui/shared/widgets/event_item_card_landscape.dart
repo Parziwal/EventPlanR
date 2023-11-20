@@ -46,6 +46,7 @@ class EventItemCardLandscape extends StatelessWidget {
                     children: [
                       Text(
                         formatEventDateTimeRange(
+                          context,
                           event.fromDate,
                           event.toDate,
                         ),

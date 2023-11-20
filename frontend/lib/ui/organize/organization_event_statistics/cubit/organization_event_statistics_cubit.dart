@@ -28,11 +28,11 @@ class OrganizationEventStatisticsCubit
       final eventStatistics =
           await _eventManagerRepository.getEventStatistics(eventId);
       emit(state.copyWith(eventStatistics: eventStatistics));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventStatisticsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

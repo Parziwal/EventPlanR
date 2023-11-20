@@ -8,6 +8,6 @@ class OrganizationEventOrderDetailsState
   const factory OrganizationEventOrderDetailsState({
     required OrganizationEventOrderDetailsStatus status,
     OrderDetails? orderDetails,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationEventOrderDetailsState;
 }

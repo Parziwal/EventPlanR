@@ -42,11 +42,11 @@ class CreateOrEditEventCubit extends Cubit<CreateOrEditEventState> {
           eventDetails: eventDetails,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: CreateOrEditEventStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -65,11 +65,11 @@ class CreateOrEditEventCubit extends Cubit<CreateOrEditEventState> {
           location: locationDetails,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: CreateOrEditEventStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -80,11 +80,11 @@ class CreateOrEditEventCubit extends Cubit<CreateOrEditEventState> {
       emit(state.copyWith(status: CreateOrEditEventStatus.loading));
       await _eventManagerRepository.createOrEditEvent(event);
       emit(state.copyWith(status: CreateOrEditEventStatus.eventSubmitted));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: CreateOrEditEventStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

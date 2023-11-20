@@ -39,11 +39,11 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -68,11 +68,11 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -97,11 +97,11 @@ class OrganizationEventsCubit extends Cubit<OrganizationEventsState> {
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

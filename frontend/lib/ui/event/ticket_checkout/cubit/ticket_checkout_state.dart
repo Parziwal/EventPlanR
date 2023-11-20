@@ -11,6 +11,6 @@ class TicketCheckoutState with _$TicketCheckoutState {
     @Default([])
     List<AddReserveTicket> reservedTickets,
     DateTime? expirationTime,
-    String? errorCode,
+    Exception? exception,
 }) = _TicketCheckoutState;
 }

@@ -20,18 +20,21 @@ public static class ExceptionHandlingExtensions
             {
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status404NotFound);
                 problemDetails.Title = exception.Message;
+                problemDetails.Instance = nameof(EntityNotFoundException);
                 return problemDetails;
             });
             setup.Map<DomainException>((context, exception) =>
             {
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status400BadRequest);
                 problemDetails.Title = exception.Message;
+                problemDetails.Instance = nameof(DomainException);
                 return problemDetails;
             });
             setup.Map<ForbiddenException>((context, exception) =>
             {
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status403Forbidden);
                 problemDetails.Title = exception.Message;
+                problemDetails.Instance = nameof(ForbiddenException);
                 return problemDetails;
             });
             setup.Map<ValidationException>((context, exception) =>
@@ -39,6 +42,7 @@ public static class ExceptionHandlingExtensions
                 var problemDetails = StatusCodeProblemDetails.Create(StatusCodes.Status400BadRequest);
                 problemDetails.Title = exception.Message;
                 problemDetails.Detail = JsonSerializer.Serialize(exception.Errors);
+                problemDetails.Instance = nameof(ValidationException);
                 return problemDetails;
             });
         });

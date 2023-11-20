@@ -38,11 +38,11 @@ class UserOrganizationDetailsCubit extends Cubit<UserOrganizationDetailsState> {
           organizationDetails: organizationDetails,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserOrganizationDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -58,11 +58,11 @@ class UserOrganizationDetailsCubit extends Cubit<UserOrganizationDetailsState> {
           status: UserOrganizationDetailsStatus.organizationDeleted,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserOrganizationDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -76,11 +76,11 @@ class UserOrganizationDetailsCubit extends Cubit<UserOrganizationDetailsState> {
       await _organizationManagerRepository
           .addOrEditMemberToOrganization(member);
       await loadUserOrganizationDetails();
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserOrganizationDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -92,11 +92,11 @@ class UserOrganizationDetailsCubit extends Cubit<UserOrganizationDetailsState> {
       await _organizationManagerRepository
           .removeMemberFromCurrentOrganization(memberUserId);
       await loadUserOrganizationDetails();
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserOrganizationDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -113,11 +113,11 @@ class UserOrganizationDetailsCubit extends Cubit<UserOrganizationDetailsState> {
               state.organizationDetails!.copyWith(profileImageUrl: imageUrl),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserOrganizationDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

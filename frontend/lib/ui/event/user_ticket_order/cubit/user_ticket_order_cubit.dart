@@ -24,11 +24,11 @@ class UserTicketOrderCubit extends Cubit<UserTicketOrderState> {
         eventId,
       );
       emit(state.copyWith(orders: orders));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserTicketOrderStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

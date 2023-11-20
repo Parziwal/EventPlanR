@@ -51,7 +51,9 @@ class OrganizationEventOrderDetailsPage extends StatelessWidget {
             Label(
               label: '#${orderDetails.id}',
               value: '${l10n.organizationEventOrderDetails_Created}: '
-                  '${DateFormat.yMd().format(orderDetails.created)}',
+                  '${DateFormat.yMd(
+                l10n.localeName,
+              ).format(orderDetails.created)}',
               textStyle: theme.textTheme.titleMedium,
               backgroundColor: theme.colorScheme.inversePrimary,
             ),
@@ -130,7 +132,7 @@ class OrganizationEventOrderDetailsPage extends StatelessWidget {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.translateError(state.errorCode!),
+              l10n.translateError(state.exception!),
               style: TextStyle(color: theme.colorScheme.onError),
             ),
             backgroundColor: theme.colorScheme.error,

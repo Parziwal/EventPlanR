@@ -26,13 +26,13 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.signInUser(credential);
       emit(const AuthState.success());
     } on AuthSignUpNotConfirmedException catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
       emit(const AuthState.confirmSignUp());
     } on AuthSignInNotConfirmedWithNewPasswordException catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
       emit(const AuthState.confirmSignInWithNewPassword());
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }
@@ -44,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.signUpUser(credential);
       emit(const AuthState.confirmSignUp());
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }
@@ -57,7 +57,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(const AuthState.success());
       }
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }
@@ -69,7 +69,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.confirmSignUp(code);
       emit(const AuthState.signInNext());
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }
@@ -83,7 +83,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.confirmSignInWithNewPassword(credential);
       emit(const AuthState.signInNext());
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }
@@ -95,7 +95,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.resendConfirmationCode();
       emit(const AuthState.codeResended());
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }
@@ -107,7 +107,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.forgotPassword(email);
       emit(const AuthState.confirmForgotPassword());
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }
@@ -121,7 +121,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authRepository.confirmForgotPassword(credential);
       emit(const AuthState.signInNext());
     } on Exception catch (e) {
-      emit(AuthState.error(e.toString()));
+      emit(AuthState.error(e));
     } finally {
       emit(const AuthState.idle());
     }

@@ -41,7 +41,7 @@ public class EditOrganizationMemberCommandHandler : IRequestHandler<EditOrganiza
 
         if (!organization.MemberUserIds.Contains(request.MemberUserId))
         {
-            throw new DomainException("UserNotBelongToOrganizationException");
+            throw new DomainException("UserNotBelongToOrganization");
         }
 
         await _userClaimService.PutOrganizationToUserAsync(request.MemberUserId, new OrganizationPolicyEntity()

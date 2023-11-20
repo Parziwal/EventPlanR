@@ -9,6 +9,6 @@ class OrganizationDetailsState with _$OrganizationDetailsState {
     OrganizationDetails? organizationDetails,
     List<Event>? events,
     int? pageNumber,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationDetailsState;
 }

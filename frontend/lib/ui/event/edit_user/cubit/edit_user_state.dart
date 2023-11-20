@@ -16,6 +16,6 @@ class EditUserState with _$EditUserState {
     @Default(false)
     bool emailConfirmationNeeded,
     User? user,
-    String? errorCode,
+    Exception? exception,
   }) = _EditUserState;
 }

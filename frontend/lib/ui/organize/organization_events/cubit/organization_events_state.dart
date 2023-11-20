@@ -9,6 +9,6 @@ class OrganizationEventsState with _$OrganizationEventsState {
     @Default([])
     List<OrganizationEvent> events,
     int? pageNumber,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationEventsState;
 }

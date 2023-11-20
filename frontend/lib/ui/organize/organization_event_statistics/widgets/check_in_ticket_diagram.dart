@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 // ignore_for_file: prefer_const_declarations
 
-class CheckInTicketDiagram extends StatelessWidget {
+class CheckInTicketDiagram extends StatefulWidget {
   const CheckInTicketDiagram({
     required this.chartSpots,
     required this.perDay,
@@ -17,6 +17,11 @@ class CheckInTicketDiagram extends StatelessWidget {
   final List<ChartSpot> chartSpots;
   final bool perDay;
 
+  @override
+  State<CheckInTicketDiagram> createState() => _CheckInTicketDiagramState();
+}
+
+class _CheckInTicketDiagramState extends State<CheckInTicketDiagram> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -110,7 +115,7 @@ class CheckInTicketDiagram extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: [
-            ...chartSpots.map(
+            ...widget.chartSpots.map(
               (spot) => FlSpot(
                 _dateTimeToFlSpot(spot.dateTime),
                 spot.count.toDouble(),
@@ -133,13 +138,13 @@ class CheckInTicketDiagram extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-
+    final l10n = context.l10n;
     final dateTime = _flSpotToDateTime(value);
     String sideTitle;
-    if (perDay) {
-      sideTitle = DateFormat.E().format(dateTime);
+    if (widget.perDay) {
+      sideTitle = DateFormat.E(l10n.localeName).format(dateTime);
     } else {
-      sideTitle = DateFormat.Hm().format(dateTime);
+      sideTitle = DateFormat.Hm(l10n.localeName).format(dateTime);
     }
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -158,7 +163,7 @@ class CheckInTicketDiagram extends StatelessWidget {
   }
 
   DateTime _flSpotToDateTime(double value) {
-    if (perDay) {
+    if (widget.perDay) {
       return DateTime(
         value ~/ 10000,
         (value / 100 % 100).toInt(),
@@ -175,7 +180,7 @@ class CheckInTicketDiagram extends StatelessWidget {
   }
 
   double _dateTimeToFlSpot(DateTime dateTime) {
-    if (perDay) {
+    if (widget.perDay) {
       return (dateTime.year * 10000 + dateTime.month * 100 + dateTime.day)
           .toDouble();
     } else {

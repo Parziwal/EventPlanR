@@ -8,6 +8,6 @@ class EventNewsState with _$EventNewsState {
     required EventNewsStatus status,
     @Default([]) List<NewsPost> newsPosts,
     int? pageNumber,
-    String? errorCode,
+    Exception? exception,
   }) = _EventNewsState;
 }

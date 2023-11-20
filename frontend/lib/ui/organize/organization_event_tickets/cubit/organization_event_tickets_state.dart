@@ -8,6 +8,6 @@ class OrganizationEventTicketsState with _$OrganizationEventTicketsState {
     required OrganizationEventTicketsStatus status,
     String? eventId,
     List<OrganizationTicket>? tickets,
-    String? errorCode,
+    Exception? exception,
   }) = _OrganizationEventTicketsState;
 }

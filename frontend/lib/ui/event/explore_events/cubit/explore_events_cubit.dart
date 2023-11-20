@@ -61,10 +61,10 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
           ),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -95,10 +95,10 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
           ),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -127,10 +127,10 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
           ),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

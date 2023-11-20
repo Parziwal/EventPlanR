@@ -33,12 +33,12 @@ public class PublishEventCommandHandler : IRequestHandler<PublishEventCommand>
 
         if (!eventEntity.IsPrivate && eventEntity.Tickets.Count == 0)
         {
-            throw new DomainException("Public event without tickets cannot be published");
+            throw new DomainException("PublicEventWithoutTicketsCannotBePublished");
         }
 
         if (eventEntity.FromDate < DateTime.UtcNow)
         {
-            throw new DomainException("Past event cannot be published");
+            throw new DomainException("PastEventCannotBePublished");
         }
 
         eventEntity.IsPublished = true;

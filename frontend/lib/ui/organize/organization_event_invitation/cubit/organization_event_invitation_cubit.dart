@@ -55,10 +55,10 @@ class OrganizationEventInvitationCubit
           pageNumber: tickets.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -81,10 +81,10 @@ class OrganizationEventInvitationCubit
           status: OrganizationEventInvitationStatus.invitationCreated,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -106,10 +106,10 @@ class OrganizationEventInvitationCubit
           status: OrganizationEventInvitationStatus.invitationDeleted,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

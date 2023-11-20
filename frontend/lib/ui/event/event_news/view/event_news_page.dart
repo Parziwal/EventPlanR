@@ -40,7 +40,7 @@ class _EventNewsPageState extends State<EventNewsPage> {
     context.watch<EventNewsCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
         nextPageKey: state.pageNumber,
-        error: state.errorCode,
+        error: state.exception,
         itemList: state.newsPosts,
       );
     });

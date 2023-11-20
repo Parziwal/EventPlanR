@@ -36,11 +36,11 @@ class OrganizationEventCheckInDetailsCubit
           checkInTicketDetails: ticket,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventCheckInDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -70,11 +70,11 @@ class OrganizationEventCheckInDetailsCubit
               ?.copyWith(isCheckedIn: ticket.isCheckedIn),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: OrganizationEventCheckInDetailsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

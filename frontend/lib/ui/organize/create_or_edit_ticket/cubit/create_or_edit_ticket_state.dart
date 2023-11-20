@@ -13,6 +13,6 @@ class CreateOrEditTicketState with _$CreateOrEditTicketState {
     required CreateOrEditTicketStatus status,
     @Default(false) bool edit,
     OrganizationTicket? ticket,
-    String? errorCode,
+    Exception? exception,
   }) = _CreateOrEditTicketState;
 }

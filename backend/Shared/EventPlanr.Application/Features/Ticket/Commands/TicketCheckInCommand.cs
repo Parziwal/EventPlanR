@@ -43,7 +43,7 @@ public class TicketCheckInCommandHandler : IRequestHandler<TicketCheckInCommand,
 
         if (soldTicket.IsCheckedIn && request.CheckIn)
         {
-            throw new DomainException();
+            throw new DomainException("UserAlreadyCheckedIn");
         }
 
         soldTicket.IsCheckedIn = request.CheckIn;

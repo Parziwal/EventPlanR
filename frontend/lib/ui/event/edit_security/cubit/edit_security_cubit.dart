@@ -21,11 +21,11 @@ class EditSecurityCubit extends Cubit<EditSecurityState> {
       emit(state.copyWith(status: EditSecurityStatus.loading));
       await _authRepository.changePassword(password);
       emit(state.copyWith(status: EditSecurityStatus.passwordChanged));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EditSecurityStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

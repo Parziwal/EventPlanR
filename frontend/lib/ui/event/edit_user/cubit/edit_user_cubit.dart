@@ -52,11 +52,11 @@ class EditUserCubit extends Cubit<EditUserState> {
           emailConfirmationNeeded: true,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EditUserStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -70,11 +70,11 @@ class EditUserCubit extends Cubit<EditUserState> {
       emit(state.copyWith(status: EditUserStatus.loading));
       await _authRepository.verifyUserEmail(confirmCode);
       emit(state.copyWith(status: EditUserStatus.emailConfirmed));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EditUserStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -87,11 +87,11 @@ class EditUserCubit extends Cubit<EditUserState> {
       emit(state.copyWith(status: EditUserStatus.loading));
       await _authRepository.resendEmailVerificationCode();
       emit(state.copyWith(status: EditUserStatus.codeResended));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EditUserStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -109,11 +109,11 @@ class EditUserCubit extends Cubit<EditUserState> {
       final imageUrl = await _chatRepository.uploadUserProfileImage(image);
       await _authRepository.refreshToken();
       emit(state.copyWith(user: state.user!.copyWith(picture: imageUrl)));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: EditUserStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

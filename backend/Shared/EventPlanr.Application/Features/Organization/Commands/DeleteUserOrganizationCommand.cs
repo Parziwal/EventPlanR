@@ -36,7 +36,7 @@ public class DeleteUserOrganizationCommandHandler : IRequestHandler<DeleteUserOr
 
         if (organization.Events.Any(e => e.IsPublished && e.ToDate >= DateTimeOffset.Now))
         {
-            throw new DomainException("OrganizationWithUpcomingEventCannotBeDeletedException");
+            throw new DomainException("OrganizationWithUpcomingEventCannotBeDeleted");
         }
 
         var deletableEvents = await _dbContext.Events

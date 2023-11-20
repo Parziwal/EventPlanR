@@ -25,7 +25,9 @@ class OrderDetailsItem extends StatelessWidget {
             Label(
               label: '#${orderDetails.id}',
               value: '${l10n.userTicketOrder_Created}: '
-                  '${DateFormat.yMd().format(orderDetails.created)}',
+                  '${DateFormat.yMd(
+                l10n.localeName,
+              ).format(orderDetails.created)}',
               textStyle: theme.textTheme.titleMedium,
             ),
             Label(

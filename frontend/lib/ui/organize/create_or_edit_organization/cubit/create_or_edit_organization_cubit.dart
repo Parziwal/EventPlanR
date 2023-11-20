@@ -48,11 +48,11 @@ class CreateOrEditOrganizationCubit
           organizationDetails: organization,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: CreateOrEditOrganizationStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -70,11 +70,11 @@ class CreateOrEditOrganizationCubit
           status: CreateOrEditOrganizationStatus.organizationSubmitted,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: CreateOrEditOrganizationStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

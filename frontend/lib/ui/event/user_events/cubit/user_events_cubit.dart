@@ -36,11 +36,11 @@ class UserEventsCubit extends Cubit<UserEventsState> {
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserEventsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -63,11 +63,11 @@ class UserEventsCubit extends Cubit<UserEventsState> {
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserEventsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -90,11 +90,11 @@ class UserEventsCubit extends Cubit<UserEventsState> {
           pageNumber: events.hasNextPage ? pageNumber + 1 : null,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: UserEventsStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }

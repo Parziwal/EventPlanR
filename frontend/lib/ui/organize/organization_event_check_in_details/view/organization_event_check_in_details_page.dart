@@ -119,7 +119,7 @@ class OrganizationEventCheckInDetailsPage extends StatelessWidget {
             ),
             Label(
               label: l10n.organizationEventCheckInDetails_Date,
-              value: DateFormat.yMd().format(ticket.created),
+              value: DateFormat.yMd(l10n.localeName).format(ticket.created),
               textStyle: theme.textTheme.titleMedium,
             ),
             Label(
@@ -147,7 +147,7 @@ class OrganizationEventCheckInDetailsPage extends StatelessWidget {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.translateError(state.errorCode!),
+              l10n.translateError(state.exception!),
               style: TextStyle(color: theme.colorScheme.onError),
             ),
             backgroundColor: theme.colorScheme.error,

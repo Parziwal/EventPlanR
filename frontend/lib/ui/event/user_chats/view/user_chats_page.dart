@@ -46,7 +46,7 @@ class _UserChatsPageState extends State<UserChatsPage>
     context.watch<UserChatsCubit>().stream.listen((state) {
       _pagingController.value = PagingState(
         nextPageKey: state.pageNumber,
-        error: state.errorCode,
+        error: state.exception,
         itemList: state.chats,
       );
     });
@@ -147,7 +147,7 @@ class _UserChatsPageState extends State<UserChatsPage>
         ..showSnackBar(
           SnackBar(
             content: Text(
-              l10n.translateError(state.errorCode!),
+              l10n.translateError(state.exception!),
               style: TextStyle(color: theme.colorScheme.onError),
             ),
             backgroundColor: theme.colorScheme.error,

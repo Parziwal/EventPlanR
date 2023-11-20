@@ -51,7 +51,9 @@ class InvitationItem extends StatelessWidget {
                   ),
                   Text(
                     '${l10n.organizationEventInvitation_Created}: '
-                    '${DateFormat.yMd().format(invitation.created)}',
+                    '${DateFormat.yMd(
+                      l10n.localeName,
+                    ).format(invitation.created)}',
                     style: theme.textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                   ),

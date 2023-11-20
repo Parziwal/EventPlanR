@@ -35,7 +35,7 @@ public static class QueryableExtensions
         Expression<Func<TSource, bool>> predicate)
     {
         return await source.SingleOrDefaultAsync(predicate)
-            ?? throw new EntityNotFoundException(typeof(TSource).Name);
+            ?? throw new EntityNotFoundException($"{typeof(TSource).Name}_NotFound");
     }
 
     public static IQueryable<TSource> OrderBy<TSource, TDto>(

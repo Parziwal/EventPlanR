@@ -66,11 +66,11 @@ class ChatMessageCubit extends Cubit<ChatMessageState> {
               .toList(),
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: ChatMessageStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
@@ -81,11 +81,11 @@ class ChatMessageCubit extends Cubit<ChatMessageState> {
   Future<void> createMessage(CreateChatMessage message) async {
     try {
       await _chatRepository.createMessage(message);
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: ChatMessageStatus.error,
-          errorCode: e.toString(),
+          exception: e,
         ),
       );
     }
