@@ -128,7 +128,7 @@ class OrganizationEventDetailsPage extends StatelessWidget {
     final theme = context.theme;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: MaxWidthBox(
         maxWidth: 800,
         child: Column(

@@ -114,7 +114,7 @@ class _UserChatsPageState extends State<UserChatsPage>
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
             ),
-            padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             builderDelegate: PagedChildBuilderDelegate<Chat>(
               itemBuilder: (context, item, index) =>
                   ChatContactItem(chat: item),

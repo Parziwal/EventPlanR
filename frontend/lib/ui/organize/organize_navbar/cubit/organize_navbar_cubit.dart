@@ -30,19 +30,26 @@ class OrganizeNavbarCubit extends Cubit<OrganizeNavbarState> {
   Future<void> loadUserData() async {
     final user = await _authRepository.user;
     final selectedEvent = _eventManagerRepository.getSelectedEvent();
-    emit(state.copyWith(user: user, event: selectedEvent));
-    if (user.organizationId != null) {
-      await refreshCurrentOrganization();
-    }
+    final organization =
+        await _organizationManagerRepository.getUserCurrentOrganization();
+    emit(
+      state.copyWith(
+        user: user,
+        event: selectedEvent,
+        organization: organization,
+      ),
+    );
   }
 
   Future<void> refreshCurrentOrganization() async {
     try {
       final organization =
           await _organizationManagerRepository.getUserCurrentOrganization();
+      final user = await _authRepository.user;
       emit(
         state.copyWith(
           organization: organization,
+          user: user,
           event: null,
         ),
       );

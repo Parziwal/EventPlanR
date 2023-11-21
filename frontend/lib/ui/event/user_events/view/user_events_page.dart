@@ -88,17 +88,19 @@ class _UserEventsPageState extends State<UserEventsPage>
           mainAxisExtent: breakpoints.isMobile ? 150 : null,
         ),
         padding: const EdgeInsets.only(
-          left: 32,
-          right: 32,
+          left: 16,
+          right: 16,
           top: 8,
         ),
         builderDelegate: PagedChildBuilderDelegate<Event>(
           itemBuilder: (context, item, index) {
             return breakpoints.isMobile
-                ? EventItemCardLandscape(
-                    onPressed: () => _eventItemPressed(item),
-                    event: item,
-                  )
+                ? FittedBox(
+                  child: EventItemCardLandscape(
+                      onPressed: () => _eventItemPressed(item),
+                      event: item,
+                    ),
+                )
                 : FittedBox(
                     child: EventItemCardPortrait(
                       onPressed: () => _eventItemPressed(item),

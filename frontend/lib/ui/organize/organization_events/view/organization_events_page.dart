@@ -111,7 +111,7 @@ class _OrganizationEventsPageState extends State<OrganizationEventsPage>
             mainAxisSpacing: 8,
             crossAxisSpacing: 8,
           ),
-          padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
+          padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
           builderDelegate: PagedChildBuilderDelegate<OrganizationEvent>(
             itemBuilder: (context, item, index) => OrganizationEventItem(
               event: item,

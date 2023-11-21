@@ -97,7 +97,7 @@ class _OrganizationEventInvitationPageState
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
             ),
-            padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             builderDelegate: PagedChildBuilderDelegate<EventInvitation>(
               itemBuilder: (context, item, index) =>
                   InvitationItem(invitation: item),

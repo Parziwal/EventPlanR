@@ -97,7 +97,7 @@ class UserOrganizationsPage extends StatelessWidget {
             crossAxisSpacing: 8,
           ),
           itemCount: organizations.length,
-          padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
+          padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
           itemBuilder: (context, i) {
             return OrganizationItem(organization: organizations[i]);
           },
