@@ -55,8 +55,8 @@ public class AddTicketToEventCommandHandler : IRequestHandler<AddTicketToEventCo
             Count = request.Count,
             RemainingCount = request.Count,
             Description = request.Description,
-            SaleStarts = request.SaleStarts,
-            SaleEnds = request.SaleEnds,
+            SaleStarts = request.SaleStarts.ToUniversalTime(),
+            SaleEnds = request.SaleEnds.ToUniversalTime(),
             Event = eventEntity,
         };
 

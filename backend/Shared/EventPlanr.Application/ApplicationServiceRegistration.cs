@@ -1,4 +1,5 @@
 ﻿using EventPlanr.Application.Behaviour;
+using EventPlanr.Domain.Repository;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,8 @@ public static class ApplicationServiceRegistration
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
         });
+
+        services.AddTransient<ITimeRepository, TimeRepository>();
 
         return services;
     }

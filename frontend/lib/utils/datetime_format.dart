@@ -9,7 +9,7 @@ String formatEventDateTimeRange(
 ) {
   final fromDate = DateFormat.MMMEd(context.l10n.localeName).format(from);
   final toDate = DateFormat.MMMEd(context.l10n.localeName).format(to);
-  final fromHour = DateFormat.jm(context.l10n.localeName).format(to);
+  final fromHour = DateFormat.jm(context.l10n.localeName).format(from);
   final fromYear = DateTime.now().year < from.year ? '${from.year}, ' : '';
 
   if (from.year == to.year && from.month == to.month && from.day == to.day) {
@@ -40,7 +40,7 @@ String formatEventDetailsTimeRange(
   DateTime from,
   DateTime to,
 ) {
-  final fromHour = DateFormat.jm(context.l10n.localeName).format(to);
+  final fromHour = DateFormat.jm(context.l10n.localeName).format(from);
   final toHour = DateFormat.jm(context.l10n.localeName).format(to);
   final fromDate = DateFormat.Md(context.l10n.localeName).format(from);
   final toDate = DateFormat.Md(context.l10n.localeName).format(to);
@@ -57,7 +57,9 @@ String formatDateTime(BuildContext context, DateTime dateTime) {
       '${DateFormat.jm(context.l10n.localeName).format(dateTime)}';
 }
 
-String formatDateRange(BuildContext context, DateTime from, DateTime to) {
+String formatDateRange(BuildContext context, DateTime from, DateTime? to) {
   return '${DateFormat.yMEd(context.l10n.localeName).format(from)} - '
-      '${DateFormat.yMEd(context.l10n.localeName).format(to)}';
+      '${to != null ? DateFormat.yMEd(
+          context.l10n.localeName,
+        ).format(to) : ''}';
 }

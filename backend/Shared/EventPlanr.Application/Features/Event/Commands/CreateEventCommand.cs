@@ -5,6 +5,7 @@ using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Entities;
 using EventPlanr.Domain.Enums;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using NetTopologySuite.Geometries;
 
@@ -29,23 +30,28 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Gui
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
-    public CreateEventCommandHandler(IApplicationDbContext dbContext, IUserContext user)
+    public CreateEventCommandHandler(
+        IApplicationDbContext dbContext,
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task<Guid> Handle(CreateEventCommand request, CancellationToken cancellationToken)
     {
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         var createdEvent = new EventEntity()
         {
             Name = request.Name,
             Description = request.Description,
             Category = request.Category,
-            FromDate = request.FromDate,
-            ToDate = request.ToDate,
+            FromDate = request.FromDate.ToUniversalTime(),
+            ToDate = request.ToDate.ToUniversalTime(),
             Venue = request.Venue,
             Address = new Address()
             {

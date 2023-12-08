@@ -73,9 +73,9 @@ class OrganizationManagerRepository {
             ),
           )
           .toList(),
-      created: currentOrganizationDetails.created,
+      created: currentOrganizationDetails.created.toLocal(),
       createdBy: currentOrganizationDetails.createdBy,
-      lastModified: currentOrganizationDetails.lastModified,
+      lastModified: currentOrganizationDetails.lastModified.toLocal(),
       lastModifiedBy: currentOrganizationDetails.lastModifiedBy,
     );
   }

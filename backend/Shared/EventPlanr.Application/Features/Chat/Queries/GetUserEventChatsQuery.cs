@@ -39,11 +39,16 @@ public class GetUserEventChatsQueryHandler : IRequestHandler<GetUserEventChatsQu
             .ProjectTo<EventChatDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(request);
 
-        await Parallel.ForEachAsync(chats.Items, async (c, _) => {
-            var chatMember = await _dbContext.ChatMembers
-                .AsNoTracking()
-                .SingleEntityAsync(cm => cm.MemberUserId == _user.UserId && cm.ChatId == c.Id);
-            c.HaveUnreadMessages = c.LastMessageDate > chatMember.LastSeen;
+        var chatIds = chats.Items.Select(c => c.Id).ToList();
+        var userChatMembers = await _dbContext.ChatMembers
+            .AsNoTracking()
+            .Where(cm => cm.MemberUserId == _user.UserId && chatIds.Contains(cm.ChatId))
+            .ToListAsync();
+
+        chats.Items.ForEach(chat =>
+        {
+            var chatMember = userChatMembers.Single(cm => cm.ChatId == chat.Id);
+            chat.HaveUnreadMessages = chat.LastMessageDate > chatMember.LastSeen;
         });
 
         return chats;

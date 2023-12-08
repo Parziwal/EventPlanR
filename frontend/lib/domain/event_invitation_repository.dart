@@ -59,6 +59,7 @@ class EventInvitationRepository {
 
     return UserInvitation(
       id: invitation.id,
+      ticketId: invitation.ticketId,
       eventName: invitation.eventName,
       organizationName: invitation.organizationName,
       status: invitation.status.toDomainEnum(),

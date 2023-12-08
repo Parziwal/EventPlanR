@@ -1,6 +1,7 @@
 import 'package:event_planr_app/domain/models/invitation/event_invitation.dart';
 import 'package:event_planr_app/domain/models/organization/organization_policy.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
+import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/organization_event_invitation/cubit/organization_event_invitation_cubit.dart';
 import 'package:event_planr_app/ui/organize/organization_event_invitation/widgets/create_invitation_dialog.dart';
 import 'package:event_planr_app/ui/organize/organization_event_invitation/widgets/invitation_item.dart';
@@ -115,7 +116,20 @@ class _OrganizationEventInvitationPageState
     final l10n = context.l10n;
     final theme = context.theme;
 
-    if (state.status == OrganizationEventInvitationStatus.invitationCreated) {
+    if (state.status == OrganizationEventInvitationStatus.error) {
+      context.scaffoldMessenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.translateError(state.exception!),
+              style: TextStyle(color: theme.colorScheme.onError),
+            ),
+            backgroundColor: theme.colorScheme.error,
+          ),
+        );
+    } else if (state.status ==
+        OrganizationEventInvitationStatus.invitationCreated) {
       context.pop();
       context.scaffoldMessenger
         ..hideCurrentSnackBar()

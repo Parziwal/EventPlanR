@@ -5,6 +5,7 @@ using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Ticket;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -24,15 +25,18 @@ public class TicketCheckInCommandHandler : IRequestHandler<TicketCheckInCommand,
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IMapper _mapper;
+    private readonly ITimeRepository _timeRepository;
 
     public TicketCheckInCommandHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
-        IMapper mapper)
+        IMapper mapper,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
         _mapper = mapper;
+        _timeRepository = timeRepository;
     }
 
     public async Task<CheckInTicketDto> Handle(TicketCheckInCommand request, CancellationToken cancellationToken)
@@ -47,7 +51,7 @@ public class TicketCheckInCommandHandler : IRequestHandler<TicketCheckInCommand,
         }
 
         soldTicket.IsCheckedIn = request.CheckIn;
-        soldTicket.CheckInDate = request.CheckIn ? DateTimeOffset.UtcNow : null;
+        soldTicket.CheckInDate = request.CheckIn ? _timeRepository.GetCurrentUtcTime() : null;
         await _dbContext.SaveChangesAsync();
 
         return _mapper.Map<CheckInTicketDto>(soldTicket);

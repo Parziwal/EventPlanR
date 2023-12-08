@@ -12,5 +12,6 @@ class UserInvitation with _$UserInvitation {
     required InvitationStatusEnum status,
     required bool isCheckedIn,
     required DateTime created,
+    String? ticketId,
   }) = _UserInvitation;
 }

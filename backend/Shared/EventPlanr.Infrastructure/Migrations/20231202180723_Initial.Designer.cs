@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlanr.Infrastructure.Migrations
 {
     [DbContext(typeof(EventPlanrDbContext))]
-    [Migration("20231120163138_Initial")]
+    [Migration("20231202180723_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -159,9 +159,6 @@ namespace EventPlanr.Infrastructure.Migrations
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
-
-                    b.Property<bool>("IsCheckedIn")
-                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -472,7 +469,9 @@ namespace EventPlanr.Infrastructure.Migrations
                 {
                     b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("Invitations")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
                 });
@@ -481,7 +480,9 @@ namespace EventPlanr.Infrastructure.Migrations
                 {
                     b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("NewsPosts")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
                 });
@@ -546,7 +547,9 @@ namespace EventPlanr.Infrastructure.Migrations
                 {
                     b.HasOne("EventPlanr.Domain.Entities.EventEntity", "Event")
                         .WithMany("Tickets")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
                 });

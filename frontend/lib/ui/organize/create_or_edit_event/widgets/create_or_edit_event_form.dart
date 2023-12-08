@@ -245,7 +245,7 @@ class _CreateOrEditEventFormState extends State<CreateOrEditEventForm> {
         }
       },
       child: SizedBox(
-        height: 300,
+        height: 200,
         child: MapLocationFormField(
           initialLocation: _edit ? LatLng(
             widget.eventDetails!.coordinates.latitude,

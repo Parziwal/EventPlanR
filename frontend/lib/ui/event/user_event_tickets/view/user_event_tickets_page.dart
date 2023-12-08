@@ -26,9 +26,17 @@ class UserEventTicketsPage extends StatelessWidget {
     return EventScaffold(
       title: l10n.userEventTickets,
       mobileActions: [
-        IconButton(
-          onPressed: () => context.go(PagePaths.userEventTicketOrders(eventId)),
-          icon: const Icon(Icons.info),
+        PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem<void>(
+              onTap: () => context.go(PagePaths.eventDetails(eventId)),
+              child: Text(l10n.userEventTickets_Event),
+            ),
+            PopupMenuItem<void>(
+              onTap: () => context.go(PagePaths.userEventTicketOrders(eventId)),
+              child: Text(l10n.userEventTickets_OrderInformations),
+            ),
+          ],
         ),
       ],
       body: BlocConsumer<UserEventTicketsCubit, UserEventTicketsState>(
@@ -59,9 +67,21 @@ class UserEventTicketsPage extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FilledButton(
+                onPressed: () => context.go(
+                  PagePaths.eventDetails(
+                    eventId,
+                  ),
+                ),
+                style: FilledButton.styleFrom(
+                  textStyle: theme.textTheme.titleMedium,
+                  padding: const EdgeInsets.all(16),
+                ),
+                child: Text(l10n.userEventTickets_Event),
+              ),
+              const SizedBox(width: 8),
+              FilledButton.tonal(
                 onPressed: () => context.go(
                   PagePaths.userEventTicketOrders(
                     eventId,
@@ -69,10 +89,7 @@ class UserEventTicketsPage extends StatelessWidget {
                 ),
                 style: FilledButton.styleFrom(
                   textStyle: theme.textTheme.titleMedium,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 64,
-                    vertical: 16,
-                  ),
+                  padding: const EdgeInsets.all(16),
                 ),
                 child: Text(l10n.userEventTickets_OrderInformations),
               ),

@@ -5,6 +5,7 @@ using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Entities;
 using EventPlanr.Domain.Enums;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,15 +23,18 @@ public class AcceptOrDenyInvitationCommandHandler : IRequestHandler<AcceptOrDeny
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IUserService _userService;
+    private readonly ITimeRepository _timeRepository;
 
     public AcceptOrDenyInvitationCommandHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
-        IUserService userService)
+        IUserService userService,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
         _userService = userService;
+        _timeRepository = timeRepository;
     }
 
     public async Task Handle(AcceptOrDenyInvitationCommand request, CancellationToken cancellationToken)
@@ -40,9 +44,15 @@ public class AcceptOrDenyInvitationCommandHandler : IRequestHandler<AcceptOrDeny
                 .ThenInclude(e => e.Chat)
             .SingleEntityAsync(i => i.Id == request.InvitationId && i.UserId == _user.UserId);
 
-        if (invitation.Event.ToDate < DateTimeOffset.UtcNow)
+        var timeNow = _timeRepository.GetCurrentUtcTime();
+        if (invitation.Event.ToDate < timeNow)
         {
             throw new DomainException("PastEventInvitationStatusCannotBeChanged");
+        }
+
+        if (invitation.Status != InvitationStatus.Pending)
+        {
+            throw new DomainException("AcceptedOrDeniedInvitationStatusCannotBeChanged");
         }
 
         invitation.UserId = _user.UserId;
@@ -79,30 +89,11 @@ public class AcceptOrDenyInvitationCommandHandler : IRequestHandler<AcceptOrDeny
             var chatMember = new ChatMemberEntity()
             {
                 ChatId = invitation.Event.ChatId,
-                LastSeen = DateTimeOffset.UtcNow,
+                LastSeen = timeNow,
                 MemberUserId = _user.UserId
             };
 
             _dbContext.ChatMembers.Add(chatMember);
-        }
-        else
-        {
-            var invitationOrder = await _dbContext.Orders
-                .SingleOrDefaultAsync(st => st.CustomerUserId == invitation.UserId &&
-                    st.SoldTickets.First().TicketId == st.SoldTickets.First().Ticket.Event.InvitationTicketId);
-
-            if (invitationOrder != null)
-            {
-                _dbContext.Orders.Remove(invitationOrder);
-            }
-
-            var chatMember = invitation.Event.Chat.ChatMembers
-                .SingleOrDefault(cm => cm.MemberUserId == _user.UserId);
-
-            if (chatMember != null)
-            {
-                _dbContext.ChatMembers.Remove(chatMember);
-            }
         }
 
         await _dbContext.SaveChangesAsync();

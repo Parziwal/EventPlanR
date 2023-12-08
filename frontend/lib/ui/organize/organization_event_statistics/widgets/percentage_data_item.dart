@@ -7,7 +7,7 @@ class PercentageDataItem extends StatelessWidget {
     required this.count,
     required this.name,
     this.style,
-    this.progressSize = 50,
+    this.progressSize = 60,
     super.key,
   });
 
@@ -43,7 +43,7 @@ class PercentageDataItem extends StatelessWidget {
                 child: Text(
                   totalCount == 0
                       ? '0 %'
-                      : '${(count / totalCount * 100).toStringAsFixed(2)} %',
+                      : '${(count / totalCount * 100).toStringAsFixed(1)} %',
                   style: style,
                 ),
               ),

@@ -28,8 +28,8 @@ class NewsPostRepository {
             (n) => OrganizationNewsPost(
               id: n.id,
               title: n.title,
-              created: n.created,
-              lastModified: n.lastModified,
+              created: n.created.toLocal(),
+              lastModified: n.lastModified.toLocal(),
               text: n.text,
               createdBy: n.createdBy,
               lastModifiedBy: n.lastModifiedBy,

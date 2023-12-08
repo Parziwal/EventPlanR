@@ -110,12 +110,10 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
                   _emailField(context),
                   const SizedBox(height: 16),
                   _organizationPermissionFields(context),
-                  const SizedBox(height: 32),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 32),
           Padding(
             padding: const EdgeInsets.all(32),
             child: Row(
@@ -297,6 +295,24 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
             !value.contains(OrganizationPolicy.organizationEventView)) {
           _formKey.currentState?.fields['policies']
               ?.setValue(value..add(OrganizationPolicy.organizationEventView));
+        }
+        if (value != null &&
+            value.contains(OrganizationPolicy.eventTicketManage) &&
+            !value.contains(OrganizationPolicy.eventTicketView)) {
+          _formKey.currentState?.fields['policies']
+              ?.setValue(value..add(OrganizationPolicy.eventTicketView));
+        }
+        if (value != null &&
+            value.contains(OrganizationPolicy.invitationManage) &&
+            !value.contains(OrganizationPolicy.invitationView)) {
+          _formKey.currentState?.fields['policies']
+              ?.setValue(value..add(OrganizationPolicy.invitationView));
+        }
+        if (value != null &&
+            value.contains(OrganizationPolicy.newsPostManage) &&
+            !value.contains(OrganizationPolicy.newsPostView)) {
+          _formKey.currentState?.fields['policies']
+              ?.setValue(value..add(OrganizationPolicy.newsPostView));
         }
       },
     );

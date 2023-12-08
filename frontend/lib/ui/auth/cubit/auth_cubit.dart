@@ -81,7 +81,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(const AuthState.loading());
     try {
       await _authRepository.confirmSignInWithNewPassword(credential);
-      emit(const AuthState.signInNext());
+      emit(const AuthState.success());
     } on Exception catch (e) {
       emit(AuthState.error(e));
     } finally {

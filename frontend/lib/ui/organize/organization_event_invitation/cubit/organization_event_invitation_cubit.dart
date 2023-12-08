@@ -84,6 +84,7 @@ class OrganizationEventInvitationCubit
     } on Exception catch (e) {
       emit(
         state.copyWith(
+          status: OrganizationEventInvitationStatus.error,
           exception: e,
         ),
       );

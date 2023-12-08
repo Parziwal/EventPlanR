@@ -1,4 +1,4 @@
-name: Backend Infrastructure Deploy
+name: Backend Deploy
 
 on:
   push:
@@ -15,8 +15,8 @@ env:
   DOTNET_VERSION: '6.0.x'
 
 jobs:
-  deploy-backend:
-    name: Deploy backend
+  backend-deploy:
+    name: Backend deploy
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -35,33 +35,24 @@ jobs:
       run: dotnet restore
       working-directory: 'backend'
       
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Release build
+      run: dotnet build --configuration Release --no-restore
       working-directory: 'backend'
 
-    - name: Publish Lambda Services
+    - name: Publish Lambda projects
       run: sh publish_lambda_services.sh
       working-directory: 'infrastructure/backend'
 
-    - name: Use Terraform
+    - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-    - name: Terraform Format
-      id: fmt
-      run: terraform fmt -check
-
     - name: Terraform Init
-      id: init
       run: terraform init
 
     - name: Terraform Workspace
       run: terraform workspace select production
-
-    - name: Terraform Validate
-      id: validate
-      run: terraform validate -no-color
 
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false

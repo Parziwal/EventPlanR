@@ -3,6 +3,7 @@ using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,15 +19,18 @@ public class DeleteUserOrganizationCommandHandler : IRequestHandler<DeleteUserOr
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IUserClaimService _userClaimService;
+    private readonly ITimeRepository _timeRepository;
 
     public DeleteUserOrganizationCommandHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
-        IUserClaimService userClaimService)
+        IUserClaimService userClaimService,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
         _userClaimService = userClaimService;
+        _timeRepository = timeRepository;
     }
 
     public async Task Handle(DeleteUserOrganizationCommand request, CancellationToken cancellationToken)
@@ -34,7 +38,7 @@ public class DeleteUserOrganizationCommandHandler : IRequestHandler<DeleteUserOr
         var organization = await _dbContext.Organizations
             .SingleEntityAsync(o => o.Id == _user.OrganizationId);
 
-        if (organization.Events.Any(e => e.IsPublished && e.ToDate >= DateTimeOffset.Now))
+        if (organization.Events.Any(e => e.IsPublished && e.ToDate >= _timeRepository.GetCurrentUtcTime()))
         {
             throw new DomainException("OrganizationWithUpcomingEventCannotBeDeleted");
         }

@@ -146,7 +146,6 @@ namespace EventPlanr.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    IsCheckedIn = table.Column<bool>(type: "boolean", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
@@ -160,7 +159,8 @@ namespace EventPlanr.Infrastructure.Migrations
                         name: "FK_invitations_events_EventId",
                         column: x => x.EventId,
                         principalTable: "events",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,7 +183,8 @@ namespace EventPlanr.Infrastructure.Migrations
                         name: "FK_news_posts_events_EventId",
                         column: x => x.EventId,
                         principalTable: "events",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -213,7 +214,8 @@ namespace EventPlanr.Infrastructure.Migrations
                         name: "FK_tickets_events_EventId",
                         column: x => x.EventId,
                         principalTable: "events",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

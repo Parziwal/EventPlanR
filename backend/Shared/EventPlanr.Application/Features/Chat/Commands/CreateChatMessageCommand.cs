@@ -6,6 +6,7 @@ using EventPlanr.Application.Models.Chat;
 using EventPlanr.Application.Models.User;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,25 +25,27 @@ public class CreateChatMessageCommandHandler : IRequestHandler<CreateChatMessage
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
     private readonly IUserClaimService _userClaimService;
+    private readonly ITimeRepository _timeRepository;
 
     public CreateChatMessageCommandHandler(
         IApplicationDbContext dbContext,
         IChatService chatService,
         IMapper mapper,
         IUserService userService,
-        IUserClaimService userClaimService)
+        IUserClaimService userClaimService,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _chatService = chatService;
         _mapper = mapper;
         _userService = userService;
         _userClaimService = userClaimService;
+        _timeRepository = timeRepository;
     }
 
     public async Task<ChatMessageDto> Handle(CreateChatMessageCommand request, CancellationToken cancellationToken)
     {
         var chat = await _dbContext.Chats
-            .AsNoTracking()
             .Include(e => e.Event)
             .SingleEntityAsync(c => c.Id == request.ChatId);
         var chatMember = await _dbContext.ChatMembers
@@ -60,7 +63,7 @@ public class CreateChatMessageCommandHandler : IRequestHandler<CreateChatMessage
             throw new ForbiddenException();
         }
 
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         var message = new ChatMessageEntity()
         { 
             ChatId = request.ChatId,

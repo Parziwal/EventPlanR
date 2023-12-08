@@ -174,7 +174,7 @@ class OrganizationEventDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             SizedBox(
-              height: 300,
+              height: 200,
               child: StaticMap(location: eventDetails.coordinates),
             ),
             const SizedBox(height: 16),

@@ -165,7 +165,7 @@ class _FilterAppBarState extends State<FilterAppBar> {
                     : formatDateRange(
                         context,
                         filter.fromDate!,
-                        filter.toDate!,
+                        filter.toDate,
                       ),
               ),
             ),

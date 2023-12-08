@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Models.Ticket;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,16 +17,21 @@ public class GetEventTicketsQueryHandler : IRequestHandler<GetEventTicketsQuery,
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly ITimeRepository _timeRepository;
 
-    public GetEventTicketsQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
+    public GetEventTicketsQueryHandler(
+        IApplicationDbContext dbContext,
+        IMapper mapper,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _timeRepository = timeRepository;
     }
 
     public async Task<List<TicketDto>> Handle(GetEventTicketsQuery request, CancellationToken cancellationToken)
     {
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
 
         return await _dbContext.Tickets
             .AsNoTracking()

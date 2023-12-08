@@ -1,6 +1,7 @@
 ﻿using EventPlanr.Application.Contracts;
 using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Security;
+using EventPlanr.Domain.Repository;
 using MediatR;
 
 namespace EventPlanr.Application.Features.Chat.Commands;
@@ -15,18 +16,23 @@ public class SetChatMessagesReadCommandHandler : IRequestHandler<SetChatMessages
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
-    public SetChatMessagesReadCommandHandler(IApplicationDbContext dbContext, IUserContext user)
+    public SetChatMessagesReadCommandHandler(
+        IApplicationDbContext dbContext,
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task Handle(SetChatMessagesReadCommand request, CancellationToken cancellationToken)
     {
         var chatMember = await _dbContext.ChatMembers
             .SingleEntityAsync(cm => cm.MemberUserId == _user.UserId && cm.ChatId == request.ChatId);
-        chatMember.LastSeen = DateTimeOffset.UtcNow;
+        chatMember.LastSeen = _timeRepository.GetCurrentUtcTime();
         
         await _dbContext.SaveChangesAsync();
     }

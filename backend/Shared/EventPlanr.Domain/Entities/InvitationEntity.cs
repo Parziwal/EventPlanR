@@ -7,7 +7,6 @@ public class InvitationEntity : BaseAuditableEntity
 {
     public Guid UserId { get; set; }
     public InvitationStatus Status { get; set; }
-    public bool IsCheckedIn { get; set; }
     public Guid EventId { get; set; }
     public EventEntity Event { get; set; } = null!;
 }

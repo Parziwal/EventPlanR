@@ -1,15 +1,16 @@
+import 'package:event_planr_app/app/router.dart';
 import 'package:event_planr_app/domain/models/invitation/invitation_status_enum.dart';
 import 'package:event_planr_app/domain/models/invitation/user_invitation.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_enums.dart';
 import 'package:event_planr_app/ui/event/event_navbar/view/event_scaffold.dart';
 import 'package:event_planr_app/ui/event/user_invitation/cubit/user_invitation_cubit.dart';
-import 'package:event_planr_app/ui/shared/widgets/confirmation_dialog.dart';
 import 'package:event_planr_app/ui/shared/widgets/label.dart';
 import 'package:event_planr_app/ui/shared/widgets/loading_indicator.dart';
 import 'package:event_planr_app/utils/build_context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:responsive_framework/max_width_box.dart';
 
@@ -19,40 +20,9 @@ class UserInvitationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = context.theme;
-    final invitationStatus =
-        context.watch<UserInvitationCubit>().state.invitation?.status ??
-            InvitationStatusEnum.pending;
 
     return EventScaffold(
       title: l10n.userInvitation,
-      mobileActions: [
-        if (invitationStatus != InvitationStatusEnum.pending)
-          IconButton(
-            onPressed: () => _changeInvitationStatus(context),
-            icon: invitationStatus == InvitationStatusEnum.deny
-                ? const Icon(Icons.done)
-                : const Icon(Icons.block),
-          ),
-      ],
-      desktopActions: [
-        if (invitationStatus != InvitationStatusEnum.pending)
-          FilledButton.tonalIcon(
-            onPressed: () => _changeInvitationStatus(context),
-            icon: invitationStatus == InvitationStatusEnum.deny
-                ? const Icon(Icons.done)
-                : const Icon(Icons.block),
-            label: Text(
-              invitationStatus == InvitationStatusEnum.deny
-                  ? l10n.userInvitation_Accept
-                  : l10n.userInvitation_Deny,
-            ),
-            style: FilledButton.styleFrom(
-              textStyle: theme.textTheme.titleMedium,
-              padding: const EdgeInsets.all(16),
-            ),
-          ),
-      ],
       body: BlocConsumer<UserInvitationCubit, UserInvitationState>(
         listener: _stateListener,
         builder: (context, state) {
@@ -93,6 +63,7 @@ class UserInvitationPage extends StatelessWidget {
   Widget _mainContent(BuildContext context, UserInvitation invitation) {
     final l10n = context.l10n;
     final theme = context.theme;
+    final eventId = context.goRouterState.pathParameters['eventId']!;
 
     return MaxWidthBox(
       maxWidth: 1000,
@@ -100,10 +71,15 @@ class UserInvitationPage extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
-            Label(
-              label: l10n.userInvitation_EventName,
-              value: invitation.eventName,
-              textStyle: theme.textTheme.titleLarge,
+            InkWell(
+              onTap: () => context.go(PagePaths.eventDetails(eventId)),
+              child: Label(
+                label: l10n.userInvitation_EventName,
+                value: invitation.eventName,
+                textStyle: theme.textTheme.titleLarge?.copyWith(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
             ),
             Label(
               label: l10n.userInvitation_OrganizationName,
@@ -123,7 +99,7 @@ class UserInvitationPage extends StatelessWidget {
               child: Stack(
                 children: [
                   PrettyQrView.data(
-                    data: invitation.id,
+                    data: invitation.ticketId ?? invitation.id,
                     decoration: PrettyQrDecoration(
                       shape: PrettyQrRoundedSymbol(
                         color: invitation.status == InvitationStatusEnum.pending
@@ -193,30 +169,5 @@ class UserInvitationPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _changeInvitationStatus(BuildContext context) {
-    final invitation = context.read<UserInvitationCubit>().state.invitation;
-    if (invitation == null) {
-      return;
-    }
-
-    final l10n = context.l10n;
-
-    showConfirmationDialog(
-      context,
-      message: l10n.userInvitation_AreYouSureYouWantToInvitation(
-        invitation.status == InvitationStatusEnum.deny
-            ? l10n.userInvitation_Accept
-            : l10n.userInvitation_Deny,
-      ),
-    ).then((value) {
-      if (value ?? false) {
-        context.read<UserInvitationCubit>().changeInvitationStatus(
-              invitationId: invitation.id,
-              accept: invitation.status == InvitationStatusEnum.deny,
-            );
-      }
-    });
   }
 }

@@ -38,8 +38,6 @@ public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand>
             throw new DomainException("PublishedLiveEventCannotBeDeleted");
         }
 
-        //_dbContext.Tickets.RemoveRange(eventEntity.Tickets);
-        //_dbContext.Chats.Remove(eventEntity.Chat);
         _dbContext.Events.Remove(eventEntity);
 
         await _dbContext.SaveChangesAsync();

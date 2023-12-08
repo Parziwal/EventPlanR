@@ -22,7 +22,7 @@ class CreateOrEditEventPage extends StatelessWidget {
           : l10n.createOrEditEvent_Create,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(32),
+          padding: const EdgeInsets.all(16),
           child: MaxWidthBox(
             maxWidth: 600,
             alignment: Alignment.center,

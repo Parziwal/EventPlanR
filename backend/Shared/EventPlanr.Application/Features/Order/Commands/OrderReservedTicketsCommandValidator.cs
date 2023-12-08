@@ -1,5 +1,6 @@
 ﻿using EventPlanr.Application.Models.Common;
 using EventPlanr.Application.Models.Order;
+using EventPlanr.Application.Resources;
 using FluentValidation;
 
 namespace EventPlanr.Application.Features.Order.Commands;
@@ -18,7 +19,7 @@ public class OrderReservedTicketsCommandValidator : AbstractValidator<OrderReser
             .SetValidator(new AddressDtoValidator());
         RuleFor(x => x.TicketUserInfos)
             .Must(x => x.Count > 0)
-            .WithMessage("Minimum one ticket info is required");
+            .WithMessage(LocalizerManager.Localizer["MinimumOneTicketInfoIsRequired"]);
         RuleForEach(x => x.TicketUserInfos)
             .SetValidator(new AddTicketUserInfoDtoValidator());
     }

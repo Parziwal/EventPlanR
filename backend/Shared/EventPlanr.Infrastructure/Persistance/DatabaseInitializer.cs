@@ -11,7 +11,6 @@ public static class InitialiserExtensions
 
         var initialiser = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
         await initialiser.MigrateAsync();
-        await initialiser.SeedAsync();
     }
 }
 
@@ -27,10 +26,5 @@ public class DatabaseInitializer
     public async Task MigrateAsync()
     {
         await _context.Database.MigrateAsync();
-    }
-
-    public async Task SeedAsync()
-    {
-        // Test data
     }
 }

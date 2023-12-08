@@ -40,8 +40,8 @@ public class GetEventDetailsQueryHandler : IRequestHandler<GetEventDetailsQuery,
             .AsNoTracking()
             .Include(e => e.Organization)
             .SingleEntityAsync(e => e.Id == request.EventId 
-            && ((!e.IsPrivate && e.IsPublished) || e.Invitations.Any(i => i.UserId == userId)) 
-            || e.Tickets.SelectMany(t => t.SoldTickets).Any(st => st.Order.CustomerUserId == userId));
+            && ((!e.IsPrivate && e.IsPublished) || e.Invitations.Any(i => i.UserId == userId) 
+            || e.Tickets.SelectMany(t => t.SoldTickets).Any(st => st.Order.CustomerUserId == userId)));
         var latestNews = await _dbContext.NewsPosts
             .AsNoTracking()
             .Where(np => np.Event.Id == request.EventId)

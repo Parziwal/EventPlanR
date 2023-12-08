@@ -122,7 +122,7 @@ class _FilterModal extends StatelessWidget {
                       : formatDateRange(
                     context,
                     filter.fromDate!,
-                    filter.toDate!,
+                    filter.toDate,
                   ),
                 ),
                 onTap: () {
@@ -211,7 +211,8 @@ class _FilterModal extends StatelessWidget {
           TextButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                const EventFilter(
+                EventFilter(
+                  fromDate: DateTime.now(),
                   orderBy: EventOrderByEnum.fromDate,
                   orderDirection: OrderDirectionEnum.descending,
                   distance: EventDistanceEnum.km10,
@@ -266,7 +267,8 @@ class _FilterModal extends StatelessWidget {
           OutlinedButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
-                  const EventFilter(
+                EventFilter(
+                    fromDate: DateTime.now(),
                     orderBy: EventOrderByEnum.fromDate,
                     orderDirection: OrderDirectionEnum.descending,
                     distance: EventDistanceEnum.km10,

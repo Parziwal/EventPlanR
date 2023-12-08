@@ -105,17 +105,6 @@ class _MapLocationPickerState extends State<_MapLocationPicker> {
               child: Row(
                 children: [
                   Expanded(
-                    child: FilledButton(
-                      onPressed: _pickedLocation != null ? _pickLocation : null,
-                      style: FilledButton.styleFrom(
-                        textStyle: theme.textTheme.titleMedium,
-                        padding: const EdgeInsets.all(16),
-                      ),
-                      child: Text(l10n.pick),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
                     child: OutlinedButton(
                       onPressed: () => context.pop(),
                       style: FilledButton.styleFrom(
@@ -123,6 +112,17 @@ class _MapLocationPickerState extends State<_MapLocationPicker> {
                         padding: const EdgeInsets.all(16),
                       ),
                       child: Text(l10n.cancel),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child:FilledButton(
+                      onPressed: _pickedLocation != null ? _pickLocation : null,
+                      style: FilledButton.styleFrom(
+                        textStyle: theme.textTheme.titleMedium,
+                        padding: const EdgeInsets.all(16),
+                      ),
+                      child: Text(l10n.pick),
                     ),
                   ),
                 ],

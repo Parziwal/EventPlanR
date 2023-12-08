@@ -85,7 +85,7 @@ class _UserEventsPageState extends State<UserEventsPage>
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: breakpoints.isMobile ? 500 : 400,
           crossAxisSpacing: 16,
-          mainAxisExtent: breakpoints.isMobile ? 150 : null,
+          mainAxisExtent: breakpoints.isMobile ? 120 : null,
         ),
         padding: const EdgeInsets.only(
           left: 16,

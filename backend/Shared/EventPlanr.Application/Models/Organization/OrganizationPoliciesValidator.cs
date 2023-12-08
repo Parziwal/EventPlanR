@@ -22,7 +22,12 @@ public class OrganizationPoliciesValidator : AbstractValidator<List<string>>
             || p == OrganizationPolicies.EventTicketManage
             || p == OrganizationPolicies.NewsPostView
             || p == OrganizationPolicies.NewsPostManage
-            || p == OrganizationPolicies.UserCheckIn);
+            || p == OrganizationPolicies.UserCheckIn
+            || p == OrganizationPolicies.InvitationView
+            || p == OrganizationPolicies.InvitationManage
+            || p == OrganizationPolicies.EventChat
+            || p == OrganizationPolicies.EventStatistics
+            || p == OrganizationPolicies.OrderView);
         if (!inPolicies)
         {
             return false;
@@ -38,12 +43,32 @@ public class OrganizationPoliciesValidator : AbstractValidator<List<string>>
         {
             return false;
         }
+        if (policies.Contains(OrganizationPolicies.EventTicketView)
+            && !policies.Contains(OrganizationPolicies.EventTicketManage))
+        {
+            return false;
+        }
+        if (policies.Contains(OrganizationPolicies.NewsPostView)
+            && !policies.Contains(OrganizationPolicies.NewsPostManage))
+        {
+            return false;
+        }
+        if (policies.Contains(OrganizationPolicies.InvitationView)
+            && !policies.Contains(OrganizationPolicies.InvitationManage))
+        {
+            return false;
+        }
         if (!policies.Contains(OrganizationPolicies.OrganizationEventView) &&
             policies.Any(p => p == OrganizationPolicies.EventTicketView
             || p == OrganizationPolicies.EventTicketManage
             || p == OrganizationPolicies.NewsPostView
             || p == OrganizationPolicies.NewsPostManage
-            || p == OrganizationPolicies.UserCheckIn))
+            || p == OrganizationPolicies.UserCheckIn
+            || p == OrganizationPolicies.InvitationView
+            || p == OrganizationPolicies.InvitationManage
+            || p == OrganizationPolicies.EventChat
+            || p == OrganizationPolicies.EventStatistics
+            || p == OrganizationPolicies.OrderView))
         {
             return false;
         }

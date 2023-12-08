@@ -61,7 +61,7 @@ class ChatRepository {
           .map(
             (c) => Chat(
               id: c.id,
-              lastMessageDate: c.lastMessageDate,
+              lastMessageDate: c.lastMessageDate.toLocal(),
               haveUnreadMessage: c.haveUnreadMessages,
               contactFirstName: c.contactFirstName,
               contactLastName: c.contactLastName,
@@ -96,7 +96,7 @@ class ChatRepository {
           .map(
             (c) => Chat(
               id: c.id,
-              lastMessageDate: c.lastMessageDate,
+              lastMessageDate: c.lastMessageDate.toLocal(),
               haveUnreadMessage: c.haveUnreadMessages,
               eventName: c.eventName,
               profileImageUrl: c.profileImageUrl,
@@ -125,7 +125,7 @@ class ChatRepository {
           (m) => ChatMessage(
             chatId: m.chatId,
             content: m.content,
-            createdAt: m.createdAt,
+            createdAt: m.createdAt.toLocal(),
             sender: Sender(
               id: m.sender.id,
               firstName: m.sender.firstName,
@@ -151,7 +151,7 @@ class ChatRepository {
           (m) => ChatMessage(
             chatId: m.chatId,
             content: m.content,
-            createdAt: m.createdAt,
+            createdAt: m.createdAt.toLocal(),
             sender: Sender(
               id: m.sender.id,
               firstName: m.sender.firstName,

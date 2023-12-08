@@ -35,8 +35,14 @@ public class GetUserEventInvitationQueryHandler : IRequestHandler<GetUserEventIn
         var invitation = await _dbContext.Invitations
             .Include(i => i.Event)
             .Include(i => i.Event.Organization)
-            .SingleEntityAsync(i => i.EventId == request.EventId && (i.UserId == _user.UserId));
+            .SingleEntityAsync(i => i.EventId == request.EventId && i.UserId == _user.UserId);
 
-        return _mapper.Map<UserInvitationDto>(invitation);
+        var invitationTicket = await _dbContext.SoldTickets
+            .SingleOrDefaultAsync(st => st.TicketId == st.Ticket.Event.InvitationTicketId && st.Order.CustomerUserId == _user.UserId);
+
+        var mappedInvitation = _mapper.Map<UserInvitationDto>(invitation);
+        mappedInvitation.TicketId = invitationTicket?.Id;
+
+        return mappedInvitation;
     }
 }

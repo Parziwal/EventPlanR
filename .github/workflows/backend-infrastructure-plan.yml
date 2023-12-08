@@ -15,8 +15,8 @@ env:
   DOTNET_VERSION: '6.0.x'
 
 jobs:
-  plan-backend:
-    name: Plan backend
+  backend-infrastrucure-plan:
+    name: Backend Infrastructure Plan
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -38,15 +38,15 @@ jobs:
       run: dotnet restore
       working-directory: 'backend'
       
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Release build
+      run: dotnet build --configuration Release --no-restore
       working-directory: 'backend'
 
-    - name: Publish Lambda Services
+    - name: Publish Lambda projects
       run: sh publish_lambda_services.sh
       working-directory: 'infrastructure/backend'
 
-    - name: Use Terraform
+    - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: ${{ env.TERRAFORM_VERSION }}

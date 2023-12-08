@@ -29,22 +29,24 @@ class UserTicketLandscape extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 32),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    ticket.ticketName,
-                    style: theme.textTheme.titleLarge,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    ticket.getUserFullName(context),
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: theme.colorScheme.primary,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ticket.ticketName,
+                      style: theme.textTheme.titleLarge,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 16),
+                    Text(
+                      ticket.getUserFullName(context),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

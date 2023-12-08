@@ -29,8 +29,8 @@ class UserTicketRepository {
               name: e.name,
               venue: e.venue,
               organizationName: e.organizationName,
-              fromDate: e.fromDate,
-              toDate: e.toDate,
+              fromDate: e.fromDate.toLocal(),
+              toDate: e.toDate.toLocal(),
               coverImageUrl: e.coverImageUrl,
             ),
           )
@@ -59,8 +59,8 @@ class UserTicketRepository {
               name: e.name,
               venue: e.venue,
               organizationName: e.organizationName,
-              fromDate: e.fromDate,
-              toDate: e.toDate,
+              fromDate: e.fromDate.toLocal(),
+              toDate: e.toDate.toLocal(),
               coverImageUrl: e.coverImageUrl,
             ),
           )
@@ -89,8 +89,8 @@ class UserTicketRepository {
               name: e.name,
               venue: e.venue,
               organizationName: e.organizationName,
-              fromDate: e.fromDate,
-              toDate: e.toDate,
+              fromDate: e.fromDate.toLocal(),
+              toDate: e.toDate.toLocal(),
               coverImageUrl: e.coverImageUrl,
             ),
           )
