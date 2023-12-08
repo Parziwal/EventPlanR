@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Order.Queries;
 
-[Authorize(OrganizationPolicy = OrganizationPolicies.EventTicketView)]
+[Authorize(OrganizationPolicy = OrganizationPolicies.OrderView)]
 public class GetOrgnitationEventOrderDetailsQuery : IRequest<OrderDetailsDto>
 {
     public Guid OrderId { get; set; }

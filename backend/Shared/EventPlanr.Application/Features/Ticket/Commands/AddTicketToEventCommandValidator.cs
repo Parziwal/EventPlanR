@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using EventPlanr.Application.Resources;
+using FluentValidation;
 
 namespace EventPlanr.Application.Features.Ticket.Commands;
 
@@ -21,13 +22,13 @@ public class AddTicketToEventCommandValidator : AbstractValidator<AddTicketToEve
             .MaximumLength(256);
         RuleFor(x => x.SaleStarts)
             .Must((fields, saleStarts) => saleStarts <= fields.SaleEnds)
-            .WithMessage("SaleStarts must be before SaleEnds.")
+            .WithMessage(LocalizerManager.Localizer["SaleStartsMustBeBeforeSaleEnds"])
             .Must(x => x > DateTimeOffset.UtcNow)
-            .WithErrorCode("SaleStartsMustBeBeforeCurrentDate")
+            .WithErrorCode(LocalizerManager.Localizer["SaleStartsMustBeAfterCurrentDate"])
             .NotNull();
         RuleFor(x => x.SaleEnds)
             .Must((fields, saleEnds) => saleEnds >= fields.SaleStarts)
-            .WithMessage("SaleEnds must be after SaleStarts.")
+            .WithMessage(LocalizerManager.Localizer["SaleEndsMustBeAfterSaleStarts"])
             .NotNull();
     }
 }

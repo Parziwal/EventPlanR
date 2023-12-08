@@ -16,8 +16,8 @@ swagger_parser:
       name: ticket_order
     - schema_url: https://kulbzsstuc.execute-api.us-east-1.amazonaws.com/userticket/swagger/v1/swagger.json
       name: user_ticket
-    - schema_url: https://kulbzsstuc.execute-api.us-east-1.amazonaws.com/newspost/swagger/v1/swagger.json
-      name: news_post
+    - schema_url: https://kulbzsstuc.execute-api.us-east-1.amazonaws.com/newspostmanager/swagger/v1/swagger.json
+      name: news_post_manager
     - schema_url: https://kulbzsstuc.execute-api.us-east-1.amazonaws.com/chatmanager/swagger/v1/swagger.json
       name: chat_manager
     - schema_url: https://kulbzsstuc.execute-api.us-east-1.amazonaws.com/eventinvitation/swagger/v1/swagger.json

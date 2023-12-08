@@ -1,5 +1,5 @@
 import 'package:event_planr_app/data/network/event_planr_api/models/create_news_post_command.dart';
-import 'package:event_planr_app/data/network/event_planr_api/news_post/news_post_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/news_post_manager/news_post_manager_client.dart';
 import 'package:event_planr_app/domain/models/common/paginated_list.dart';
 import 'package:event_planr_app/domain/models/news_post/create_news_post.dart';
 import 'package:event_planr_app/domain/models/news_post/news_post_filter.dart';
@@ -8,15 +8,15 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class NewsPostRepository {
-  NewsPostRepository({required NewsPostClient newsPostClient})
-      : _newsPostClient = newsPostClient;
+  NewsPostRepository({required NewsPostManagerClient newsPostClient})
+      : _newsPostManagerClient = newsPostClient;
 
-  final NewsPostClient _newsPostClient;
+  final NewsPostManagerClient _newsPostManagerClient;
 
   Future<PaginatedList<OrganizationNewsPost>> getEventNewsPosts(
     NewsPostFilter filter,
   ) async {
-    final news = await _newsPostClient.getNewspostEventId(
+    final news = await _newsPostManagerClient.getNewspostmanagerEventId(
       eventId: filter.eventId,
       pageNumber: filter.pageNumber ?? 1,
       pageSize: filter.pageSize ?? 20,
@@ -28,8 +28,8 @@ class NewsPostRepository {
             (n) => OrganizationNewsPost(
               id: n.id,
               title: n.title,
-              created: n.created,
-              lastModified: n.lastModified,
+              created: n.created.toLocal(),
+              lastModified: n.lastModified.toLocal(),
               text: n.text,
               createdBy: n.createdBy,
               lastModifiedBy: n.lastModifiedBy,
@@ -45,7 +45,7 @@ class NewsPostRepository {
   }
 
   Future<String> createNewsPost(CreateNewsPost newsPost) async {
-    return _newsPostClient.postNewspostEventId(
+    return _newsPostManagerClient.postNewspostmanagerEventId(
       eventId: newsPost.eventId,
       body: CreateNewsPostCommand(
         title: newsPost.title,
@@ -55,7 +55,7 @@ class NewsPostRepository {
   }
 
   Future<void> deleteNewsPost(String newsPostId) async {
-    await _newsPostClient.deleteNewspostNewsPostId(
+    await _newsPostManagerClient.deleteNewspostmanagerNewsPostId(
       newsPostId: newsPostId,
     );
   }

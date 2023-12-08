@@ -41,6 +41,12 @@ public class AddMemberToUserOrganizationCommandHandler : IRequestHandler<AddMemb
 
         var organization = await _dbContext.Organizations
             .SingleEntityAsync(o => o.Id == _user.OrganizationId);
+
+        if (organization.MemberUserIds.Contains(memberUserId))
+        {
+            throw new DomainException("UserAlreadyAddedToTheOrganization");
+        }
+
         organization.MemberUserIds.Add(memberUserId);
         await _dbContext.SaveChangesAsync();
 

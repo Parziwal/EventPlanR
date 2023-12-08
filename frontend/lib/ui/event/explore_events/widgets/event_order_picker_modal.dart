@@ -182,7 +182,7 @@ class _EventOrderPickerModal extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FilledButton(
+          OutlinedButton(
             onPressed: () => Navigator.pop(context),
             style: FilledButton.styleFrom(
               textStyle: theme.textTheme.titleMedium,
@@ -192,7 +192,7 @@ class _EventOrderPickerModal extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          OutlinedButton(
+          FilledButton(
             onPressed: () {
               context.read<ExploreEventsCubit>().filterEvents(
                     context

@@ -6,6 +6,7 @@ using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,23 +23,27 @@ public class GetOrganizationPastEventsQueryHandler : IRequestHandler<GetOrganiza
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IMapper _mapper;
+    private readonly ITimeRepository _timeRepository;
 
     public GetOrganizationPastEventsQueryHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
-        IMapper mapper)
+        IMapper mapper,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
         _mapper = mapper;
+        _timeRepository = timeRepository;
     }
 
     public async Task<PaginatedListDto<OrganizationEventDto>> Handle(GetOrganizationPastEventsQuery request, CancellationToken cancellationToken)
     {
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         return await _dbContext.Events
             .AsNoTracking()
             .Where(e => e.OrganizationId == _user.OrganizationId)
-            .Where(e => e.IsPublished && e.ToDate < DateTimeOffset.UtcNow)
+            .Where(e => e.IsPublished && e.ToDate < timeNow)
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower())))

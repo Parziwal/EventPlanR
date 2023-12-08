@@ -16,19 +16,32 @@ public class GetEventDetailsQueryHandler : IRequestHandler<GetEventDetailsQuery,
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IUserContext _user;
 
-    public GetEventDetailsQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
+    public GetEventDetailsQueryHandler(
+        IApplicationDbContext dbContext,
+        IMapper mapper,
+        IUserContext user)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _user = user;
     }
 
     public async Task<EventDetailsDto> Handle(GetEventDetailsQuery request, CancellationToken cancellationToken)
     {
+        Guid? userId = null;
+        if (_user.IsAuthenticated)
+        {
+            userId = _user.UserId;
+        }
+
         var eventEntity = await _dbContext.Events
             .AsNoTracking()
             .Include(e => e.Organization)
-            .SingleEntityAsync(e => e.Id == request.EventId && !e.IsPrivate && e.IsPublished);
+            .SingleEntityAsync(e => e.Id == request.EventId 
+            && ((!e.IsPrivate && e.IsPublished) || e.Invitations.Any(i => i.UserId == userId) 
+            || e.Tickets.SelectMany(t => t.SoldTickets).Any(st => st.Order.CustomerUserId == userId)));
         var latestNews = await _dbContext.NewsPosts
             .AsNoTracking()
             .Where(np => np.Event.Id == request.EventId)

@@ -67,7 +67,7 @@ public class GetUserDirectChatsQueryHandler : IRequestHandler<GetUserDirectChats
                     HaveUnreadMessages = c.LastMessageDate > currentUser.LastSeen,
                     ContactFirstName = contact.FirstName,
                     ContactLastName = contact.LastName,
-                    ProfileImageUrl = null,
+                    ProfileImageUrl = contact.Picture,
                 };
             }).ToList(),
             PageNumber = chats.PageNumber,

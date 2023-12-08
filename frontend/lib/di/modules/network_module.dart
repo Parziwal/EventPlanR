@@ -6,7 +6,7 @@ import 'package:event_planr_app/data/network/event_planr_api/chat_manager/chat_m
 import 'package:event_planr_app/data/network/event_planr_api/event_general/event_general_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/event_invitation/event_invitation_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/event_manager/event_manager_client.dart';
-import 'package:event_planr_app/data/network/event_planr_api/news_post/news_post_client.dart';
+import 'package:event_planr_app/data/network/event_planr_api/news_post_manager/news_post_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/organization_manager/organization_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/ticket_manager/ticket_manager_client.dart';
 import 'package:event_planr_app/data/network/event_planr_api/ticket_order/ticket_order_client.dart';
@@ -45,8 +45,10 @@ abstract class NetworkModule {
           safePrint(e.response);
 
           final responseData =
-              jsonDecode(e.response?.data as String) as Map<String, dynamic>;
-          if (responseData['instance'] == 'EntityNotFoundException') {
+              jsonDecode(e.response.toString()) as Map<String, dynamic>;
+
+          if (responseData['instance'] == 'DomainException') {
+
             return handler.next(
               DomainException(
                 title: responseData['title'] as String,
@@ -106,8 +108,8 @@ abstract class NetworkModule {
   }
 
   @singleton
-  NewsPostClient getNewsPostClient(Dio dio) {
-    return NewsPostClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
+  NewsPostManagerClient getNewsPostClient(Dio dio) {
+    return NewsPostManagerClient(dio, baseUrl: '${Env.eventPlanrApiUrl}/');
   }
 
   @singleton

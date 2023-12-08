@@ -11,7 +11,6 @@ public class SoldTicketEntity : BaseEntity
     public TicketEntity Ticket { get; set; } = null!;
     public Guid OrderId { get; set; }
     public OrderEntity Order { get; set; } = null!;
-    public bool IsRefunded { get; set; }
     public bool IsCheckedIn { get; set; }
     public DateTimeOffset? CheckInDate { get; set; }
 }

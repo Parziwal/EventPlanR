@@ -57,8 +57,9 @@ class EventManagerRepository {
               id: e.id,
               name: e.name,
               coverImageUrl: e.coverImageUrl,
-              fromDate: e.fromDate,
+              fromDate: e.fromDate.toLocal(),
               chatId: e.chatId,
+              isPrivate: e.isPrivate,
             ),
           )
           .toList(),
@@ -86,8 +87,9 @@ class EventManagerRepository {
               id: e.id,
               name: e.name,
               coverImageUrl: e.coverImageUrl,
-              fromDate: e.fromDate,
+              fromDate: e.fromDate.toLocal(),
               chatId: e.chatId,
+              isPrivate: e.isPrivate,
             ),
           )
           .toList(),
@@ -115,8 +117,9 @@ class EventManagerRepository {
               id: e.id,
               name: e.name,
               coverImageUrl: e.coverImageUrl,
-              fromDate: e.fromDate,
+              fromDate: e.fromDate.toLocal(),
               chatId: e.chatId,
+              isPrivate: e.isPrivate,
             ),
           )
           .toList(),
@@ -138,8 +141,8 @@ class EventManagerRepository {
       id: event.id,
       name: event.name,
       category: event.category.toDomainEnum(),
-      fromDate: event.fromDate,
-      toDate: event.toDate,
+      fromDate: event.fromDate.toLocal(),
+      toDate: event.toDate.toLocal(),
       venue: event.venue,
       address: event.address.toDomainModel(),
       coordinates: LatLng(
@@ -151,9 +154,9 @@ class EventManagerRepository {
       isPublished: event.isPublished,
       coverImageUrl: event.coverImageUrl,
       description: event.description,
-      created: event.created,
+      created: event.created.toLocal(),
       createdBy: event.createdBy,
-      lastModified: event.lastModified,
+      lastModified: event.lastModified.toLocal(),
       lastModifiedBy: event.lastModifiedBy,
     );
   }
@@ -170,7 +173,6 @@ class EventManagerRepository {
           venue: event.venue,
           address: event.address.toNetworkModel(),
           coordinate: event.coordinates.toNetworkModel(),
-          currency: event.currency.toNetworkEnum(),
         ),
       );
       return event.id!;
@@ -185,7 +187,7 @@ class EventManagerRepository {
           venue: event.venue,
           address: event.address.toNetworkModel(),
           coordinate: event.coordinates.toNetworkModel(),
-          currency: event.currency.toNetworkEnum(),
+          currency: event.currency!.toNetworkEnum(),
           isPrivate: event.isPrivate!,
         ),
       );

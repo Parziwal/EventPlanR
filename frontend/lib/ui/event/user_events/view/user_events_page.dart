@@ -85,20 +85,22 @@ class _UserEventsPageState extends State<UserEventsPage>
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: breakpoints.isMobile ? 500 : 400,
           crossAxisSpacing: 16,
-          mainAxisExtent: breakpoints.isMobile ? 150 : null,
+          mainAxisExtent: breakpoints.isMobile ? 120 : null,
         ),
         padding: const EdgeInsets.only(
-          left: 32,
-          right: 32,
+          left: 16,
+          right: 16,
           top: 8,
         ),
         builderDelegate: PagedChildBuilderDelegate<Event>(
           itemBuilder: (context, item, index) {
             return breakpoints.isMobile
-                ? EventItemCardLandscape(
-                    onPressed: () => _eventItemPressed(item),
-                    event: item,
-                  )
+                ? FittedBox(
+                  child: EventItemCardLandscape(
+                      onPressed: () => _eventItemPressed(item),
+                      event: item,
+                    ),
+                )
                 : FittedBox(
                     child: EventItemCardPortrait(
                       onPressed: () => _eventItemPressed(item),

@@ -39,6 +39,8 @@ public class EditTicketCommandHandler : IRequestHandler<EditTicketCommand>
             .Include(t => t.SoldTickets)
             .SingleEntityAsync(t => t.Id == request.TicketId && t.Event.OrganizationId == _user.OrganizationId);
 
+
+
         if (ticket.Event.ToDate < request.SaleEnds)
         {
             throw new DomainException("TicketSaleDatesMustBeBeforeEventToDate");
@@ -47,8 +49,8 @@ public class EditTicketCommandHandler : IRequestHandler<EditTicketCommand>
         ticket.Price = request.Price;
         ticket.Count = request.Count < ticket.SoldTickets.Count() ? ticket.SoldTickets.Count() : request.Count;
         ticket.Description = request.Description;
-        ticket.SaleStarts = request.SaleStarts;
-        ticket.SaleEnds = request.SaleEnds;
+        ticket.SaleStarts = request.SaleStarts.ToUniversalTime();
+        ticket.SaleEnds = request.SaleEnds.ToUniversalTime();
         ticket.RemainingCount = ticket.Count - ticket.SoldTickets.Count();
 
         await _dbContext.SaveChangesAsync();

@@ -87,7 +87,7 @@ class _OrganizationEventNewsPageState extends State<OrganizationEventNewsPage> {
         listener: _stateListener,
         child: PagedListView(
           pagingController: _pagingController,
-          padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
+          padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
           builderDelegate: PagedChildBuilderDelegate<OrganizationNewsPost>(
             itemBuilder: (context, item, index) => MaxWidthBox(
               maxWidth: 1000,

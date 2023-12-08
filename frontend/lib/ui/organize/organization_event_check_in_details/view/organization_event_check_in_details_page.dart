@@ -115,7 +115,10 @@ class OrganizationEventCheckInDetailsPage extends StatelessWidget {
             Label(
               label: l10n.organizationEventCheckInDetails_OrderNumber,
               value: ticket.orderId,
-              textStyle: theme.textTheme.titleMedium,
+              textStyle: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.secondary,
+                decoration: TextDecoration.underline,
+              ),
             ),
             Label(
               label: l10n.organizationEventCheckInDetails_Date,

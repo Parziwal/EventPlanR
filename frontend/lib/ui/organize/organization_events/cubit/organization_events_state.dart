@@ -6,8 +6,7 @@ enum OrganizationEventsStatus { idle, error }
 class OrganizationEventsState with _$OrganizationEventsState {
   const factory OrganizationEventsState({
     required OrganizationEventsStatus status,
-    @Default([])
-    List<OrganizationEvent> events,
+    List<OrganizationEvent>? events,
     int? pageNumber,
     Exception? exception,
   }) = _OrganizationEventsState;

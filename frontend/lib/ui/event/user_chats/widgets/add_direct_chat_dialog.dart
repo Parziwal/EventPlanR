@@ -84,7 +84,7 @@ class _AddDirectChatDialogState extends State<_AddDirectChatDialog> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(32),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

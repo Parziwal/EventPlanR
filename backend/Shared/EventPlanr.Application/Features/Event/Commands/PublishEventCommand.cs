@@ -31,7 +31,12 @@ public class PublishEventCommandHandler : IRequestHandler<PublishEventCommand>
             .Include(e => e.Tickets)
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (!eventEntity.IsPrivate && eventEntity.Tickets.Count == 0)
+        if (eventEntity.IsPrivate)
+        {
+            throw new DomainException("PrivateEventCannotBePublished");
+        }
+
+        if (eventEntity.Tickets.Count() == 0)
         {
             throw new DomainException("PublicEventWithoutTicketsCannotBePublished");
         }

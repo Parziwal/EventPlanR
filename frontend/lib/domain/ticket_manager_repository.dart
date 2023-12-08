@@ -59,15 +59,15 @@ class TicketManagerRepository {
     return tickets
         .map(
           (t) => OrganizationTicket(
-            created: t.created,
-            lastModified: t.lastModified,
+            created: t.created.toLocal(),
+            lastModified: t.lastModified.toLocal(),
             id: t.id,
             name: t.name,
             count: t.count,
             remainingCount: t.remainingCount,
             price: t.price,
-            saleStarts: t.saleStarts,
-            saleEnds: t.saleEnds,
+            saleStarts: t.saleStarts.toLocal(),
+            saleEnds: t.saleEnds.toLocal(),
             currency: t.currency.toDomainEnum(),
             description: t.description,
             lastModifiedBy: t.lastModifiedBy,
@@ -122,7 +122,7 @@ class TicketManagerRepository {
       price: ticket.price,
       currency: ticket.currency.toDomainEnum(),
       orderId: ticket.orderId,
-      created: ticket.created,
+      created: ticket.created.toLocal(),
     );
   }
 

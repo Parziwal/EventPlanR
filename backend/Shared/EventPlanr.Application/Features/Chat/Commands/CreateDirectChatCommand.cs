@@ -3,6 +3,7 @@ using EventPlanr.Application.Exceptions;
 using EventPlanr.Application.Resources;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,12 +20,18 @@ public class CreateDirectChatCommandHandler : IRequestHandler<CreateDirectChatCo
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserService _userService;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
-    public CreateDirectChatCommandHandler(IApplicationDbContext dbContext, IUserService userService, IUserContext user)
+    public CreateDirectChatCommandHandler(
+        IApplicationDbContext dbContext,
+        IUserService userService,
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _userService = userService;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task<Guid> Handle(CreateDirectChatCommand request, CancellationToken cancellationToken)
@@ -42,7 +49,7 @@ public class CreateDirectChatCommandHandler : IRequestHandler<CreateDirectChatCo
             throw new DomainException("ChatAlreadyExists");
         }
 
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         var chat = new ChatEntity()
         {
             LastMessageDate = timeNow,

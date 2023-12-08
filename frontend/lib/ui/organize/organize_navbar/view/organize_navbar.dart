@@ -1,4 +1,5 @@
 import 'package:event_planr_app/app/router.dart';
+import 'package:event_planr_app/env/env.dart';
 import 'package:event_planr_app/l10n/l10n.dart';
 import 'package:event_planr_app/l10n/l10n_error.dart';
 import 'package:event_planr_app/ui/organize/organize_navbar/cubit/organize_navbar_cubit.dart';
@@ -56,14 +57,13 @@ class _OrganizeNavbarState extends State<OrganizeNavbar> {
 
   AppBar _appBar() {
     final breakpoints = context.breakpoints;
-    final l10n = context.l10n;
 
     final state = context.watch<OrganizeNavbarCubit>().state;
     final title =
         widget.desktopTitle.isNotEmpty ? ' - ${widget.desktopTitle}' : '';
 
     return AppBar(
-      title: Text('${l10n.organizeNavbar_EventManager}$title'),
+      title: Text('${Env.appName}$title'),
       elevation: 5,
       leading: breakpoints.isDesktop
           ? IconButton(

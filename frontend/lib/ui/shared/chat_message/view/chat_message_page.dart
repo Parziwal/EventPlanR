@@ -51,6 +51,9 @@ class ChatMessagePage extends StatelessWidget {
                 inputTextCursorColor: theme.colorScheme.onSecondary,
                 sentMessageBodyTextStyle: theme.textTheme.titleMedium!
                     .copyWith(color: theme.colorScheme.onPrimary),
+                receivedMessageBodyTextStyle: theme.textTheme.titleMedium!
+                    .copyWith(color: theme.colorScheme.onSecondary),
+                userAvatarNameColors: [theme.colorScheme.inversePrimary],
               ),
               l10n: ChatL10nEn(
                 inputPlaceholder: l10n.chatMessage_Message,

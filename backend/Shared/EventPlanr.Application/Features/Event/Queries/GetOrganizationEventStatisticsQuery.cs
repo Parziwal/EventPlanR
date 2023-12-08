@@ -7,6 +7,7 @@ using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Entities;
 using EventPlanr.Domain.Enums;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,11 +23,16 @@ public class GetOrganizationEventStatisticsQueryHandler : IRequestHandler<GetOrg
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
-    public GetOrganizationEventStatisticsQueryHandler(IApplicationDbContext dbContext, IUserContext user)
+    public GetOrganizationEventStatisticsQueryHandler(
+        IApplicationDbContext dbContext,
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task<EventStatisticsDto> Handle(GetOrganizationEventStatisticsQuery request, CancellationToken cancellationToken)
@@ -80,7 +86,7 @@ public class GetOrganizationEventStatisticsQueryHandler : IRequestHandler<GetOrg
             })
             .ToList();
 
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         var startDate = new DateTime(eventEntity.FromDate.Year, eventEntity.FromDate.Month, eventEntity.FromDate.Day);
         var endDate = eventEntity.ToDate > timeNow
             ? new DateTime(timeNow.Year, timeNow.Month, timeNow.Day)
@@ -112,7 +118,7 @@ public class GetOrganizationEventStatisticsQueryHandler : IRequestHandler<GetOrg
             })
             .ToList();
 
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         var startDate = new DateTime(eventEntity.FromDate.Year, eventEntity.FromDate.Month, 1);
         var endDate = eventEntity.ToDate > timeNow 
             ? new DateTime(timeNow.Year, timeNow.Month, 1)
@@ -150,7 +156,7 @@ public class GetOrganizationEventStatisticsQueryHandler : IRequestHandler<GetOrg
             return new List<ChartSpotDto>();
         }
 
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         var startDate = checkInsPerHour.First().DateTime;
         var endDate = eventEntity.ToDate > timeNow
             ? new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, timeNow.Hour, 0, 0)
@@ -188,7 +194,7 @@ public class GetOrganizationEventStatisticsQueryHandler : IRequestHandler<GetOrg
             return new List<ChartSpotDto>();
         }
 
-        var timeNow = DateTimeOffset.UtcNow;
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         var startDate = checkInsPerDay.First().DateTime;
         var endDate = eventEntity.ToDate > timeNow
             ? new DateTime(timeNow.Year, timeNow.Month, timeNow.Day)

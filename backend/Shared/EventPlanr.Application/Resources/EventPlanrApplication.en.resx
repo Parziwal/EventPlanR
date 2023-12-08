@@ -145,8 +145,8 @@
   <data name="PastEventCannotBePublished" xml:space="preserve">
     <value>Past event cannot be published</value>
   </data>
-  <data name="EventWithUnrefundedOrdersCannotBeDeleted" xml:space="preserve">
-    <value>Event with unrefunded orders cannot be deleted</value>
+  <data name="EventWithActiveOrdersCannotBeDeleted" xml:space="preserve">
+    <value>Event with active orders cannot be deleted</value>
   </data>
   <data name="PastEventCannotBeUnPublished" xml:space="preserve">
     <value>Past event cannot be unpublished</value>
@@ -175,10 +175,43 @@
   <data name="TicketSaleDatesMustBeBeforeEventToDate" xml:space="preserve">
     <value>Ticket sale dates must be before event end date</value>
   </data>
-  <data name="TicketTypeHasNoRefundedTickets" xml:space="preserve">
-    <value>Ticket type has not refunded tickets</value>
+  <data name="TicketTypeHasSoldTickets" xml:space="preserve">
+    <value>Ticket type has sold tickets</value>
   </data>
   <data name="UserAlreadyCheckedIn" xml:space="preserve">
     <value>User already checked in</value>
+  </data>
+  <data name="UserAlreadyAddedToTheOrganization" xml:space="preserve">
+    <value>User already added to the organization</value>
+  </data>
+  <data name="PrivateEventCannotBePublished" xml:space="preserve">
+    <value>Private event cannot be published</value>
+  </data>
+  <data name="PrivateEventCannotBeUnPublished" xml:space="preserve">
+    <value>Private event cannot be unpublished</value>
+  </data>
+  <data name="PrivateEventHasNoTicketOptions" xml:space="preserve">
+    <value>Private event has no ticket option</value>
+  </data>
+  <data name="AcceptedOrDeniedInvitationStatusCannotBeChanged" xml:space="preserve">
+    <value>Accepted or denied invitation status cannot be changed</value>
+  </data>
+  <data name="MinimumOneTicketInfoIsRequired" xml:space="preserve">
+    <value>Minimum one ticket is required</value>
+  </data>
+  <data name="MinimumOneMaximumTenTicketAllowed" xml:space="preserve">
+    <value>Minimum 1 ticket and maximum 10 ticket allowed</value>
+  </data>
+  <data name="TicketIdMustBeUnique" xml:space="preserve">
+    <value>Ticket id must be unique</value>
+  </data>
+  <data name="SaleStartsMustBeBeforeSaleEnds" xml:space="preserve">
+    <value>Sale starts must be before sale ends</value>
+  </data>
+  <data name="SaleStartsMustBeAfterCurrentDate" xml:space="preserve">
+    <value>Sale starts must be after current date</value>
+  </data>
+  <data name="SaleEndsMustBeAfterSaleStarts" xml:space="preserve">
+    <value>Sale ends must be after sale starts</value>
   </data>
 </root>

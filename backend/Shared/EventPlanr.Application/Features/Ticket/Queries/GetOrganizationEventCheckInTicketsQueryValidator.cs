@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace EventPlanr.Application.Features.Ticket.Queries;
 
-public class GetOrganizationEventCheckInTicketsQueryValidator : AbstractValidator<GetOrganizationEvenCheckInTicketsQuery>
+public class GetOrganizationEventCheckInTicketsQueryValidator : AbstractValidator<GetOrganizationEventCheckInTicketsQuery>
 {
     public GetOrganizationEventCheckInTicketsQueryValidator()
     {

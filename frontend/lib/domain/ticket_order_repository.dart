@@ -176,7 +176,7 @@ class TicketOrderRepository {
             ),
           )
           .toList(),
-      created: order.created,
+      created: order.created.toLocal(),
     );
   }
 }

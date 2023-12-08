@@ -1,5 +1,5 @@
 locals {
-  s3_origin_id = "event_planr_frontend_origin"
+  s3_origin_id = "${local.environment}_event_planr_frontend_origin"
 }
 
 resource "aws_cloudfront_origin_access_control" "event_planr_frontend" {

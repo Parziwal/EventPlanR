@@ -59,8 +59,8 @@ class EventGeneralRepository {
               coverImageUrl: e.coverImageUrl,
               venue: e.venue,
               organizationName: e.organizationName,
-              fromDate: e.fromDate,
-              toDate: e.toDate,
+              fromDate: e.fromDate.toLocal(),
+              toDate: e.toDate.toLocal(),
             ),
           )
           .toList(),
@@ -82,8 +82,8 @@ class EventGeneralRepository {
       description: event.description,
       coverImageUrl: event.coverImageUrl,
       category: EventCategoryEnum.values.byName(event.category.name),
-      fromDate: event.fromDate,
-      toDate: event.toDate,
+      fromDate: event.fromDate.toLocal(),
+      toDate: event.toDate.toLocal(),
       venue: event.venue,
       address: event.address.toDomainModel(),
       coordinates:
@@ -98,7 +98,7 @@ class EventGeneralRepository {
               id: event.latestNews!.id,
               title: event.latestNews!.title,
               text: event.latestNews!.text,
-              lastModified: event.latestNews!.lastModified,
+              lastModified: event.latestNews!.lastModified.toLocal(),
             )
           : null,
     );
@@ -161,7 +161,7 @@ class EventGeneralRepository {
             price: t.price,
             currency: t.currency.toDomainEnum(),
             remainingCount: t.remainingCount,
-            saleEnds: t.saleEnds,
+            saleEnds: t.saleEnds.toLocal(),
             description: t.description,
           ),
         )
@@ -214,8 +214,8 @@ class EventGeneralRepository {
               coverImageUrl: e.coverImageUrl,
               venue: e.venue,
               organizationName: e.organizationName,
-              fromDate: e.fromDate,
-              toDate: e.toDate,
+              fromDate: e.fromDate.toLocal(),
+              toDate: e.toDate.toLocal(),
             ),
           )
           .toList(),

@@ -50,12 +50,12 @@ public class ChatService : IChatService
         var messageAsDocument = Document.FromJson(messageAsJson);
         var messageAsAttributes = messageAsDocument.ToAttributeMap();
 
-        var putOrganizationRequest = new PutItemRequest
+        var putMessageRequest = new PutItemRequest
         {
             TableName = _dynamoDbTableOptions.ChatMessageTable,
             Item = messageAsAttributes,
         };
 
-        await _dynamoDb.PutItemAsync(putOrganizationRequest);
+        await _dynamoDb.PutItemAsync(putMessageRequest);
     }
 }

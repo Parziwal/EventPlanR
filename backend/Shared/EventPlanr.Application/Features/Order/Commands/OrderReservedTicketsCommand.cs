@@ -6,6 +6,7 @@ using EventPlanr.Application.Models.Order;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,15 +26,18 @@ public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedT
     private readonly IApplicationDbContext _dbContext;
     private readonly ITicketOrderService _ticketService;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
     public OrderReservedTicketsCommandHandler(
         IApplicationDbContext dbContext,
         ITicketOrderService ticketService,
-        IUserContext user)
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _ticketService = ticketService;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task<Guid> Handle(OrderReservedTicketsCommand request, CancellationToken cancellationToken)
@@ -90,7 +94,7 @@ public class OrderReservedTicketsCommandHandler : IRequestHandler<OrderReservedT
             {
                 e.Chat.ChatMembers.Add(new ChatMemberEntity()
                 {
-                    LastSeen = DateTimeOffset.UtcNow,
+                    LastSeen = _timeRepository.GetCurrentUtcTime(),
                     MemberUserId = _user.UserId
                 });
             }

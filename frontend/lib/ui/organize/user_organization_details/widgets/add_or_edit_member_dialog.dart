@@ -34,8 +34,11 @@ Future<void> showAddOrEditMemberDialog(
               builder: (context, state) => _AddOrEditMemberDialog(
                 disabled: state.status == UserOrganizationDetailsStatus.loading,
                 member: member,
-                submit:
-                    userOrganizationDetailsCubit.addOrEditOrganizationMember,
+                submit: (member) {
+                  userOrganizationDetailsCubit
+                      .addOrEditOrganizationMember(member);
+                  context.pop();
+                },
               ),
             ),
           ),
@@ -107,12 +110,10 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
                   _emailField(context),
                   const SizedBox(height: 16),
                   _organizationPermissionFields(context),
-                  const SizedBox(height: 32),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 32),
           Padding(
             padding: const EdgeInsets.all(32),
             child: Row(
@@ -245,6 +246,36 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
           ),
         ),
         FormBuilderFieldOption(
+          value: OrganizationPolicy.invitationView,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.invitationView),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.invitationManage,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.invitationManage),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.eventStatistics,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.eventStatistics),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.orderView,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.orderView),
+          ),
+        ),
+        FormBuilderFieldOption(
+          value: OrganizationPolicy.eventChat,
+          child: Text(
+            l10n.translateEnums(OrganizationPolicy.eventChat),
+          ),
+        ),
+        FormBuilderFieldOption(
           value: OrganizationPolicy.userCheckIn,
           child: Text(
             l10n.translateEnums(OrganizationPolicy.userCheckIn),
@@ -264,6 +295,24 @@ class _AddOrEditMemberDialogState extends State<_AddOrEditMemberDialog> {
             !value.contains(OrganizationPolicy.organizationEventView)) {
           _formKey.currentState?.fields['policies']
               ?.setValue(value..add(OrganizationPolicy.organizationEventView));
+        }
+        if (value != null &&
+            value.contains(OrganizationPolicy.eventTicketManage) &&
+            !value.contains(OrganizationPolicy.eventTicketView)) {
+          _formKey.currentState?.fields['policies']
+              ?.setValue(value..add(OrganizationPolicy.eventTicketView));
+        }
+        if (value != null &&
+            value.contains(OrganizationPolicy.invitationManage) &&
+            !value.contains(OrganizationPolicy.invitationView)) {
+          _formKey.currentState?.fields['policies']
+              ?.setValue(value..add(OrganizationPolicy.invitationView));
+        }
+        if (value != null &&
+            value.contains(OrganizationPolicy.newsPostManage) &&
+            !value.contains(OrganizationPolicy.newsPostView)) {
+          _formKey.currentState?.fields['policies']
+              ?.setValue(value..add(OrganizationPolicy.newsPostView));
         }
       },
     );

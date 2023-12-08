@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Event.Commands;
 
-[Authorize(OrganizationPolicy = OrganizationPolicies.OrganizationEventManage)]
 public class DeleteEventCommand : IRequest
 {
     public Guid EventId { get; set; }
@@ -28,11 +27,11 @@ public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand>
     public async Task Handle(DeleteEventCommand request, CancellationToken cancellationToken)
     {
         var eventEntity = await _dbContext.Events
+            .IgnoreQueryFilters()
             .Include(e => e.Tickets)
             .Include(e => e.NewsPosts)
             .Include(e => e.Invitations)
-            .Include(e => e.Chat)
-            .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
+            .SingleEntityAsync(e => e.Id == request.EventId);
 
         if (eventEntity.IsPublished && eventEntity.ToDate > DateTime.UtcNow)
         {

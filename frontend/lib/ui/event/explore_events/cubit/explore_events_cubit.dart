@@ -24,15 +24,17 @@ class ExploreEventsCubit extends Cubit<ExploreEventsState> {
   })  : _eventGeneralRepository = eventGeneralRepository,
         _mapRepository = mapRepository,
         super(
-          const ExploreEventsState(
+          ExploreEventsState(
             eventFilter: EventFilter(
+              fromDate: DateTime.now().toUtc(),
               orderBy: EventOrderByEnum.fromDate,
-              orderDirection: OrderDirectionEnum.descending,
+              orderDirection: OrderDirectionEnum.ascending,
               distance: EventDistanceEnum.km10,
               pageNumber: 1,
               pageSize: 20,
             ),
-            organizationFilter: OrganizationFilter(pageNumber: 1, pageSize: 20),
+            organizationFilter:
+                const OrganizationFilter(pageNumber: 1, pageSize: 20),
           ),
         );
 

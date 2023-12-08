@@ -23,7 +23,7 @@ class EditUserPage extends StatelessWidget {
       body: BlocConsumer<EditUserCubit, EditUserState>(
         listener: _stateListener,
         builder: (context, state) => SingleChildScrollView(
-          padding: const EdgeInsets.all(32),
+          padding: const EdgeInsets.all(16),
           child: MaxWidthBox(
             maxWidth: 600,
             child: Column(

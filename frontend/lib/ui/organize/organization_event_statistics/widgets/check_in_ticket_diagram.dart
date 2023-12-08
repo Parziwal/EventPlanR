@@ -103,7 +103,7 @@ class _CheckInTicketDiagramState extends State<CheckInTicketDiagram> {
         touchTooltipData: LineTouchTooltipData(
           getTooltipItems: (touchedSpots) => [
             LineTooltipItem(
-              'Datetime: ${DateFormat.d().format(
+              'Datetime: ${DateFormat.Hm().format(
                 _flSpotToDateTime(touchedSpots.first.x),
               )}'
               ' Count: ${touchedSpots.first.y}',

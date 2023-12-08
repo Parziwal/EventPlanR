@@ -13,6 +13,7 @@ class OrganizationEventDto {
     required this.name,
     required this.fromDate,
     required this.chatId,
+    required this.isPrivate,
     this.coverImageUrl,
   });
   
@@ -23,6 +24,7 @@ class OrganizationEventDto {
   final String? coverImageUrl;
   final DateTime fromDate;
   final String chatId;
+  final bool isPrivate;
 
   Map<String, Object?> toJson() => _$OrganizationEventDtoToJson(this);
 }

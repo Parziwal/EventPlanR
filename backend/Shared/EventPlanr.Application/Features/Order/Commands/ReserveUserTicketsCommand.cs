@@ -4,6 +4,7 @@ using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Order;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Entities;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +21,18 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
     private readonly IApplicationDbContext _context;
     private readonly ITicketOrderService _ticketService;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
-    public ReserveUserTicketsCommandHandler(IApplicationDbContext context, ITicketOrderService ticketService, IUserContext user)
+    public ReserveUserTicketsCommandHandler(
+        IApplicationDbContext context,
+        ITicketOrderService ticketService,
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _context = context;
         _ticketService = ticketService;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task<DateTimeOffset> Handle(ReserveUserTicketsCommand request, CancellationToken cancellationToken)
@@ -37,7 +44,7 @@ public class ReserveUserTicketsCommandHandler : IRequestHandler<ReserveUserTicke
                 .Include(t => t.Event)
                 .SingleEntityAsync(t => t.Id == reserveTicket.TicketId && t.Event.IsPublished && !t.Event.IsPrivate);
 
-            var timeNow = DateTimeOffset.UtcNow;
+            var timeNow = _timeRepository.GetCurrentUtcTime();
             if (ticket.SaleStarts > timeNow || ticket.SaleEnds < timeNow)
             {
                 throw new DomainException("TicketNotOnSale");

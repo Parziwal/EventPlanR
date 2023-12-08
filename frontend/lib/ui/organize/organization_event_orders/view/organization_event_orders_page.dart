@@ -70,7 +70,7 @@ class _OrganizationEventOrdersPageState
             mainAxisSpacing: 8,
             crossAxisSpacing: 8,
           ),
-          padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
           builderDelegate: PagedChildBuilderDelegate<EventOrder>(
             itemBuilder: (context, item, index) =>
                 EventOrderItem(eventOrder: item),

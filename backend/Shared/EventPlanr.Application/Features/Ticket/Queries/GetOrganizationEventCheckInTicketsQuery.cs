@@ -7,22 +7,23 @@ using EventPlanr.Application.Models.Ticket;
 using EventPlanr.Application.Security;
 using EventPlanr.Domain.Constants;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlanr.Application.Features.Ticket.Queries;
 
 [Authorize(OrganizationPolicy = OrganizationPolicies.UserCheckIn)]
-public class GetOrganizationEvenCheckInTicketsQuery : PageDto, IRequest<PaginatedListDto<CheckInTicketDto>>
+public class GetOrganizationEventCheckInTicketsQuery : PageDto, IRequest<PaginatedListDto<CheckInTicketDto>>
 {
     public Guid EventId { get; set; }
 }
 
-public class GetOrganizationEvenCheckInTicketsQueryHandler : IRequestHandler<GetOrganizationEvenCheckInTicketsQuery, PaginatedListDto<CheckInTicketDto>>
+public class GetOrganizationEventCheckInTicketsQueryHandler : IRequestHandler<GetOrganizationEventCheckInTicketsQuery, PaginatedListDto<CheckInTicketDto>>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
     private readonly IMapper _mapper;
 
-    public GetOrganizationEvenCheckInTicketsQueryHandler(
+    public GetOrganizationEventCheckInTicketsQueryHandler(
         IApplicationDbContext dbContext,
         IUserContext user,
         IMapper mapper)
@@ -32,9 +33,11 @@ public class GetOrganizationEvenCheckInTicketsQueryHandler : IRequestHandler<Get
         _mapper = mapper;
     }
 
-    public async Task<PaginatedListDto<CheckInTicketDto>> Handle(GetOrganizationEvenCheckInTicketsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedListDto<CheckInTicketDto>> Handle(GetOrganizationEventCheckInTicketsQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.SoldTickets
+            .AsNoTracking()
+            .IgnoreQueryFilters()
             .Where(st => st.Ticket.EventId == request.EventId && st.Ticket.Event.OrganizationId == _user.OrganizationId)
             .OrderBy(st => st.UserFirstName)
                 .ThenBy(st => st.UserLastName)

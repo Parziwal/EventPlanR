@@ -95,16 +95,17 @@ class _CreateInvitationDialogState extends State<_CreateInvitationDialog> {
                     child: Text(l10n.submit),
                   ),
                   const SizedBox(width: 16),
-                  OutlinedButton(
-                    onPressed: () => context.pop(),
-                    style: FilledButton.styleFrom(
-                      textStyle: theme.textTheme.titleMedium,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => context.pop(),
+                      style: FilledButton.styleFrom(
+                        textStyle: theme.textTheme.titleMedium,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                        ),
                       ),
+                      child: Text(l10n.cancel),
                     ),
-                    child: Text(l10n.cancel),
                   ),
                 ],
               ),

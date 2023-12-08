@@ -24,66 +24,67 @@ class TicketItem extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
-                Text(ticket.name, style: theme.textTheme.titleLarge),
-                const SizedBox(height: 16),
-                Text(
-                  '${l10n.organizationEventTickets_Total} '
-                  '${ticket.remainingCount} / ${ticket.count}',
-                  style: theme.textTheme.titleMedium,
+                Expanded(
+                  child: Text(
+                    ticket.name,
+                    style: theme.textTheme.titleLarge,
+                  ),
                 ),
-                const SizedBox(height: 16),
-                Text('${l10n.organizationEventTickets_Price} '
-                    '${ticket.price} '
-                    '${l10n.translateEnums(ticket.currency.name)}'),
-                const SizedBox(height: 16),
-                Text('${l10n.organizationEventTickets_SaleStarts} '
-                    '${formatDateTime(context, ticket.saleStarts)}'),
-                Text('${l10n.organizationEventTickets_SaleEnds} '
-                    '${formatDateTime(context, ticket.saleEnds)}'),
-                const SizedBox(height: 16),
-                Text('${l10n.organizationEventTickets_Description} '
-                    '${ticket.description ?? '-'}'),
-                const SizedBox(height: 16),
-                Text(
-                  '${l10n.organizationEventTickets_Created} '
-                  '${ticket.createdBy ?? '-'}, '
-                  '${formatDateTime(context, ticket.created)}',
-                  style: theme.textTheme.labelMedium,
-                ),
-                Text(
-                  '${l10n.organizationEventTickets_LastModified} '
-                  '${ticket.lastModifiedBy ?? '-'}, '
-                  '${formatDateTime(context, ticket.lastModified)}',
-                  style: theme.textTheme.labelMedium,
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () => context.go(
+                        PagePaths.organizationEventTicketEdit(
+                          goRouterState.pathParameters['eventId']!,
+                        ),
+                        extra: ticket,
+                      ),
+                      icon: const Icon(Icons.edit),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      onPressed: () => _deleteTicket(context),
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ],
                 ),
               ],
             ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () => context.go(
-                      PagePaths.organizationEventTicketEdit(
-                        goRouterState.pathParameters['eventId']!,
-                      ),
-                      extra: ticket,
-                    ),
-                    icon: const Icon(Icons.edit),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton(
-                    onPressed: () => _deleteTicket(context),
-                    icon: const Icon(Icons.delete),
-                  ),
-                ],
-              ),
+            const SizedBox(height: 16),
+            Text(
+              '${l10n.organizationEventTickets_Total} '
+              '${ticket.remainingCount} / ${ticket.count}',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 16),
+            Text('${l10n.organizationEventTickets_Price} '
+                '${ticket.price} '
+                '${l10n.translateEnums(ticket.currency.name)}'),
+            const SizedBox(height: 16),
+            Text('${l10n.organizationEventTickets_SaleStarts} '
+                '${formatDateTime(context, ticket.saleStarts)}'),
+            Text('${l10n.organizationEventTickets_SaleEnds} '
+                '${formatDateTime(context, ticket.saleEnds)}'),
+            const SizedBox(height: 16),
+            Text('${l10n.organizationEventTickets_Description} '
+                '${ticket.description ?? '-'}'),
+            const SizedBox(height: 16),
+            Text(
+              '${l10n.organizationEventTickets_Created} '
+              '${ticket.createdBy ?? '-'}, '
+              '${formatDateTime(context, ticket.created)}',
+              style: theme.textTheme.labelMedium,
+            ),
+            Text(
+              '${l10n.organizationEventTickets_LastModified} '
+              '${ticket.lastModifiedBy ?? '-'}, '
+              '${formatDateTime(context, ticket.lastModified)}',
+              style: theme.textTheme.labelMedium,
             ),
           ],
         ),

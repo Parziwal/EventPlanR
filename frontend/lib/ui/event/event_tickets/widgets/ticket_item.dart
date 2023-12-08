@@ -32,9 +32,11 @@ class TicketItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    ticket.name,
-                    style: theme.textTheme.titleLarge,
+                  Expanded(
+                    child: Text(
+                      ticket.name,
+                      style: theme.textTheme.titleLarge,
+                    ),
                   ),
                   QuantitySelector(
                     maxCount: min(ticket.remainingCount, 10),

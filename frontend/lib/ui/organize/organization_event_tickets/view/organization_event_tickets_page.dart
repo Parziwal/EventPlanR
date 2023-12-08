@@ -96,7 +96,7 @@ class OrganizationEventTicketsPage extends StatelessWidget {
         maxWidth: 1000,
         child: ListView.builder(
           itemCount: tickets.length,
-          padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
+          padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
           itemBuilder: (context, i) {
             return TicketItem(ticket: tickets[i]);
           },

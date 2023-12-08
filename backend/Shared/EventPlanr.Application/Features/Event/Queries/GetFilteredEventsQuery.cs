@@ -41,6 +41,9 @@ public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQu
             Y = request.Location.Longitude,
         }) : null;
 
+        request.FromDate = request.FromDate?.ToUniversalTime();
+        request.ToDate = request.ToDate?.ToUniversalTime();
+
         return await _dbContext.Events
             .AsNoTracking()
             .Include(e => e.Organization)
@@ -51,7 +54,8 @@ public class GetFilteredEventsQueryHandler : IRequestHandler<GetFilteredEventsQu
                 || e.Venue.ToLower().Contains(request.SearchTerm!.ToLower()))
             .Where(request.Category != null, e => e.Category == request.Category)
             .Where(request.Currency != null, e => e.Currency == request.Currency)
-            .Where(request.FromDate != null, e => e.FromDate >= request.FromDate && e.FromDate <= request.ToDate)
+            .Where(request.FromDate != null, e => e.FromDate >= request.FromDate)
+            .Where(request.ToDate != null, e => e.FromDate <= request.ToDate)
             .Where(request.Location != null, e => e.Coordinate.Distance(filteredCoordinate!) < request.Location!.Radius)
             .OrderBy<Domain.Entities.EventEntity, EventDto>(request, _mapper.ConfigurationProvider, e => e.FromDate, OrderDirection.Descending)
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider)

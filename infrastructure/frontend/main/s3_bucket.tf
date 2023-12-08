@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "event_planr_frontend" {
-  bucket        = "event-planr-frontend"
+  bucket        = "${local.environment}-event-planr-frontend"
   force_destroy = true
 }
 

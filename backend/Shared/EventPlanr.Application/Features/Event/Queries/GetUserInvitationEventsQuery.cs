@@ -5,6 +5,7 @@ using EventPlanr.Application.Extensions;
 using EventPlanr.Application.Models.Event;
 using EventPlanr.Application.Models.Pagination;
 using EventPlanr.Application.Security;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,20 +22,28 @@ public class GetUserInvitationEventsQueryHandler : IRequestHandler<GetUserInvita
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
-    public GetUserInvitationEventsQueryHandler(IApplicationDbContext dbContext, IMapper mapper, IUserContext user)
+    public GetUserInvitationEventsQueryHandler(
+        IApplicationDbContext dbContext,
+        IMapper mapper,
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _mapper = mapper;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task<PaginatedListDto<EventDto>> Handle(GetUserInvitationEventsQuery request, CancellationToken cancellationToken)
     {
+        var timeNow = _timeRepository.GetCurrentUtcTime();
         return await _dbContext.Events
             .AsNoTracking()
             .Include(e => e.Organization)
-            .Where(e => e.Invitations.Any(i => i.UserEmail == _user.Email))
+            .Where(e => e.ToDate >= timeNow)
+            .Where(e => e.Invitations.Any(i => i.UserId == _user.UserId))
             .Where(request.SearchTerm != null, e =>
                 e.Name.ToLower().Contains(request.SearchTerm!.ToLower())
                 || (e.Description != null && e.Description.ToLower().Contains(request.SearchTerm!.ToLower()))

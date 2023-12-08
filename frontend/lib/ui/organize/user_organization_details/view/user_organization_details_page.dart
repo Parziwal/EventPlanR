@@ -101,7 +101,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
     final theme = context.theme;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: MaxWidthBox(
         maxWidth: 800,
         child: Column(
@@ -116,9 +116,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               organizationDetails.name,
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: theme.colorScheme.primary,
-              ),
+              style: theme.textTheme.titleLarge,
             ),
             const SizedBox(height: 16),
             Text(
@@ -127,9 +125,7 @@ class UserOrganizationDetailsPage extends StatelessWidget {
             ),
             Text(
               organizationDetails.description,
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.primary,
-              ),
+              style: theme.textTheme.titleMedium,
             ),
             const SizedBox(height: 32),
             ...organizationDetails.members.map(

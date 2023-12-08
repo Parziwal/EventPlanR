@@ -17,11 +17,13 @@ class UserInvitationDto {
     required this.status,
     required this.isCheckedIn,
     required this.created,
+    this.ticketId,
   });
   
   factory UserInvitationDto.fromJson(Map<String, Object?> json) => _$UserInvitationDtoFromJson(json);
   
   final String id;
+  final String? ticketId;
   final String eventName;
   final String organizationName;
   final InvitationStatus status;

@@ -47,7 +47,7 @@ public class MainController : ControllerBase
 
     [HttpGet("event/checkin/{eventId}")]
     public Task<PaginatedListDto<CheckInTicketDto>> GetOrganizationEvenCheckInTickets(Guid eventId, [FromQuery] PageDto page)
-        => _sender.Send(new GetOrganizationEvenCheckInTicketsQuery()
+        => _sender.Send(new GetOrganizationEventCheckInTicketsQuery()
         {
             EventId = eventId,
             PageNumber = page.PageNumber,
@@ -67,11 +67,4 @@ public class MainController : ControllerBase
         command.SoldTicketId = soldTicketId;
         return _sender.Send(command);
     }
-
-    [HttpPost("refund/{soldTicketId}")]
-    public Task RefundTicket(Guid soldTicketId)
-        => _sender.Send(new RefundTicketCommand()
-        {
-            SoldTicketId = soldTicketId,
-        });
 }

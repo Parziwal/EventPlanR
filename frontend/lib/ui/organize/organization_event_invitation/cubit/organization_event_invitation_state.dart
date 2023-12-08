@@ -2,6 +2,7 @@ part of 'organization_event_invitation_cubit.dart';
 
 enum OrganizationEventInvitationStatus {
   idle,
+  error,
   invitationCreated,
   invitationDeleted,
 }

@@ -22,6 +22,7 @@ public class EventEntity : BaseSoftDeleteAuditableEntity
     public OrganizationEntity Organization { get; set; } = null!;
     public Guid ChatId { get; set; }
     public ChatEntity Chat { get; set; } = null!;
+    public Guid InvitationTicketId { get; set; }
     public List<NewsPostEntity> NewsPosts { get; set; } = new List<NewsPostEntity>();
     public List<TicketEntity> Tickets { get; set; } = new List<TicketEntity>();
     public List<InvitationEntity> Invitations { get; set; } = new List<InvitationEntity>();

@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 
 namespace EventPlanr.Application.Features.Order.Queries;
 
-[Authorize(OrganizationPolicy = OrganizationPolicies.EventTicketView)]
+[Authorize(OrganizationPolicy = OrganizationPolicies.OrderView)]
 public class GetOrganizationEventOrdersQuery : PageDto, IRequest<PaginatedListDto<EventOrderDto>>
 {
     [JsonIgnore]

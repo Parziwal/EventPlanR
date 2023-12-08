@@ -6,6 +6,7 @@ using EventPlanr.Application.Security;
 using EventPlanr.Domain.Common;
 using EventPlanr.Domain.Constants;
 using EventPlanr.Domain.Enums;
+using EventPlanr.Domain.Repository;
 using MediatR;
 using NetTopologySuite.Geometries;
 using System.Text.Json.Serialization;
@@ -24,18 +25,22 @@ public class EditEventCommand : IRequest
     public string Venue { get; set; } = null!;
     public AddressDto Address { get; set; } = null!;
     public CoordinateDto Coordinate { get; set; } = null!;
-    public Currency Currency { get; set; }
 }
 
 public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IUserContext _user;
+    private readonly ITimeRepository _timeRepository;
 
-    public UpdateEventCommandHandler(IApplicationDbContext dbContext, IUserContext user)
+    public UpdateEventCommandHandler(
+        IApplicationDbContext dbContext,
+        IUserContext user,
+        ITimeRepository timeRepository)
     {
         _dbContext = dbContext;
         _user = user;
+        _timeRepository = timeRepository;
     }
 
     public async Task Handle(EditEventCommand request, CancellationToken cancellationToken)
@@ -43,15 +48,15 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
         var eventEntity = await _dbContext.Events
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
-        if (eventEntity.IsPublished && eventEntity.FromDate <= DateTimeOffset.UtcNow)
+        if (eventEntity.IsPublished && eventEntity.FromDate <= _timeRepository.GetCurrentUtcTime())
         {
             throw new DomainException("InProgressEventCannotBeEdited");
         }
 
         eventEntity.Description = request.Description;
         eventEntity.Category = request.Category;
-        eventEntity.FromDate = request.FromDate;
-        eventEntity.ToDate = request.ToDate;
+        eventEntity.FromDate = request.FromDate.ToUniversalTime();
+        eventEntity.ToDate = request.ToDate.ToUniversalTime();
         eventEntity.Venue = request.Venue;
         eventEntity.Address = new Address()
         {
@@ -65,7 +70,6 @@ public class UpdateEventCommandHandler : IRequestHandler<EditEventCommand>
             X = request.Coordinate.Latitude,
             Y = request.Coordinate.Longitude,
         });
-        eventEntity.Currency = request.Currency;
 
         await _dbContext.SaveChangesAsync();
     }

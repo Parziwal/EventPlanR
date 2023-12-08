@@ -38,6 +38,11 @@ public class AddTicketToEventCommandHandler : IRequestHandler<AddTicketToEventCo
         var eventEntity = await _dbContext.Events
             .SingleEntityAsync(e => e.Id == request.EventId && e.OrganizationId == _user.OrganizationId);
 
+        if (eventEntity.IsPrivate)
+        {
+            throw new DomainException("PrivateEventHasNoTicketOptions");
+        }
+
         if (eventEntity.ToDate < request.SaleEnds)
         {
             throw new DomainException("TicketSaleDatesMustBeBeforeEventToDate");
@@ -50,8 +55,8 @@ public class AddTicketToEventCommandHandler : IRequestHandler<AddTicketToEventCo
             Count = request.Count,
             RemainingCount = request.Count,
             Description = request.Description,
-            SaleStarts = request.SaleStarts,
-            SaleEnds = request.SaleEnds,
+            SaleStarts = request.SaleStarts.ToUniversalTime(),
+            SaleEnds = request.SaleEnds.ToUniversalTime(),
             Event = eventEntity,
         };
 

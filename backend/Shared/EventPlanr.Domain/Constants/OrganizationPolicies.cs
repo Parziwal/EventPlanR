@@ -16,8 +16,12 @@ public static class OrganizationPolicies
 
     public const string InvitationView = "invitation.view";
     public const string InvitationManage = "invitation.manage";
-    
+
+    public const string OrderView = "order.view";
+
     public const string EventStatistics = "event-statistics";
+
     public const string EventChat = "event-chat";
+
     public const string UserCheckIn = "user-check-in";
 }

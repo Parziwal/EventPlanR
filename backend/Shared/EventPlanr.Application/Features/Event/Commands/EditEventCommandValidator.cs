@@ -11,8 +11,6 @@ public class EditEventCommandValidator : AbstractValidator<EditEventCommand>
             .NotEmpty();
         RuleFor(x => x.Category)
             .IsInEnum();
-        RuleFor(x => x.Currency)
-            .IsInEnum();
         RuleFor(x => x.FromDate)
             .Must((fields, fromDate) => fromDate <= fields.ToDate)
             .WithErrorCode("FromDateMustBeBeforeToDate")

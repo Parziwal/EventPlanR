@@ -26,15 +26,15 @@ provider "aws" {
 
 locals {
   env_vars = {
-    development = {
+    default = {
       region  = "us-east-1"
       project = "event_planr"
     }
+    development = {
+    }
     production = {
-      region  = "us-east-1"
-      project = "event_planr"
     }
   }
   environment = contains(keys(local.env_vars), terraform.workspace) ? terraform.workspace : "development"
-  workspace   = local.env_vars[local.environment]
+  workspace   = merge(local.env_vars["default"], local.env_vars[local.environment])
 }
