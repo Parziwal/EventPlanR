@@ -92,6 +92,7 @@ jobs:
           echo COGNITO_POOL_CLIENT_ID="$COGNITO_POOL_CLIENT_ID" >> .env.prod
           echo CHAT_MESSAGE_GRAPHQL_URL="$CHAT_MESSAGE_GRAPHQL_URL" >> .env.prod
           echo NOMINATIM_API_URL="$NOMINATIM_API_URL" >> .env.prod
+          echo ANDROID_APK_URL="$ANDROID_APK_URL" >> .env.prod
 
       - name: Create web build
         run: flutter build web --target lib/main_production.dart --dart-define-from-file .env.prod --output web_build
